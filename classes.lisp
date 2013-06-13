@@ -150,10 +150,11 @@
   ((list-of input-text)	examples)
   )
 
-(defclass-simple lexicon ()
+(defclass-simple lexicon-and-ontology ()
   "A database of words, concepts, and relationships among them."
-  ((hash :to (list-of full-concept))
-    word-to-concepts		(make-hash-table :test #'eq))
+  ((hash :to concept) concepts (make-hash-table :test #'eq))
+  ((hash :from (list-of symbol) :to (list-of sense))
+    senses (make-hash-table :test #'equalp))
   )
 
 ) ; end (optimize safety)

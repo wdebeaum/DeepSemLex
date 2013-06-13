@@ -13,7 +13,37 @@
   '(member lsubj lobj liobj comp subcat subcat2 post-subcat premod argument))
 
 (deftype syn-feat ()
-  '(member pos lex status stem agr wh vform mass atype case functn comparative comp-op))
+  '(member
+  ; key		; values (unless just + -)
+    agr		; 1p 1s 2p 2s 3p 3s
+    allow-deleted-comp
+    allow-post-n1-subcat
+    atype 	; post pre pre-vp
+    case	; - obj sub
+    comparative	; + superl
+    comp-op	; - less
+    conj
+    contraction
+    diectic
+    disj
+    else-word
+    functn	; acceptability-val compare-val linear-scale
+    lex		; us you
+    mass	; bare mass count
+    neg
+    negatable
+    npmod
+    pointer
+    pos		; (see deftype pos)
+    quant
+    refl
+    seq
+    sing-lf-only
+    status	; definite-plural indefinite indefinite-plural quantifier
+    stem	; he her him it me one she they we who you
+    vform	; base fut pres ing past pastpart passive
+    wh 		; q r (question, relative clause)
+    ))
 
 ;;; sem-feat subtypes
 
