@@ -57,7 +57,7 @@
 (defclass-simple semantics (concept)
   ""
   ((maybe-disj sem-frame) sem-frame)
-  (sem-feats features nil "legacy semantic features")
+  (sem-feats sem-feats nil "legacy semantic features")
   )
 
 (defmethod merge-concepts ((dst list) (src list))
@@ -106,7 +106,7 @@
 (defclass-simple syntax (concept)
   "A syntactic frame and its features."
   ((maybe-disj syn-sem) syn-sem)
-  (syn-feats features nil "a simple feature/value map used by the grammar")
+  (syn-feats syn-feats nil "a simple feature/value map used by the grammar")
   )
 
 (defmethod merge-concepts ((dst syntax) (src syntax))
@@ -134,7 +134,7 @@
 
 (defclass-simple morph-map ()
   ""
-  (syn-feats features)
+  (syn-feats syn-feats)
   (word morphed)
   )
 
