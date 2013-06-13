@@ -14,6 +14,7 @@
 (defclass-simple concept ()
   "An abstract top-level concept class. Different aspects of lexical concepts are their own subclasses, which may be combined together to form full concepts."
   (symbol name (intern (symbol-name (gensym "C")) :lexicon-data) "the name of the concept")
+  ((list-of symbol) aliases nil "alternative names for the concept")
   ((list-of input-text) definitions nil)
   ((list-of relation) out nil "the list of relations where this is the source")
   ((list-of relation) in nil "the list of relations where this is the target")
@@ -48,9 +49,14 @@
   ; TODO intersect (restriction dst/src)?
   )
 
-(defclass-simple semantics (concept)
+(defclass-simple sem-frame (concept)
   "A semantic frame."
-  ((list-of role-restr-map) frame)
+  ((list-of role-restr-map) maps)
+  )
+
+(defclass-simple semantics (concept)
+  ""
+  ((maybe-disj sem-frame) sem-frame)
   (sem-feats features nil "legacy semantic features")
   )
 
@@ -92,13 +98,19 @@
   ((maybe sem-role) sem-role nil "the semantic role played by the argument")
   )
 
+(defclass-simple syn-sem (concept)
+  ""
+  ((list-of syn-sem-map) maps)
+  )
+
 (defclass-simple syntax (concept)
   "A syntactic frame and its features."
-  ((list-of syn-sem-map) syn-sem)
+  ((maybe-disj syn-sem) syn-sem)
   (syn-feats features nil "a simple feature/value map used by the grammar")
   )
 
 (defmethod merge-concepts ((dst syntax) (src syntax))
+  ;; TODO redo this to take into account disjunctions
   (dolist (arg (arguments src))
     (let ((existing (find (syntactic-argument arg) (arguments dst) :key #'syntactic-argument)))
       (cond
