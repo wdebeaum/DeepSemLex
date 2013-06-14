@@ -50,27 +50,9 @@
  <xsl:text>::|</xsl:text>
 </xsl:template>
 
-<!-- TODO restrict this to roles that are actually used in this exact class, and search up the hierarchy for ancestor roles that were omitted from parents for this reason -->
 <xsl:template match="THEMROLES">
  <xsl:call-template name="nl-indent" />
  <xsl:text>(sem-frame</xsl:text>
- <xsl:variable name="used-roles" select="distinct-values(../FRAMES/FRAME/SYNTAX/*/@value)" />
- <xsl:variable name="ancestor-used-roles" select="distinct-values(../(ancestor::VNCLASS | ancestor::VNSUBCLASS)/FRAMES/FRAME/SYNTAX/*/@value)" />
- <xsl:variable name="self-syntax" select="../FRAMES/FRAME/SYNTAX" />
- <xsl:variable name="self-roles" select="THEMROLE/@type" />
- <xsl:for-each select="$used-roles[. != $self-roles and . != $ancestor-used-roles]">
-  <xsl:variable name="type" select="." />
-  <xsl:variable name="themrole" select="$self-syntax/(ancestor::VNCLASS | ancestor::VNSUBCLASS)/THEMROLES/THEMROLE[@type=$type][last()]" />
-  <xsl:text>
-        (</xsl:text>
-  <xsl:value-of select="$type" />
-  <xsl:text> </xsl:text>
-  <xsl:apply-templates select="$themrole/*" />
-  <xsl:if test="$self-syntax[not(child::node()[@value=$type])]">
-   <xsl:text> optional</xsl:text>
-  </xsl:if>
-  <xsl:text>)</xsl:text>
- </xsl:for-each>
  <xsl:apply-templates />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>
@@ -78,29 +60,40 @@
 
 <xsl:template match="THEMROLE">
  <xsl:variable name="type" select="@type" />
- <xsl:if test="../../FRAMES/FRAME/SYNTAX/*[@value=$type]">
-  <xsl:call-template name="nl-indent" />
-  <xsl:text>(</xsl:text>
-  <xsl:value-of select="$type" />
-  <xsl:text> </xsl:text>
-  <xsl:apply-templates />
-  <xsl:if test="../../FRAMES/FRAME/SYNTAX[not(child::node()[@value=$type])]">
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>(</xsl:text>
+ <xsl:value-of select="$type" />
+ <xsl:apply-templates />
+ <xsl:choose>
+  <xsl:when test="not(../../FRAMES/FRAME/SYNTAX/*[@value=$type])">
+   <xsl:text> unused</xsl:text>
+  </xsl:when>
+  <xsl:when test="../../FRAMES/FRAME/SYNTAX[not(child::node()[@value=$type])]">
    <xsl:text> optional</xsl:text>
-  </xsl:if>
-  <xsl:text>)</xsl:text>
- </xsl:if>
+  </xsl:when>
+ </xsl:choose>
+ <xsl:text>)</xsl:text>
 </xsl:template>
 
 <xsl:template match="SELRESTRS">
- <!-- TODO handle @logic='or' -->
  <xsl:choose>
+  <xsl:when test="@logic='or'">
+   <xsl:text> (or</xsl:text>
+   <xsl:if test="SELRESTR">
+    <xsl:text> (sem-feats</xsl:text>
+    <xsl:apply-templates select="SELRESTR" />
+    <xsl:text>)</xsl:text>
+   </xsl:if>
+   <xsl:apply-templates select="SELRESTRS" />
+   <xsl:text>)</xsl:text>
+  </xsl:when>
   <xsl:when test="SELRESTR">
-   <xsl:text>(sem-feats</xsl:text>
+   <xsl:text> (sem-feats</xsl:text>
    <xsl:apply-templates />
    <xsl:text>)</xsl:text>
   </xsl:when>
   <xsl:otherwise>
-   <xsl:text>t</xsl:text>
+   <xsl:text> t</xsl:text>
   </xsl:otherwise>
  </xsl:choose>
 </xsl:template>
