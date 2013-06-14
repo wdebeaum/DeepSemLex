@@ -95,7 +95,9 @@
   "(see slot docs)"
   (syn-arg syn-arg nil "the syntactic argument name")
   (syn-cat syn-cat nil "the POS/phrase tag of the argument")
+  ((maybe (maybe-disj symbol)) head-word nil "the head word of the argument (often the preposition when syn-cat is PP)")
   ((maybe sem-role) sem-role nil "the semantic role played by the argument")
+  (boolean optional t "t if this argument is not required to be present")
   )
 
 (defclass-simple syn-sem (concept)

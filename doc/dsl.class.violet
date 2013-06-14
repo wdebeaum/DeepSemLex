@@ -163,7 +163,7 @@ conj&lt;syn-feats | syn-sem&gt;</string>
    <object class="com.horstmann.violet.ClassNode" id="ClassNode5">
     <void property="attributes">
      <void property="text">
-      <string>head-word : maybe&lt;symbol&gt;
+      <string>head-word : maybe&lt;disj&lt;symbol&gt;&gt;
 optional : boolean</string>
      </void>
     </void>
@@ -178,19 +178,19 @@ optional : boolean</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>1237.6495628651392</double>
+      <double>1218.6495628651392</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>852.1925233905059</double>
+      <double>851.1925233905059</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1237.6495628651392</double>
-     <double>852.1925233905059</double>
+     <double>1218.6495628651392</double>
+     <double>851.1925233905059</double>
     </void>
    </object>
   </void>
