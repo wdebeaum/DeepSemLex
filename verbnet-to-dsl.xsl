@@ -72,7 +72,7 @@
  <xsl:text>)</xsl:text>
  <xsl:if test="../../FRAMES/FRAME and not(../../FRAMES/FRAME/SYNTAX/*[@value=$type] | ../../FRAMES/FRAME/SEMANTICS[@value=$type or @value=concat('?',$type)])">
   <xsl:text> ; unused in this class; may be used in subclasses</xsl:text>
- </xsl:when>
+ </xsl:if>
 </xsl:template>
 
 <xsl:template match="SELRESTRS">
