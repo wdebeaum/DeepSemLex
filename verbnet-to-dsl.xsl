@@ -11,7 +11,7 @@
 <xsl:template name="nl-indent">
  <xsl:text>
 </xsl:text>
- <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::FRAMES[count(FRAME) > 1] | ancestor::EXAMPLES | ancestor::SYNTAX">
+ <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::FRAMES[count(FRAME) > 1] | ancestor::EXAMPLES | ancestor::SYNTAX | ancestor::FRAME | ancestor::SEMANTICS">
   <xsl:text>  </xsl:text>
  </xsl:for-each>
 </xsl:template>
@@ -65,7 +65,7 @@
  <xsl:value-of select="$type" />
  <xsl:apply-templates />
  <xsl:choose>
-  <xsl:when test="not(../../FRAMES/FRAME/SYNTAX/*[@value=$type])">
+  <xsl:when test="not(../../FRAMES/FRAME/SYNTAX/*[@value=$type] | ../../FRAMES/FRAME/SEMANTICS[@value=$type or @value=concat('?',$type)])">
    <xsl:text> unused</xsl:text>
   </xsl:when>
   <xsl:when test="../../FRAMES/FRAME/SYNTAX[not(child::node()[@value=$type])]">
@@ -122,13 +122,13 @@
  </xsl:choose>
 </xsl:template>
 
-<!-- xsl:template match="FRAME">
+<xsl:template match="FRAME">
  <xsl:call-template name="nl-indent" />
  <xsl:text>(concept ; ?</xsl:text>
  <xsl:apply-templates />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>
-</xsl:template -->
+</xsl:template>
 
 <xsl:template match="SYNTAX">
  <xsl:call-template name="nl-indent" />
@@ -142,6 +142,40 @@
  <xsl:apply-templates select="NP" />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>
+</xsl:template>
+
+<xsl:template match="SEMANTICS">
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>(predicate (and</xsl:text>
+ <xsl:apply-templates />
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>  ))</xsl:text>
+</xsl:template>
+
+<xsl:template match="PRED">
+ <xsl:call-template name="nl-indent" />
+ <xsl:if test="@bool='!'"><xsl:text>(not </xsl:text></xsl:if>
+ <xsl:text>(</xsl:text>
+ <xsl:value-of select="@value" />
+ <xsl:apply-templates />
+ <xsl:text>)</xsl:text>
+ <xsl:if test="@bool='!'"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
+<xsl:template match="ARG">
+ <xsl:text> </xsl:text>
+ <xsl:choose>
+  <xsl:when test="@type='Constant'">
+   <xsl:value-of select="@value" />
+  </xsl:when>
+  <xsl:when test="@type='Event' and contains(@value, '(')">
+   <xsl:value-of select="replace(@value, '(\w+)\(E\)', '($1 ?E)')" />
+  </xsl:when>
+  <xsl:otherwise> <!-- Event, ThemRole, VerbSpecific -->
+   <xsl:if test="not(starts-with(@value, '?'))"><xsl:text>?</xsl:text></xsl:if>
+   <xsl:value-of select="@value" />
+  </xsl:otherwise>
+ </xsl:choose>
 </xsl:template>
 
 <!-- TODO SYNRESTRs, esp. those that identify an "NP" as really a to-infinitive complement or something -->
@@ -159,14 +193,14 @@
      <xsl:text>PP</xsl:text>
      <!-- TODO SELRESTRS? -->
     </xsl:when>
-    <xsl:when test="contains(preceding-sibling::PREP/@value, ' ')">
+    <xsl:when test="contains(preceding-sibling::PREP[1]/@value, ' ')">
      <xsl:text>(PP (or </xsl:text>
-     <xsl:value-of select="preceding-sibling::PREP/@value" />
+     <xsl:value-of select="preceding-sibling::PREP[1]/@value" />
      <xsl:text>))</xsl:text>
     </xsl:when>
     <xsl:otherwise>
      <xsl:text>(PP </xsl:text>
-     <xsl:value-of select="preceding-sibling::PREP/@value" />
+     <xsl:value-of select="preceding-sibling::PREP[1]/@value" />
      <xsl:text>)</xsl:text>
     </xsl:otherwise>
    </xsl:choose>

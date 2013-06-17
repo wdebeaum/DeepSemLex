@@ -1824,9 +1824,6 @@ as syn-feats? do they intersect?</string>
     <void property="endLabel">
      <string>1</string>
     </void>
-    <void property="middleLabel">
-     <string>features</string>
-    </void>
     <void property="startArrowHead">
      <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
     </void>
