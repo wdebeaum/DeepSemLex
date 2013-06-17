@@ -11,7 +11,7 @@
 <xsl:template name="nl-indent">
  <xsl:text>
 </xsl:text>
- <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::EXAMPLES | ancestor::SYNTAX | ancestor::FRAME | ancestor::SEMANTICS">
+ <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::SYNTAX | ancestor::FRAME | ancestor::SEMANTICS">
   <xsl:text>  </xsl:text>
  </xsl:for-each>
 </xsl:template>
@@ -46,7 +46,7 @@
 
 <xsl:template match="MEMBER[@wn != '']">
  <xsl:text> WN::|</xsl:text>
- <xsl:value-of select="replace(@wn, ' ', '::| WN::|')" />
+ <xsl:value-of select="replace(replace(@wn, '\?', ''), ' ', '::| WN::|')" />
  <xsl:text>::|</xsl:text>
 </xsl:template>
 
@@ -65,26 +65,29 @@
  <xsl:value-of select="$type" />
  <xsl:apply-templates />
  <xsl:choose>
-  <xsl:when test="not(../../FRAMES/FRAME/SYNTAX/*[@value=$type] | ../../FRAMES/FRAME/SEMANTICS[@value=$type or @value=concat('?',$type)])">
-   <xsl:text> unused</xsl:text>
-  </xsl:when>
   <xsl:when test="../../FRAMES/FRAME/SYNTAX[not(child::node()[@value=$type])]">
    <xsl:text> optional</xsl:text>
   </xsl:when>
  </xsl:choose>
  <xsl:text>)</xsl:text>
+ <xsl:if test="../../FRAMES/FRAME and not(../../FRAMES/FRAME/SYNTAX/*[@value=$type] | ../../FRAMES/FRAME/SEMANTICS[@value=$type or @value=concat('?',$type)])">
+  <xsl:text> ; unused in this class; may be used in subclasses</xsl:text>
+ </xsl:when>
 </xsl:template>
 
 <xsl:template match="SELRESTRS">
  <xsl:choose>
   <xsl:when test="@logic='or'">
    <xsl:text> (or</xsl:text>
-   <xsl:if test="SELRESTR">
-    <xsl:text> (sem-feats</xsl:text>
-    <xsl:apply-templates select="SELRESTR" />
-    <xsl:text>)</xsl:text>
-   </xsl:if>
-   <xsl:apply-templates select="SELRESTRS" />
+   <xsl:for-each select="SELRESTR | SELRESTRS">
+    <xsl:if test="local-name()='SELRESTR'">
+     <xsl:text> (sem-feats</xsl:text>
+    </xsl:if>
+    <xsl:apply-templates select="." />
+    <xsl:if test="local-name()='SELRESTR'">
+     <xsl:text>)</xsl:text>
+    </xsl:if>
+   </xsl:for-each>
    <xsl:text>)</xsl:text>
   </xsl:when>
   <xsl:when test="SELRESTR">
@@ -118,15 +121,16 @@
  <xsl:text>  )</xsl:text>
 </xsl:template>
 
+<xsl:template match="EXAMPLE">
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>(example (source vn) (text "</xsl:text>
+ <xsl:value-of select="." />
+ <xsl:text>"))</xsl:text>
+</xsl:template>
+
 <xsl:template match="SYNTAX">
  <xsl:call-template name="nl-indent" />
  <xsl:text>(syn-sem</xsl:text>
- <xsl:for-each select="../EXAMPLES/EXAMPLE">
-  <xsl:call-template name="nl-indent" />
-  <xsl:text>(example (source vn) (text "</xsl:text>
-  <xsl:value-of select="." />
-  <xsl:text>"))</xsl:text>
- </xsl:for-each>
  <xsl:apply-templates select="NP" />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>
