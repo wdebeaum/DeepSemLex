@@ -11,7 +11,7 @@
 <xsl:template name="nl-indent">
  <xsl:text>
 </xsl:text>
- <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::FRAMES[count(FRAME) > 1] | ancestor::EXAMPLES | ancestor::SYNTAX | ancestor::FRAME | ancestor::SEMANTICS">
+ <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::EXAMPLES | ancestor::SYNTAX | ancestor::FRAME | ancestor::SEMANTICS">
   <xsl:text>  </xsl:text>
  </xsl:for-each>
 </xsl:template>
@@ -107,24 +107,12 @@
  <xsl:text>)</xsl:text>
 </xsl:template>
 
-<xsl:template match="FRAMES">
- <xsl:choose>
-  <xsl:when test="count(FRAME) > 1">
-   <xsl:call-template name="nl-indent" />
-   <xsl:text>(or</xsl:text>
-   <xsl:apply-templates />
-   <xsl:call-template name="nl-indent" />
-   <xsl:text>  )</xsl:text>
-  </xsl:when>
-  <xsl:otherwise>
-   <xsl:apply-templates />
-  </xsl:otherwise>
- </xsl:choose>
-</xsl:template>
-
 <xsl:template match="FRAME">
  <xsl:call-template name="nl-indent" />
- <xsl:text>(concept ; ?</xsl:text>
+ <xsl:text>(concept VN::</xsl:text>
+ <xsl:value-of select="../../@ID" />
+ <xsl:text>-f</xsl:text>
+ <xsl:value-of select="position()" />
  <xsl:apply-templates />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>
@@ -146,32 +134,55 @@
 
 <xsl:template match="SEMANTICS">
  <xsl:call-template name="nl-indent" />
- <xsl:text>(predicate (and</xsl:text>
+ <xsl:text>(entailments</xsl:text>
  <xsl:apply-templates />
  <xsl:call-template name="nl-indent" />
- <xsl:text>  ))</xsl:text>
+ <xsl:text>  )</xsl:text>
 </xsl:template>
 
 <xsl:template match="PRED">
  <xsl:call-template name="nl-indent" />
  <xsl:if test="@bool='!'"><xsl:text>(not </xsl:text></xsl:if>
- <xsl:text>(</xsl:text>
+ <xsl:text>(VN::</xsl:text>
  <xsl:value-of select="@value" />
  <xsl:apply-templates />
  <xsl:text>)</xsl:text>
  <xsl:if test="@bool='!'"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
+<xsl:template match="PRED[@value='in_reaction_to' and ARGS/ARG[@value='Stimulus, Attribute']]">
+ <!-- this comma happens once in all of VerbNet, so special case it -->
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>(VN::in_reaction_to ?E ?Stimulus)</xsl:text>
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>(VN::in_reaction_to ?E ?Attribute)</xsl:text>
+</xsl:template>
+
 <xsl:template match="ARG">
  <xsl:text> </xsl:text>
  <xsl:choose>
   <xsl:when test="@type='Constant'">
+   <xsl:text>VN::</xsl:text>
    <xsl:value-of select="@value" />
   </xsl:when>
   <xsl:when test="@type='Event' and contains(@value, '(')">
-   <xsl:value-of select="replace(@value, '(\w+)\(E\)', '($1 ?E)')" />
+   <xsl:value-of select="replace(@value, '(\w+)\((E\d?)\)', '(VN::$1 ?$2)')" />
   </xsl:when>
-  <xsl:otherwise> <!-- Event, ThemRole, VerbSpecific -->
+  <xsl:when test="@type='VerbSpecific'">
+   <xsl:text>(VN::</xsl:text>
+   <xsl:value-of select="@value" />
+   <xsl:text> ?W)</xsl:text>
+  </xsl:when>
+  <xsl:when test="@value='Patient+Co-Patient'">
+   <xsl:text>(pair ?Patient ?Co-Patient)</xsl:text>
+  </xsl:when>
+  <xsl:when test="@value='Patient_i+Patient_j'">
+   <xsl:text>(pair (nth ?i ?Patient) (nth ?j ?Patient))</xsl:text>
+  </xsl:when>
+  <xsl:when test="ends-with(@value, '_i') or ends-with(@value, '_j')">
+   <xsl:value-of select="replace(@value, '^([A-Z][a-z]*)_([ij])$', '(nth ?$2 ?$1)')" />
+  </xsl:when>
+  <xsl:otherwise> <!-- Event, ThemRole -->
    <xsl:if test="not(starts-with(@value, '?'))"><xsl:text>?</xsl:text></xsl:if>
    <xsl:value-of select="@value" />
   </xsl:otherwise>
