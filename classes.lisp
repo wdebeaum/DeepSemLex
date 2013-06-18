@@ -54,8 +54,13 @@
   ((list-of role-restr-map) maps)
   )
 
+(defclass-simple entailments (concept)
+  "A list of terms with variables entailed by a concept."
+  ((list-of (cons symbol list)) terms))
+
 (defclass-simple semantics (concept)
   ""
+  ((maybe-disj entailments) entailments)
   ((maybe-disj sem-frame) sem-frame)
   (sem-feats sem-feats nil "legacy semantic features")
   )
