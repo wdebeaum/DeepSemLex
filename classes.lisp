@@ -15,7 +15,8 @@
   "An abstract top-level concept class. Different aspects of lexical concepts are their own subclasses, which may be combined together to form full concepts."
   (symbol name (intern (symbol-name (gensym "C")) :lexicon-data) "the name of the concept")
   ((list-of symbol) aliases nil "alternative names for the concept")
-  ((list-of input-text) definitions nil)
+  ((list-of input-text) definitions)
+  ((list-of input-text)	examples)
   ((list-of relation) out nil "the list of relations where this is the source")
   ((list-of relation) in nil "the list of relations where this is the target")
   )
@@ -154,7 +155,6 @@
 (defclass-simple sense (syntax semantics)
   "A concrete, bottom-level concept class, possibly associated with a morph."
   (morph morph)
-  ((list-of input-text)	examples)
   )
 
 (defclass-simple lexicon-and-ontology ()
