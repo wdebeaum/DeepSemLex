@@ -46,7 +46,7 @@
 
 <xsl:template match="MEMBER[@wn != '']">
  <xsl:text> WN::|</xsl:text>
- <xsl:value-of select="replace(replace(@wn, '\?', ''), ' ', '::| WN::|')" />
+ <xsl:value-of select="replace(replace(@wn, '\?', ''), '\s+', '::| WN::|')" />
  <xsl:text>::|</xsl:text>
 </xsl:template>
 
