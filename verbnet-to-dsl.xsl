@@ -11,7 +11,7 @@
 <xsl:template name="nl-indent">
  <xsl:text>
 </xsl:text>
- <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::SYNTAX | ancestor::FRAME | ancestor::SEMANTICS">
+ <xsl:for-each select="ancestor::VNCLASS | ancestor::VNSUBCLASS | ancestor::THEMROLES | ancestor::FRAMES[count(FRAME) > 1] | ancestor::FRAME | ancestor::SYNTAX | ancestor::SEMANTICS">
   <xsl:text>  </xsl:text>
  </xsl:for-each>
 </xsl:template>
@@ -50,7 +50,7 @@
  <xsl:text>::|</xsl:text>
 </xsl:template>
 
-<xsl:template match="THEMROLES">
+<xsl:template match="THEMROLES[THEMROLE]">
  <xsl:call-template name="nl-indent" />
  <xsl:text>(sem-frame</xsl:text>
  <xsl:apply-templates />
@@ -110,12 +110,25 @@
  <xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="FRAMES">
+ <xsl:if test="count(FRAME) > 1">
+  <xsl:call-template name="nl-indent" />
+  <xsl:text>(or ; VN frames</xsl:text>
+ </xsl:if>
+ <xsl:apply-templates />
+ <xsl:if test="count(FRAME) > 1">
+  <xsl:call-template name="nl-indent" />
+  <xsl:text>  )</xsl:text>
+ </xsl:if>
+</xsl:template>
+
 <xsl:template match="FRAME">
  <xsl:call-template name="nl-indent" />
- <xsl:text>(concept VN::</xsl:text>
+ <xsl:text>(concept</xsl:text>
+ <!-- xsl:text> VN::</xsl:text>
  <xsl:value-of select="../../@ID" />
  <xsl:text>-f</xsl:text>
- <xsl:value-of select="position()" />
+ <xsl:value-of select="position()" / -->
  <xsl:apply-templates />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>

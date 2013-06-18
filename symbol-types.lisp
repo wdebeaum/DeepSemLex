@@ -79,5 +79,5 @@
 ;;; list from VerbNet
 
 (deftype sem-role ()
-  '(member actor actor1 actor2 agent asset attribute beneficiary destination experiencer instrument location material patient patient1 patient2 product recipient source theme theme1 theme2 time topic value))
+  '(member Agent Asset Attribute Beneficiary Cause Co-Agent Co-Patient Co-Theme Destination Experiencer Extent Goal Initial_Location Instrument Location Material Patient Pivot Predicate Product Recipient Result Source Stimulus Theme Time Topic Trajectory Value))
 

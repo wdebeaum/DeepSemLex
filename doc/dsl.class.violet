@@ -109,7 +109,7 @@ optional : boolean</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1367.3004522404813</double> 
+     <double>1329.1166860564076</double> 
      <double>850.0033162755033</double> 
     </void> 
    </object> 
@@ -165,7 +165,7 @@ optional : boolean</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1419.4370214406986</double> 
+     <double>1386.9101095061174</double> 
      <double>478.6515526304408</double> 
     </void> 
    </object> 
@@ -174,15 +174,15 @@ optional : boolean</string>
    <object id="ClassNode9" class="com.horstmann.violet.ClassNode"> 
     <void property="attributes"> 
      <void property="text"> 
-      <string>actor(,1,2)
-agent
-asset
-attribute
-beneficiary
-destination
-experiencer
-instrument
-location</string> 
+      <string>(Co-)Agent
+Asset
+Attribute
+Beneficiary
+Cause
+Destination
+Experiencer
+Extent
+Goal</string> 
      </void> 
     </void> 
     <void property="name"> 
@@ -194,8 +194,8 @@ sem-role</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1393.680192980688</double> 
-     <double>588.543623780468</double> 
+     <double>1297.5136707393174</double> 
+     <double>591.3720509052142</double> 
     </void> 
    </object> 
   </void> 
@@ -259,8 +259,8 @@ syn-arg</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1260.5955984401544</double> 
-     <double>969.5442870355686</double> 
+     <double>1198.3702016957382</double> 
+     <double>948.3310835999721</double> 
     </void> 
    </object> 
   </void> 
@@ -578,7 +578,7 @@ lists can be merged as appropriate.</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1505.3084113016885</double> 
+     <double>1489.7520621155845</double> 
      <double>4.542297270266687</double> 
     </void> 
    </object> 
@@ -639,8 +639,8 @@ the old DB directly.</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1479.1705155912696</double> 
-     <double>966.1645462953619</double> 
+     <double>1459.3715257180463</double> 
+     <double>967.578759857735</double> 
     </void> 
    </object> 
   </void> 
@@ -678,8 +678,8 @@ to reduce clutter.</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1377.4876695901821</double> 
-     <double>266.37841423000543</double> 
+     <double>1369.0023882159435</double> 
+     <double>276.2779091666171</double> 
     </void> 
    </object> 
   </void> 
@@ -715,7 +715,7 @@ templates.</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1595.9506783607203</double> 
+     <double>1615.7496682339436</double> 
      <double>663.3217967846164</double> 
     </void> 
    </object> 
@@ -724,14 +724,14 @@ templates.</string>
    <object id="NoteNode7" class="com.horstmann.violet.NoteNode"> 
     <void property="text"> 
      <void property="text"> 
-      <string>This list
-from VN.</string> 
+      <string>This list from
+grepping VN 3.2.</string> 
      </void> 
     </void> 
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1295.2431715399912</double> 
+     <double>1165.1355238016665</double> 
      <double>667.6249020454987</double> 
     </void> 
    </object> 
@@ -740,27 +740,27 @@ from VN.</string>
    <object id="ClassNode26" class="com.horstmann.violet.ClassNode"> 
     <void property="attributes"> 
      <void property="text"> 
-      <string>material
-patient(,1,2)
-product
-recipient
-source
-theme(,1,2)
-time
-topic
-value</string> 
+      <string>Initial_Location
+Instrument
+Location
+Material
+(Co-)Patient
+Pivot
+Predicate
+Product
+Recipient</string> 
      </void> 
     </void> 
     <void property="name"> 
      <void property="text"> 
-      <string>&lt;enum&gt;
+      <string>sem-role
 cont&apos;d</string> 
      </void> 
     </void> 
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1489.4909858656852</double> 
+     <double>1397.567104311434</double> 
      <double>589.0572807004899</double> 
     </void> 
    </object> 
@@ -860,15 +860,15 @@ argument</string>
     </void> 
     <void property="name"> 
      <void property="text"> 
-      <string>&lt;enum&gt;
+      <string>syn-arg
 cont&apos;d</string> 
      </void> 
     </void> 
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>1358.0745253331092</double> 
-     <double>968.014591612215</double> 
+     <double>1298.6775557134392</double> 
+     <double>948.2156017389915</double> 
     </void> 
    </object> 
   </void> 
@@ -945,6 +945,35 @@ as syn-feats? do they intersect?</string>
     <void method="setLocation"> 
      <double>1168.9905940476767</double> 
      <double>350.81609892580275</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.ClassNode"> 
+    <void property="attributes"> 
+     <void property="text"> 
+      <string>Result
+Source
+Stimulus
+(Co-)Theme
+Time
+Topic
+Trajectory
+Value
+.</string> 
+     </void> 
+    </void> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>sem-role
+cont&apos;d</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>1503.3090168026</double> 
+     <double>592.555482634327</double> 
     </void> 
    </object> 
   </void> 
@@ -1335,21 +1364,6 @@ as syn-feats? do they intersect?</string>
    <object idref="ClassNode26"/> 
   </void> 
   <void method="connect"> 
-   <object class="com.horstmann.violet.ClassRelationshipEdge"> 
-    <void property="bentStyle"> 
-     <object class="com.horstmann.violet.BentStyle" field="HVH"/> 
-    </void> 
-    <void property="endLabel"> 
-     <string>0..1</string> 
-    </void> 
-    <void property="startArrowHead"> 
-     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/> 
-    </void> 
-   </object> 
-   <object idref="ClassNode5"/> 
-   <object idref="ClassNode9"/> 
-  </void> 
-  <void method="connect"> 
    <object class="com.horstmann.violet.NoteEdge"/> 
    <object idref="ClassNode3"/> 
    <object idref="NoteNode8"/> 
@@ -1476,6 +1490,21 @@ as syn-feats? do they intersect?</string>
    </object> 
    <object idref="ClassNode32"/> 
    <object idref="ClassNode10"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ClassRelationshipEdge"> 
+    <void property="bentStyle"> 
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/> 
+    </void> 
+    <void property="endLabel"> 
+     <string>0..1</string> 
+    </void> 
+    <void property="startArrowHead"> 
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/> 
+    </void> 
+   </object> 
+   <object idref="ClassNode5"/> 
+   <object idref="ClassNode26"/> 
   </void> 
  </object> 
 </java> 
