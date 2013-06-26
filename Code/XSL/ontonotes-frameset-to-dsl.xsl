@@ -40,14 +40,11 @@
 <template match="roleset">
  <call-template name="nl-indent" />
  <text>(concept ON::</text>
- <value-of select="replace(@id, '\.', '.v.')" />
+ <value-of select="replace(@id, '\.', '.v.')" /> <!-- FIXME do these actually correspond to senses in the sense inventory like this? I kind of doubt it because some are missing from there -->
  <if test="@vncls and @vncls != '-'">
   <call-template name="nl-indent" />
-  <text>  (overlap VN::</text>
-  <!-- this isn't always right; will have to correct based on numbers later -->
-  <value-of select="ancestor::predicate/@lemma" />
-  <text>-</text>
-  <value-of select="@vncls" />
+  <text>  (overlap VN::_</text>
+  <value-of select="@vncls" /> <!-- this is only the numeric part -->
   <text>)</text>
  </if>
  <apply-templates />
@@ -79,7 +76,7 @@
 
 <template match="example">
  <call-template name="nl-indent" />
- <text>(example (source OntoNotes-3.0)</text>
+ <text>(example (source ON)</text>
  <!-- TODO @name, @src, inflection, arg, rel -->
  <apply-templates />
  <text>)</text>

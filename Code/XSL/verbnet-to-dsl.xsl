@@ -136,7 +136,7 @@
 
 <xsl:template match="EXAMPLE">
  <xsl:call-template name="nl-indent" />
- <xsl:text>(example (source vn) (text "</xsl:text>
+ <xsl:text>(example (source VN) (text "</xsl:text>
  <xsl:value-of select="." />
  <xsl:text>"))</xsl:text>
 </xsl:template>

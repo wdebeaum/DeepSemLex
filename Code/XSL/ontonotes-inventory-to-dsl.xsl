@@ -55,8 +55,8 @@
  <text>.</text>
  <value-of select="@n" />
  <call-template name="nl-indent" />
- <text>  (definition (source OntoNotes-3.0) (text "</text>
- <value-of select="@name" />
+ <text>  (definition (source ON) (text "</text>
+ <value-of select="replace(@name, '\s+', ' ')" />
  <text>"))</text>
  <apply-templates />
  <call-template name="nl-indent" />
@@ -70,7 +70,7 @@
  <for-each select="tokenize(string(.), '\n')">
   <if test="string-length(.) gt 0">
    <value-of select="$nl-indent" />
-   <text>(example (source OntoNotes-3.0) (text "</text>
+   <text>(example (source ON) (text "</text>
    <value-of select="." />
    <text>"))</text>
   </if>
@@ -89,6 +89,10 @@
   <text>  )</text>
  </if>
 </template>
+
+<!--template match="gr_sense">
+ This is sometimes present, but always empty, so I don't know what it means.
+</template -->
 
 <template match="wn">
  <variable name="nl-indent">
