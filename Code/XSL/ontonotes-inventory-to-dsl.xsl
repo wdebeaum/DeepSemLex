@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <stylesheet version="2.0" xmlns="http://www.w3.org/1999/XSL/Transform">
 
-<!-- ontonotes-inventory=to-dsl.xsl - convert OntoNodes 3.0 sense-inventories/*.xml files to DeepSemLex Lisp data files -->
+<!-- ontonotes-inventory-to-dsl.xsl - convert OntoNodes 3.0 sense-inventories/*.xml files to DeepSemLex Lisp data files -->
 
 <output method="text" />
 
@@ -159,14 +159,9 @@
  </for-each>
 </template>
 
-<template match="relations">
- <!-- TODO -->
- <apply-templates />
-</template>
-
-<template match="relation">
- <!-- TODO -->
-</template>
+<!-- template match="relations">
+ There are only two relations in the entire corpus, not worth it
+</template -->
 
 <!-- Not included: SENSE_META, WORD_META, ita -->
 
