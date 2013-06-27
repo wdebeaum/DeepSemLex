@@ -14,7 +14,7 @@
  <head><title><xsl:value-of select="@lemma" /></title></head>
  <body>
  <h1><xsl:value-of select="@lemma" />; <xsl:value-of select="count(sense)" /> Senses</h1>
- <xsl:if test="substring(@lemma, string-length(@lemma)-1, 1) = 'v'">
+ <xsl:if test="substring(@lemma, string-length(@lemma), 1) = 'v'">
   <a href="http://verbs.colorado.edu/html_groupings/{@lemma}.html">See also the UVI version of this page.</a><br />
  </xsl:if>
  <xsl:apply-templates />
