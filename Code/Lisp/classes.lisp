@@ -4,10 +4,18 @@
 
 (locally (declare (optimize safety))
 
+(defclass-simple provenance ()
+  "Where a concept, relation, or input-text came from."
+  (symbol name nil "the name of the annotator or resource (not including version)")
+  ((maybe string) version nil "the version of the resource")
+  ((maybe string) filename nil "the name of the specific file within the resource (should be nil if there is only one file)")
+  ((maybe integer) record-number nil "the index of the record within the file (byte number, line number, sentence number, etc.; resource-specific)")
+  )
+
 (defclass-simple input-text ()
   "A chunk of text (usually a sentence) to be used as input to the parser."
   (string text "" "the text itself")
-  (list source nil "a list describing where this text came from")
+  ((maybe provenance) provenance)
   (list lattice nil "a list of TextTagger-like messages to the parser")
   )
 
@@ -19,6 +27,7 @@
   ((list-of input-text)	examples)
   ((list-of relation) out nil "the list of relations where this is the source")
   ((list-of relation) in nil "the list of relations where this is the target")
+  ((list-of provenance) provenance)
   )
 
 (defgeneric merge-concepts (dst src) (:documentation
@@ -30,11 +39,12 @@
   ((maybe-disj concept) source)
   (symbol label) ; NOTE: may be :inherits-from, :maps-to/from, :nominalization, ...
   ((maybe-disj concept) target)
+  ((maybe provenance) provenance)
   )
 
-(defgeneric add-relation (source label target))
-(defmethod add-relation ((source concept) (label symbol) (target concept))
-  (let ((r (make-relation :source source :label label :target target)))
+(defgeneric add-relation (source label target &optional provenance))
+(defmethod add-relation ((source concept) (label symbol) (target concept) &optional provenance)
+  (let ((r (make-relation :source source :label label :target target :provenance provenance)))
     (push r (out source))
     (push r (in target))
     ))
