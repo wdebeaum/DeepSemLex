@@ -169,9 +169,9 @@
 
 (defclass-simple lexicon-and-ontology ()
   "A database of words, concepts, and relationships among them."
-  ((hash :to concept) concepts (make-hash-table :test #'eq))
+  ((hash :to concept) concepts "" (make-hash-table :test #'eq))
   ((hash :from (list-of symbol) :to (list-of sense))
-    senses (make-hash-table :test #'equalp))
+    senses "" (make-hash-table :test #'equalp))
   )
 
 (defvar *db* (make-instance 'lexicon-and-ontology))

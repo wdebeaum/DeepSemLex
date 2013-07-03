@@ -2,22 +2,6 @@
 
 (in-package :dsl)
 
-;; implementation-specific MOP stuff
-(let ((mop-pkg
-	#+abcl :mop
-	#+allegro :hcl
-	#+ccl :ccl
-	#+clisp :clos
-	#+cmu :pcl
-	#+ecl :clos
-        #+sbcl :sb-mop
-	))
-  (import (mapcar (lambda (f) (find-symbol (symbol-name f) mop-pkg))
-                  '(finalize-inheritance
-		    slot-definition-name
-		    class-slots
-		    ))))
-
 (defmacro defclass-simple (name superclasses doc-string &body slots)
   "A simpler version of defclass that always makes accessors and initargs, uses
    slot descriptions formatted like (type name &optional initform doc-string),
@@ -36,9 +20,9 @@
 			 ))
 		     )
 		(when (nthcdr 2 simple-slot)
-		  (nconc complex-slot `(:documentation ,(third slot)))
+		  (nconc complex-slot `(:documentation ,(third simple-slot)))
 		  (when (nthcdr 3 simple-slot)
-		    (nconc complex-slot `(:initform ,(fourth slot))))
+		    (nconc complex-slot `(:initform ,(fourth simple-slot))))
 		  )
 		complex-slot))
 	    slots)
@@ -60,7 +44,7 @@
       `(satisfies ,predicate-name)
       )))
 
-(deftype hash (&optional (from 'symbol) (to t))
+(deftype hash (&key (from 'symbol) (to t))
   "Dependent hash-table type."
   (if (and (eq t from) (eq t to))
     'hash-table
@@ -93,11 +77,18 @@
 (deftype maybe-disj (&optional (member-type t))
   `(or ,member-type (disjunction ,member-type)))
 
+#| this causes infinite recursion :(
 (deftype disj-conj (&optional (terminal-type t))
   `(or ,terminal-type
        (disjunction (disj-conj ,terminal-type))
        (conjunction (disj-conj ,terminal-type))
        ))
+|#
+;; instead, enforce disjunctive normal form (sorta)
+(deftype disj-conj (&optional (terminal-type t))
+  `(or ,terminal-type
+       (disjunction (or ,terminal-type
+                        (conjunction ,terminal-type)))))
 
 (deftype maybe (just-type)
   `(or null ,just-type))

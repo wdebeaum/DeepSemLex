@@ -61,15 +61,15 @@
   "For each of the body-forms, if the operator satisfies one of the cases'
    tests, use the body of that case to convert body-form to an expression to
    evaluate. Otherwise keep the body-form unchanged."
-  (mapcar
-      (lambda (body-form)
-	(loop with operator = (car body-form)
-	      for cs in cases
-	      when (eval `(let ((,op-var ',operator)) ,(car cs)))
-		return (eval `(let ((,op-var ',operator) (,form-var ',body-form)) ,(cdr cs)))
-	      finally return `',body-form
+  `(mapcar
+      (lambda (,form-var)
+	(loop with ,op-var = (car ,form-var)
+	      for cs in ',cases
+	      when (eval (car cs))
+		return (eval (cdr cs))
+	      finally (return `',,form-var)
 	      ))
-      (eval body-forms)))
+      ,body-forms))
 
 (defun non-concept-class (cls body)
   "Return code to be evaluated to instantiate a non-concept class cls with the
@@ -184,7 +184,7 @@
 	  :particle (caar (last spec))
 	  ))
     (t
-      (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s"))
+      (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s" spec))
     ))
 
 ;;; constructor/reference macros
