@@ -70,6 +70,9 @@
 (deftype feats ()
   '(alist :to (maybe-disj symbol)))
 
+;; FIXME according to the UML diagram, syn-feats and sem-feats are full-fledged
+;; concept classes, not just alists. Either the UML diagram or the Lisp code
+;; should change.
 (deftype syn-feats ()
   '(alist :from syn-feat :to (maybe-disj symbol)))
 

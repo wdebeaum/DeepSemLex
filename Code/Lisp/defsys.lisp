@@ -30,11 +30,14 @@
   )
 
 (defpackage :w)
-(defpackage :f)
+; (defpackage :f)
 (defpackage :ont)
 (defpackage :wn)
 (defpackage :vn)
-(defpackage :lexicon-data)
+(defpackage :lexicon-data
+  (:use)
+  (:nicknames :ld)
+  )
 
 (in-package :dsl)
 

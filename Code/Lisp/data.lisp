@@ -1,15 +1,61 @@
 ;;;; data.lisp - stuff to use for reading lexicon data; mostly macros
 
-;; TODO convert symbol packages where appropriate
+(in-package :dsl)
 
-(in-package :lexicon-data)
+;;; lexical context
 
-;; lexical context
 (defvar *concept-stack* nil)
 (defun current-concept () (car *concept-stack*))
 (defvar *current-provenance* nil)
 (defvar *current-word* nil)
 (defvar *current-morph* nil)
+
+;;; macro helper functions
+
+; seems unsafe to apply generally...
+;(defun adjust-symbol-packages (x)
+;  "Change the package of lexicon-data symbols not in operator position to dsl."
+;  (cond
+;    ((consp x)
+;      (cons (car x) (mapcar #'adjust-symbol-packages (cdr x))))
+;    ((and (symbolp x) (eq (symbol-package x) (find-package :lexicon-data)))
+;      (intern (symbol-name x) :dsl))
+;    (t x)
+;    ))
+
+(defun adjust-feature-packages (features)
+  "Convert feature names and values to dsl package, and ORs to W package."
+  (mapcar
+      (lambda (f)
+        (list (intern (symbol-name (first f)) :dsl)
+	      (cond
+	        ((symbolp (second f))
+		  (intern (symbol-name (second f)) :dsl))
+		((and (consp (second f))
+		      (every #'symbolp (second f))
+		      (string= "OR" (symbol-name (first (second f)))))
+		  (cons 'w::or
+		      (mapcar
+		          (lambda (s)
+			    (intern (symbol-name s) :dsl))
+			  (cdr (second f))
+			  )))
+		(t (error "bogus feature list: ~s" features))
+		)
+	      ))
+      features))
+
+(defun concept-formula (x)
+  "Convert symbols representing concepts in a concept formula like (w::and
+   (w::or VN::foo WN::bar) FN::baz (concept PB::glarch ...)). Only recurses on
+   ands and ors."
+  (cond
+    ((and (consp x) (member (util::convert-to-package (car x)) '(and or)))
+      (cons (car x) (mapcar #'concept-formula (cdr x))))
+    ((symbolp x)
+      `(get-or-make-concept ',x))
+    (t x)
+    ))
 
 (defmacro operator-cond ((op-var form-var body-forms) &body cases)
   "For each of the body-forms, if the operator satisfies one of the cases'
@@ -42,6 +88,17 @@
 	)
       )))
 
+(defun relation (label targets)
+  "Return code to be evaluated to make relations with the given label from the
+   current concept to the targets."
+  `(progn
+    ,@(mapcar
+	(lambda (target)
+	  `(add-relation (current-concept) ',label ,(concept-formula target)
+	  		 *current-provenance*))
+	targets)
+    ))
+
 (defun optionally-named-concept-subtype (concept-type name-and-body)
   "Return code to be evaluated to instantiate or add to a concept class with
    the given body forms (the first of which may be a name). This handles
@@ -67,7 +124,7 @@
 	    )
       (cond
 	((not anonymous)
-	  (push (dsl::get-or-make-concept ',name ',concept-type)
+	  (push (get-or-make-concept ',name ',concept-type)
 		*concept-stack*)
 	  (when inner-part-of-outer
 	    (add-relation 
@@ -99,56 +156,8 @@
       )
     ))
 
-(defmacro provenance (&body body)
-  (non-concept-class 'dsl::provenance body))
-
-(defmacro concept (&body body)
-  (optionally-named-concept-subtype 'dsl::concept body))
-
-(defmacro sem-frame (&body body)
-  (optionally-named-concept-subtype 'dsl::sem-frame
-      (operator-cond (operator form body)
-        ((typep operator '(or sem-role (list-of sem-role)))
-	  (destructuring-bind (roles restriction &optional optional) form
-	    `(push 
-		(make-instance 'dsl::role-restr-map
-		    :roles ',(if (listp roles) roles (list roles))
-		    :restriction ,restriction ;; TODO autovivify symbols as concepts?
-		    :optional ,(not (null optional))
-		    )
-		(maps (current-concept))
-		)))
-	)
-      ))
-
-(defmacro entailments (&body body)
-  (optionally-named-concept-subtype 'dsl::sem-frame body)) ; TODO
-
-(defmacro semantics (&body body)
-  (optionally-named-concept-subtype 'dsl::semantics body))
-
-(defmacro syn-sem (&body body)
-  (optionally-named-concept-subtype 'dsl::syn-sem
-      (operator-cond (operator form body)
-        ((typep operator 'dsl::syn-arg)
-	  (destructuring-bind (syn-arg syn-cat &optional sem-role optional) form
-	    `(push
-		(make-instance 'dsl::syn-sem-map
-		    :syn-arg ',syn-arg
-		    :syn-cat ',(if (listp syn-cat) (car syn-cat) syn-cat)
-		    :head-word ',(when (listp syn-cat) (second syn-cat))
-		    :sem-role ',sem-role
-		    :optional ,(not (null optional))
-		    )
-		(maps (current-concept))
-		)))
-	)))
-
-(defmacro syntax (&body body)
-  (optionally-named-concept-subtype 'dsl::syntax body))
-
 (defun make-word-from-spec (spec)
-  "Make an instance of the dsl::word class from a specification like the
+  "Make an instance of the word class from a specification like the
   following:
     singleword
     still-a-single-word
@@ -158,18 +167,18 @@
   (setf spec (convert-to-package spec :w))
   (cond
     ((symbolp spec)
-      (make-instance 'dsl::word
+      (make-instance 'word
           :first-word spec))
     ((not (listp spec))
       (error "bogus word spec; expected symbol or list, but got: ~s" spec))
     ((every #'symbolp spec)
-      (make-instance 'dsl::word
+      (make-instance 'word
           :first-word (car spec)
 	  :remaining-words (cdr spec)
 	  ))
     ((and (every #'symbolp (butlast spec))
           (typep (car (last spec)) '(cons symbol null)))
-      (make-instance 'dsl::word
+      (make-instance 'word
           :first-word (car spec)
 	  :remaining-words (butlast (cdr spec))
 	  :particle (caar (last spec))
@@ -178,13 +187,85 @@
       (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s"))
     ))
 
-(defmacro word (word-spec &body body)
+;;; constructor/reference macros
+
+(defmacro ld::provenance (&body body)
+  (non-concept-class 'provenance body))
+
+(defmacro ld::concept (&body body)
+  (optionally-named-concept-subtype 'concept body))
+
+(defmacro ld::sem-frame (&body body)
+  (optionally-named-concept-subtype 'sem-frame
+      (operator-cond (operator form body)
+        ((typep operator '(or sem-role (list-of sem-role)))
+	  (destructuring-bind (roles restriction &optional optional) form
+	    `(push 
+		(make-instance 'role-restr-map
+		    :roles ',(util::convert-to-package (if (listp roles) roles (list roles)) :dsl)
+		    :restriction ,(concept-formula restriction)
+		    :optional ,(not (null optional))
+		    )
+		(maps (current-concept))
+		)))
+	)
+      ))
+
+(defmacro ld::sem-feats (&body body)
+  `(setf (sem-feats (current-concept)) ',(adjust-feature-packages body)))
+
+(defmacro ld::entailments (&body body)
+  (optionally-named-concept-subtype 'sem-frame body)) ; TODO
+
+(defmacro ld::semantics (&body body)
+  (optionally-named-concept-subtype 'semantics body))
+
+(defmacro ld::syn-sem (&body body)
+  (optionally-named-concept-subtype 'syn-sem
+      (operator-cond (operator form body)
+        ((typep operator 'syn-arg)
+	  (destructuring-bind (syn-arg syn-cat &optional sem-role optional) form
+	    `(push
+		(make-instance 'syn-sem-map
+		    :syn-arg ',(util::convert-to-package syn-arg :dsl)
+		    :syn-cat ',(util::convert-to-package (if (listp syn-cat) (car syn-cat) syn-cat) :dsl)
+		    :head-word ',(when (listp syn-cat) (util::convert-to-package (second syn-cat) :w))
+		    :sem-role ',(util::convert-to-package sem-role :dsl)
+		    :optional ,(not (null optional))
+		    )
+		(maps (current-concept))
+		)))
+	)))
+
+(defmacro ld::syn-feats (&body body)
+  `(setf (syn-feats (current-concept)) ',(adjust-feature-packages body)))
+
+(defmacro ld::syntax (&body body)
+  (optionally-named-concept-subtype 'syntax body))
+
+(defmacro ld::word (word-spec &body body)
   `(let ((*current-word* (make-word-from-spec ',word-spec)))
     ,@body))
 
-(defmacro morph (&body body)
-  (non-concept-class 'dsl::morph body))
+(defmacro ld::morph (&body body)
+  (non-concept-class 'morph body))
 
-(defmacro sense (&body body)
-  (optionally-named-concept-subtype 'dsl::sense body)) ; TODO
+(defmacro ld::sense (&body body)
+  (optionally-named-concept-subtype 'sense body)) ; TODO
+
+;;; relation macros
+
+(defmacro ld::inherit (&body body) (relation :inherit body))
+(defmacro ld::overlap (&body body) (relation :overlap body))
+(defmacro ld::subtype-of (&body body) (relation :subtype-of body))
+
+;;; boolean formula literals
+
+(defmacro w::and (&body body)
+  `(list 'w::and ,@body))
+
+(defmacro w::or (&body body)
+  `(list 'w::or ,@body))
+
+(import '(w::and w::or) :lexicon-data)
 
