@@ -2,23 +2,52 @@
 
 (in-package :dsl)
 
+;; implementation-specific MOP stuff
+(let ((mop-pkg
+	#+abcl :mop
+	#+allegro :hcl
+	#+ccl :ccl
+	#+clisp :clos
+	#+cmu :pcl
+	#+ecl :clos
+        #+sbcl :sb-mop
+	))
+  (import (mapcar (lambda (f) (find-symbol (symbol-name f) mop-pkg))
+                  '(finalize-inheritance
+		    slot-definition-name
+		    class-slots
+		    ))))
+
 (defmacro defclass-simple (name superclasses doc-string &body slots)
   "A simpler version of defclass that always makes accessors and initargs, uses
    slot descriptions formatted like (type name &optional initform doc-string),
    and uses a class doc string more like defun/defmacro/defmethod."
-  `(defclass ,name ,superclasses
-     ,(mapcar
-	(lambda (slot)
-	  (list (second slot)
-		:accessor (second slot)
-		:initarg (second slot)
-		:type (first slot)
-		:initform (third slot)
-		:documentation (fourth slot)
-		))
-	slots)
-     (:documentation ,doc-string)
-     ))
+  `(finalize-inheritance ; so that we can get slot names without first making an instance
+     (defclass ,name ,superclasses
+       ,(mapcar
+	    (lambda (simple-slot)
+	      (let* ((slot-type (first simple-slot))
+		     (slot-name (second simple-slot))
+		     (complex-slot
+		       `(,slot-name
+			 :accessor ,slot-name
+			 :initarg ,slot-name
+			 :type ,slot-type
+			 ))
+		     )
+		(when (nthcdr 2 simple-slot)
+		  (nconc complex-slot `(:documentation ,(third slot)))
+		  (when (nthcdr 3 simple-slot)
+		    (nconc complex-slot `(:initform ,(fourth slot))))
+		  )
+		complex-slot))
+	    slots)
+       (:documentation ,doc-string)
+       )))
+
+(defun class-slot-names (cls-name)
+  "Get the names of the slots of a given class."
+  (mapcar #'slot-definition-name (class-slots (find-class cls-name))))
 
 (defpackage :type-predicates)
 (deftype list-of (member-type)
@@ -38,14 +67,14 @@
     (let ((predicate-name (intern (format nil "HASH-FROM-~s-TO-~s-P" from to) :type-predicates)))
       (unless (fboundp predicate-name)
 	(eval
-	  `(defun ,predicate-name (x)
-	    (when (hash-table-p x)
-	      (maphash
-		(lambda (k v) 
-		  (unless (and (typep k ',from) (typep v ',to))
-		    (return-from ,predicate-name nil)))
-		x)
-	      t))))
+	    `(defun ,predicate-name (x)
+	      (when (hash-table-p x)
+		(maphash
+		    (lambda (k v) 
+		      (unless (and (typep k ',from) (typep v ',to))
+			(return-from ,predicate-name nil)))
+		    x)
+		t))))
       `(satisfies ,predicate-name)
       )))
 

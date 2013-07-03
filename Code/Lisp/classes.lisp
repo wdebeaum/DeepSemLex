@@ -6,28 +6,28 @@
 
 (defclass-simple provenance ()
   "Where a concept, relation, or input-text came from."
-  (symbol name nil "the name of the annotator or resource (not including version)")
-  ((maybe string) version nil "the version of the resource")
-  ((maybe string) filename nil "the name of the specific file within the resource (should be nil if there is only one file)")
-  ((maybe integer) record-number nil "the index of the record within the file (byte number, line number, sentence number, etc.; resource-specific)")
+  (symbol name "the name of the annotator or resource (not including version)")
+  ((maybe string) version "the version of the resource" nil)
+  ((maybe string) filename "the name of the specific file within the resource (should be nil if there is only one file)" nil)
+  ((maybe integer) record-number "the index of the record within the file (byte number, line number, sentence number, etc.; resource-specific)" nil)
   )
 
 (defclass-simple input-text ()
   "A chunk of text (usually a sentence) to be used as input to the parser."
-  (string text "" "the text itself")
-  ((maybe provenance) provenance)
-  (list lattice nil "a list of TextTagger-like messages to the parser")
+  (string text "the text itself")
+  ((maybe provenance) provenance "" nil)
+  (list lattice "a list of TextTagger-like messages to the parser" nil)
   )
 
 (defclass-simple concept ()
   "An abstract top-level concept class. Different aspects of lexical concepts are their own subclasses, which may be combined together to form full concepts."
-  (symbol name (intern (symbol-name (gensym "C")) :lexicon-data) "the name of the concept")
-  ((list-of symbol) aliases nil "alternative names for the concept")
-  ((list-of input-text) definitions)
-  ((list-of input-text)	examples)
-  ((list-of relation) out nil "the list of relations where this is the source")
-  ((list-of relation) in nil "the list of relations where this is the target")
-  ((list-of provenance) provenance)
+  (symbol name "the name of the concept" (intern (symbol-name (gensym "C")) :lexicon-data))
+  ((list-of symbol) aliases "alternative names for the concept" nil)
+  ((list-of input-text) definitions "" nil)
+  ((list-of input-text)	examples "" nil)
+  ((list-of relation) out "the list of relations where this is the source" nil)
+  ((list-of relation) in "the list of relations where this is the target" nil)
+  ((list-of provenance) provenance "" nil)
   )
 
 (defgeneric merge-concepts (dst src) (:documentation
@@ -39,7 +39,7 @@
   ((maybe-disj concept) source)
   (symbol label) ; NOTE: may be :inherits-from, :maps-to/from, :nominalization, ...
   ((maybe-disj concept) target)
-  ((maybe provenance) provenance)
+  ((maybe provenance) provenance "" nil)
   )
 
 (defgeneric add-relation (source label target &optional provenance))
@@ -51,9 +51,9 @@
 
 (defclass-simple role-restr-map ()
   "A semantic role and a restriction of the concepts that may play that role."
-  ((list-of sem-role) roles nil "the semantic role name(s)")
-  ((disj-conj concept) restriction nil "the concept restricting what may play that role")
-  (boolean optional t "t if a player of this role is not required to be present")
+  ((list-of sem-role) roles "the semantic role name(s)")
+  ((disj-conj concept) restriction "the concept restricting what may play that role")
+  (boolean optional "t if a player of this role is not required to be present" t)
   )
 
 (defmethod merge-concepts ((dst role-restr-map) (src role-restr-map))
@@ -62,18 +62,18 @@
 
 (defclass-simple sem-frame (concept)
   "A semantic frame."
-  ((list-of role-restr-map) maps)
+  ((list-of role-restr-map) maps "" nil)
   )
 
 (defclass-simple entailments (concept)
   "A list of terms with variables entailed by a concept."
-  ((list-of (cons symbol list)) terms))
+  ((list-of (cons symbol list)) terms "" nil))
 
 (defclass-simple semantics (concept)
   ""
   ((maybe-disj entailments) entailments)
   ((maybe-disj sem-frame) sem-frame)
-  (sem-feats sem-feats nil "legacy semantic features")
+  (sem-feats sem-feats "legacy semantic features" nil)
   )
 
 (defmethod merge-concepts ((dst list) (src list))
@@ -109,22 +109,22 @@
 
 (defclass-simple syn-sem-map ()
   "(see slot docs)"
-  (syn-arg syn-arg nil "the syntactic argument name")
-  (syn-cat syn-cat nil "the POS/phrase tag of the argument")
-  ((maybe (maybe-disj symbol)) head-word nil "the head word of the argument (often the preposition when syn-cat is PP)")
-  ((maybe sem-role) sem-role nil "the semantic role played by the argument")
-  (boolean optional t "t if this argument is not required to be present")
+  (syn-arg syn-arg "the syntactic argument name")
+  (syn-cat syn-cat "the POS/phrase tag of the argument")
+  ((maybe (maybe-disj symbol)) head-word "the head word of the argument (often the preposition when syn-cat is PP)" nil)
+  ((maybe sem-role) sem-role "the semantic role played by the argument")
+  (boolean optional "t if this argument is not required to be present" t)
   )
 
 (defclass-simple syn-sem (concept)
   ""
-  ((list-of syn-sem-map) maps)
+  ((list-of syn-sem-map) maps "" nil)
   )
 
 (defclass-simple syntax (concept)
   "A syntactic frame and its features."
   ((maybe-disj syn-sem) syn-sem)
-  (syn-feats syn-feats nil "a simple feature/value map used by the grammar")
+  (syn-feats syn-feats "a simple feature/value map used by the grammar" nil)
   )
 
 (defmethod merge-concepts ((dst syntax) (src syntax))
@@ -146,20 +146,20 @@
 (defclass-simple word ()
   "A word or multiword expression."
   (symbol first-word)
-  ((list-of symbol) remaining-words "All the words except the first and the particle.")
-  ((maybe symbol) particle)
+  ((list-of symbol) remaining-words "All the words except the first and the particle." nil)
+  ((maybe symbol) particle "" nil)
   )
 
 (defclass-simple morph-map ()
   ""
-  (syn-feats syn-feats)
+  (syn-feats syn-feats "" nil)
   (word morphed)
   )
 
 (defclass-simple morph ()
   ""
   (pos pos)
-  ((list-of morph-map) maps)
+  ((list-of morph-map) maps "" nil)
   )
 
 (defclass-simple sense (syntax semantics)
@@ -173,5 +173,29 @@
   ((hash :from (list-of symbol) :to (list-of sense))
     senses (make-hash-table :test #'equalp))
   )
+
+(defvar *db* (make-instance 'lexicon-and-ontology))
+
+(defun get-or-make-concept (name &optional (concept-type 'concept) provenance)
+  "Get the named concept if it exists and extend it to the given subtype of
+   concept if necessary, or create a new concept of that type with the given
+   provenance if it doesn't yet exist."
+  (let ((c (gethash name (concepts *db*))))
+    (cond
+      ((null c)
+        ;; c doesn't exist yet, make it
+	(setf (gethash name (concepts *db*))
+	      (make-instance concept-type
+	                     :name name
+			     :provenance (when provenance (list provenance))
+			     )))
+      ((subtypep (type-of c) concept-type) ; or eq
+        ;; c already has type concept-type, just return it
+        c)
+      ((subtypep concept-type (type-of c))
+        ;; c was previously declared as having a supertype of concept-type
+	;; add slots to make it have type concept-type specifically
+	(change-class c concept-type))
+      )))
 
 ) ; end (optimize safety)

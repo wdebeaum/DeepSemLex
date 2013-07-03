@@ -45,6 +45,7 @@
     "lisp-types"
     "symbol-types"
     "classes"
+    "data"
     )
   )
 
