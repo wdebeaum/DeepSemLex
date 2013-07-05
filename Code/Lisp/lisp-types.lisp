@@ -15,7 +15,7 @@
 		     (complex-slot
 		       `(,slot-name
 			 :accessor ,slot-name
-			 :initarg ,slot-name
+			 :initarg ,(intern (symbol-name slot-name) :keyword)
 			 :type ,slot-type
 			 ))
 		     )
