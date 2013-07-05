@@ -62,12 +62,19 @@
    tests, use the body of that case to convert body-form to an expression to
    evaluate. Otherwise keep the body-form unchanged."
   `(mapcar
-      (lambda (,form-var)
-	(loop with ,op-var = (car ,form-var)
+      (lambda (body-form)
+	(loop with operator = (car body-form)
+	      with op-var = ',op-var
+	      with form-var = ',form-var
 	      for cs in ',cases
-	      when (eval (car cs))
-		return (eval (cdr cs))
-	      finally (return `',,form-var)
+	      when (eval `(let ((,op-var ',operator)) ,(car cs)))
+		return
+		 (eval
+		    `(let ((,op-var ',operator)
+		           (,form-var ',body-form)
+			   )
+		      ,(cdr cs)))
+	      finally (return `',body-form)
 	      ))
       ,body-forms))
 
@@ -119,8 +126,8 @@
 
             (anonymous ,(null name))
 	    (outer-type (type-of (current-concept)))
-	    (inner-part-of-outer (subtypep outer-type concept-type))
-	    (outer-part-of-inner (subtypep concept-type outer-type))
+	    (inner-part-of-outer (subtypep outer-type ',concept-type))
+	    (outer-part-of-inner (subtypep ',concept-type outer-type))
 	    )
       (cond
 	((not anonymous)
@@ -145,7 +152,7 @@
 	(inner-part-of-outer
 	  (first *concept-stack*))
 	(t
-	  (error "incompatible nested concept types: ~s inside ~s" `,concept-type outer-type))
+	  (error "incompatible nested concept types: ~s inside ~s" ',concept-type outer-type))
 	)
       (unless (or (null *current-provenance*)
                   (member *current-provenance*
@@ -197,8 +204,8 @@
 
 (defmacro ld::sem-frame (&body body)
   (optionally-named-concept-subtype 'sem-frame
-      (operator-cond (operator form body)
-        ((typep operator '(or sem-role (list-of sem-role)))
+      (operator-cond (operator1 form body)
+        ((typep operator1 '(or sem-role (list-of sem-role)))
 	  (destructuring-bind (roles restriction &optional optional) form
 	    `(push 
 		(make-instance 'role-restr-map
