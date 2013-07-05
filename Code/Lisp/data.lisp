@@ -7,6 +7,7 @@
 (defvar *concept-stack* nil)
 (defun current-concept () (car *concept-stack*))
 (defvar *current-provenance* nil)
+(defvar *current-input-text* nil) ; not really used but set by non-concept-class
 (defvar *current-word* nil)
 (defvar *current-morph* nil)
 
@@ -62,36 +63,30 @@
    tests, use the body of that case to convert body-form to an expression to
    evaluate. Otherwise keep the body-form unchanged."
   `(mapcar
-      (lambda (body-form)
-	(loop with operator = (car body-form)
-	      with op-var = ',op-var
-	      with form-var = ',form-var
-	      for cs in ',cases
-	      when (eval `(let ((,op-var ',operator)) ,(car cs)))
-		return
-		 (eval
-		    `(let ((,op-var ',operator)
-		           (,form-var ',body-form)
-			   )
-		      ,@(cdr cs)))
-	      finally (return `',body-form)
-	      ))
-      ,body-forms))
+       (lambda (,form-var)
+	 (let ((,op-var (car ,form-var)))
+	   (cond
+	     ,@cases
+	     (t ,form-var)
+	     )))
+       ,body-forms))
 
 (defun non-concept-class (cls body)
   "Return code to be evaluated to instantiate a non-concept class cls with the
    given body forms. Forms starting with a slot name set the slot to the second
    value in the form, while others are left to be evaluated normally (with
    *current-<cls>* set to the new instance)."
-  (let ((slots (class-slot-names cls))
-	(current-var (intern (concatenate 'string "*CURRENT-" (symbol-name cls) "*"))))
+  (let ((slots (mapcar (lambda (n)
+			 (intern (symbol-name n) :lexicon-data))
+		       (class-slot-names cls)))
+	(current-var (intern (concatenate 'string "*CURRENT-" (symbol-name cls) "*") :dsl)))
     `(progn
       (setf ,current-var (make-instance ',cls))
       (when (and (current-concept) (slot-exists-p (current-concept) ',cls))
 	(setf (slot-value (current-concept) ',cls) ,current-var))
       ,@(operator-cond (operator form body)
 	((member operator slots)
-	  `(setf (slot-value ,current-var ',operator) ',(second form)))
+	  `(setf (slot-value ,current-var ',(intern (symbol-name operator) :dsl)) ',(second form)))
 	)
       )))
 
@@ -121,6 +116,7 @@
 	    ;; leave this let
 	    (*concept-stack*		*concept-stack*)
             (*current-provenance*	*current-provenance*)
+	    (*current-input-text*	*current-input-text*)
             (*current-word*		*current-word*)
 	    (*current-morph*		*current-morph*)
 
@@ -197,7 +193,26 @@
 ;;; constructor/reference macros
 
 (defmacro ld::provenance (&body body)
+  ;; convert initial symbol to `(name ,symbol)
+  (when (symbolp (car body))
+    (setf body (cons (list 'lexicon-data::name (car body)) (cdr body))))
   (non-concept-class 'provenance body))
+
+(defmacro ld::definition (&body body)
+  `(progn
+     ,(non-concept-class 'input-text body)
+     (unless (slot-boundp *current-input-text* 'provenance)
+       (setf (provenance *current-input-text*) *current-provenance*))
+     (push *current-input-text* (definitions (current-concept)))
+     ))
+
+(defmacro ld::example (&body body)
+  `(progn
+     ,(non-concept-class 'input-text body)
+     (unless (slot-boundp *current-input-text* 'provenance)
+       (setf (provenance *current-input-text*) *current-provenance*))
+     (push *current-input-text* (examples (current-concept)))
+     ))
 
 (defmacro ld::concept (&body body)
   (optionally-named-concept-subtype 'concept body))

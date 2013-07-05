@@ -18,6 +18,9 @@
 
 <xsl:template match="/VNCLASS">
  <xsl:text>;;; AUTOMATICALLY GENERATED
+(provenance VerbNet (version "3.2") (filename "</xsl:text>
+ <xsl:value-of select="@ID" />
+ <xsl:text>.xml"))
 </xsl:text>
  <xsl:text>(concept VN::</xsl:text>
  <xsl:value-of select="@ID" />
@@ -38,10 +41,12 @@
 </xsl:template>
 
 <xsl:template match="MEMBERS">
- <xsl:call-template name="nl-indent" />
- <xsl:text>(overlap</xsl:text>
- <xsl:apply-templates />
- <xsl:text>)</xsl:text>
+ <xsl:if test="MEMBER[@wn != '']">
+  <xsl:call-template name="nl-indent" />
+  <xsl:text>(overlap</xsl:text>
+  <xsl:apply-templates />
+  <xsl:text>)</xsl:text>
+ </xsl:if>
 </xsl:template>
 
 <xsl:template match="MEMBER[@wn != '']">
@@ -136,7 +141,7 @@
 
 <xsl:template match="EXAMPLE">
  <xsl:call-template name="nl-indent" />
- <xsl:text>(example (source VN) (text "</xsl:text>
+ <xsl:text>(example (text "</xsl:text>
  <xsl:value-of select="." />
  <xsl:text>"))</xsl:text>
 </xsl:template>
