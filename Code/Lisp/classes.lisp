@@ -44,7 +44,7 @@
 
 (defgeneric add-relation (source label target &optional provenance))
 (defmethod add-relation ((source concept) (label symbol) (target concept) &optional provenance)
-  (let ((r (make-relation :source source :label label :target target :provenance provenance)))
+  (let ((r (make-instance 'relation :source source :label label :target target :provenance provenance)))
     (push r (out source))
     (push r (in target))
     ))

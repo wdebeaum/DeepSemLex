@@ -73,7 +73,7 @@
 		    `(let ((,op-var ',operator)
 		           (,form-var ',body-form)
 			   )
-		      ,(cdr cs)))
+		      ,@(cdr cs)))
 	      finally (return `',body-form)
 	      ))
       ,body-forms))
@@ -204,8 +204,8 @@
 
 (defmacro ld::sem-frame (&body body)
   (optionally-named-concept-subtype 'sem-frame
-      (operator-cond (operator1 form body)
-        ((typep operator1 '(or sem-role (list-of sem-role)))
+      (operator-cond (operator form body)
+        ((typep operator '(or sem-role (list-of sem-role)))
 	  (destructuring-bind (roles restriction &optional optional) form
 	    `(push 
 		(make-instance 'role-restr-map
@@ -222,7 +222,12 @@
   `(setf (sem-feats (current-concept)) ',(adjust-feature-packages body)))
 
 (defmacro ld::entailments (&body body)
-  (optionally-named-concept-subtype 'sem-frame body)) ; TODO
+  (optionally-named-concept-subtype 'sem-frame
+      (operator-cond (operator form body)
+        ((and (symbolp operator) (not (eql (symbol-package operator) (find-package :lexicon-data))))
+	  ;; TODO something better
+	  `(push ',form (terms (current-concept))))
+	)))
 
 (defmacro ld::semantics (&body body)
   (optionally-named-concept-subtype 'semantics body))
