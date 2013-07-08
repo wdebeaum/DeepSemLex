@@ -65,15 +65,19 @@
   ((list-of role-restr-map) maps "" nil)
   )
 
+(defclass-simple sem-feats (concept)
+  "Legacy semantic features."
+  ((feats sem-feat) features "" nil))
+
 (defclass-simple entailments (concept)
   "A list of terms with variables entailed by a concept."
   ((list-of (cons symbol list)) terms "" nil))
 
 (defclass-simple semantics (concept)
   ""
-  ((maybe-disj entailments) entailments)
   ((maybe-disj sem-frame) sem-frame)
-  (sem-feats sem-feats "legacy semantic features" nil)
+  ((maybe-disj sem-feats) sem-feats)
+  ((maybe-disj entailments) entailments)
   )
 
 (defmethod merge-concepts ((dst list) (src list))
@@ -121,10 +125,14 @@
   ((list-of syn-sem-map) maps "" nil)
   )
 
+(defclass-simple syn-feats (concept)
+  "a simple feature/value map used by the grammar"
+  ((feats syn-feat) features "" nil))
+
 (defclass-simple syntax (concept)
   "A syntactic frame and its features."
   ((maybe-disj syn-sem) syn-sem)
-  (syn-feats syn-feats "a simple feature/value map used by the grammar" nil)
+  ((maybe-disj syn-feats) syn-feats)
   )
 
 (defmethod merge-concepts ((dst syntax) (src syntax))

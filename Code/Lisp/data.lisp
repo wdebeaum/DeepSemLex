@@ -13,58 +13,54 @@
 
 ;;; macro helper functions
 
-; seems unsafe to apply generally...
-;(defun adjust-symbol-packages (x)
-;  "Change the package of lexicon-data symbols not in operator position to dsl."
-;  (cond
-;    ((consp x)
-;      (cons (car x) (mapcar #'adjust-symbol-packages (cdr x))))
-;    ((and (symbolp x) (eq (symbol-package x) (find-package :lexicon-data)))
-;      (intern (symbol-name x) :dsl))
-;    (t x)
-;    ))
+(defun ld-to-dsl-package (s)
+  "If s is a symbol in the lexicon-data package, convert it to the dsl package."
+  (if (and (symbolp s) (eql (symbol-package s) (find-package :lexicon-data)))
+    (intern (symbol-name s) :dsl)
+    s))
 
-(defun adjust-feature-packages (features)
+(defun adjust-feature-packages (f)
   "Convert feature names and values to dsl package, and ORs to W package."
-  (mapcar
-      (lambda (f)
-        (list (intern (symbol-name (first f)) :dsl)
-	      (cond
-	        ((symbolp (second f))
-		  (intern (symbol-name (second f)) :dsl))
-		((and (consp (second f))
-		      (every #'symbolp (second f))
-		      (string= "OR" (symbol-name (first (second f)))))
-		  (cons 'w::or
-		      (mapcar
-		          (lambda (s)
-			    (intern (symbol-name s) :dsl))
-			  (cdr (second f))
-			  )))
-		(t (error "bogus feature list: ~s" features))
-		)
-	      ))
-      features))
+  (list (ld-to-dsl-package (first f))
+	(cond
+	  ((symbolp (second f))
+	    (intern (symbol-name (second f)) :dsl))
+	  ((and (consp (second f))
+		(every #'symbolp (second f))
+		(string= "OR" (symbol-name (first (second f)))))
+	    (cons 'w::or
+		(mapcar
+		    (lambda (s)
+		      (intern (symbol-name s) :dsl))
+		    (cdr (second f))
+		    )))
+	  (t (error "bogus feature: ~s" f))
+	  )
+	))
 
 (defun concept-formula (x)
   "Convert symbols representing concepts in a concept formula like (w::and
    (w::or VN::foo WN::bar) FN::baz (concept PB::glarch ...)). Only recurses on
-   ands and ors."
-  (cond
-    ((and (consp x) (member (util::convert-to-package (car x)) '(and or)))
-      (cons (car x) (mapcar #'concept-formula (cdr x))))
-    ((symbolp x)
-      `(get-or-make-concept ',x))
-    (t x)
-    ))
+   ands and ors. Also wrap all of x in a let resetting certain lexical context."
+  `(let ((*concept-stack* nil)
+         (*current-word* nil)
+	 (*current-morph* nil))
+    ,(cond
+      ((and (consp x) (member (util::convert-to-package (car x)) '(and or)))
+	(cons (car x) (mapcar #'concept-formula (cdr x))))
+      ((symbolp x) `(get-or-make-concept ',x))
+      (t x)
+      )))
 
-(defmacro operator-cond ((op-var form-var body-forms) &body cases)
+(defmacro operator-cond ((op-var form-var body-forms &key (convert-operator-package t)) &body cases)
   "For each of the body-forms, if the operator satisfies one of the cases'
    tests, use the body of that case to convert body-form to an expression to
    evaluate. Otherwise keep the body-form unchanged."
   `(mapcar
        (lambda (,form-var)
-	 (let ((,op-var (car ,form-var)))
+	 (let ((,op-var ,(if convert-operator-package
+	                   `(ld-to-dsl-package (car ,form-var))
+			   `(car ,form-var))))
 	   (cond
 	     ,@cases
 	     (t ,form-var)
@@ -76,9 +72,7 @@
    given body forms. Forms starting with a slot name set the slot to the second
    value in the form, while others are left to be evaluated normally (with
    *current-<cls>* set to the new instance)."
-  (let ((slots (mapcar (lambda (n)
-			 (intern (symbol-name n) :lexicon-data))
-		       (class-slot-names cls)))
+  (let ((slots (class-slot-names cls))
 	(current-var (intern (concatenate 'string "*CURRENT-" (symbol-name cls) "*") :dsl)))
     `(progn
       (setf ,current-var (make-instance ',cls))
@@ -86,7 +80,7 @@
 	(setf (slot-value (current-concept) ',cls) ,current-var))
       ,@(operator-cond (operator form body)
 	((member operator slots)
-	  `(setf (slot-value ,current-var ',(intern (symbol-name operator) :dsl)) ',(second form)))
+	  `(setf (slot-value ,current-var ',operator) ',(second form)))
 	)
       )))
 
@@ -234,11 +228,15 @@
       ))
 
 (defmacro ld::sem-feats (&body body)
-  `(setf (sem-feats (current-concept)) ',(adjust-feature-packages body)))
+  (optionally-named-concept-subtype 'sem-feats
+      (operator-cond (operator form body)
+        ((typep operator 'sem-feat)
+	  `(push ',(adjust-feature-packages form) (features (current-concept)))
+	  ))))
 
 (defmacro ld::entailments (&body body)
-  (optionally-named-concept-subtype 'sem-frame
-      (operator-cond (operator form body)
+  (optionally-named-concept-subtype 'entailments
+      (operator-cond (operator form body :convert-operator-package nil)
         ((and (symbolp operator) (not (eql (symbol-package operator) (find-package :lexicon-data))))
 	  ;; TODO something better
 	  `(push ',form (terms (current-concept))))
@@ -265,7 +263,11 @@
 	)))
 
 (defmacro ld::syn-feats (&body body)
-  `(setf (syn-feats (current-concept)) ',(adjust-feature-packages body)))
+  (optionally-named-concept-subtype 'syn-feats
+      (operator-cond (operator form body)
+        ((typep operator 'syn-feat)
+	  `(push ',(adjust-feature-packages form) (features (current-concept)))
+	  ))))
 
 (defmacro ld::syntax (&body body)
   (optionally-named-concept-subtype 'syntax body))

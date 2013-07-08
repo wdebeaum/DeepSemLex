@@ -108,7 +108,7 @@
 
 <!-- TODO translate these to be more TRIPS-like? -->
 <xsl:template match="SELRESTR">
- <xsl:text> (</xsl:text>
+ <xsl:text> (VN::</xsl:text>
  <xsl:value-of select="@type" />
  <xsl:text> </xsl:text>
  <xsl:value-of select="@Value" />
