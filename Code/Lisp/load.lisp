@@ -87,11 +87,16 @@
 (defun relation (label targets)
   "Return code to be evaluated to make relations with the given label from the
    current concept to the targets."
-  `(progn
+  `(let ((*current-provenance* *current-provenance*))
     ,@(mapcar
 	(lambda (target)
-	  `(add-relation (current-concept) ',label ,(concept-formula target)
-	  		 *current-provenance*))
+	  (cond
+	    ((and (listp target) (eq ld::provenance (car target)))
+	      target)
+	    (t
+	      `(add-relation (current-concept) ',label ,(concept-formula target)
+			     *current-provenance*))
+	    ))
 	targets)
     ))
 
@@ -193,7 +198,7 @@
   (non-concept-class 'provenance body))
 
 (defmacro ld::definition (&body body)
-  `(progn
+  `(let ((*current-provenance* *current-provenance*))
      ,(non-concept-class 'input-text body)
      (unless (slot-boundp *current-input-text* 'provenance)
        (setf (provenance *current-input-text*) *current-provenance*))
@@ -201,7 +206,7 @@
      ))
 
 (defmacro ld::example (&body body)
-  `(progn
+  `(let ((*current-provenance* *current-provenance*))
      ,(non-concept-class 'input-text body)
      (unless (slot-boundp *current-input-text* 'provenance)
        (setf (provenance *current-input-text*) *current-provenance*))
