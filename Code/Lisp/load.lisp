@@ -1,4 +1,4 @@
-;;;; data.lisp - stuff to use for reading lexicon data; mostly macros
+;;;; load.lisp - stuff to use for reading lexicon data; mostly macros
 
 (in-package :dsl)
 
