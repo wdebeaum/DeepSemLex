@@ -50,6 +50,7 @@
     "symbol-types"
     "classes"
     "load"
+    "print"
     )
   )
 
