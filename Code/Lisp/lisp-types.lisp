@@ -64,7 +64,7 @@
 
 (defmacro defclass-simple (name superclasses doc-string &body slots)
   "A simpler version of defclass that always makes accessors and initargs, uses
-   slot descriptions formatted like (type name &optional initform doc-string),
+   slot descriptions formatted like (type name &optional doc-string initform),
    and uses a class doc string more like defun/defmacro/defmethod."
   `(finalize-inheritance ; so that we can get slot names without first making an instance
      (defclass ,name ,superclasses
