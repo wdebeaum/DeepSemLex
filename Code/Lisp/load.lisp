@@ -134,24 +134,45 @@
 
             (anonymous ,(null name))
 	    (outer-type (type-of (current-concept)))
-	    (inner-part-of-outer (subtypep outer-type ',concept-type))
-	    (outer-part-of-inner (subtypep ',concept-type outer-type))
+	    (inner-part-of-outer (concept-part-of-p ',concept-type outer-type))
+	    (outer-part-of-inner (concept-part-of-p outer-type ',concept-type))
 	    )
-      ;; FIXME inheritance seems backwards?
+      ;; From email "deep semantic lexicon model and file format" 2013-06-07:
+      ;; Nested instantiations can have one of two meanings. If the inner class
+      ;; is part of the outer one, it is taken to define that part of the outer
+      ;; class (e.g. in (sense (sem-frame ...)), the sem-frame is part of the
+      ;; sense). If the outer class is part of or the same as the inner one,
+      ;; the inner instance gets the properties of the outer one (e.g. in (word
+      ;; foo (morph ...)), the morph gets "foo" as the base form). This happens
+      ;; via an inheritance relation if they're both concepts.
       (cond
 	((not anonymous)
+	  ;; separate the inner named concept from its outer concept, and link
+	  ;; them with an inheritance relation
 	  (push (get-or-make-concept ',name ',concept-type)
 		*concept-stack*)
-	  (when inner-part-of-outer
-	    (add-relation 
-		(second *concept-stack*) :inherit (current-concept)
-		*current-provenance*
-		))
+	  (cond
+	    ((null (second *concept-stack*))
+	      nil)
+	    (outer-part-of-inner
+	      (add-relation 
+		  (current-concept) :inherit (second *concept-stack*)
+		  *current-provenance*
+		  ))
+	    (inner-part-of-outer
+	      (add-relation 
+		  (second *concept-stack*) :inherit (current-concept)
+		  *current-provenance*
+		  ))
+	    )
 	  )
 	((null *concept-stack*)
+	  ;; no outer concept, just make the (anonymous) inner one
 	  (push (make-instance ',concept-type) *concept-stack*)
 	  )
 	(outer-part-of-inner
+	  ;; outer concept is same type or part of anonymous inner concept,
+	  ;; inner is separate from but inherits outer
 	  (push (make-instance ',concept-type) *concept-stack*)
 	  (add-relation
 	      (current-concept) :inherit (second *concept-stack*)
@@ -159,7 +180,11 @@
 	      )
 	  )
 	(inner-part-of-outer
-	  (first *concept-stack*))
+	  ;; anonymous inner concept is strictly part of outer concept,
+	  ;; get or make the part of outer that inner is, and put it on the
+	  ;; stack
+	  (push (get-or-make-part-of ',concept-type (current-concept))
+	        *concept-stack*))
 	(t
 	  (error "incompatible nested concept types: ~s inside ~s" ',concept-type outer-type))
 	)
@@ -169,7 +194,7 @@
 			  :test #'eq))
         (push *current-provenance* (provenance (current-concept))))
       ,@body
-      )
+      (current-concept))
     ))
 
 (defun make-word-from-spec (spec)

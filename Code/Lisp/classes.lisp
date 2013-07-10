@@ -30,6 +30,13 @@
   ((list-of provenance) provenance "" nil)
   )
 
+(defun anonymous-concept-p (x)
+  (and (typep x 'concept)
+       (eql (symbol-package (name x)) (find-package :ld))
+       (char= (elt (symbol-name (name x)) 0) #\C)
+       (every #'digit-char-p (subseq (symbol-name (name x)) 1))
+       ))
+
 (defgeneric merge-concepts (dst src) (:documentation
   "Add the information in concept src to concept dst, destructively. Signal an
    error if the two conflict."))
@@ -205,5 +212,49 @@
 	;; add slots to make it have type concept-type specifically
 	(change-class c concept-type))
       )))
+
+(defun concept-part-of-p (part whole)
+  "Given two concept types part and whole, return true iff part is part of
+   whole (or they are eq)."
+  (or (eq part whole)
+      (eq 'concept whole) ; anything can be part of a concept by inheritance
+      (case whole
+	(sense t)
+	(semantics
+	  (case part
+	    ((sem-frame sem-feats entailments) t)
+	    (otherwise nil)
+	    ))
+	(syntax
+	  (case part
+            ((syn-sem syn-feats) t)
+	    (otherwise nil)
+	    ))
+	(otherwise nil)
+	)
+      ))
+
+(defun get-or-make-part-of (part-type whole-instance)
+  "Get the part of whole-instance that is of type part-type, creating it if it
+   doesn't yet exist."
+  (cond
+    ((eq 'concept (type-of whole-instance))
+      (let ((part-instance (make-instance part-type)))
+        (add-relation whole-instance :inherit part-instance)
+	part-instance))
+    ((not (slot-exists-p part-type whole-instance))
+      ;; TODO recurse on concept parts of whole-instance?
+      (error "Not sure what part of ~s is ~s" (type-of whole-instance) part-type))
+    ((not (slot-boundp part-type whole-instance))
+      (setf (slot-value whole-instance part-type) (make-instance part-type)))
+    ((typep (slot-value whole-instance part-type) part-type)
+      (slot-value whole-instance part-type))
+    ((typep (slot-value whole-instance part-type) `(disjunction ,part-type))
+      (let ((part-instance (make-instance part-type)))
+        (push part-instance (cdr (slot-value whole-instance part-type)))
+	part-instance))
+    (t
+      (error "Slot ~s of ~s is already bound to something not of type (maybe-disj ~s): ~s" part-type (type-of whole-instance) part-type (slot-value whole-instance part-type)))
+    ))
 
 ) ; end (optimize safety)
