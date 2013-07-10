@@ -1,5 +1,12 @@
 ;;;; print.lisp - methods for printing lexicon data
 
+;;;; TODO
+;;;; - track lexical context vars and e.g. avoid reprinting the same provenance over and over
+;;;; - word, morph, sense
+;;;; - combine relations with the same name
+;;;; - standardize order of slots/relations
+;;;; - separate implicit inheritance from explicit
+
 (in-package :dsl)
 
 (defgeneric listify (o)
@@ -7,24 +14,30 @@
 
 ;; We print concepts by listifying them and writing the list.
 (defmethod print-object ((c concept) s)
-  (write (listify c) :stream s))
+  (let ((*package* (find-package :ld)))
+    (write (listify c) :stream s)))
 
-;; Unfortunately, we can't specialize on list and atom because they're not
-;; classes.
 (defmethod listify (x)
-  (if (listp x)
+  (cond
     ;; Lists are already lists, but their items need to be listified.
-    (mapcar #'listify x)
+    ((listp x)
+      (mapcar #'listify x))
+    ;; Convert symbols in DSL or CL packages to LD package.
+    ((and (symbolp x)
+          (member (symbol-package x)
+	          (mapcar #'find-package '(dsl common-lisp))))
+      (intern (symbol-name x)))
     ;; By default, non-lists (atoms) listify to themselves. This covers things
-    ;; like symbols, strings and numbers.
-    x))
+    ;; like explicitly packaged symbols, strings and numbers.
+    (t x)
+    ))
 
 (defun listify-slots (o &optional slot-names)
     (declare (type standard-object o))
   "Get an alist corresponding to the slots and listified values of o."
   (mapcan (lambda (slot-name)
 	    (when (and (slot-boundp o slot-name) (slot-value o slot-name))
-	      (list (list slot-name
+	      (list (list (intern (symbol-name slot-name))
 			  (let ((*print-level* 0))
 			    (listify (slot-value o slot-name)))
 			  ))))
@@ -37,7 +50,7 @@
 ;; By default, objects listify to their type followed by an alist of their
 ;; slots. This covers things like provenance, input-texts, and relations.
 (defmethod listify ((o standard-object))
-  (cons (type-of o) (listify-slots o)))
+  (cons (intern (symbol-name (type-of o))) (listify-slots o)))
 
 (defmethod print-object ((p provenance) s)
   (write (listify p) :stream s))
@@ -56,13 +69,15 @@
   (if (and *print-level* (= 0 *print-level*) (not (anonymous-concept-p c)))
     (name c)
     `(
-      ,(type-of c) ,@(unless (anonymous-concept-p c) (list (name c)))
-      ,@(when (aliases c) (list (list 'aliases (aliases c))))
+      ,(intern (symbol-name (type-of c)))
+      ,@(unless (anonymous-concept-p c) (list (name c)))
+      ,@(when (aliases c) (list (list 'ld::aliases (aliases c))))
       ,@(mapcar #'listify (provenance c))
       ;; TODO collapse relations with the same name
       ,@(mapcar (lambda (r)
                   (if (and (eq :inherit (label r))
-		           (anonymous-concept-p (target r)))
+		           (or (typep (target r) '(disjunction concept))
+			       (anonymous-concept-p (target r))))
 		           ; FIXME not sure this is constrained enough
 		    (listify (target r))
 		    (list (intern (symbol-name (label r)))
@@ -70,17 +85,17 @@
 		    ))
 		(out c))
       ,@(mapcar (lambda (ex)
-                  (cons 'example (cdr (listify ex))))
+                  (cons 'ld::example (cdr (listify ex))))
                 (examples c))
       ,@(mapcar (lambda (def)
-                  (cons 'definition (cdr (listify def))))
+                  (cons 'ld::definition (cdr (listify def))))
                 (definitions c))
       )))
 
 (defmethod listify ((m role-restr-map))
-  `(,@(if (= 1 (length (roles m))) (roles m) (list (roles m)))
+  `(,@(listify (if (= 1 (length (roles m))) (roles m) (list (roles m))))
     ,(listify (restriction m))
-    ,@(when (optional m) 'optional)
+    ,@(when (optional m) 'ld::optional)
     ))
 
 (defmethod listify ((f sem-frame))
@@ -98,7 +113,7 @@
 (defmethod listify ((f sem-feats))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list (features f))
+      (append parent-list (listify (features f)))
       parent-list)))
 
 (defmethod listify ((s semantics))
@@ -113,13 +128,13 @@
       parent-list)))
 
 (defmethod listify ((m syn-sem-map))
-  `(,(syn-arg m)
+  `(,(intern (symbol-name (syn-arg m)))
     ,(if (head-word m)
-      (list (syn-cat m) (head-word m))
-      (syn-cat m)
+      (util::convert-to-package (list (syn-cat m) (head-word m)))
+      (intern (symbol-name (syn-cat m)))
       )
-    ,@(when (sem-role m) (list (sem-role m)))
-    ,@(when (optional m) '(optional))
+    ,@(when (sem-role m) (list (intern (symbol-name (sem-role m)))))
+    ,@(when (optional m) '(ld::optional))
     ))
 
 (defmethod listify ((ss syn-sem))
@@ -131,7 +146,7 @@
 (defmethod listify ((f syn-feats))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list (features f))
+      (append parent-list (listify (features f)))
       parent-list)))
 
 (defmethod listify ((s syntax))
