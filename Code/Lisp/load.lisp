@@ -11,6 +11,19 @@
 (defvar *current-word* nil)
 (defvar *current-morph* nil)
 
+(defun load-dsl-file (filename)
+  (let (
+        ;; reset lexical context
+        *concept-stack*
+        *current-provenance*
+	*current-input-text*
+	*current-word*
+	*current-morph*
+	;; make sure we read in the LD package
+        (*package* (find-package :lexicon-data))
+	)
+  (load filename)))
+
 ;;; macro helper functions
 
 (defun ld-to-dsl-package (s)
@@ -91,7 +104,7 @@
     ,@(mapcar
 	(lambda (target)
 	  (cond
-	    ((and (listp target) (eq ld::provenance (car target)))
+	    ((and (listp target) (eq 'ld::provenance (car target)))
 	      target)
 	    (t
 	      `(add-relation (current-concept) ',label ,(concept-formula target)
@@ -124,6 +137,7 @@
 	    (inner-part-of-outer (subtypep outer-type ',concept-type))
 	    (outer-part-of-inner (subtypep ',concept-type outer-type))
 	    )
+      ;; FIXME inheritance seems backwards?
       (cond
 	((not anonymous)
 	  (push (get-or-make-concept ',name ',concept-type)
@@ -194,7 +208,11 @@
 (defmacro ld::provenance (&body body)
   ;; convert initial symbol to `(name ,symbol)
   (when (symbolp (car body))
-    (setf body (cons (list 'lexicon-data::name (car body)) (cdr body))))
+    (setf body
+          (cons (list 'lexicon-data::name
+	              (intern (symbol-name (car body)) :dsl))
+	        (cdr body))
+	  ))
   (non-concept-class 'provenance body))
 
 (defmacro ld::definition (&body body)

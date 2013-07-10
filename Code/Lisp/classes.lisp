@@ -116,7 +116,7 @@
   (syn-arg syn-arg "the syntactic argument name")
   (syn-cat syn-cat "the POS/phrase tag of the argument")
   ((maybe (maybe-disj symbol)) head-word "the head word of the argument (often the preposition when syn-cat is PP)" nil)
-  ((maybe sem-role) sem-role "the semantic role played by the argument")
+  ((maybe sem-role) sem-role "the semantic role played by the argument" nil)
   (boolean optional "t if this argument is not required to be present" t)
   )
 
