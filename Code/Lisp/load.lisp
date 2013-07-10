@@ -193,7 +193,18 @@
 		          (provenance (current-concept))
 			  :test #'eq))
         (push *current-provenance* (provenance (current-concept))))
-      ,@body
+      ;; mostly just keep body the way it is, but special case w::or forms
+      ;; FIXME kind of a kludge... maybe ORs should go on *concept-stack*?
+      ,@(mapcar
+          (lambda (body-form)
+	    (if (and (listp body-form) (eq 'w::or (car body-form)))
+	      `(add-relation (current-concept) :inherit
+		   (let (*concept-stack*
+			 *current-word*
+			 *current-morph*)
+		     ,body-form))
+	      body-form))
+	  body)
       (current-concept))
     ))
 
@@ -243,7 +254,7 @@
 (defmacro ld::definition (&body body)
   `(let ((*current-provenance* *current-provenance*))
      ,(non-concept-class 'input-text body)
-     (unless (slot-boundp *current-input-text* 'provenance)
+     (unless (slot-value *current-input-text* 'provenance)
        (setf (provenance *current-input-text*) *current-provenance*))
      (push *current-input-text* (definitions (current-concept)))
      ))
@@ -251,7 +262,7 @@
 (defmacro ld::example (&body body)
   `(let ((*current-provenance* *current-provenance*))
      ,(non-concept-class 'input-text body)
-     (unless (slot-boundp *current-input-text* 'provenance)
+     (unless (slot-value *current-input-text* 'provenance)
        (setf (provenance *current-input-text*) *current-provenance*))
      (push *current-input-text* (examples (current-concept)))
      ))

@@ -53,7 +53,7 @@
 ;; all concepts. Subclasses of concept override this by appending to
 ;; (call-next-method) if it's a list.
 (defmethod listify ((c concept))
-  (if (and *print-level* (= 0 *print-level*))
+  (if (and *print-level* (= 0 *print-level*) (not (anonymous-concept-p c)))
     (name c)
     `(
       ,(type-of c) ,@(unless (anonymous-concept-p c) (list (name c)))

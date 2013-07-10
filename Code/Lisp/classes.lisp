@@ -49,11 +49,13 @@
   ((maybe provenance) provenance "" nil)
   )
 
-(defgeneric add-relation (source label target &optional provenance))
-(defmethod add-relation ((source concept) (label symbol) (target concept) &optional provenance)
+(defun add-relation (source label target &optional provenance)
+    (declare (type symbol label)
+             (type (maybe-disj concept) source target)
+             (type (maybe provenance) provenance))
   (let ((r (make-instance 'relation :source source :label label :target target :provenance provenance)))
-    (push r (out source))
-    (push r (in target))
+    (when (typep source 'concept) (push r (out source)))
+    (when (typep target 'concept) (push r (in target)))
     ))
 
 (defclass-simple role-restr-map ()
