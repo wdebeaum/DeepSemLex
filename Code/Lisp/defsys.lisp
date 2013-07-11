@@ -48,9 +48,11 @@
     "mop"
     "lisp-types"
     "symbol-types"
+    "generics"
     "classes"
     "load"
     "print"
+    "db"
     )
   )
 

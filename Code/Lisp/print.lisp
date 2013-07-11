@@ -9,9 +9,6 @@
 
 (in-package :dsl)
 
-(defgeneric listify (o)
-  (:documentation "Turn an object into a pure nested list representation for printing."))
-
 ;; We print concepts by listifying them and writing the list.
 (defmethod print-object ((c concept) s)
   (let ((*package* (find-package :ld)))

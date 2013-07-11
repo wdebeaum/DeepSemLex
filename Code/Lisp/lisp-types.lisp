@@ -70,8 +70,10 @@
      (defclass ,name ,superclasses
        ,(mapcar
 	    (lambda (simple-slot)
-	      (destructuring-bind (slot-type slot-name
-	                           &optional doc-string initform)
+	      (destructuring-bind (slot-type slot-name &optional 
+				   doc-string
+				   (initform nil initform-supplied-p)
+				   )
 	          simple-slot
 		  (declare (type symbol slot-name)
 		           (type (maybe string) doc-string))
@@ -83,7 +85,7 @@
 			   )))
 		  (when doc-string
 		    (nconc complex-slot `(:documentation ,doc-string))
-		    (when initform
+		    (when initform-supplied-p
 		      (nconc complex-slot `(:initform ,initform)))
 		    )
 		  complex-slot)))
