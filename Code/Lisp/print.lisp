@@ -2,15 +2,15 @@
 
 ;;;; TODO
 ;;;; - track lexical context vars and e.g. avoid reprinting the same provenance over and over
-;;;; - word, morph, sense
 ;;;; - combine relations with the same name
 ;;;; - standardize order of slots/relations
 ;;;; - separate implicit inheritance from explicit
 
 (in-package :dsl)
 
-;; We print concepts by listifying them and writing the list.
-(defmethod print-object ((c concept) s)
+;; We print concepts and some other classes by listifying them and writing the
+;; list.
+(defmethods print-object ((c (or concept provenance input-text relation word morph)) s)
   (let ((*package* (find-package :ld)))
     (write (listify c) :stream s)))
 
@@ -29,28 +29,37 @@
     (t x)
     ))
 
+(defun slot-value-list-has-key-already-p (value-list alist-key)
+  "Does value-list look like an alist entry for the given key already (t), or
+   do we need to wrap it in a pair with the key (nil)?"
+  (and (listp value-list)
+       (symbolp (car value-list))
+       (or (eq alist-key (car value-list))
+	   (and (string= "OR" (symbol-name (car value-list)))
+		(every (lambda (v)
+			 (eq alist-key (car v)))
+		       (cdr value-list)
+		       )
+		)
+	   )
+       ))
+
 (defun listify-slots (o &optional slot-names)
     (declare (type standard-object o))
-  "Get an alist corresponding to the slots and listified values of o."
+  "Get an alist corresponding to the slots and listified values of o. If a
+   value's list form starts with the slot name, use that form directly rather
+   than wrapping another list around it. Also do this if it's a disjunction of
+   such forms."
   (mapcan (lambda (slot-name)
 	    (when (and (slot-boundp o slot-name) (slot-value o slot-name))
-	      (list (list (intern (symbol-name slot-name))
-			  (let ((*print-level* 0))
-			    (listify (slot-value o slot-name)))
-			  ))))
-          (if slot-names
-	    slot-names
-	    (class-slot-names (type-of o))
-	    )
-	  ))
-
-(defun listify-slot-values (o &optional slot-names)
-  "Get a list of listified values of bound, non-nil slots of o. This is useful
-   as a replacement for listify-slots when the slot names are the same as the
-   name of the class they hold, and thus the car of the list."
-  (mapcan (lambda (slot-name)
-            (when (and (slot-boundp o slot-name) (slot-value o slot-name))
-	      (list (listify (slot-value o slot-name)))))
+	      (list
+		(let* ((*print-level* 0)
+		       (value-list (listify (slot-value o slot-name)))
+		       (alist-key (intern (symbol-name slot-name))))
+		  (if (slot-value-list-has-key-already-p value-list alist-key)
+		    value-list
+		    (list alist-key value-list)
+		    )))))
           (if slot-names
 	    slot-names
 	    (class-slot-names (type-of o))
@@ -61,9 +70,6 @@
 ;; slots.
 (defmethod listify ((o standard-object))
   (cons (intern (symbol-name (type-of o))) (listify-slots o)))
-
-(defmethods print-object ((x (or provenance input-text relation word morph)) s)
-  (write (listify x) :stream s))
 
 ;; General concept listification. When *print-level* is 0, this just gets the
 ;; name of the concept, otherwise it gets the name followed by slots common to
@@ -124,7 +130,7 @@
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
       (append parent-list
-              (listify-slot-values s '(sem-frame sem-feats entailments)))
+              (listify-slots s '(sem-frame sem-feats entailments)))
       parent-list)))
 
 (defmethod listify ((m syn-sem-map))
@@ -140,7 +146,7 @@
 (defmethod listify ((s syntax))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list (listify-slot-values s '(syn-sem syn-feats)))
+      (append parent-list (listify-slots s '(syn-sem syn-feats)))
       parent-list)))
 
 (defmethod listify ((w word))
@@ -158,6 +164,6 @@
 (defmethod listify ((s sense))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list (listify-slot-values s '(morph syntax semantics)))
+      (append parent-list (listify-slots s '(morph syntax semantics)))
       parent-list)))
 
