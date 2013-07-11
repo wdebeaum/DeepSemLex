@@ -32,12 +32,20 @@
 (defpackage :w)
 ; (defpackage :f)
 (defpackage :ont)
-(defpackage :wn)
-(defpackage :vn)
 (defpackage :lexicon-data
   (:use)
   (:nicknames :ld)
   )
+
+;; FIXME need to handle resource namespaces and versioning better
+(defpackage :wn (:nicknames :WordNet :WN-3.0 :WN-2.1))
+(defpackage :mwo (:nicknames :Merriam-Webster_Online))
+(defpackage :mac) ; this is used in OntoNotes, don't know what it is
+(defpackage :answers.com)
+(defpackage :vn (:nicknames :VerbNet :VN-3.2))
+(defpackage :on (:nicknames :OntoNotes :ON-3.0))
+(defpackage :fn (:nicknames :FrameNet))
+(defpackage :pb (:nicknames :PropBank))
 
 (in-package :dsl)
 

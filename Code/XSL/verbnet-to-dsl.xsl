@@ -16,32 +16,37 @@
  </xsl:for-each>
 </xsl:template>
 
-<xsl:template match="/VNCLASS">
- <xsl:text>;;; AUTOMATICALLY GENERATED
-(provenance VerbNet (version "3.2") (filename "</xsl:text>
- <xsl:value-of select="@ID" />
- <xsl:text>.xml"))
-</xsl:text>
- <xsl:text>(concept VN::</xsl:text>
- <xsl:value-of select="@ID" />
- <xsl:apply-templates />
- <xsl:call-template name="nl-indent" />
- <xsl:text>  )
-
-</xsl:text>
-</xsl:template>
-
-<xsl:template match="VNSUBCLASS">
+<xsl:template name="concept">
  <xsl:call-template name="nl-indent" />
  <xsl:text>(concept VN::</xsl:text>
  <xsl:value-of select="@ID" />
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>  (aliases VN::_</xsl:text>
+ <xsl:value-of select="substring-after(@ID, '-')" />
+ <xsl:text>)</xsl:text>
  <xsl:apply-templates />
  <xsl:call-template name="nl-indent" />
  <xsl:text>  )</xsl:text>
 </xsl:template>
 
+<xsl:template match="/VNCLASS">
+ <xsl:text>;;; AUTOMATICALLY GENERATED
+(provenance VerbNet (version "3.2") (filename "</xsl:text>
+ <xsl:value-of select="@ID" />
+ <xsl:text>.xml"))</xsl:text>
+ <xsl:call-template name="concept" />
+ <xsl:text>
+
+</xsl:text>
+</xsl:template>
+
+<xsl:template match="VNSUBCLASS">
+ <xsl:call-template name="concept" />
+</xsl:template>
+
 <xsl:template match="MEMBERS">
- <xsl:if test="MEMBER[@wn != '']">
+ <!-- FIXME should we instead get all members as senses, and have those map to the WN/ON senses instead of mapping directly from the VN class? -->
+ <xsl:if test="MEMBER[@wn != '' or @grouping != '']">
   <xsl:call-template name="nl-indent" />
   <xsl:text>(overlap</xsl:text>
   <xsl:apply-templates />
@@ -53,6 +58,13 @@
  <xsl:text> WN::|</xsl:text>
  <xsl:value-of select="replace(replace(@wn, '\?', ''), '\s+', '::| WN::|')" />
  <xsl:text>::|</xsl:text>
+</xsl:template>
+
+<xsl:template match="MEMBER[@grouping != '']">
+ <xsl:text> ON::</xsl:text>
+ <xsl:value-of select="@name" />
+ <xsl:text>.v.</xsl:text>
+ <xsl:value-of select="replace(substring-after(@grouping, '.'), '^0', '')" />
 </xsl:template>
 
 <xsl:template match="THEMROLES[THEMROLE]">

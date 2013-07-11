@@ -93,7 +93,8 @@
 	(setf (slot-value (current-concept) ',cls) ,current-var))
       ,@(operator-cond (operator form body)
 	((member operator slots)
-	  `(setf (slot-value ,current-var ',operator) ',(second form)))
+	  `(setf (slot-value ,current-var ',operator)
+	         ',(ld-to-dsl-package (second form))))
 	)
       )))
 

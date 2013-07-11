@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <stylesheet version="2.0" xmlns="http://www.w3.org/1999/XSL/Transform">
 
-<!-- ontonotes-frameset-to-dsl.xsl - convert OntoNodes 3.0 frames/*.xml files to DeepSemLex Lisp data files -->
+<!-- ontonotes-frameset-to-dsl.xsl - convert OntoNotes 3.0 frames/*.xml files to DeepSemLex Lisp data files (really these are from PropBank) -->
 
 <output method="text" />
 
@@ -17,7 +17,10 @@
 </template>
 
 <template match="/frameset">
- <text>;;; AUTOMATICALLY GENERATED</text>
+ <text>;;; AUTOMATICALLY GENERATED
+(provenance PropBank (filename "</text>
+ <value-of select="@lemma" />
+ <text>.xml"))</text>
  <apply-templates />
 </template>
 
@@ -39,7 +42,7 @@
 
 <template match="roleset">
  <call-template name="nl-indent" />
- <text>(concept ON::</text>
+ <text>(concept PB::</text>
  <value-of select="replace(@id, '\.', '.v.')" /> <!-- FIXME do these actually correspond to senses in the sense inventory like this? I kind of doubt it because some are missing from there -->
  <if test="@vncls and @vncls != '-'">
   <call-template name="nl-indent" />
@@ -76,7 +79,7 @@
 
 <template match="example">
  <call-template name="nl-indent" />
- <text>(example (source ON)</text>
+ <text>(example</text>
  <!-- TODO @name, @src, inflection, arg, rel -->
  <apply-templates />
  <text>)</text>

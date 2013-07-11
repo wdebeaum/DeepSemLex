@@ -21,6 +21,9 @@
 
 <template match="/inventory">
  <text>;;; AUTOMATICALLY GENERATED
+(provenance OntoNotes (version "3.0") (filename "data/english/metadata/sense-inventories/</text>
+ <value-of select="@lemma" />
+ <text>.xml"))
 (word </text>
  <value-of select="$lemma" />
  <text> (morph (pos </text>
@@ -55,7 +58,7 @@
  <text>.</text>
  <value-of select="@n" />
  <call-template name="nl-indent" />
- <text>  (definition (source ON) (text "</text>
+ <text>  (definition (text "</text>
  <value-of select="replace(@name, '\s+', ' ')" />
  <text>"))</text>
  <apply-templates />
@@ -70,7 +73,7 @@
  <for-each select="tokenize(string(.), '\n')">
   <if test="string-length(.) gt 0">
    <value-of select="$nl-indent" />
-   <text>(example (source ON) (text "</text>
+   <text>(example (text "</text>
    <value-of select="." />
    <text>"))</text>
   </if>
