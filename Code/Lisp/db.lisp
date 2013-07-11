@@ -85,6 +85,38 @@
        (every #'digit-char-p (subseq (symbol-name (name x)) 1))
        ))
 
+#|
+(defun add-morph-map (db morph syn-feats morphed)
+    (declare (type lexicon-and-ontology db)
+             (type morph morph)
+             (type syn-feats syn-feats)
+	     (type word morphed))
+  "Make a morph-map and update both (senses db) and the morph. If (senses db)
+   already has an equalp word, use that instead of the given word object so we
+   don't waste memory."
+  (let* ((existing-senses (gethash word (senses db)))
+         (orig-word
+	   (if existing-senses
+	     (find word
+	           (mapcar #'word (maps (morph (first existing-senses))))
+		   :test #'equalp)
+	     word))
+	 (new-map (make-instance 'morph-map
+	                         :syn-feats syn-feats :morphed orig-word))
+	 )
+    (pushnew ; argh, I don't actually have a sense here!
+    )))
+|#
+
+(defun add-morph-maps-for-word (m w)
+    (declare (type morph m) (type word w))
+  "Fill in any missing morph-maps in m corresponding to the base form w and
+   appropriate inflections for (pos m)."
+  ;; TODO copy stuff from old LXM?
+  ;; for now just add the word itself with no feats
+  (unless (maps m)
+    (push (make-instance 'morph-map :morphed w) (maps m))))
+
 ;;; FIXME merge-concepts seems old and busted, need a better way to do this
 
 (defmethod merge-concepts ((dst role-restr-map) (src role-restr-map))

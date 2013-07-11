@@ -96,7 +96,7 @@
 	  `(setf (slot-value ,current-var ',operator)
 	         ',(ld-to-dsl-package (second form))))
 	)
-      )))
+      ,current-var)))
 
 (defun relation (label targets)
   "Return code to be evaluated to make relations with the given label from the
@@ -258,7 +258,7 @@
      (unless (slot-value *current-input-text* 'provenance)
        (setf (provenance *current-input-text*) *current-provenance*))
      (push *current-input-text* (definitions (current-concept)))
-     ))
+     *current-input-text*))
 
 (defmacro ld::example (&body body)
   `(let ((*current-provenance* *current-provenance*))
@@ -266,7 +266,7 @@
      (unless (slot-value *current-input-text* 'provenance)
        (setf (provenance *current-input-text*) *current-provenance*))
      (push *current-input-text* (examples (current-concept)))
-     ))
+     *current-input-text*))
 
 (defmacro ld::concept (&body body)
   (optionally-named-concept-subtype 'concept body))
@@ -334,15 +334,22 @@
 
 (defmacro ld::word (word-spec &body body)
   `(let ((*current-word* (make-word-from-spec ',word-spec)))
-    ,@body))
+    ,@body
+    (when *current-morph*
+      (add-morph-maps-for-word *current-morph* *current-word*))
+    *current-word*))
 
 (defmacro ld::morph (&body body)
-  (non-concept-class 'morph body))
-
-;; TODO morph-maps
+  `(,@(non-concept-class 'morph body) ; should be a progn
+    (when *current-word*
+      (add-morph-maps-for-word *current-morph* *current-word*))
+    *current-morph*))
 
 (defmacro ld::sense (&body body)
-  (optionally-named-concept-subtype 'sense body))
+  `(,@(optionally-named-concept-subtype 'sense body)
+    (when (and *current-morph* (not (slot-boundp (current-concept) 'morph)))
+      (setf (morph (current-concept)) *current-morph*))
+    (current-concept)))
 
 ;;; relation macros
 

@@ -161,9 +161,18 @@
 	    `(word ,first-word))
 	  ))))
 
+#|
+(defmethod listify ((m morph))
+  TODO
+  )
+|#
+
 (defmethod listify ((s sense))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list (listify-slots s '(morph syntax semantics)))
+      `(,(car parent-list)
+        ,@(listify-slots s '(morph)) ; put morph at the top, it's important
+	,@(cdr parent-list)
+        ,@(listify-slots s '(syntax semantics)))
       parent-list)))
 
