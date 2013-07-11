@@ -51,7 +51,7 @@
   (let* ((disjuncts
            (loop for p in parameter-list
 	         until (member p '(&optional &rest &key &allow-other-keys &aux))
-		 when (method-parameter-disjunctively-specialized-p p)
+		 when (parameter-disjunctively-specialized-p p)
 		   collect (cdr (second p))
 		 ))
 	 (options (cartesian-product disjuncts))

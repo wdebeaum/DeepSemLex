@@ -96,28 +96,28 @@
                 (definitions c))
       )))
 
+(defmethods listify ((f (or sem-frame syn-sem)))
+  (let ((parent-list (call-next-method)))
+    (if (listp parent-list)
+      (append parent-list (mapcar #'listify (maps f)))
+      parent-list)))
+
+(defmethods listify ((f (or sem-feats syn-feats)))
+  (let ((parent-list (call-next-method)))
+    (if (listp parent-list)
+      (append parent-list (listify (features f)))
+      parent-list)))
+
 (defmethod listify ((m role-restr-map))
   `(,@(listify (if (= 1 (length (roles m))) (roles m) (list (roles m))))
     ,(listify (restriction m))
     ,@(when (optional m) 'ld::optional)
     ))
 
-(defmethod listify ((f sem-frame))
-  (let ((parent-list (call-next-method)))
-    (if (listp parent-list)
-      (append parent-list (mapcar #'listify (maps f)))
-      parent-list)))
-
 (defmethod listify ((e entailments))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
       (append parent-list (terms e))
-      parent-list)))
-
-(defmethod listify ((f sem-feats))
-  (let ((parent-list (call-next-method)))
-    (if (listp parent-list)
-      (append parent-list (listify (features f)))
       parent-list)))
 
 (defmethod listify ((s semantics))
@@ -136,18 +136,6 @@
     ,@(when (sem-role m) (list (intern (symbol-name (sem-role m)))))
     ,@(when (optional m) '(ld::optional))
     ))
-
-(defmethod listify ((ss syn-sem))
-  (let ((parent-list (call-next-method)))
-    (if (listp parent-list)
-      (append parent-list (mapcar #'listify (maps ss)))
-      parent-list)))
-
-(defmethod listify ((f syn-feats))
-  (let ((parent-list (call-next-method)))
-    (if (listp parent-list)
-      (append parent-list (listify (features f)))
-      parent-list)))
 
 (defmethod listify ((s syntax))
   (let ((parent-list (call-next-method)))
