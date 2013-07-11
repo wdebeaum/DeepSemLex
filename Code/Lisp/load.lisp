@@ -338,8 +338,10 @@
 (defmacro ld::morph (&body body)
   (non-concept-class 'morph body))
 
+;; TODO morph-maps
+
 (defmacro ld::sense (&body body)
-  (optionally-named-concept-subtype 'sense body)) ; TODO
+  (optionally-named-concept-subtype 'sense body))
 
 ;;; relation macros
 

@@ -1,5 +1,7 @@
 ;;;; class declarations (must be loaded before any other code using them, to avoid breaking some Lisps)
 
+;;; TODO go through and fix documentation strings so they're more coherent
+
 (in-package :dsl)
 
 (locally (declare (optimize safety))
@@ -108,9 +110,11 @@
   ((list-of morph-map) maps "" nil)
   )
 
-(defclass-simple sense (syntax semantics)
+(defclass-simple sense (concept)
   "A concrete, bottom-level concept class, possibly associated with a morph."
   (morph morph)
+  ((maybe-disj syntax) syntax)
+  ((maybe-disj semantics) semantics)
   )
 
 (defclass-simple lexicon-and-ontology ()

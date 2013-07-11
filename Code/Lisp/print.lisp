@@ -44,19 +44,26 @@
 	    )
 	  ))
 
+(defun listify-slot-values (o &optional slot-names)
+  "Get a list of listified values of bound, non-nil slots of o. This is useful
+   as a replacement for listify-slots when the slot names are the same as the
+   name of the class they hold, and thus the car of the list."
+  (mapcan (lambda (slot-name)
+            (when (and (slot-boundp o slot-name) (slot-value o slot-name))
+	      (list (listify (slot-value o slot-name)))))
+          (if slot-names
+	    slot-names
+	    (class-slot-names (type-of o))
+	    )
+	  ))
+
 ;; By default, objects listify to their type followed by an alist of their
-;; slots. This covers things like provenance, input-texts, and relations.
+;; slots.
 (defmethod listify ((o standard-object))
   (cons (intern (symbol-name (type-of o))) (listify-slots o)))
 
-(defmethod print-object ((p provenance) s)
-  (write (listify p) :stream s))
-
-(defmethod print-object ((it input-text) s)
-  (write (listify it) :stream s))
-
-(defmethod print-object ((r relation) s)
-  (write (listify r) :stream s))
+(defmethods print-object ((x (or provenance input-text relation word morph)) s)
+  (write (listify x) :stream s))
 
 ;; General concept listification. When *print-level* is 0, this just gets the
 ;; name of the concept, otherwise it gets the name followed by slots common to
@@ -117,11 +124,7 @@
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
       (append parent-list
-              (mapcan (lambda (slot-name)
-	                (when (slot-boundp s slot-name)
-			  (list (listify (slot-value s slot-name)))))
-	              '(sem-frame sem-feats entailments)
-		      ))
+              (listify-slot-values s '(sem-frame sem-feats entailments)))
       parent-list)))
 
 (defmethod listify ((m syn-sem-map))
@@ -149,11 +152,24 @@
 (defmethod listify ((s syntax))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list
-              (mapcan (lambda (slot-name)
-	                (when (slot-boundp s slot-name)
-			  (list (listify (slot-value s slot-name)))))
-	              '(syn-sem syn-feats)
-		      ))
+      (append parent-list (listify-slot-values s '(syn-sem syn-feats)))
+      parent-list)))
+
+(defmethod listify ((w word))
+  (with-slots (first-word remaining-words particle) w
+    (util::convert-to-package 
+	(cond
+	  (particle
+	    `(word (,first-word ,@remaining-words (,particle))))
+	  (remaining-words
+	    `(word (,first-word ,@remaining-words)))
+	  (t
+	    `(word ,first-word))
+	  ))))
+
+(defmethod listify ((s sense))
+  (let ((parent-list (call-next-method)))
+    (if (listp parent-list)
+      (append parent-list (listify-slot-values s '(morph syntax semantics)))
       parent-list)))
 
