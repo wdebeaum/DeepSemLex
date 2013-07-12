@@ -88,9 +88,14 @@
 (defmethod listify ((c concept))
   (if (and *print-level* (= 0 *print-level*) (not (anonymous-concept-p c)))
     (name c)
-    (let ((*current-provenance* *current-provenance*)
-          relations
-	  nested)
+    (let* ((*current-provenance* *current-provenance*)
+           (provenance
+	     ;; need to listify up here so nested stuff sees the right
+	     ;; *current-provenance*
+	     (mapcar #'listify
+	             (reverse (remove *current-provenance* (provenance c)))))
+           relations
+	   nested)
       ;; collapse relations with the same name, and separate out inheritance of
       ;; anonymous concepts so they are nested in this concept definition
       ;; instead of trying to relate to them by name
@@ -114,8 +119,7 @@
 	,(intern (symbol-name (type-of c)))
 	,@(unless (anonymous-concept-p c) (list (name c)))
 	,@(when (aliases c) (list (list 'ld::aliases (aliases c))))
-	,@(mapcar #'listify
-	          (reverse (remove *current-provenance* (provenance c))))
+	,@provenance
 	,@(mapcar (lambda (def)
 		    (cons 'ld::definition (cdr (listify def))))
 		  (reverse (definitions c)))
