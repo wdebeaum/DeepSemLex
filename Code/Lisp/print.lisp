@@ -1,9 +1,7 @@
 ;;;; print.lisp - methods for printing lexicon data
 
 ;;;; TODO
-;;;; - combine relations with the same name
 ;;;; - standardize order of slots/relations
-;;;; - separate implicit inheritance from explicit
 
 (in-package :dsl)
 
@@ -90,35 +88,48 @@
 (defmethod listify ((c concept))
   (if (and *print-level* (= 0 *print-level*) (not (anonymous-concept-p c)))
     (name c)
-    (let ((*current-provenance* *current-provenance*))
+    (let ((*current-provenance* *current-provenance*)
+          relations
+	  nested)
+      ;; collapse relations with the same name, and separate out inheritance of
+      ;; anonymous concepts so they are nested in this concept definition
+      ;; instead of trying to relate to them by name
+      (loop for r in (out c)
+            for label = (intern (symbol-name (label r)))
+	    do
+	(cond
+	  ((and (eq :inherit (label r))
+		(or (typep (target r) '(disjunction concept))
+		    (anonymous-concept-p (target r))))
+		; FIXME not sure this is constrained enough
+	    (push (listify (target r)) nested))
+	  ((null (assoc label relations))
+	    (push (list label (let ((*print-level* 0)) (listify (target r))))
+	          relations))
+	  (t
+	    (push (let ((*print-level* 0)) (listify (target r)))
+	          (cdr (assoc label relations))))
+	  ))
       `(
 	,(intern (symbol-name (type-of c)))
 	,@(unless (anonymous-concept-p c) (list (name c)))
 	,@(when (aliases c) (list (list 'ld::aliases (aliases c))))
-	,@(mapcar #'listify (remove *current-provenance* (provenance c)))
-	;; TODO collapse relations with the same name
-	,@(mapcar (lambda (r)
-		    (if (and (eq :inherit (label r))
-			     (or (typep (target r) '(disjunction concept))
-				 (anonymous-concept-p (target r))))
-			     ; FIXME not sure this is constrained enough
-		      (listify (target r))
-		      (list (intern (symbol-name (label r)))
-			    (let ((*print-level* 0)) (listify (target r))))
-		      ))
-		  (out c))
-	,@(mapcar (lambda (ex)
-		    (cons 'ld::example (cdr (listify ex))))
-		  (examples c))
+	,@(mapcar #'listify
+	          (reverse (remove *current-provenance* (provenance c))))
 	,@(mapcar (lambda (def)
 		    (cons 'ld::definition (cdr (listify def))))
-		  (definitions c))
+		  (reverse (definitions c)))
+	,@(mapcar (lambda (ex)
+		    (cons 'ld::example (cdr (listify ex))))
+		  (reverse (examples c)))
+	,@relations
+	,@nested
 	))))
 
 (defmethods listify ((f (or sem-frame syn-sem)))
   (let ((parent-list (call-next-method))
         (*current-provenance*
-	  (or (car (last (provenance f))) *current-provenance*)))
+	  (or (car (provenance f)) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list (mapcar #'listify (maps f)))
       parent-list)))
@@ -126,7 +137,7 @@
 (defmethods listify ((f (or sem-feats syn-feats)))
   (let ((parent-list (call-next-method))
         (*current-provenance*
-	  (or (car (last (provenance f))) *current-provenance*)))
+	  (or (car (provenance f)) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list (listify (features f)))
       parent-list)))
@@ -146,7 +157,7 @@
 (defmethod listify ((s semantics))
   (let ((parent-list (call-next-method))
         (*current-provenance*
-	  (or (car (last (provenance s))) *current-provenance*)))
+	  (or (car (provenance s)) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list
               (listify-slots s '(sem-frame sem-feats entailments)))
@@ -165,7 +176,7 @@
 (defmethod listify ((s syntax))
   (let ((parent-list (call-next-method))
         (*current-provenance*
-	  (or (car (last (provenance s))) *current-provenance*)))
+	  (or (car (provenance s)) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list (listify-slots s '(syn-sem syn-feats)))
       parent-list)))
@@ -189,7 +200,7 @@
 (defmethod listify ((s sense))
   (let ((parent-list (call-next-method))
         (*current-provenance*
-	  (or (car (last (provenance s))) *current-provenance*)))
+	  (or (car (provenance s)) *current-provenance*)))
     (if (listp parent-list)
       `(,(car parent-list)
         ,@(when (symbolp (second parent-list)) (list (second parent-list)))
