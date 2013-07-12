@@ -1,7 +1,6 @@
 ;;;; print.lisp - methods for printing lexicon data
 
 ;;;; TODO
-;;;; - track lexical context vars and e.g. avoid reprinting the same provenance over and over
 ;;;; - combine relations with the same name
 ;;;; - standardize order of slots/relations
 ;;;; - separate implicit inheritance from explicit
@@ -51,7 +50,12 @@
    than wrapping another list around it. Also do this if it's a disjunction of
    such forms."
   (mapcan (lambda (slot-name)
-	    (when (and (slot-boundp o slot-name) (slot-value o slot-name))
+	    (when (and (slot-boundp o slot-name) (slot-value o slot-name)
+	               (not (and (eq 'provenance slot-name)
+		                 (eq *current-provenance*
+				     (slot-value o slot-name))
+				 ))
+		       )
 	      (list
 		(let* ((*print-level* 0)
 		       (value-list (listify (slot-value o slot-name)))
@@ -71,6 +75,14 @@
 (defmethod listify ((o standard-object))
   (cons (intern (symbol-name (type-of o))) (listify-slots o)))
 
+(defmethod listify ((p provenance))
+  (setf *current-provenance* p)
+  (call-next-method))
+
+(defmethods listify ((x (or input-text relation)))
+  (let ((*current-provenance* *current-provenance*))
+    (call-next-method)))
+
 ;; General concept listification. When *print-level* is 0, this just gets the
 ;; name of the concept, otherwise it gets the name followed by slots common to
 ;; all concepts. Subclasses of concept override this by appending to
@@ -78,38 +90,43 @@
 (defmethod listify ((c concept))
   (if (and *print-level* (= 0 *print-level*) (not (anonymous-concept-p c)))
     (name c)
-    `(
-      ,(intern (symbol-name (type-of c)))
-      ,@(unless (anonymous-concept-p c) (list (name c)))
-      ,@(when (aliases c) (list (list 'ld::aliases (aliases c))))
-      ,@(mapcar #'listify (provenance c))
-      ;; TODO collapse relations with the same name
-      ,@(mapcar (lambda (r)
-                  (if (and (eq :inherit (label r))
-		           (or (typep (target r) '(disjunction concept))
-			       (anonymous-concept-p (target r))))
-		           ; FIXME not sure this is constrained enough
-		    (listify (target r))
-		    (list (intern (symbol-name (label r)))
-			  (let ((*print-level* 0)) (listify (target r))))
-		    ))
-		(out c))
-      ,@(mapcar (lambda (ex)
-                  (cons 'ld::example (cdr (listify ex))))
-                (examples c))
-      ,@(mapcar (lambda (def)
-                  (cons 'ld::definition (cdr (listify def))))
-                (definitions c))
-      )))
+    (let ((*current-provenance* *current-provenance*))
+      `(
+	,(intern (symbol-name (type-of c)))
+	,@(unless (anonymous-concept-p c) (list (name c)))
+	,@(when (aliases c) (list (list 'ld::aliases (aliases c))))
+	,@(mapcar #'listify (remove *current-provenance* (provenance c)))
+	;; TODO collapse relations with the same name
+	,@(mapcar (lambda (r)
+		    (if (and (eq :inherit (label r))
+			     (or (typep (target r) '(disjunction concept))
+				 (anonymous-concept-p (target r))))
+			     ; FIXME not sure this is constrained enough
+		      (listify (target r))
+		      (list (intern (symbol-name (label r)))
+			    (let ((*print-level* 0)) (listify (target r))))
+		      ))
+		  (out c))
+	,@(mapcar (lambda (ex)
+		    (cons 'ld::example (cdr (listify ex))))
+		  (examples c))
+	,@(mapcar (lambda (def)
+		    (cons 'ld::definition (cdr (listify def))))
+		  (definitions c))
+	))))
 
 (defmethods listify ((f (or sem-frame syn-sem)))
-  (let ((parent-list (call-next-method)))
+  (let ((parent-list (call-next-method))
+        (*current-provenance*
+	  (or (car (last (provenance f))) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list (mapcar #'listify (maps f)))
       parent-list)))
 
 (defmethods listify ((f (or sem-feats syn-feats)))
-  (let ((parent-list (call-next-method)))
+  (let ((parent-list (call-next-method))
+        (*current-provenance*
+	  (or (car (last (provenance f))) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list (listify (features f)))
       parent-list)))
@@ -127,7 +144,9 @@
       parent-list)))
 
 (defmethod listify ((s semantics))
-  (let ((parent-list (call-next-method)))
+  (let ((parent-list (call-next-method))
+        (*current-provenance*
+	  (or (car (last (provenance s))) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list
               (listify-slots s '(sem-frame sem-feats entailments)))
@@ -144,7 +163,9 @@
     ))
 
 (defmethod listify ((s syntax))
-  (let ((parent-list (call-next-method)))
+  (let ((parent-list (call-next-method))
+        (*current-provenance*
+	  (or (car (last (provenance s))) *current-provenance*)))
     (if (listp parent-list)
       (append parent-list (listify-slots s '(syn-sem syn-feats)))
       parent-list)))
@@ -166,7 +187,9 @@
   (cons (intern "MORPH") (listify-slots m '(pos))))
 
 (defmethod listify ((s sense))
-  (let ((parent-list (call-next-method)))
+  (let ((parent-list (call-next-method))
+        (*current-provenance*
+	  (or (car (last (provenance s))) *current-provenance*)))
     (if (listp parent-list)
       `(,(car parent-list)
         ,@(when (symbolp (second parent-list)) (list (second parent-list)))
