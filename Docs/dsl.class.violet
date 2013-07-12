@@ -855,7 +855,7 @@ listified and handed to the parser (legacy).</string>
       <string>id : symbol
 words : list&lt;symbol&gt;
 pref : number
-description : cons&lt;pos, list&lt;feature&gt;&gt;
+description : cons&lt;pos, alist&lt;feat, disj&lt;symbol&gt;&gt;&gt;
 boost-word : boolean</string>
      </void>
     </void>
@@ -870,7 +870,7 @@ boost-word : boolean</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double25"/>
-      <double>412.26982212493203</double>
+      <double>399.1885438599021</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -881,7 +881,7 @@ boost-word : boolean</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>412.26982212493203</double>
+     <double>399.1885438599021</double>
      <double>175.10991861527498</double>
     </void>
    </object>
@@ -1162,19 +1162,19 @@ WN pointers...</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double33"/>
-      <double>739.6488996100379</double>
+      <double>750.3517636450623</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double33"/>
-      <double>262.8960506806315</double>
+      <double>264.0852577956342</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>739.6488996100379</double>
-     <double>262.8960506806315</double>
+     <double>750.3517636450623</double>
+     <double>264.0852577956342</double>
     </void>
    </object>
   </void>
