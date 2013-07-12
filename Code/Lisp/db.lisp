@@ -6,6 +6,9 @@
   "Get the named concept if it exists and extend it to the given subtype of
    concept if necessary, or create a new concept of that type with the given
    provenance if it doesn't yet exist."
+  ;; TODO add aliases to (concepts *db*) too; merge concepts when alias already
+  ;; exists as an independent concept... also need to update relations and
+  ;; their opposite sides
   (let ((c (gethash name (concepts *db*))))
     (cond
       ((null c)
