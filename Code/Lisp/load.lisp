@@ -335,21 +335,25 @@
 (defmacro ld::word (word-spec &body body)
   `(let ((*current-word* (make-word-from-spec ',word-spec)))
     ,@body
-    (when *current-morph*
+    (when (and *current-morph* (not (maps *current-morph*)))
       (add-morph-maps-for-word *current-morph* *current-word*))
     *current-word*))
 
 (defmacro ld::morph (&body body)
-  `(,@(non-concept-class 'morph body) ; should be a progn
-    (when *current-word*
-      (add-morph-maps-for-word *current-morph* *current-word*))
-    *current-morph*))
+  (non-concept-class 'morph body))
 
 (defmacro ld::sense (&body body)
-  `(,@(optionally-named-concept-subtype 'sense body)
-    (when (and *current-morph* (not (slot-boundp (current-concept) 'morph)))
-      (setf (morph (current-concept)) *current-morph*))
-    (current-concept)))
+  `(let ((s ,(optionally-named-concept-subtype 'sense body)))
+    ;; add the current morph if the sense doesn't already have one
+    (when (and *current-morph* (not (slot-boundp s 'morph)))
+      (setf (morph s) *current-morph*))
+    ;; if the sense now has a morph, add it to (senses *db*)
+    (when (slot-boundp s 'morph)
+      ;; add the current word to the morph if it doesn't already have maps
+      (unless (maps *current-morph*)
+        (add-morph-maps-for-word *current-morph* *current-word*))
+      (add-morphed-sense-to-db *db* s))
+    s))
 
 ;;; relation macros
 

@@ -161,18 +161,20 @@
 	    `(word ,first-word))
 	  ))))
 
-#|
 (defmethod listify ((m morph))
-  TODO
-  )
-|#
+  ;; TODO figure out a good representation for irregularities
+  (cons (intern "MORPH") (listify-slots m '(pos))))
 
 (defmethod listify ((s sense))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
       `(,(car parent-list)
+        ,@(when (symbolp (second parent-list)) (list (second parent-list)))
         ,@(listify-slots s '(morph)) ; put morph at the top, it's important
-	,@(cdr parent-list)
+	,@(if (symbolp (second parent-list))
+	   (cddr parent-list)
+	   (cdr parent-list)
+	   )
         ,@(listify-slots s '(syntax semantics)))
       parent-list)))
 
