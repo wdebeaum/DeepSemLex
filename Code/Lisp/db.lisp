@@ -115,6 +115,67 @@
       (pushnew sense (gethash key (senses db))))
     )))
 
+(defun partition (key-fn l &key (test #'eql))
+  "Given a key function and a list, return a list of pairs (key-val . items),
+   where items are the items in the original list for which the key function
+   returned key-val."
+  (loop with ret = nil
+        for item in l
+	for key-val = (funcall key-fn item)
+	for pair = (or (assoc key-val ret :test test)
+	               (car (push (cons key-val nil) ret)))
+	do (push item (cdr pair))
+	finally (return ret)))
+
+(defmethod dnf ((c concept))
+  (let* ((parents
+           (mapcar #'target
+	           (remove-if-not
+		     (lambda (r)
+		       ;; TODO also :subtype-of?... filter on provenance?
+		       (eq :inherit (label r)))
+		     (out c))))
+         (parent-dnfs (mapcar #'dnf parents)))
+    (cons 'W::OR
+          (mapcar (lambda (x)
+			   ;; get all the parts to be conjoined that are of the
+			   ;; same type
+	            (let* ((conj-by-type
+		             (partition #'type-of
+			                (apply #'append (mapcar #'cdr x))))
+			   ;; merge parts of the same type into a new instance
+			   (merged-conj
+			     (mapcar (lambda (p)
+			               (reduce #'merge-concepts
+					       (cdr p)
+				               :initial-value
+					         (make-instance (car p))
+					       ))
+				     conj-by-type))
+			   )
+		      ;; TODO merge parts of different types where one is part
+		      ;; of another (use concept-part-of-p)
+		      (cons 'W::AND merged-conj)))
+	          (cartesian-product (mapcar #'cdr parent-dnfs))))))
+
+;; TODO generalize this to operate on all concepts by pushing details into merge-concepts, and use concept-part-of-p to merge parts into wholes
+(defmethods dnf ((this (or sem-frame syn-sem)))
+  (let ((this-type (type-of this))
+        (inherited-dnf (call-next-method)))
+    (cons 'W::OR
+        (mapcar
+	    (lambda (conj)
+	      (cons 'W::AND
+		  (mapcar
+		      (lambda (term)
+		        (if (eql this-type (type-of term))
+			  (merge-concepts term this)
+			  term))
+		      (cdr conj)
+		      )))
+	    (cdr inherited-dnf)
+	    ))))
+
 ;;; FIXME merge-concepts seems old and busted, need a better way to do this
 
 (defmethod merge-concepts ((dst role-restr-map) (src role-restr-map))
