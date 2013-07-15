@@ -52,6 +52,7 @@
     "load"
     "print"
     "make-db"
+    "query"
     )
   )
 
