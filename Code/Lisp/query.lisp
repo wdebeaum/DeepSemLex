@@ -71,12 +71,10 @@
        (cond
 	 ((not (eq (symbol-package expr) (find-package :dsl)))
 	   (let ((val (gethash expr (concepts db))))
-	     (cond
-	       ((and val (not (gethash val traversed)))
-		 (setf (gethash val traversed) t)
-		 (values (list val) `(input (,val))))
-	       (t
-		 (values nil '(input)))
+	     (when (and val (not (gethash val traversed)))
+	       (setf (gethash val traversed) t)
+	       (setf output (list val))
+	       (push (list val) (cdr tree))
 	       )))
 	 ((char= #\> (elt (symbol-name expr) 0))
 	   ; TODO relation
