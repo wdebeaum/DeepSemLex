@@ -24,27 +24,30 @@
   "Make a set of resource-version instances and their corresponding packages."
   (unless (listp names)
     (setf names (list names)))
+  (unless versions
+    (setf versions '(nil)))
   `(progn
     ,@(let ((first-version t))
 	(mapcar
 	    (lambda (version-spec)
 	      (destructuring-bind (&key version base-dir get-files-for-symbol) version-spec
-	        (let ((versioned-names (mapcar (lambda (n) (concatenate 'string (string n) "-" (string version))) names)))
+	        (let ((versioned-names (when version (mapcar (lambda (n) (concatenate 'string (string n) "-" (string version))) names))))
 	          (when first-version
 		    (setf versioned-names (append names versioned-names))
 	            (setf first-version nil)
 		    )
-		  `(let ((new-pkg (defpackage ,(car versioned-names)
-		                    (:use)
-				    (:nicknames ,@(cdr versioned-names)))))
-		      (setf (gethash new-pkg *resource-versions*)
-			    (make-instance 'resource-version
-				:pkg new-pkg
-				:version ,version
-				:base-dir ',base-dir
-				:get-files-for-symbol ,get-files-for-symbol
-				)
-			    ))
+		  (when versioned-names
+		    `(let ((new-pkg (defpackage ,(car versioned-names)
+				      (:use)
+				      (:nicknames ,@(cdr versioned-names)))))
+			(setf (gethash new-pkg *resource-versions*)
+			      (make-instance 'resource-version
+				  :pkg new-pkg
+				  :version ,version
+				  :base-dir ',base-dir
+				  :get-files-for-symbol ,get-files-for-symbol
+				  )
+			      )))
 		  )))
 	    versions)))
   )

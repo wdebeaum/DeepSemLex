@@ -118,7 +118,7 @@
       `(
 	,(intern (symbol-name (type-of c)))
 	,@(unless (anonymous-concept-p c) (list (name c)))
-	,@(when (aliases c) (list (list 'ld::aliases (aliases c))))
+	,@(when (aliases c) (list (cons 'ld::aliases (aliases c))))
 	,@provenance
 	,@(mapcar (lambda (def)
 		    (cons 'ld::definition (cdr (listify def))))

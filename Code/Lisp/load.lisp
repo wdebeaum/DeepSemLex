@@ -89,8 +89,11 @@
 	(current-var (intern (concatenate 'string "*CURRENT-" (symbol-name cls) "*") :dsl)))
     `(progn
       (setf ,current-var (make-instance ',cls))
-      (when (and (current-concept) (slot-exists-p (current-concept) ',cls))
-	(setf (slot-value (current-concept) ',cls) ,current-var))
+      ,(if (eq 'provenance cls) ; FIXME ick
+        `(when (current-concept)
+	  (push ,current-var (provenance (current-concept))))
+        `(when (and (current-concept) (slot-exists-p (current-concept) ',cls))
+	  (setf (slot-value (current-concept) ',cls) ,current-var)))
       ,@(operator-cond (operator form body)
 	((member operator slots)
 	  `(setf (slot-value ,current-var ',operator)
@@ -241,6 +244,11 @@
     ))
 
 ;;; constructor/reference macros
+
+(defmacro ld::alias (&rest names)
+  ;; TODO add aliases to (concepts *db*) too; merge concepts... see
+  ;; make-db.lisp:get-or-make-concept
+  `(setf (aliases (current-concept)) (append (aliases (current-concept)) ',names)))
 
 (defmacro ld::provenance (&body body)
   ;; convert initial symbol to `(name ,symbol)
