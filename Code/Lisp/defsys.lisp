@@ -51,7 +51,7 @@
     "classes"
     "load"
     "print"
-    "db"
+    "make-db"
     )
   )
 
