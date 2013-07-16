@@ -12,6 +12,20 @@
 	do (push item (cdr pair))
 	finally (return ret)))
 
+(defun add-step-to-tree (source label target concept-to-node)
+  (when concept-to-node
+    (let* ((source-node (gethash source concept-to-node))
+	   (label-node
+	     (or (assoc label (cdr source-node))
+		 (car (push (list label) (cdr source-node)))))
+	   (target-node
+	     (or (assoc target (cdr label-node) :test #'eq)
+		 (car (push (list target) (cdr label-node)))))
+	   )
+      ; this space intentionally left blank
+      )))
+
+
 ;; TODO rethink this tree thing... maybe make traversed more like WNP's trace
 ;; hash, and reconstruct tree afterwards. Also need to find all paths to the
 ;; output concept, not just one (excluding cycles, which can be done in (count
@@ -20,20 +34,19 @@
 ;; won't work because you might have a path expression that goes deeper through
 ;; the same concept in one place than another.
 ;; I'm not even sure why I have traversed... would only be useful for counts.
-(defun eval-path-expression (expr input &optional (db *db*) (traversed (make-hash-table :test #'eq)))
+(defun eval-path-expression (expr input &key concept-to-node (db *db*))
   "Given a path expression and a list of input concepts (or values in general,
-   but this is mostly intended for concepts), return two values: the list of
-   output concepts reachable from the input concepts via paths matching the
-   expression, and a tree representing the traversal done to find the output
-   concepts. Each tree node is a cons whose car is either a concept or one of
-   the basic step expressions, and whose cdr is the list of children. Reading
-   the cars from the root to a given leaf yields the first path found leading
-   to that leaf, which usually alternates between concepts and steps. The car
-   of the root is always 'input.
+   but this is mostly intended for concepts), return the list of output
+   concepts reachable from the input concepts via paths matching the
+   expression. If a hash table is given in :concept-to-node, it is taken to map
+   the input concepts to nodes in a tree, and the tree is extended by pushing
+   new nodes onto the cdrs of those nodes. Seeds are pushed into the 'input
+   node. The car of a node is either a concept or a basic step expression (or
+   'input).
    
-   Path expressions are similar to those in WordNetPath, but are
-   S-expressions instead of strings, and operate mainly on slots and relations
-   instead of WordNet pointers (though WN pointers can be relations too).
+   Path expressions are similar to those in WordNetPath, but are S-expressions
+   instead of strings, and operate mainly on slots and relations instead of
+   WordNet pointers (though WN pointers can be relations too).
    
    Path expression components:
      Seed:
@@ -65,16 +78,19 @@
        (- exprs...) - difference (the first expr is positive, the rest are
          negative)
    "
-  (let (output (tree (list 'input)))
+  (let (output)
     (cond
      ((symbolp expr)
        (cond
-	 ((not (eq (symbol-package expr) (find-package :dsl)))
-	   (let ((val (gethash expr (concepts db))))
-	     (when (and val (not (gethash val traversed)))
-	       (setf (gethash val traversed) t)
-	       (setf output (list val))
-	       (push (list val) (cdr tree))
+	 ((not (eq (symbol-package expr) (find-package :dsl))) ; seed
+	   (let* ((val (gethash expr (concepts db)))
+		  (val-node (list val)))
+	     (when val
+	       (push val output)
+	       (when concept-to-node
+	         (setf (gethash val concept-to-node) val-node)
+	         (push (cdr (gethash 'input concept-to-node)) val-node)
+		 )
 	       )))
 	 ((char= #\> (elt (symbol-name expr) 0))
 	   ; TODO relation
@@ -84,12 +100,13 @@
 	   )
 	 (t ; slot
 	   (dolist (i input)
-	     (when (and (slot-exists-p i expr) (slot-boundp i expr)
-			(not (gethash (slot-value i expr) traversed)))
-	       (let ((o (slot-value i expr)))
-		 (setf (gethash o traversed) t)
+	     (when (and (slot-exists-p i expr) (slot-boundp i expr))
+	       (let ((o (slot-value i expr))
+		     (o-node (list o)))
 		 (push o output)
-		 (push `(,expr (,o)) (cdr tree))
+		 (when concept-to-node
+		   (setf (gethash o concept-to-node) o-node)
+		   (push 
 		 )))
 	     )
 	 ))
