@@ -11,7 +11,7 @@ Data: Data/OntoNotes Data/VerbNet
 
 Data/OntoNotes: Data/OntoNotes/sense-inventories Data/OntoNotes/frames
 
-Data/OntoNotes/sense-inventories: Code/XSL/ontonotes-inventory-to-dsl.xsl
+Data/OntoNotes/sense-inventories: Code/converters/ontonotes-inventory-to-dsl.xsl
 	mkdir -p $@
 	for f in $(ONTONOTES)/data/english/metadata/sense-inventories/*.xml ; do \
 	cat $$f \
@@ -20,7 +20,7 @@ Data/OntoNotes/sense-inventories: Code/XSL/ontonotes-inventory-to-dsl.xsl
 	      -o:$@/`echo $$f |sed -e 's/.*\///; s/\.xml$$/.lisp/;'` ; \
 	done
 
-Data/OntoNotes/frames: Code/XSL/ontonotes-frameset-to-dsl.xsl
+Data/OntoNotes/frames: Code/converters/ontonotes-frameset-to-dsl.xsl
 	mkdir -p $@
 	for f in $(ONTONOTES)/data/english/metadata/frames/*.xml ; do \
 	  cat $$f \
@@ -34,7 +34,7 @@ Data/OntoNotes/frames: Code/XSL/ontonotes-frameset-to-dsl.xsl
 	      -o:$@/`echo $$f |sed -e 's/.*\///; s/\.xml$$/.lisp/;'` ; \
 	done
 
-Data/VerbNet: Code/XSL/verbnet-to-dsl.xsl
+Data/VerbNet: Code/converters/verbnet-to-dsl.xsl
 	mkdir -p $@
 	for f in $(VERBNET)/*.xml ; do \
 	  $(JAVA) -jar $(SAXON_JAR) -xsl:$< \
