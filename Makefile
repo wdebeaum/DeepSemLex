@@ -4,11 +4,10 @@ include $(CONFIGDIR)/java/defs.mk
 include $(CONFIGDIR)/perl/defs.mk
 include $(CONFIGDIR)/ruby/defs.mk
 include $(CONFIGDIR)/saxon/defs.mk
+include $(CONFIGDIR)/DeepSemLex/defs.mk
 
 export TRIPS_BASE=$(prefix)
 
-ONTONOTES=/p/nl/corpora/ldc/ontonotes-release-3_0
-VERBNET=/u/wdebeaum/dsl/verbnet-3.2
 # TODO detect version numbers and pass as XSL parameters so we can include them in provenance instead of hardcoding them
 
 Data: Data/OntoNotes Data/VerbNet
