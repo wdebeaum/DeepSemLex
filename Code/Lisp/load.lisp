@@ -128,7 +128,7 @@
        ))
 
 (defun trips-sense-name-to-symbol (x)
-  (intern (concatenate 'string (symbol-name (second x)) '*' (symbol-name (third x))) :ont))
+  (intern (concatenate 'string (symbol-name (second x)) "*" (symbol-name (third x))) :ont))
 
 (defun optionally-named-concept-subtype (concept-type name-and-body)
   "Return code to be evaluated to instantiate or add to a concept class with

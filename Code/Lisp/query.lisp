@@ -38,7 +38,7 @@
 
 ;; TODO need to be able to specify predicates on relations as well as concepts,
 ;; or at least specify provenance somehow
-(defun eval-path-expression (expr input &optional (db *db*))
+(defun eval-path-expression (expr &optional input (db *db*))
   "Given a path expression and a list of input concepts (or values in general,
    but this is mostly intended for concepts), return the list of output
    concepts reachable from the input concepts via paths matching the
