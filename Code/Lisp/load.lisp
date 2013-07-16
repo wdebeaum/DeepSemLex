@@ -117,6 +117,19 @@
 	targets)
     ))
 
+(defun trips-sense-name-p (x)
+  (and (listp x)
+       (= 3 (length x))
+       (eq :* (first x))
+       (symbolp (second x))
+       (symbolp (third x))
+       (eq (symbol-package (second x)) (find-package :ont))
+       (eq (symbol-package (third x)) (find-package :w))
+       ))
+
+(defun trips-sense-name-to-symbol (x)
+  (intern (concatenate 'string (symbol-name (second x)) '*' (symbol-name (third x))) :ont))
+
 (defun optionally-named-concept-subtype (concept-type name-and-body)
   "Return code to be evaluated to instantiate or add to a concept class with
    the given body forms (the first of which may be a name). This handles
@@ -125,8 +138,12 @@
    nesting. Callers should handle transforming any body forms that aren't meant
    to be evaluated as-is before calling this function."
   (let (name (body name-and-body))
-    (when (symbolp (car body))
-      (setf name (pop body)))
+    (cond
+      ((symbolp (car body))
+        (setf name (pop body)))
+      ((trips-sense-name-p (car body))
+        (setf name (trips-sense-name-to-symbol (pop body))))
+      )
     `(let* (
 	    ;; bind the lexical context variables so they get reset when we
 	    ;; leave this let
