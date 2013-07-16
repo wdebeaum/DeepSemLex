@@ -250,6 +250,9 @@
   ;; make-db.lisp:get-or-make-concept
   `(setf (aliases (current-concept)) (append (aliases (current-concept)) ',names)))
 
+;; oops, some confusion about the plurality of this slot...
+(defmacro ld::aliases (&rest names) `(ld::alias ,@names))
+
 (defmacro ld::provenance (&body body)
   ;; convert initial symbol to `(name ,symbol)
   (when (symbolp (car body))

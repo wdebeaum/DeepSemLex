@@ -19,7 +19,7 @@
 
 (defmacro add-seed-to-output (seed output)
   `(if (hash-table-p output)
-     (pushnew (list ,seed) (gethash seed ,output) :test #'equalp)
+     (pushnew (list ,seed) (gethash ,seed ,output) :test #'equalp)
      (pushnew ,seed ,output :test #'eq)
      ))
 
@@ -90,8 +90,7 @@
      ((symbolp expr)
        (cond
 	 ((not (eq (symbol-package expr) (find-package :dsl))) ; seed
-	   (let* ((val (gethash expr (concepts db)))
-		  (val-node (list val)))
+	   (let ((val (gethash expr (concepts db))))
 	     (when val
 	       (add-seed-to-output val output)
 	       )))
@@ -116,8 +115,7 @@
 	 (t ; slot
 	   (dolist (i input)
 	     (when (and (slot-exists-p i expr) (slot-boundp i expr))
-	       (let ((o (slot-value i expr))
-		     (o-node (list o)))
+	       (let ((o (slot-value i expr)))
 		 (add-step-to-output input i expr o output)
 		 ))))
 	 ))

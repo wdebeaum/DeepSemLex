@@ -54,17 +54,22 @@
  </xsl:if>
 </xsl:template>
 
-<xsl:template match="MEMBER[@wn != '']">
- <xsl:text> WN::|</xsl:text>
- <xsl:value-of select="replace(replace(@wn, '\?', ''), '\s+', '::| WN::|')" />
- <xsl:text>::|</xsl:text>
-</xsl:template>
-
-<xsl:template match="MEMBER[@grouping != '']">
- <xsl:text> ON::</xsl:text>
- <xsl:value-of select="@name" />
- <xsl:text>.v.</xsl:text>
- <xsl:value-of select="replace(substring-after(@grouping, '.'), '^0', '')" />
+<xsl:template match="MEMBER">
+ <xsl:if test="@wn != ''">
+  <!-- TODO do I need to tokenize here too, or is it just for ON? -->
+  <xsl:text> WN::|</xsl:text>
+  <xsl:value-of select="replace(replace(@wn, '\?', ''), '\s+', '::| WN::|')" />
+  <xsl:text>::|</xsl:text>
+ </xsl:if>
+ <xsl:if test="@grouping != ''">
+  <xsl:variable name="name" select="@name" />
+  <xsl:for-each select="tokenize(@grouping, ' ')">
+   <xsl:text> ON::</xsl:text>
+   <xsl:value-of select="$name" />
+   <xsl:text>.v.</xsl:text>
+   <xsl:value-of select="replace(substring-after(., '.'), '^0', '')" />
+  </xsl:for-each>
+ </xsl:if>
 </xsl:template>
 
 <xsl:template match="THEMROLES[THEMROLE]">
