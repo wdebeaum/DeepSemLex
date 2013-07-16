@@ -12,37 +12,43 @@
 	do (push item (cdr pair))
 	finally (return ret)))
 
-(defun add-step-to-tree (source label target concept-to-node)
-  (when concept-to-node
-    (let* ((source-node (gethash source concept-to-node))
-	   (label-node
-	     (or (assoc label (cdr source-node))
-		 (car (push (list label) (cdr source-node)))))
-	   (target-node
-	     (or (assoc target (cdr label-node) :test #'eq)
-		 (car (push (list target) (cdr label-node)))))
-	   )
-      ; this space intentionally left blank
-      )))
+(defun hash-table-keys (h)
+  (loop for k being the hash-keys of h collect k))
 
+;;; helpers for eval-path-expression
 
-;; TODO rethink this tree thing... maybe make traversed more like WNP's trace
-;; hash, and reconstruct tree afterwards. Also need to find all paths to the
-;; output concept, not just one (excluding cycles, which can be done in (count
-;; m n...) anyway)
-;; Actually, constructing the tree afterwards (and any scheme sharing subtrees)
-;; won't work because you might have a path expression that goes deeper through
-;; the same concept in one place than another.
-;; I'm not even sure why I have traversed... would only be useful for counts.
-(defun eval-path-expression (expr input &key concept-to-node (db *db*))
+(defmacro add-seed-to-output (seed output)
+  `(if (hash-table-p output)
+     (pushnew (list ,seed) (gethash seed ,output) :test #'equalp)
+     (pushnew ,seed ,output :test #'eq)
+     ))
+
+(defmacro add-step-to-output (input source label target output)
+  `(if (hash-table-p ,output)
+     (let ((step-path (list ,target ,label ,source)))
+       (dolist (source-path (gethash ,source ,input))
+	 (pushnew (append step-path source-path) (gethash ,target ,output)
+		  :test #'equalp)))
+     (pushnew ,target ,output :test #'eq)
+     ))
+
+(defun output-empty-p (output)
+  (or (and (hash-table-p output) (> (hash-table-count output) 0))
+      (listp output)))
+
+;; TODO need to be able to specify predicates on relations as well as concepts,
+;; or at least specify provenance somehow
+(defun eval-path-expression (expr input &optional (db *db*))
   "Given a path expression and a list of input concepts (or values in general,
    but this is mostly intended for concepts), return the list of output
    concepts reachable from the input concepts via paths matching the
-   expression. If a hash table is given in :concept-to-node, it is taken to map
-   the input concepts to nodes in a tree, and the tree is extended by pushing
-   new nodes onto the cdrs of those nodes. Seeds are pushed into the 'input
-   node. The car of a node is either a concept or a basic step expression (or
-   'input).
+   expression.
+
+   If the input is a hash table instead of a list, its keys are taken to be the
+   input concepts, and its values are lists of paths back from those concepts
+   to the original input for the whole expression. Paths alternate between
+   concepts and basic steps. Then this function returns a new hash table in the
+   same format for the output concepts.
    
    Path expressions are similar to those in WordNetPath, but are S-expressions
    instead of strings, and operate mainly on slots and relations instead of
@@ -78,79 +84,209 @@
        (- exprs...) - difference (the first expr is positive, the rest are
          negative)
    "
-  (let (output)
+  (let ((output (when (hash-table-p input) (make-hash-table :test #'eq))))
     (cond
+         ;; basic steps
      ((symbolp expr)
        (cond
 	 ((not (eq (symbol-package expr) (find-package :dsl))) ; seed
 	   (let* ((val (gethash expr (concepts db)))
 		  (val-node (list val)))
 	     (when val
-	       (push val output)
-	       (when concept-to-node
-	         (setf (gethash val concept-to-node) val-node)
-	         (push (cdr (gethash 'input concept-to-node)) val-node)
-		 )
+	       (add-seed-to-output val output)
 	       )))
-	 ((char= #\> (elt (symbol-name expr) 0))
-	   ; TODO relation
-	   )
-	 ((char= #\< (elt (symbol-name expr) 0))
-	   ; TODO reverse relation
-	   )
+	 ((char= #\> (elt (symbol-name expr) 0)) ; relation
+	   (let ((label (intern (subseq (symbol-name expr) 1) :keyword))
+		 (input-concepts (if (hash-table-p input)
+				   (hash-table-keys input)
+				   input)))
+	     (dolist (i input-concepts)
+	       (dolist (r (out i)) ; <--
+		 (when (eq label (label r)) ;        vvvvvv
+		   (add-step-to-output input i expr (target r) output))))))
+	 ((char= #\< (elt (symbol-name expr) 0)) ; reverse relation
+	   (let ((label (intern (subseq (symbol-name expr) 1) :keyword))
+		 (input-concepts (if (hash-table-p input)
+				   (hash-table-keys input)
+				   input)))
+	     (dolist (i input-concepts)
+	       (dolist (r (in i)) ; <--
+		 (when (eq label (label r)) ;        vvvvvv
+		   (add-step-to-output input i expr (source r) output))))))
 	 (t ; slot
 	   (dolist (i input)
 	     (when (and (slot-exists-p i expr) (slot-boundp i expr))
 	       (let ((o (slot-value i expr))
 		     (o-node (list o)))
-		 (push o output)
-		 (when concept-to-node
-		   (setf (gethash o concept-to-node) o-node)
-		   (push 
-		 )))
-	     )
+		 (add-step-to-output input i expr o output)
+		 ))))
 	 ))
      ((functionp expr)
-       ; TODO
-       )
+       (let ((input-concepts (if (hash-table-p input)
+			       (hash-table-keys input)
+			       input)))
+	 (dolist (i input-concepts)
+	   (let ((ret (funcall expr i)))
+	     (dolist (o (if (listp ret) ret (list ret)))
+	       (add-step-to-output input i expr o output))))))
      ((listp expr)
        (ecase (car expr)
-         ;; basic steps
          (lambda
-	   ; TODO
-	   )
+	   ;; just like functionp, except we have to eval it first
+	   ;; the step label is still expr, though
+	   (let ((fn (eval expr))
+		 (input-concepts (if (hash-table-p input)
+				   (hash-table-keys input)
+				   input)))
+	     (dolist (i input-concepts)
+	       (let ((ret (funcall fn i)))
+		 (dolist (o (if (listp ret) ret (list ret)))
+		   (add-step-to-output input i expr o output))))))
 	 ;; sequencing and repetition
-	 (1 (eval-path-expression `(count 1 1 ,@(cdr expr)) input db traversed))
-	 (? (eval-path-expression `(count 0 1 ,@(cdr expr)) input db traversed))
-	 (+ (eval-path-expression `(count 1 nil ,@(cdr expr)) input db traversed))
-	 (* (eval-path-expression `(count 0 nil ,@(cdr expr)) input db traversed))
+	 (1
+	   (loop with prev = input
+		 for empty-p = (output-empty-p prev)
+		 for subexpr in (cdr expr)
+		 while empty-p
+		 do (setf prev (eval-path-expression subexpr prev db))
+		 finally (when empty-p (setf output prev))
+		 ))
+	 (? (eval-path-expression `(count 0 1 ,@(cdr expr)) input db))
+	 (+ (eval-path-expression `(count 1 nil ,@(cdr expr)) input db))
+	 (* (eval-path-expression `(count 0 nil ,@(cdr expr)) input db))
 	 (count
-	   (let ((intermediate input))
-	     ; TODO
-	     ))
-	 ;; predicates (note that these use a fresh traversed hash)
+	   (destructuring-bind (_ min-count max-count &rest subexprs) expr
+	     (let ((prev input) next (once-expr `(1 ,@subexprs)))
+	       (loop for c from 1 upto min-count
+		     do
+		       (setf prev next)
+		       (setf next
+			     (eval-path-expression once-expr prev db))
+		       (when (output-empty-p next)
+			 (loop-finish))
+		     )
+	       (unless (output-empty-p next)
+		 (if max-count
+		   (loop for c from min-count upto max-count
+			 do
+			   (setf prev next)
+			   (setf next
+				 (eval-path-expression once-expr prev db))
+			   (when (output-empty-p next)
+			     (setf next prev)
+			     (loop-finish))
+			 finally (setf output next)
+			 )
+		   (loop for c from min-count
+			 do
+			   (setf prev next)
+			   (setf next
+				 (eval-path-expression once-expr prev db))
+			   (when (output-empty-p next)
+			     (setf next prev)
+			     (loop-finish))
+			 finally (setf output next)
+			 )
+		   ))
+	       )))
+	 ;; predicates
 	 (when
-	   (when (eval-path-expression `(count 1 1 ,@(cdr expr)) input db)
+	   (unless (output-empty-p (eval-path-expression
+				       `(1 ,@(cdr expr)) input db))
 	     (setf output input)))
 	 (unless
-	   (unless (eval-path-expression `(count 1 1 ,@(cdr expr)) input db)
+	   (when (output-empty-p (eval-path-expression
+				     `(1 ,@(cdr expr)) input db))
 	     (setf output input)))
 	 ;; set operations
-	 (&
-	   ; TODO
-	   )
-	 (/
-	   ; TODO
-	   )
-	 (-
-	   ; TODO
-	   )
+	 (& ; intersection
+	   ;; TODO might be possible to avoid evaluating later subexpressions
+	   ;; if we already know the whole expression yields no concepts
+	   (let ((se-outputs
+		   (mapcar
+		       (lambda (subexpr)
+			 (eval-path-expression subexpr input db))
+		       (cdr expr))))
+	     (if (hash-table-p output)
+	       (setf output 
+		 (reduce
+		     (lambda (output-so-far next-output)
+		       (maphash
+			   (lambda (concept paths)
+			       (declare (ignore paths))
+			     (unless (gethash concept next-output)
+			       (remhash concept output-so-far)))
+			   output-so-far)
+		       output-so-far)
+		     se-outputs))
+	       ; else, lists
+	       (setf output
+		     (reduce
+			 (lambda (a b) (intersection a b :test #'eq))
+			 se-outputs
+			 ))
+	       )))
+	 (/ ; union
+	   (let ((se-outputs
+		   (mapcar
+		       (lambda (subexpr)
+			 (eval-path-expression subexpr input db))
+		       (cdr expr))))
+	     (if (hash-table-p output)
+	       (setf output
+		 (reduce
+		     (lambda (output-so-far next-output)
+		       (maphash
+			   (lambda (concept paths)
+			     (setf (gethash concept output-so-far)
+				   (union (gethash concept output-so-far)
+					  (gethash concept next-output)
+					  :test #'equalp)
+				   ))
+			   output-so-far)
+		       output-so-far)
+		     se-outputs))
+	       ; else, lists
+	       (setf output
+		     (reduce
+		         (lambda (a b) (union a b :test #'eq))
+			 se-outputs
+			 ))
+	       )))
+	 (- ; difference
+	   ;; TODO same issue as intersection
+	   (let ((se-outputs
+		   (mapcar
+		       (lambda (subexpr)
+			 (eval-path-expression subexpr input db))
+		       (cdr expr))))
+	     (if (hash-table-p output)
+	       (setf output
+		 (reduce
+		     (lambda (output-so-far next-output)
+		       (maphash
+			   (lambda (concept paths)
+			       (declare (ignore paths))
+			     (when (gethash concept next-output)
+			       (remhash concept output-so-far)))
+			   output-so-far)
+		       output-so-far)
+		     (cdr se-outputs)
+		     :initial-value (car se-outputs)
+		     ))
+	       ; else, lists
+	       (setf output
+		     (reduce
+		         (lambda (a b) (set-difference a b :test #'eq))
+			 (cdr se-outputs)
+			 :initial-value (car se-outputs)
+			 ))
+	       )))
 	 ))
      (t
        (error "expected symbol, function, or list as path expression, but got: ~s" expr))
      )
-     (values output tree)
-     ))
+   output))
 
 
 #| probably still too general
