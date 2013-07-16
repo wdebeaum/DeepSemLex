@@ -1,7 +1,11 @@
 CONFIGDIR=../config
+include $(CONFIGDIR)/defs.mk
 include $(CONFIGDIR)/java/defs.mk
 include $(CONFIGDIR)/perl/defs.mk
+include $(CONFIGDIR)/ruby/defs.mk
 include $(CONFIGDIR)/saxon/defs.mk
+
+export TRIPS_BASE=$(prefix)
 
 ONTONOTES=/p/nl/corpora/ldc/ontonotes-release-3_0
 VERBNET=/u/wdebeaum/dsl/verbnet-3.2
@@ -40,4 +44,8 @@ Data/VerbNet: Code/converters/verbnet-to-dsl.xsl
 	  $(JAVA) -jar $(SAXON_JAR) -xsl:$< \
 	    -s:$$f -o:$@/`echo $$f |sed -e 's/.*\///; s/\.xml$$/.lisp/;'` ; \
 	done
+
+Data/WordNet: Code/converters/wnsql-to-dsl.rb
+	mkdir -p $@
+	cd $@ ; $(RUBY) ../../$<
 
