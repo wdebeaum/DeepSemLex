@@ -1,6 +1,6 @@
-SUBDIRS=code data
+SUBDIRS=lib converters
 
-all install clean:
+all test install clean:
 	@for d in $(SUBDIRS); do \
 	  if test -d $$d; then \
 	    (cd $$d; $(MAKE) $@) || exit 1; \
