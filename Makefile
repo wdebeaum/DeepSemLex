@@ -10,11 +10,11 @@ export TRIPS_BASE=$(prefix)
 
 # TODO detect version numbers and pass as XSL parameters so we can include them in provenance instead of hardcoding them
 
-Data: Data/OntoNotes Data/VerbNet
+data: data/OntoNotes data/VerbNet
 
-Data/OntoNotes: Data/OntoNotes/sense-inventories Data/OntoNotes/frames
+data/OntoNotes: data/OntoNotes/sense-inventories data/OntoNotes/frames
 
-Data/OntoNotes/sense-inventories: Code/converters/ontonotes-inventory-to-dsl.xsl
+data/OntoNotes/sense-inventories: Code/converters/ontonotes-inventory-to-dsl.xsl
 	mkdir -p $@
 	for f in $(ONTONOTES)/data/english/metadata/sense-inventories/*.xml ; do \
 	cat $$f \
@@ -23,7 +23,7 @@ Data/OntoNotes/sense-inventories: Code/converters/ontonotes-inventory-to-dsl.xsl
 	      -o:$@/`echo $$f |sed -e 's/.*\///; s/\.xml$$/.lisp/;'` ; \
 	done
 
-Data/OntoNotes/frames: Code/converters/ontonotes-frameset-to-dsl.xsl
+data/OntoNotes/frames: Code/converters/ontonotes-frameset-to-dsl.xsl
 	mkdir -p $@
 	for f in $(ONTONOTES)/data/english/metadata/frames/*.xml ; do \
 	  cat $$f \
@@ -37,14 +37,14 @@ Data/OntoNotes/frames: Code/converters/ontonotes-frameset-to-dsl.xsl
 	      -o:$@/`echo $$f |sed -e 's/.*\///; s/\.xml$$/.lisp/;'` ; \
 	done
 
-Data/VerbNet: Code/converters/verbnet-to-dsl.xsl
+data/VerbNet: Code/converters/verbnet-to-dsl.xsl
 	mkdir -p $@
 	for f in $(VERBNET)/*.xml ; do \
 	  $(JAVA) -jar $(SAXON_JAR) -xsl:$< \
 	    -s:$$f -o:$@/`echo $$f |sed -e 's/.*\///; s/\.xml$$/.lisp/;'` ; \
 	done
 
-Data/WordNet: Code/converters/wnsql-to-dsl.rb
+data/WordNet: Code/converters/wnsql-to-dsl.rb
 	mkdir -p $@
 	cd $@ ; $(RUBY) ../../$<
 

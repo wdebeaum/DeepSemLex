@@ -75,7 +75,7 @@
 
 (defresource (WN WordNet)
   ;; the latest downloadable version
-  ( :version "3.0" #|| :base-dir (:relative :up :up "Data" "WordNet")
+  ( :version "3.0" #|| :base-dir (:relative :up :up "data" "WordNet")
     :get-files-for-symbol (lambda (rv sym)
       ;; TODO
       ) ||#
@@ -92,7 +92,7 @@
   )
 
 (defresource (VN VerbNet)
-  ( :version "3.2" :base-dir (:relative :up :up "Data" "VerbNet")
+  ( :version "3.2" :base-dir (:relative :up :up "data" "VerbNet")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
 	     (probed (probe-file (make-pathname :directory (base-dir rv)
@@ -127,7 +127,7 @@
     ))
 
 (defresource (PB PropBank)
-  ( :base-dir (:relative :up :up "Data" "OntoNotes" "frames")
+  ( :base-dir (:relative :up :up "data" "OntoNotes" "frames")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (dot-pos (or (position #\. name) 0))
@@ -140,7 +140,7 @@
 
 (defresource (ON OntoNotes)
   ( :version "3.0"
-    :base-dir (:relative :up :up "Data" "OntoNotes" "sense-inventories")
+    :base-dir (:relative :up :up "data" "OntoNotes" "sense-inventories")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (first-dot-pos (or (position #\. name) 0))
