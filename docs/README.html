@@ -6,7 +6,19 @@
 <body>
 <h1>Deep Semantic Lexicon</h1>
 
-<h2>Directory structure</h2>
+<h2>Introduction</h2>
+<p>Goals:
+<ul>
+ <li>Replace existing TRIPS LexiconManager/OntologyManager.
+ <li>Use data files that are easy for TRIPS-outsiders to access and use.
+ <li>Integrate external resources (WordNet, VerbNet, PropBank...).
+ <li>Support multiple inheritance of concepts.
+ <li>Support inheritance among syntactic frames/templates.
+ <li>Support definition of concepts in terms of their entailments, with a few semantic primitives.
+</ul>
+</p>
+
+<h2>Directory Structure</h2>
 <ul>
  <li>code
   <ul>
@@ -18,11 +30,44 @@
   <ul>
    <li>FrameNet
    <li>OntoNotes
+    <ul>
+     <li>sense-inventories
+    </ul>
+   <li>PropBank
+    <ul>
+     <li>frames
+    </ul>
    <li>SemLink
    <li>WordNet
    <li>VerbNet
   </ul>
 </ul>
+
+<h2>Model</h2>
+
+<p>See dsl.class.violet.</p>
+
+<h2>Lisp Data Format</h2>
+
+<p>In general, the operators correspond to the classes they're meant to instantiate, and/or the slots they're meant to fill in the enclosing class instance. Nested instantiations can have one of two meanings. If the inner class is part of the outer one, it is taken to define that part of the outer class (e.g. in (sense (sem-frame ...)), the sem-frame is part of the sense). If the outer class is part of or the same as the inner one, the inner instance gets the properties of the outer one (e.g. in (word foo (morph ...)), the morph gets "foo" as the base form). This happens via an inheritance relation if they're both concepts. It's also possible to inherit concepts by name rather than nesting, in the same way as other relations are formed.</p>
+
+<h2>Lisp Library</h2>
+
+<h3>Loading Data</h3>
+<h4>For a specific concept</h4>
+<p><code>(require-concept 'VN::mix-22.1-1)</code></p>
+<p>Note that this will only load what VerbNet knows about mix-22.1-1, not what other resources like SemLink know about it.</p>
+<h4>From a specific file</h4>
+<code>(load-dsl-file "../../data/VerbNet/mix-22.1.lisp")</code>
+
+<h3>Querying the loaded data</h3>
+<h4>Look up a single concept</h4>
+<code>(gethash 'VN::mix-22.1-1 (concepts *db*))</code>
+<h4>Look up senses of a word</h4>
+<p><code>(gethash '(W::mix) (senses *db*))</code></p>
+<p>Note that multiword expressions and particle verbs are indexed by their first word/non-particle part as well as by the full expression. So when looking up e.g. "mix", you might also get senses of "mix up", "mix together", "mix tape", etc. Inflected forms are also indexed, so you can look up "mixes", "mixing", or "mixed" and still get senses of "mix".</p>
+<h4>Look up concepts reachable via a path through slots and relations</h4>
+<code>(eval-path-expression '(1 VN::mix-22.1-1 &gt;inherit))</code>
 
 </body>
 </html>
