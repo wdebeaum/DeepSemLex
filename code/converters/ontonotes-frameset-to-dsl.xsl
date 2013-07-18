@@ -47,6 +47,7 @@
  <if test="@vncls and @vncls != '-'">
   <call-template name="nl-indent" />
   <text>  (overlap VN::_</text>
+  <!-- FIXME need to tokenize on space e.g. for absolve -->
   <value-of select="@vncls" /> <!-- this is only the numeric part -->
   <text>)</text>
  </if>

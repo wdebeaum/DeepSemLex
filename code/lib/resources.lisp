@@ -72,6 +72,13 @@
  "A hash whose keys are the names of concepts we've already loaded from
   resources.")
 
+(defun require-dsl-file (file)
+  "Ensure that the given file is loaded."
+  (unless (gethash file *loaded-resource-files*)
+    (load-dsl-file file)
+    (setf (gethash file *loaded-resource-files*) t)
+    ))
+
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
    resource of the name symbol's package."
@@ -80,15 +87,21 @@
       (when (and rv (get-files-for-symbol rv))
         (let ((files (funcall (get-files-for-symbol rv) rv name)))
 	  (dolist (file files)
-	    (unless (gethash file *loaded-resource-files*)
-	      (load-dsl-file file)
-	      (setf (gethash file *loaded-resource-files*) t)
-	      )))))
+	    (require-dsl-file file)))))
     (setf (gethash name *loaded-concept-names*) t)
     ))
 
-(defun load-all-resource-files ()
-  "Load all files from all resource versions with files to load."
+(defun require-resource-version (pkg-name)
+  "Ensure that all files from the resource version identified by the package
+   name are loaded."
+  (let* ((pkg (find-package pkg-name))
+         (rv (gethash pkg *resource-versions*)))
+    (dolist (f (funcall (get-all-files rv) rv))
+      (require-dsl-file f))))
+
+(defun require-all-resource-files ()
+  "Ensure that all files from all resource versions with files to load are
+   loaded."
   (maphash
       (lambda (pkg rv)
         (dolist (f (funcall (get-all-files rv) rv))
