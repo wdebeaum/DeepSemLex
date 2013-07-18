@@ -75,6 +75,7 @@
 
 (defresource (WN WordNet)
   ;; the latest downloadable version
+  ;; FIXME can actually download just the database files for 3.1
   ( :version "3.0" #|| :base-dir (:relative :up :up "data" "WordNet")
     :get-files-for-symbol (lambda (rv sym)
       ;; TODO
@@ -108,8 +109,6 @@
 		   ; between second-dash-pos and the end of the string is the
 		   ; child ID, which we don't need
 		   )
-	      (unless (string= "" english-name)
-	        (warn "wrong english name for VerbNet class ~a" name))
 	      ;; get $base-dir/*-$numeric-name.lisp
 	      (remove-if-not
 	        (lambda (pn)
@@ -127,7 +126,7 @@
     ))
 
 (defresource (PB PropBank)
-  ( :base-dir (:relative :up :up "data" "OntoNotes" "frames")
+  ( :base-dir (:relative :up :up "data" "PropBank" "frames")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (dot-pos (or (position #\. name) 0))

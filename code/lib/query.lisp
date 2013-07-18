@@ -33,8 +33,21 @@
      ))
 
 (defun output-empty-p (output)
-  (or (and (hash-table-p output) (> (hash-table-count output) 0))
-      (listp output)))
+  (or (null output)
+      (and (hash-table-p output) (= (hash-table-count output) 0))
+      ))
+
+(defmacro eval-relation-step (expr input direction label result output)
+  `(let ((input-concepts (if (hash-table-p ,input)
+			   (hash-table-keys ,input)
+			   ,input)))
+    (dolist (i input-concepts)
+      (dolist (r (,direction i))
+       (when (eq label (label r))
+	 (add-step-to-output ,input i ,expr (,result r) ,output))))))
+
+(defun xor (a b)
+  (not (eq (not a) (not b))))
 
 ;; TODO need to be able to specify predicates on relations as well as concepts,
 ;; or at least specify provenance somehow
@@ -58,8 +71,10 @@
      Seed:
        resource::concept-name
      Basic steps:
-       >relation-label
-       <reverse-relation-label
+       >label - follow relations with this label forwards, getting targets
+       <label - backwards
+       ->label - forwards, getting the relations themselves
+       <-label - backwards, getting relations
        slot-name
        #'function-name
        (lambda (concept) lisp code...) - call the function and use the returned
@@ -70,8 +85,8 @@
        (? exprs...) - zero or one times
        (+ exprs...) - one or more times
        (* exprs...) - any number of times
-       (count m n exprs...) - between m and n times, inclusive
-       (count m nil exprs...) - at least m times
+       (repeat m n exprs...) - between m and n times, inclusive
+       (repeat m nil exprs...) - at least m times
      Predicates:
        (when exprs...) - keep those input concepts for which anything is
          reachable via the sequence of exprs
@@ -88,37 +103,33 @@
     (cond
          ;; basic steps
      ((symbolp expr)
-       (cond
-	 ((not (eq (symbol-package expr) (find-package :dsl))) ; seed
-	   (let ((val (gethash expr (concepts db))))
-	     (when val
-	       (add-seed-to-output val output)
-	       )))
-	 ((char= #\> (elt (symbol-name expr) 0)) ; relation
-	   (let ((label (intern (subseq (symbol-name expr) 1) :keyword))
-		 (input-concepts (if (hash-table-p input)
-				   (hash-table-keys input)
-				   input)))
-	     (dolist (i input-concepts)
-	       (dolist (r (out i)) ; <--
-		 (when (eq label (label r)) ;        vvvvvv
-		   (add-step-to-output input i expr (target r) output))))))
-	 ((char= #\< (elt (symbol-name expr) 0)) ; reverse relation
-	   (let ((label (intern (subseq (symbol-name expr) 1) :keyword))
-		 (input-concepts (if (hash-table-p input)
-				   (hash-table-keys input)
-				   input)))
-	     (dolist (i input-concepts)
-	       (dolist (r (in i)) ; <--
-		 (when (eq label (label r)) ;        vvvvvv
-		   (add-step-to-output input i expr (source r) output))))))
-	 (t ; slot
-	   (dolist (i input)
-	     (when (and (slot-exists-p i expr) (slot-boundp i expr))
-	       (let ((o (slot-value i expr)))
-		 (add-step-to-output input i expr o output)
-		 ))))
-	 ))
+       (let ((name (symbol-name expr)))
+	 (cond
+	   ((not (eq (symbol-package expr) (find-package :dsl))) ; seed
+	     (let ((val (gethash expr (concepts db))))
+	       (when val
+		 (add-seed-to-output val output)
+		 )))
+	   ;; relations
+	   ((string= "->" (subseq name 0 2))
+	     (let ((label (intern (subseq name 2) :keyword)))
+	       (eval-relation-step expr input out label identity output)))
+	   ((string= "<-" (subseq name 0 2))
+	     (let ((label (intern (subseq name 2) :keyword)))
+	       (eval-relation-step expr input in label identity output)))
+	   ((char= #\> (elt name 0))
+	     (let ((label (intern (subseq name 1) :keyword)))
+	       (eval-relation-step expr input out label target output)))
+	   ((char= #\< (elt name 0))
+	     (let ((label (intern (subseq name 1) :keyword)))
+	       (eval-relation-step expr input in label source output)))
+	   (t ; slot
+	     (dolist (i input)
+	       (when (and (slot-exists-p i expr) (slot-boundp i expr))
+		 (let ((o (slot-value i expr)))
+		   (add-step-to-output input i expr o output)
+		   ))))
+	   )))
      ((functionp expr)
        (let ((input-concepts (if (hash-table-p input)
 			       (hash-table-keys input)
@@ -128,7 +139,7 @@
 	     (dolist (o (if (listp ret) ret (list ret)))
 	       (add-step-to-output input i expr o output))))))
      ((listp expr)
-       (ecase (car expr)
+       (case (car expr)
          (lambda
 	   ;; just like functionp, except we have to eval it first
 	   ;; the step label is still expr, though
@@ -143,16 +154,16 @@
 	 ;; sequencing and repetition
 	 (1
 	   (loop with prev = input
-		 for empty-p = (output-empty-p prev)
+	         with empty-p = nil
 		 for subexpr in (cdr expr)
-		 while empty-p
 		 do (setf prev (eval-path-expression subexpr prev db))
-		 finally (when empty-p (setf output prev))
+		 until (setf empty-p (output-empty-p prev))
+		 finally (unless empty-p (setf output prev))
 		 ))
-	 (? (eval-path-expression `(count 0 1 ,@(cdr expr)) input db))
-	 (+ (eval-path-expression `(count 1 nil ,@(cdr expr)) input db))
-	 (* (eval-path-expression `(count 0 nil ,@(cdr expr)) input db))
-	 (count
+	 (? (eval-path-expression `(repeat 0 1 ,@(cdr expr)) input db))
+	 (+ (eval-path-expression `(repeat 1 nil ,@(cdr expr)) input db))
+	 (* (eval-path-expression `(repeat 0 nil ,@(cdr expr)) input db))
+	 (repeat
 	   (destructuring-bind (_ min-count max-count &rest subexprs) expr
 	     (let ((prev input) next (once-expr `(1 ,@subexprs)))
 	       (loop for c from 1 upto min-count
@@ -188,14 +199,24 @@
 		   ))
 	       )))
 	 ;; predicates
-	 (when
-	   (unless (output-empty-p (eval-path-expression
-				       `(1 ,@(cdr expr)) input db))
-	     (setf output input)))
-	 (unless
-	   (when (output-empty-p (eval-path-expression
-				     `(1 ,@(cdr expr)) input db))
-	     (setf output input)))
+	 ((when unless)
+	   (let ((unless-p (eq 'unless (car expr)))
+	         (rest-expr `(1 ,@(cdr expr))))
+	     (if (hash-table-p input)
+	       (maphash
+		   (lambda (concept paths)
+		     (when (xor unless-p
+		                (eval-path-expression
+				    rest-expr (list concept) db))
+		       (setf (gethash concept output) paths)))
+		   input)
+	       (setf output
+		 (remove-if-not
+		     (lambda (concept)
+		       (xor unless-p
+			    (eval-path-expression rest-expr (list concept) db)))
+		     input))
+	       )))
 	 ;; set operations
 	 (& ; intersection
 	   ;; TODO might be possible to avoid evaluating later subexpressions
@@ -280,6 +301,8 @@
 			 :initial-value (car se-outputs)
 			 ))
 	       )))
+	 (otherwise; treat unknown operators as just the beginning of a sequence
+	   (setf output (eval-path-expression (cons 1 expr) input db)))
 	 ))
      (t
        (error "expected symbol, function, or list as path expression, but got: ~s" expr))
