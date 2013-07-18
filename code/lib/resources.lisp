@@ -16,6 +16,16 @@
     of pathnames for existing files that are required for a complete
     definition of the concept the symbol names."
    nil)
+  ((function (resource-version) (list-of pathname))
+   get-all-files
+   "A function that, given this instance, returns a list of pathnames for
+    existing files that are required for a complete definition of all concepts
+    in this resource version."
+   (lambda (rv)
+     (when (base-dir rv)
+       (directory (make-pathname :directory (base-dir rv)
+                                 :name :wild :type "lisp"))))
+   )
   )
 
 (defvar *resource-versions* (make-hash-table :test #'eq) "Hash table from resource version packages to resource-version class instances.")
@@ -30,7 +40,9 @@
     ,@(let ((first-version t))
 	(mapcar
 	    (lambda (version-spec)
-	      (destructuring-bind (&key version base-dir get-files-for-symbol) version-spec
+	      (destructuring-bind (&key version base-dir get-files-for-symbol
+	                           get-all-files)
+	          version-spec
 	        (let ((versioned-names (when version (mapcar (lambda (n) (concatenate 'string (string n) "-" (string version))) names))))
 	          (when first-version
 		    (setf versioned-names (append names versioned-names))
@@ -46,6 +58,8 @@
 				  :version ,version
 				  :base-dir ',base-dir
 				  :get-files-for-symbol ,get-files-for-symbol
+				  ,@(when get-all-files
+				      (list :get-all-files get-all-files))
 				  )
 			      )))
 		  )))
@@ -72,6 +86,14 @@
 	      )))))
     (setf (gethash name *loaded-concept-names*) t)
     ))
+
+(defun load-all-resource-files ()
+  "Load all files from all resource versions with files to load."
+  (maphash
+      (lambda (pkg rv)
+        (dolist (f (funcall (get-all-files rv) rv))
+	  (load-dsl-file f)))
+      *resource-versions*))
 
 (defresource (WN WordNet)
   ;; the latest downloadable version
