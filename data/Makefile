@@ -33,7 +33,7 @@ OntoNotes/sense-inventories/%.lisp: $(ONTONOTES)/data/english/metadata/sense-inv
 	    -xsl:../code/converters/ontonotes-inventory-to-dsl.xsl -s:- -o:$@
 
 PB_WORDS=$(shell ls $(ONTONOTES)/data/english/metadata/frames/*.xml \
-		 |$(PERL) -n -e 'print "$$1\n" if (/\/([^\/\.]+)\.xml$$/);')
+		 |$(PERL) -n -e 'chomp; print "$$1\n" if (/\/([^\/\.]+)\.xml$$/ and -r);')
 
 PropBank/frames/COMPLETE: $(PB_WORDS:%=PropBank/frames/%.lisp)
 	touch $@
