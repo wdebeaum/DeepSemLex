@@ -32,7 +32,7 @@ def write_dsl_for_ss_type(out, ss_type)
       )
 EOP
     }
-    out.puts "  )"
+    out.puts "    )"
     out.puts
   }
 end

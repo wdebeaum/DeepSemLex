@@ -393,6 +393,7 @@
 (defmacro ld::inherit (&body body) (relation :inherit body))
 (defmacro ld::overlap (&body body) (relation :overlap body))
 (defmacro ld::subtype-of (&body body) (relation :subtype-of body))
+(defmacro ld::> (label &body body) (relation label body))
 
 ;;; boolean formula literals
 

@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <stylesheet version="2.0"
   xmlns="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:fn="http://framenet.icsi.berkeley.edu"
+  xmlns:wdb="http://ihmc.us/users/user.php?UserID=wBeaumont"
   >
 
 <!-- framenet-frame-to-dsl.xsl - convert FrameNet frame/*.xml files to DeepSemLex Lisp data files -->
@@ -77,6 +79,12 @@
  <text>)</text>
 </template>
 
+<function name="wdb:subst-for-lisp-symbol" as="xs:string">
+ <param name="str" as="xs:string" />
+ <!-- substitute characters not allowed in Lisp symbols -->
+ <value-of select="replace(replace(replace(replace($str, '\(', '['), '\)', ']'), '''', '^'), '[\s&quot;`,]', '_')" />
+</function>
+
 <template match="fn:frameRelation[@type='Inherits from' and fn:relatedFrame]">
  <call-template name="nl-indent" />
  <text>(subtype-of</text> <!-- I think? -->
@@ -87,16 +95,39 @@
  <text>)</text>
 </template>
 
-<!-- TODO other frameRelations -->
+<!-- other forward relations in FN -->
+<template match="fn:frameRelation[fn:relatedFrame and (
+		   @type='Perspective on' or
+		   @type='Uses' or
+		   @type='Subframe of' or
+		   @type='Precedes' or
+		   @type='Is Inchoative of' or
+		   @type='Is Causative of' or
+		   @type='See also'
+		 )]">
+ <call-template name="nl-indent" />
+ <text>(> FN::</text>
+ <value-of select="wdb:subst-for-lisp-symbol(@type)" />
+ <for-each select="fn:relatedFrame">
+  <text> FN::</text>
+  <value-of select="." />
+ </for-each>
+ <text>)</text>
+</template>
 
 <template match="fn:lexUnit">
+ <variable name="lisp-name" select="wdb:subst-for-lisp-symbol(@name)" />
  <call-template name="nl-indent" />
  <text>(sense FN::</text>
  <value-of select="parent::fn:frame/@name" />
  <text>.</text>
- <value-of select="replace(replace(replace(replace(@name, '\(', '['), '\)', ']'), '''', '^'), '[\s&quot;`,]', '_')" />
+ <value-of select="$lisp-name" />
  <call-template name="nl-indent" />
  <text>  (alias FN::lu</text>
+ <value-of select="@ID" />
+ <text> FN::</text>
+ <value-of select="$lisp-name" />
+ <text>.</text>
  <value-of select="@ID" />
  <text>)</text>
  <call-template name="nl-indent" />
