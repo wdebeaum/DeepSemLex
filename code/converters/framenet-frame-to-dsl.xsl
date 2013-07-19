@@ -134,12 +134,11 @@
  <text>  (morph (pos </text>
  <choose>
   <when test="@POS='A'"><text>ADJ</text></when>
-  <when test="@POS='AVP'"><text>ADV</text></when>
+  <when test="@POS='SCON' or @POS='C'"><text>ADV</text></when>
   <when test="@POS='PRON'"><text>PRO</text></when>
   <when test="@POS='NUM'"><text>NUMBER</text></when>
   <when test="@POS='INTJ'"><text>UTTWORD</text></when>
   <otherwise><value-of select="@POS" /></otherwise>
-  <!-- not sure about C, SCON, CCON -->
  </choose>
  <text>) (word </text>
  <if test="count(fn:lexeme) > 1"><text>(</text></if>
