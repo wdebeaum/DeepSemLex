@@ -81,7 +81,7 @@ FrameNet/%/COMPLETE-XML: FrameNet/%Index.urls
 
 FrameNet/frame/%.lisp: FrameNet/frame/%.xml ../code/converters/framenet-frame-to-dsl.xsl
 	$(JAVA) -jar $(SAXON_JAR) \
-	  -xsl:../code/converters/framenet-frame-to-dsl.xsl -s:$< -o:$@
+	  -xsl:../code/converters/framenet-frame-to-dsl.xsl -s:"$<" -o:"$@"
 
 # keep everything
 .PRECIOUS: FrameNet/LICENSE FrameNet/%Index.xml FrameNet/%Index.urls FrameNet/%/COMPLETE-XML FrameNet/frame/%.lisp

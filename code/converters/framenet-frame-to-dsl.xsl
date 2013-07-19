@@ -21,13 +21,19 @@
  </for-each>
 </template>
 
+<function name="wdb:subst-for-lisp-symbol" as="xs:string">
+ <param name="str" as="xs:string" />
+ <!-- substitute characters not allowed in Lisp symbols -->
+ <value-of select="replace(replace(replace(replace($str, '\(', '['), '\)', ']'), '''', '^'), '[\s&quot;`,]', '_')" />
+</function>
+
 <template match="/fn:frame">
  <text>;;; AUTOMATICALLY GENERATED
 (provenance FrameNet (filename "frame/</text>
  <value-of select="@name" />
  <text>.xml"))
 (sem-frame FN::</text>
- <value-of select="@name" />
+ <value-of select="wdb:subst-for-lisp-symbol(@name)" />
  <text>
   (alias FN::f</text>
  <value-of select="@ID" />
@@ -57,18 +63,18 @@
 <template match="fn:FE">
  <call-template name="nl-indent" />
  <text>(FN::</text>
- <value-of select="@name" />
+ <value-of select="wdb:subst-for-lisp-symbol(@name)" />
  <choose>
   <when test="count(fn:semType) = 0"><text> t</text></when>
   <when test="count(fn:semType) = 1">
    <text> FN::</text>
-   <value-of select="fn:semType/@name" />
+   <value-of select="wdb:subst-for-lisp-symbol(fn:semType/@name)" />
   </when>
   <otherwise>
    <text>(or</text>
    <for-each select="fn:semType">
     <text> FN::</text>
-    <value-of select="@name" />
+    <value-of select="wdb:subst-for-lisp-symbol(@name)" />
    </for-each>
    <text>)</text>
   </otherwise>
@@ -78,12 +84,6 @@
  </if>
  <text>)</text>
 </template>
-
-<function name="wdb:subst-for-lisp-symbol" as="xs:string">
- <param name="str" as="xs:string" />
- <!-- substitute characters not allowed in Lisp symbols -->
- <value-of select="replace(replace(replace(replace($str, '\(', '['), '\)', ']'), '''', '^'), '[\s&quot;`,]', '_')" />
-</function>
 
 <template match="fn:frameRelation[@type='Inherits from' and fn:relatedFrame]">
  <call-template name="nl-indent" />
@@ -119,7 +119,7 @@
  <variable name="lisp-name" select="wdb:subst-for-lisp-symbol(@name)" />
  <call-template name="nl-indent" />
  <text>(sense FN::</text>
- <value-of select="parent::fn:frame/@name" />
+ <value-of select="wdb:subst-for-lisp-symbol(parent::fn:frame/@name)" />
  <text>.</text>
  <value-of select="$lisp-name" />
  <call-template name="nl-indent" />
@@ -146,7 +146,7 @@
  <for-each select="fn:lexeme">
   <if test="position() gt 1 and @breakBefore='false'"><text> </text></if>
   <if test="@breakBefore='true'"><text>(</text></if> <!-- hopefully 0 or 1 -->
-  <value-of select="@name" />
+  <value-of select="wdb:subst-for-lisp-symbol(@name)" />
  </for-each>
  <if test="fn:lexeme[@breakBefore='true']"><text>)</text></if>
  <if test="count(fn:lexeme) > 1"><text>)</text></if>
