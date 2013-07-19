@@ -55,7 +55,7 @@ VerbNet/%.lisp: $(VERBNET)/%.xml ../code/converters/verbnet-to-dsl.xsl
 	  -xsl:../code/converters/verbnet-to-dsl.xsl -s:$< -o:$@
 
 WordNet/COMPLETE: ../code/converters/wnsql-to-dsl.rb WordNet
-	cd WordNet ; $(RUBY) ../../$<
+	cd WordNet ; $(RUBY) ../$<
 	touch $@
 
 # fetch FrameNet XML files from the web

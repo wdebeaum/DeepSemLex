@@ -29,7 +29,7 @@ AC_SUBST(VERBNET)
 
 for pkg in $ac_packages; do
     eval "ac_with_pkg=\"\$with_${pkg}\""
-    eval "ac_pkg_var=\"\${pkg^^}\""
+    eval "ac_pkg_var=`echo \"\$pkg\" |tr '[a-z]' '[A-Z]'`"
     if test "$ac_with_pkg" = no ; then
 	eval "$ac_pkg_var=''"
     else
