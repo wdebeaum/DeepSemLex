@@ -182,12 +182,16 @@
 <xsl:template match="PRED">
  <xsl:call-template name="nl-indent" />
  <xsl:text>"</xsl:text>
- <!-- TODO add lhs of rule with class_name(Role : ThemRole, Role : ThemRole,...) -->
- <xsl:value-of select="@bool" />
+ <xsl:value-of select="../../../../@ID" />
+ <!-- TODO add args to lhs of rule like class_name(Role : ThemRole, Role : ThemRole,...) -->
+ <xsl:text> => </xsl:text>
+ <xsl:if test="@bool='!'"><xsl:text>not(</xsl:text></xsl:if>
  <xsl:value-of select="@value" />
  <xsl:text>(</xsl:text>
  <xsl:apply-templates />
- <xsl:text>)"</xsl:text>
+ <xsl:text>)</xsl:text>
+ <xsl:if test="@bool='!'"><xsl:text>)</xsl:text></xsl:if>
+ <xsl:text>"</xsl:text>
 </xsl:template>
 
 <xsl:template match="ARG">

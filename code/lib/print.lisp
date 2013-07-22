@@ -75,7 +75,12 @@
 
 (defmethod listify ((p provenance))
   (setf *current-provenance* p)
-  (call-next-method))
+  (append
+      (cons (intern (symbol-name (type-of p)))
+	    (listify-slots p '(name version filename record-number)))
+      (mapcar #'listify (provenance p))
+      )
+  )
 
 (defmethods listify ((x (or input-text relation)))
   (let ((*current-provenance* *current-provenance*))
@@ -155,7 +160,7 @@
 (defmethod listify ((e entailments))
   (let ((parent-list (call-next-method)))
     (if (listp parent-list)
-      (append parent-list (terms e))
+      (append parent-list (rules e))
       parent-list)))
 
 (defmethod listify ((s semantics))
@@ -198,8 +203,11 @@
 	  ))))
 
 (defmethod listify ((m morph))
-  ;; TODO figure out a good representation for irregularities
-  (cons (intern "MORPH") (listify-slots m '(pos))))
+  (append
+      (cons (intern (symbol-name (type-of m)))
+	    (listify-slots m '(pos)))
+      (irregularities m)
+      ))
 
 (defmethod listify ((s sense))
   (let ((parent-list (call-next-method))
