@@ -324,16 +324,12 @@
 
 (defmacro ld::entailments (&body body)
   (optionally-named-concept-subtype 'entailments
-      (operator-cond (operator form body :convert-operator-package nil)
-	((and (symbolp operator)
-              (or (eq 'ld::not operator)
-	          (not (eql (symbol-package operator)
-		            (find-package :lexicon-data)))
-		  )
-	      )
-	  ;; TODO something better
-	  `(push ',form (terms (current-concept))))
-	)))
+      (mapcar
+          (lambda (form)
+	    (if (stringp form)
+	      `(push ,form (rules (current-concept)))
+	      form))
+	  body)))
 
 (defmacro ld::semantics (&body body)
   (optionally-named-concept-subtype 'semantics body))

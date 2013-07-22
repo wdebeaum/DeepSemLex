@@ -16,6 +16,9 @@
    "the index of the record within the file (byte number, line number, sentence
     number, etc.; resource-specific)"
    nil)
+  ((list-of provenance) provenance
+   "further provenance info, specifying where the named resource got its information from"
+   nil)
   )
 
 (defclass-simple input-text ()
@@ -66,8 +69,8 @@
   ((feats sem-feat) features "" nil))
 
 (defclass-simple entailments (concept)
-  "A list of terms with variables entailed by a concept."
-  ((list-of (cons symbol list)) terms "" nil))
+  "A list of entailment rules applicable to a concept, as strings."
+  ((list-of string) rules "" nil))
 
 (defclass-simple semantics (concept)
   "A grouping of semantic concept parts with no syntactic parts."
@@ -119,6 +122,9 @@
   "A set of inflected forms for a particular word and part of speech."
   (pos pos)
   ((list-of morph-map) maps "" nil)
+  ((list-of (cons symbol list)) irregularities
+   "Lisp forms describing how this morph is different from the default for this POS and base word."
+   nil)
   )
 
 (defclass-simple sense (concept)
@@ -130,9 +136,21 @@
 
 (defclass-simple lexicon-and-ontology ()
   "A database of words, concepts, and relationships among them."
-  ((hash :to concept) concepts "" (make-hash-table :test #'eq))
-  ((hash :from (list-of symbol) :to (list-of sense))
-    senses "" (make-hash-table :test #'equalp))
+  ((hash :to concept) concepts
+   "Map from concept names to instances of the concept class."
+   (make-hash-table :test #'eq)
+   )
+  ((hash :from (list-of symbol) :to (list-of sense)) senses
+   "Map from lists of word symbols to senses of those words. Senses are mapped
+    from their first words as well as their full multiwords, and particle verbs
+    are also mapped from a version without the particle. Morphed versions of
+    all of these are also mapped."
+   (make-hash-table :test #'equalp)
+   )
+  ((hash :from word :to (list-of morph)) morphs
+   "Map from base-form word objects to default morphs for those base forms."
+   (make-hash-table :test #'equalp)
+   )
   )
 
 ) ; end (optimize safety)

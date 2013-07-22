@@ -1011,7 +1011,7 @@ have other ideas.</string>
    <object class="com.horstmann.violet.ClassNode" id="ClassNode24">
     <void property="attributes">
      <void property="text">
-      <string>regular : boolean ?</string>
+      <string>irregularities : list&lt;cons&lt;symbol, list&gt;&gt;</string>
      </void>
     </void>
     <void property="methods">
@@ -1083,7 +1083,8 @@ the old DB directly.</string>
     <void property="attributes">
      <void property="text">
       <string>concepts : hash&lt;symbol, concept&gt;
-senses : hash&lt;list&lt;symbol&gt;, list&lt;sense&gt;&gt;</string>
+senses : hash&lt;list&lt;symbol&gt;, list&lt;sense&gt;&gt;
+morphs : hash&lt;word, list&lt;morph&gt;&gt;</string>
      </void>
     </void>
     <void property="name">
@@ -1097,19 +1098,19 @@ senses : hash&lt;list&lt;symbol&gt;, list&lt;sense&gt;&gt;</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double31"/>
-      <double>569.4656617909417</double>
+      <double>430.32842933562335</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double31"/>
-      <double>381.6768767051824</double>
+      <double>413.78546881025585</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>569.4656617909417</double>
-     <double>381.6768767051824</double>
+     <double>430.32842933562335</double>
+     <double>413.78546881025585</double>
     </void>
    </object>
   </void>
@@ -1391,8 +1392,7 @@ values for each key.</string>
    <object class="com.horstmann.violet.ClassNode" id="ClassNode28">
     <void property="attributes">
      <void property="text">
-      <string>terms
- : list&lt;cons&lt;symbol, list&gt;&gt;</string>
+      <string>rules : list&lt;string&gt;</string>
      </void>
     </void>
     <void property="name">
@@ -1406,7 +1406,7 @@ values for each key.</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double40"/>
-      <double>859.7434429770814</double>
+      <double>888.2844137371467</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
@@ -1417,7 +1417,7 @@ values for each key.</string>
      </void>
     </void>
     <void method="setLocation">
-     <double>859.7434429770814</double>
+     <double>888.2844137371467</double>
      <double>468.5476033110721</double>
     </void>
    </object>
@@ -2256,6 +2256,18 @@ record-number : maybe&lt;integer&gt;</string>
    </object>
    <object idref="ClassNode10"/>
    <object idref="ClassNode33"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="endLabel">
+     <string>*</string>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+   </object>
+   <object idref="ClassNode25"/>
+   <object idref="ClassNode24"/>
   </void>
  </object>
 </java>
