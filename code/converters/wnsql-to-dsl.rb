@@ -18,11 +18,31 @@ def write_pointer(out, pointer_name, target_synset_offset, target_ss_type, targe
 	  else raise "Bogus WN pointer #{pointer_name} #{target_ss_type}%08d" % target_synset_offset
 	end
     end 
-    out.print("(> WN::#{pointer_name.gsub(/ /,'_')})")
+    out.print("(> WN::#{pointer_name.gsub(/ /,'_')}")
+    target_sense_keys = []
     if (target_word_number > 0)
       target_sense_key =
-	WordNetSQL.query_first_value("SELECT sense_key FROM senses WHERE synset_offset=? AND ss_type=? AND word_number=?;", target_synset_offset, target_ss_type, target_word_number)
-      out.print(" WN::|#{target_sense_key}|")
+        begin
+	  WordNetSQL.query_first_value(
+	    "SELECT sense_key FROM senses
+	     WHERE synset_offset=? AND ss_type=? AND word_number=?;",
+	    target_synset_offset, target_ss_type, target_word_number
+	  )
+	rescue
+	  # if we didn't find the word_number in senses, it's probably a
+	  # case-insensitive duplicate, and thus in the capitalization table
+	  # instead
+	  WordNetSQL.query_first_value(
+	    "SELECT senses.sense_key
+	     FROM senses JOIN capitalization USING (synset_offset, ss_type)
+	     WHERE synset_offset=? AND ss_type=?
+	       AND capitalization.word_number=?;",
+	    target_synset_offset, target_ss_type, target_word_number)
+	end
+      unless (target_sense_keys.include?(target_sense_key))
+        out.print(" WN::|#{target_sense_key}|")
+	target_sense_keys.push(target_sense_key)
+      end
     else
       out.print(" WN::%s%08d" % [target_ss_type, target_synset_offset])
     end
@@ -55,10 +75,12 @@ def write_dsl_for_ss_type(out, ss_type)
       (alias WN::#{lemma_symbol}.#{ss_type}.#{sense_number})
       (word (#{word_symbols}))
 EOP
+	# TODO look for word numbers in capitalization table too?
 	WordNetSQL.db.execute("SELECT pointer_name, target_synset_offset, target_ss_type, target_word_number FROM pointers NATURAL JOIN pointer_symbols WHERE source_synset_offset=? AND source_ss_type=? AND source_word_number=?;", synset_offset, ss_type, word_number) { |ptr_row|
 	  out.print("      ")
 	  write_pointer(out, *ptr_row)
 	}
+	out.puts "      )"
       }
       out.puts "    )"
       out.puts
