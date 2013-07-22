@@ -181,51 +181,20 @@
 
 <xsl:template match="PRED">
  <xsl:call-template name="nl-indent" />
- <xsl:if test="@bool='!'"><xsl:text>(not </xsl:text></xsl:if>
- <xsl:text>(VN::</xsl:text>
+ <xsl:text>"</xsl:text>
+ <!-- TODO add lhs of rule with class_name(Role : ThemRole, Role : ThemRole,...) -->
+ <xsl:value-of select="@bool" />
  <xsl:value-of select="@value" />
+ <xsl:text>(</xsl:text>
  <xsl:apply-templates />
- <xsl:text>)</xsl:text>
- <xsl:if test="@bool='!'"><xsl:text>)</xsl:text></xsl:if>
-</xsl:template>
-
-<xsl:template match="PRED[@value='in_reaction_to' and ARGS/ARG[@value='Stimulus, Attribute']]">
- <!-- this comma happens once in all of VerbNet, so special case it -->
- <xsl:call-template name="nl-indent" />
- <xsl:text>(VN::in_reaction_to ?E ?Stimulus)</xsl:text>
- <xsl:call-template name="nl-indent" />
- <xsl:text>(VN::in_reaction_to ?E ?Attribute)</xsl:text>
+ <xsl:text>)"</xsl:text>
 </xsl:template>
 
 <xsl:template match="ARG">
- <xsl:text> </xsl:text>
- <xsl:choose>
-  <xsl:when test="@type='Constant'">
-   <xsl:text>VN::</xsl:text>
-   <xsl:value-of select="@value" />
-  </xsl:when>
-  <xsl:when test="@type='Event' and contains(@value, '(')">
-   <xsl:value-of select="replace(@value, '(\w+)\((E\d?)\)', '(VN::$1 ?$2)')" />
-  </xsl:when>
-  <xsl:when test="@type='VerbSpecific'">
-   <xsl:text>(VN::</xsl:text>
-   <xsl:value-of select="@value" />
-   <xsl:text> ?W)</xsl:text>
-  </xsl:when>
-  <xsl:when test="@value='Patient+Co-Patient'">
-   <xsl:text>(pair ?Patient ?Co-Patient)</xsl:text>
-  </xsl:when>
-  <xsl:when test="@value='Patient_i+Patient_j'">
-   <xsl:text>(pair (nth ?i ?Patient) (nth ?j ?Patient))</xsl:text>
-  </xsl:when>
-  <xsl:when test="ends-with(@value, '_i') or ends-with(@value, '_j')">
-   <xsl:value-of select="replace(@value, '^([A-Z][a-z]*)_([ij])$', '(nth ?$2 ?$1)')" />
-  </xsl:when>
-  <xsl:otherwise> <!-- Event, ThemRole -->
-   <xsl:if test="not(starts-with(@value, '?'))"><xsl:text>?</xsl:text></xsl:if>
-   <xsl:value-of select="@value" />
-  </xsl:otherwise>
- </xsl:choose>
+ <xsl:if test="position() > 1"><xsl:text>, </xsl:text></xsl:if>
+ <xsl:value-of select="@value" />
+ <xsl:text> : </xsl:text>
+ <xsl:value-of select="@type" />
 </xsl:template>
 
 <!-- TODO SYNRESTRs, esp. those that identify an "NP" as really a to-infinitive complement or something -->
