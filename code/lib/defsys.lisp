@@ -30,7 +30,7 @@
   )
 
 (defpackage :w)
-; (defpackage :f)
+(defpackage :f) ; should go away at some point...
 (defpackage :ont)
 (defpackage :lexicon-data
   (:use)
@@ -50,6 +50,7 @@
     "generics"
     "classes"
     "load"
+    "load-old"
     "print"
     "make-db"
     "query"
