@@ -178,7 +178,7 @@
       (util::convert-to-package (list (syn-cat m) (head-word m)))
       (intern (symbol-name (syn-cat m)))
       )
-    ,@(when (sem-role m) (list (intern (symbol-name (sem-role m)))))
+    ,@(when (sem-role m) (list (sem-role m)))
     ,@(when (optional m) '(ld::optional))
     ))
 

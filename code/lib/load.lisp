@@ -59,7 +59,7 @@
          (*current-word* nil)
 	 (*current-morph* nil))
     ,(cond
-      ((and (consp x) (member (util::convert-to-package (car x)) '(and or)))
+      ((and (consp x) (member (util::convert-to-package (car x) :dsl) '(and or)))
 	(cons (car x) (mapcar #'concept-formula (cdr x))))
       ((symbolp x) `(get-or-make-concept ',x))
       (t x)
@@ -313,7 +313,7 @@
 	  (destructuring-bind (roles restriction &optional optional) form
 	    `(push 
 		(make-instance 'role-restr-map
-		    :roles ',(util::convert-to-package (if (listp roles) roles (list roles)) :dsl)
+		    :roles ',(ld-to-dsl-package (if (listp roles) roles (list roles)))
 		    :restriction ,(concept-formula restriction)
 		    :optional ,(not (null optional))
 		    )
@@ -351,7 +351,7 @@
 		    :syn-arg ',(util::convert-to-package syn-arg :dsl)
 		    :syn-cat ',(util::convert-to-package (if (listp syn-cat) (car syn-cat) syn-cat) :dsl)
 		    :head-word ',(when (listp syn-cat) (util::convert-to-package (second syn-cat) :w))
-		    :sem-role ',(util::convert-to-package sem-role :dsl)
+		    :sem-role ',(ld-to-dsl-package sem-role)
 		    :optional ,(not (null optional))
 		    )
 		(maps (current-concept))

@@ -83,7 +83,7 @@
 <xsl:template match="THEMROLE">
  <xsl:variable name="type" select="@type" />
  <xsl:call-template name="nl-indent" />
- <xsl:text>(</xsl:text>
+ <xsl:text>(VN::</xsl:text>
  <xsl:value-of select="$type" />
  <xsl:apply-templates />
  <xsl:choose>
@@ -237,6 +237,7 @@
    <xsl:text>(lobj NP </xsl:text>
   </xsl:otherwise>
  </xsl:choose>
+ <xsl:text>VN::</xsl:text>
  <xsl:value-of select="@value" />
  <xsl:text>)</xsl:text>
 </xsl:template>

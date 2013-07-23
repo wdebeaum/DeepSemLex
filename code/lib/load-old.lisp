@@ -9,13 +9,15 @@
   "Convert things of the form (? var opt1 opt2) to (w::or opt1 opt2), and (?
    var) to t."
   (cond
-    ((or (not (consp x)) (not (eq 'ld::? (car x))))
+    ((not (consp x))
       x)
+    ((not (member (car x) '(? ld::? om::? lxm::?)))
+      (mapcar #'convert-variables-to-disjunctions x))
     ((cddr x)
-      (list 'w::or (cddr x)))
+      (cons 'w::or (cddr x)))
     ((cdr x)
       t)
-    (t x)
+    (t (mapcar #'convert-variables-to-disjunctions x))
     ))
 
 (defun convert-old-sem (old-sem &key part-p)
@@ -27,6 +29,7 @@
          (old-fl-type (car old-sem-disj))
 	 (old-fl (cdr old-sem-disj))
 	 )
+    ;; TODO handle :required and :default as in ONT::MOVE
     (cond
       ((and old-fl-type old-fl)
           `(ld::sem-feats (ld::inherit ,old-fl-type) ,@old-fl))
@@ -52,7 +55,7 @@
       `((ld::sem-frame
         ,@(mapcar
 	    (lambda (arg)
-	      (destructuring-bind (optionality role restr-sem &rest params) arg
+	      (destructuring-bind (optionality role &optional restr-sem &rest params) arg
 	        (let* ((implements (second (assoc :implements params)))
 		       (roles (if implements
 		                (list role (util::convert-to-package implements :ONT))
