@@ -78,7 +78,7 @@
   (append
       (cons (intern (symbol-name (type-of p)))
 	    (listify-slots p '(name version filename record-number)))
-      (mapcar #'listify (provenance p))
+      (let (*current-provenance*) (mapcar #'listify (provenance p)))
       )
   )
 

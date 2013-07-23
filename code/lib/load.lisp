@@ -87,15 +87,15 @@
    *current-<cls>* set to the new instance)."
   (let ((slots (class-slot-names cls))
 	(current-var (intern (concatenate 'string "*CURRENT-" (symbol-name cls) "*") :dsl)))
-    `(progn
-      (setf ,current-var (make-instance ',cls))
-      ,(if (eq 'provenance cls) ; FIXME ick
-        `(when (current-concept)
-	  (push ,current-var (provenance (current-concept))))
+    `(let ((new-ncc (make-instance ',cls)))
+      ,(unless (eq 'provenance cls)
         `(when (and (current-concept) (slot-exists-p (current-concept) ',cls))
 	  (setf (slot-value (current-concept) ',cls) ,current-var)))
+      (setf ,current-var new-ncc)
       ,@(operator-cond (operator form body)
-	((member operator slots)
+	((and (not (and (eq operator 'provenance)
+			(eq cls 'provenance))) ; FIXME ick.
+	   (member operator slots))
 	  `(setf (slot-value ,current-var ',operator)
 	         ',(ld-to-dsl-package (second form))))
 	)
@@ -214,18 +214,18 @@
 		          (provenance (current-concept))
 			  :test #'eq))
         (push *current-provenance* (provenance (current-concept))))
-      ;; mostly just keep body the way it is, but special case w::or forms
-      ;; FIXME kind of a kludge... maybe ORs should go on *concept-stack*?
-      ,@(mapcar
-          (lambda (body-form)
-	    (if (and (listp body-form) (eq 'w::or (car body-form)))
+      ;; mostly just keep body the way it is, but special case OR and
+      ;; provenance forms
+      ,@(operator-cond (operator form body)
+	    ((eq 'w::or operator)
 	      `(add-relation (current-concept) :inherit
 		   (let (*concept-stack*
 			 *current-word*
 			 *current-morph*)
-		     ,body-form))
-	      body-form))
-	  body)
+		     ,form)))
+	    ((eq 'provenance operator)
+	       `(push ,form (provenance (current-concept))))
+	    )
       (current-concept))
     ))
 
@@ -278,7 +278,14 @@
 	              (intern (symbol-name (car body)) :dsl))
 	        (cdr body))
 	  ))
-  (non-concept-class 'provenance body))
+  (non-concept-class 'provenance
+      (operator-cond (operator form body)
+	((eq 'provenance operator)
+	  `(push (let (*current-provenance*) ,form)
+		 (provenance *current-provenance*)
+		 ))
+	))
+  )
 
 (defmacro ld::definition (&body body)
   `(let ((*current-provenance* *current-provenance*))
