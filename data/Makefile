@@ -38,11 +38,11 @@ PB_WORDS=$(shell ls $(ONTONOTES)/data/english/metadata/frames/*.xml \
 PropBank/frames/COMPLETE: $(PB_WORDS:%=PropBank/frames/%.lisp)
 	touch $@
 
-PropBank/frames/%.lisp: $(ONTONOTES)/data/english/metadata/frames/%.xml ../code/converters/prep-propbank-frameset.pl ../code/converters/ontonotes-frameset-to-dsl.xsl PropBank/frames
+PropBank/frames/%.lisp: $(ONTONOTES)/data/english/metadata/frames/%.xml ../code/converters/prep-propbank-frameset.pl ../code/converters/propbank-frameset-to-dsl.xsl PropBank/frames
 	  cat $< \
 	  | $(PERL) ../code/converters/prep-propbank-frameset.pl \
 	  | $(JAVA) -jar $(SAXON_JAR) \
-	      -xsl:../code/converters/ontonotes-frameset-to-dsl.xsl -s:- -o:$@
+	      -xsl:../code/converters/propbank-frameset-to-dsl.xsl -s:- -o:$@
 
 VN_CLASSES=$(shell ls $(VERBNET)/*.xml \
 		   |$(PERL) -n -e 'print "$$1\n" if (/\/([^\/\.]+)\.xml$$/);')
