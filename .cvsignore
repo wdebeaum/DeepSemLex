@@ -1,4 +1,4 @@
-CVS
+.git
 *.fasl
 *.x86f
 *.sse2f
