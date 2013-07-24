@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <stylesheet version="2.0" xmlns="http://www.w3.org/1999/XSL/Transform">
 
-<!-- ontonotes-frameset-to-dsl.xsl - convert OntoNotes 3.0 frames/*.xml files to DeepSemLex Lisp data files (really these are from PropBank) -->
+<!-- propbank-frameset-to-dsl.xsl - convert PropBank frameset files (OntoNotes 3.0 frames/*.xml) to DeepSemLex Lisp data files -->
 
 <output method="text" />
 
