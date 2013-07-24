@@ -128,6 +128,7 @@
 			   (effective-templ (or sense-templ templ))
 			   )
 		      `(ld::sense ; TODO :* name?
+			(ld::inherit ,parent)
 		        ,@(when sem-feats
 			  `((ld::sem-feats
 			     ,@(convert-variables-to-disjunctions

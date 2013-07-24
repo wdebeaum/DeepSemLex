@@ -69,5 +69,40 @@
 <h4>Look up concepts reachable via a path through slots and relations</h4>
 <code>(eval-path-expression '(1 VN::mix-22.1-1 &gt;inherit))</code>
 
+<h3>TODO</h3>
+
+<ul>
+ <li>More and better documentation.
+ <li>Unit tests.
+ <li>Combine information from inherited concepts into one big lex-entry to send to the parser.
+ <li>Export to some of XML, OWL, JSON, YAML...
+ <li>When do DSL files get loaded? Compile-time? Run-time initialization? On demand? Some combination for different resources?
+ <li>Overrides.
+ <li>Regular morphology defaults.
+ <li>Irregular morphology specs.
+ <li>Fix how word/pos/morphs are handled so that loading WordNet files doesn't result in every sense getting the same morph object.
+ <li>Make aliases actually work (right now if you refer to a concept by an alias before you load the definition calling it an alias, a separate concept object will be made with that alias, unconnected to the main one).
+ <li>Complete loading of old TRIPS lexicon/ontology data.
+  <ul>
+   <li>ONT types:
+    <ul>
+     <li>:required and :default parts of sem feats as in ONT::MOVE
+    </ul>
+   <li>Templates:
+    <ul>
+     <li>Parameterized templates as functions?
+     <li>What to do about variables used across different parts of a template? (e.g. in THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL)
+    </ul>
+   <li>Senses:
+    <ul>
+     <li>Group senses under distinct (:* ONT W) names (subsenses can have different templates, features, examples...).
+     <li>Meta-data.
+    </ul>
+  </ul>
+ <li>Make input texts with the same string the same object, like concept names.
+ <li>Handle information beyond text in OntoNotes/PropBank frame examples.
+ <li>Make wnsql-to-dsl.rb also output glosstags, like synset-glosses-to-tags.rb.
+</ul>
+
 </body>
 </html>
