@@ -49,8 +49,6 @@
 (defun xor (a b)
   (not (eq (not a) (not b))))
 
-;; TODO need to be able to specify predicates on relations as well as concepts,
-;; or at least specify provenance somehow
 (defun eval-path-expression (expr &optional input (db *db*))
   "Given a path expression and a list of input concepts (or values in general,
    but this is mostly intended for concepts), return the list of output
