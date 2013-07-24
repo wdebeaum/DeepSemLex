@@ -80,6 +80,8 @@
 	 it in a list.
      Sequencing and repetition:
        (1 exprs...) - follow the exprs in sequence exactly once
+	 (exprs...) also works if the first subexpression doesn't conflict with
+	 the other operators
        (? exprs...) - zero or one times
        (+ exprs...) - one or more times
        (* exprs...) - any number of times
