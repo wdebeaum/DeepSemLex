@@ -35,6 +35,10 @@
   (symbol name "the name of the concept"
    (intern (symbol-name (gensym "C")) :lexicon-data))
   ((list-of symbol) aliases "alternative names for the concept" nil)
+  ((list-of (or (cons concept t) standard-object)) references
+   "conses and non-relation class instances that contain references to this
+    concept (used when merging concepts for newly-discovered aliases)"
+   nil)
   ((list-of input-text) definitions "textual definitions of the concept" nil)
   ((list-of input-text)	examples "examples of the concept in context" nil)
   ((list-of relation) out "the list of relations where this is the source" nil)

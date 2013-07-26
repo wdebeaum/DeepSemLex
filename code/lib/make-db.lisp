@@ -71,14 +71,30 @@
       (error "Slot ~s of ~s is already bound to something not of type (maybe-disj ~s): ~s" part-type (type-of whole-instance) part-type (slot-value whole-instance part-type)))
     ))
 
+(defun add-references-from-concept-formula (f)
+  "Given a concept formula (i.e. a (disj-conj concept)), add each cons cell whose car is a concept to that concept's references."
+    (declare (type (disj-conj concept) f))
+  (loop for c on (cdr f)
+  	do (if (consp (car c))
+	     (add-references-from-concept-formula (car c))
+	     (pushnew c (references (car c)) :test #'eq)
+	     )
+	))
+
 (defun add-relation (source label target &optional provenance)
     (declare (type symbol label)
              (type (maybe-disj concept) source target)
              (type (maybe provenance) provenance))
   "Make a relation and add it to its source and target concepts if appropriate."
   (let ((r (make-instance 'relation :source source :label label :target target :provenance provenance)))
-    (when (typep source 'concept) (push r (out source)))
-    (when (typep target 'concept) (push r (in target)))
+    (if (consp source)
+      (add-references-from-concept-formula source)
+      (push r (out source))
+      )
+    (if (consp target)
+      (add-references-from-concept-formula target)
+      (push r (in target))
+      )
     ))
 
 (defun anonymous-concept-p (x)

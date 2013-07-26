@@ -71,9 +71,12 @@
    evaluate. Otherwise keep the body-form unchanged."
   `(mapcar
        (lambda (,form-var)
-	 (let ((,op-var ,(if convert-operator-package
-	                   `(ld-to-dsl-package (car ,form-var))
-			   `(car ,form-var))))
+	 (let ((,op-var
+	 	  (when (consp ,form-var)
+	 	    ,(if convert-operator-package
+	              `(ld-to-dsl-package (car ,form-var))
+		      `(car ,form-var)
+		      ))))
 	   (cond
 	     ,@cases
 	     (t ,form-var)
@@ -309,16 +312,21 @@
 (defmacro ld::sem-frame (&body body)
   (optionally-named-concept-subtype 'sem-frame
       (operator-cond (operator form body)
-        ((typep operator '(or sem-role (list-of sem-role)))
+        ((typep operator '(or sem-role (and cons (list-of sem-role))))
 	  (destructuring-bind (roles restriction &optional optional) form
-	    `(push 
-		(make-instance 'role-restr-map
-		    :roles ',(ld-to-dsl-package (if (listp roles) roles (list roles)))
-		    :restriction ,(concept-formula restriction)
-		    :optional ,(not (null optional))
-		    )
-		(maps (current-concept))
-		)))
+	    `(let* ((restr ,(concept-formula restriction))
+	            (rrmap
+		      (make-instance 'role-restr-map
+			  :roles ',(ld-to-dsl-package (if (listp roles) roles (list roles)))
+			  :restriction restr
+			  :optional ,(not (null optional))
+			  )))
+	      (if (consp restr)
+	        (add-references-from-concept-formula restr)
+		(push rrmap (references restr))
+		)
+	      (push rrmap (maps (current-concept)))
+	      )))
 	)
       ))
 
