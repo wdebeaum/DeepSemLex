@@ -26,6 +26,9 @@
   (string text "the text itself")
   ((maybe provenance) provenance "" nil)
   (list lattice "a list of TextTagger-like messages to the parser" nil)
+  (symbol lf-root "the ID of the root term in lf-terms." nil)
+  (list lf-terms "the list of LF terms output by the gloss system." nil)
+  (list syntax-tree "the syntax tree output by the gloss system." nil)
   )
 
 (defclass-simple concept ()

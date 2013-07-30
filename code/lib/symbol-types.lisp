@@ -87,7 +87,10 @@
 
   (common-lisp::deftype sem-role ()
     ;; this list found by grepping templates and OM files
-    '(common-lisp::member action addressee affected agent along arg0 arg1 arg2 associated-information attribute cause co-agent cognizer content cost co-theme cover criterion donor duration effect effect-implicit entity experiencer figure from-loc goal goods ground instrment instrument location money obj-val of of-state originator part path pivot predicate property purpose purpose-implicit recipient result result-val situation sit-val source spatial-loc stative stimulus theme time-duration-rel time-val to-loc val value via))
+    '(common-lisp::member action addressee affected agent along arg0 arg1 arg2 associated-information attribute cause co-agent cognizer content cost co-theme cover criterion donor duration effect effect-implicit entity experiencer figure from-loc goal goods ground instrment instrument location money obj-val of of-state originator part path pivot predicate property purpose purpose-implicit recipient result result-val situation sit-val source spatial-loc stative stimulus theme time-duration-rel time-val to-loc val value via
+    ;; some extras output by src/Systems/gloss/test.lisp
+    co-theme patient
+    ))
 
 (common-lisp::in-package :dsl)
 

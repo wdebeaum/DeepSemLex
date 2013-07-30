@@ -56,6 +56,7 @@
 ;; instead, enforce disjunctive normal form (sorta)
 (deftype disj-conj (&optional (terminal-type t))
   `(or ,terminal-type
+       (conjunction ,terminal-type)
        (disjunction (or ,terminal-type
                         (conjunction ,terminal-type)))))
 
