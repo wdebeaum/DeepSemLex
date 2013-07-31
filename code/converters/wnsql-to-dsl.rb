@@ -20,7 +20,9 @@ def write_pointer(out, pointer_name, target_synset_offset, target_ss_type, targe
     end 
     out.print("(> WN::#{pointer_name.gsub(/ /,'_')}")
     target_sense_keys = []
-    if (target_word_number > 0)
+    if (target_word_number.nil?)
+      out.print(" WN::%s%08d" % [target_ss_type, target_synset_offset])
+    else
       target_sense_key =
         begin
 	  WordNetSQL.query_first_value(
@@ -43,8 +45,6 @@ def write_pointer(out, pointer_name, target_synset_offset, target_ss_type, targe
         out.print(" WN::|#{target_sense_key}|")
 	target_sense_keys.push(target_sense_key)
       end
-    else
-      out.print(" WN::%s%08d" % [target_ss_type, target_synset_offset])
     end
     out.puts(")")
   rescue Exception => e
@@ -59,7 +59,7 @@ def write_dsl_for_ss_type(out, ss_type)
       out.puts("  (concept WN::%s%08d" % [ss_type, synset_offset])
       # TODO separate examples and definitions, add tags, provenance?
       out.puts("    (definition (text #{gloss.inspect}))")
-      WordNetSQL.db.execute("SELECT pointer_name, target_synset_offset, target_ss_type, target_word_number FROM pointers NATURAL JOIN pointer_symbols WHERE source_synset_offset=? AND source_ss_type=? AND source_word_number=0;", synset_offset, ss_type) { |ptr_row|
+      WordNetSQL.db.execute("SELECT pointer_name, target_synset_offset, target_ss_type, target_word_number FROM pointers NATURAL JOIN pointer_symbols WHERE source_synset_offset=? AND source_ss_type=? AND source_word_number IS NULL;", synset_offset, ss_type) { |ptr_row|
 	out.print("    ")
 	write_pointer(out, *ptr_row)
       }
