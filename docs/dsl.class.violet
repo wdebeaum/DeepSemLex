@@ -1290,7 +1290,10 @@ cont&apos;d</string>
     <void property="attributes">
      <void property="text">
       <string>text : string
-lattice : list</string>
+lattice : list
+lf-root : maybe&lt;symbol&gt;
+lf-terms : list
+syntax-tree : list</string>
      </void>
     </void>
     <void property="name">
@@ -1311,12 +1314,12 @@ lattice : list</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double37"/>
-      <double>15.970696394654375</double>
+      <double>6.970696394654375</double>
      </void>
     </void>
     <void method="setLocation">
      <double>793.679529725585</double>
-     <double>15.970696394654375</double>
+     <double>6.970696394654375</double>
     </void>
    </object>
   </void>
