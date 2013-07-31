@@ -53,12 +53,32 @@
        (conjunction (disj-conj ,terminal-type))
        ))
 |#
+#| this causes problems when we want to load something not in DNF
 ;; instead, enforce disjunctive normal form (sorta)
 (deftype disj-conj (&optional (terminal-type t))
   `(or ,terminal-type
        (conjunction ,terminal-type)
        (disjunction (or ,terminal-type
                         (conjunction ,terminal-type)))))
+|#
+;; instead, use satisifies
+(defun disj-conj-p (x &optional (terminal-type t))
+  "Return t iff x is of type terminal-type, or a disjunction or conjunction
+   thereof, recursively."
+  (or
+    (typep x terminal-type)
+    (and (consp x)
+         (member (car x) '(w::and w::or))
+         (every (lambda (y) (disj-conj-p y terminal-type)) (cdr x))
+	 )
+    ))
+
+(deftype disj-conj (&optional (terminal-type t))
+  (let ((predicate-name (intern (format nil "DISJ-CONJ-OF-~s-P" terminal-type) :type-predicates)))
+    (unless (fboundp predicate-name)
+      (eval `(defun ,predicate-name (x) (disj-conj-p x ',terminal-type))))
+    `(satisfies ,predicate-name)
+    ))
 
 (deftype maybe (just-type)
   `(or null ,just-type))
