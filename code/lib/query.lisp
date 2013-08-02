@@ -111,6 +111,7 @@
 		 (add-seed-to-output val output)
 		 )))
 	   ;; relations
+	   ;; FIXME not all relation labels are keywords anymore
 	   ((string= "->" (subseq name 0 2))
 	     (let ((label (intern (subseq name 2) :keyword)))
 	       (eval-relation-step expr input out label identity output)))
@@ -140,7 +141,7 @@
 	       (add-step-to-output input i expr o output))))))
      ((listp expr)
        (case (car expr)
-         (lambda
+         ((function lambda)
 	   ;; just like functionp, except we have to eval it first
 	   ;; the step label is still expr, though
 	   (let ((fn (eval expr))
