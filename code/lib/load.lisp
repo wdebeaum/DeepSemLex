@@ -9,6 +9,7 @@
 (defvar *current-provenance* nil)
 (defvar *current-input-text* nil) ; not really used but set by non-concept-class
 (defvar *current-word* nil)
+(defvar *current-pos* nil)
 (defvar *current-morph* nil)
 
 (defun load-dsl-file (filename)
@@ -18,6 +19,7 @@
         *current-provenance*
 	*current-input-text*
 	*current-word*
+	*current-pos*
 	*current-morph*
 	;; make sure we read in the LD package
         (*package* (find-package :lexicon-data))
@@ -55,9 +57,10 @@
   "Convert symbols representing concepts in a concept formula like (w::and
    (w::or VN::foo WN::bar) FN::baz (concept PB::glarch ...)). Only recurses on
    ands and ors. Also wrap all of x in a let resetting certain lexical context."
-  `(let ((*concept-stack* nil)
-         (*current-word* nil)
-	 (*current-morph* nil))
+  `(let (*concept-stack*
+         *current-word*
+	 *current-pos*
+	 *current-morph*)
     ,(cond
       ((and (consp x) (member (util::convert-to-package (car x) :dsl) '(and or)))
 	(cons (car x) (mapcar #'concept-formula (cdr x))))
@@ -99,6 +102,8 @@
 	((and (not (and (eq operator 'provenance)
 			(eq cls 'provenance))) ; FIXME ick.
 	   (member operator slots))
+	;; FIXME maybe the rule should be if the operator names a slot and /is not fboundp/, we just set the slot; otherwise the macro/function should handle setting the slot if it needs to
+	;; need to be careful to test fboundp for the operator in the original package; slots are fboundp in :dsl package because of accessors
 	  `(setf (slot-value ,current-var ',operator)
 	         ',(ld-to-dsl-package (second form))))
 	)
@@ -154,6 +159,7 @@
             (*current-provenance*	*current-provenance*)
 	    (*current-input-text*	*current-input-text*)
             (*current-word*		*current-word*)
+            (*current-pos*		*current-pos*)
 	    (*current-morph*		*current-morph*)
 
             (anonymous ,(null name))
@@ -224,6 +230,7 @@
 	      `(add-relation (current-concept) :inherit
 		   (let (*concept-stack*
 			 *current-word*
+			 *current-pos*
 			 *current-morph*)
 		     ,form)))
 	    ((eq 'provenance operator)
@@ -261,6 +268,42 @@
 	  ))
     (t
       (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s" spec))
+    ))
+
+(defun current-morph ()
+  "Get the current morph, look up the default, make one, or return nil, as
+   appropriate."
+  (cond
+    (*current-morph*
+      ;; we have a morph already, make it more complete if possible
+      (when (and *current-pos*
+                 (not (slot-boundp *current-morph* 'pos)))
+        (setf (pos *current-morph*) *current-pos*))
+      (when (and *current-word*
+                 (slot-boundp *current-morph* 'pos)
+		 (null (maps *current-morph*)))
+        (add-morph-maps-for-word *current-morph* *current-word*))
+      *current-morph*)
+    ((and (null *current-morph*) *current-word* *current-pos*)
+      ;; we don't have a current morph, but we do have enough information for a
+      ;; complete default one
+      (let* ((default-morphs (gethash *current-word* (morphs *db*)))
+             (default-for-pos (find *current-pos* default-morphs :key #'pos)))
+        (setf *current-morph*
+	  (if default-for-pos
+	    ;; we have a default one stored, just get it
+	    default-for-pos
+	    ;; store a new default morph for this word/pos
+	    (let ((new-morph (make-instance 'morph :pos *current-pos*)))
+	      (add-morph-maps-for-word new-morph *current-word*)
+	      (push new-morph (gethash *current-word* (morphs *db*)))
+	      new-morph
+	      )
+	    ))))
+    (t
+      ;; we don't have a current morph or enough information to make/get a
+      ;; default one, just return nil
+      nil)
     ))
 
 ;;; constructor/reference macros
@@ -377,27 +420,36 @@
   (optionally-named-concept-subtype 'syntax body))
 
 (defmacro ld::word (word-spec &body body)
-  `(let ((*current-word* (make-word-from-spec ',word-spec)))
-    ,@body
-    (when (and *current-morph* (not (maps *current-morph*)))
-      (add-morph-maps-for-word *current-morph* *current-word*))
-    *current-word*))
+  (if body
+    `(let ((*current-word* (make-word-from-spec ',word-spec)))
+      ,@body
+      *current-word*)
+    ;; no body, just set current
+    `(setf *current-word* (make-word-from-spec ',word-spec))
+    ))
+
+(defmacro ld::pos (pos &body body)
+  (if body
+    `(let ((*current-pos* ',pos))
+      ,@body
+      *current-pos*)
+    ;; no body, just set current
+    `(setf *current-pos* ',pos)
+    ))
 
 (defmacro ld::morph (&body body)
   (non-concept-class 'morph body))
 
 (defmacro ld::sense (&body body)
-  `(let ((s ,(optionally-named-concept-subtype 'sense body)))
+  (optionally-named-concept-subtype 'sense `(
+    ,@body
     ;; add the current morph if the sense doesn't already have one
-    (when (and *current-morph* (not (slot-boundp s 'morph)))
-      (setf (morph s) *current-morph*))
+    (when (and (not (slot-boundp (current-concept) 'morph)) (current-morph))
+      (setf (morph (current-concept)) *current-morph*))
     ;; if the sense now has a morph, add it to (senses *db*)
-    (when (slot-boundp s 'morph)
-      ;; add the current word to the morph if it doesn't already have maps
-      (unless (maps *current-morph*)
-        (add-morph-maps-for-word *current-morph* *current-word*))
-      (add-morphed-sense-to-db *db* s))
-    s))
+    (when (slot-boundp (current-concept) 'morph)
+      (add-morphed-sense-to-db *db* (current-concept)))
+    )))
 
 ;;; relation macros
 

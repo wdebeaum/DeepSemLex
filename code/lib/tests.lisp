@@ -108,37 +108,37 @@
 (define-test wordnet-ish
   (with-clean-db
     (ld::provenance ld::WordNet (ld::version "fake") (ld::filename "data.noun"))
-    (ld::morph (ld::pos ld::N)
-      (ld::concept WN::n00001740
-        (ld::definition (ld::text "a fake thing"))
-	(ld::> WN::Hyponym WN::n00123456)
-	(ld::sense WN::|some_noun%1:02:03::|
-	  (ld::alias WN::some_noun.n.1)
-	  (ld::word (ld::some ld::noun))
-	  (ld::> WN::Derivationally_related_form WN::|nounsome.a.1|)
-	  )
-	(ld::sense WN::|some_other_noun%1:00:00::|
-	  (ld::alias WN::some_other_noun.n.2)
-	  (ld::word (ld::some ld::other ld::noun))
-	  )
+    (ld::pos ld::N)
+    (ld::concept WN::n00001740
+      (ld::definition (ld::text "a fake thing"))
+      (ld::> WN::Hyponym WN::n00123456)
+      (ld::sense WN::|some_noun%1:02:03::|
+	(ld::alias WN::some_noun.n.1)
+	(ld::word (ld::some ld::noun))
+	(ld::> WN::Derivationally_related_form WN::|nounsome.a.1|)
 	)
-      (ld::concept WN::n00123456
-        (ld::definition (ld::text "a specific fake thing"))
-	(ld::sense WN::|some_specific_noun%1:00:00::|
-	  (ld::alias WN::some_specific_noun.n.1)
-	  (ld::word (ld::some ld::specific ld::noun))
-	  )
+      (ld::sense WN::|some_other_noun%1:00:00::|
+	(ld::alias WN::some_other_noun.n.2)
+	(ld::word (ld::some ld::other ld::noun))
+	)
+      )
+    (ld::concept WN::n00123456
+      (ld::definition (ld::text "a specific fake thing"))
+      (ld::sense WN::|some_specific_noun%1:00:00::|
+	(ld::alias WN::some_specific_noun.n.1)
+	(ld::word (ld::some ld::specific ld::noun))
 	)
       )
     (assert-eql 9 (hash-table-count (concepts *db*)))
-    (assert-equalp '(w::specific w::noun) (eval-path-expression '(WN::some_specific_noun.n.1 morph maps #'first morphed remaining-words)))
+    (assert-equalp '((w::specific w::noun)) (eval-path-expression '(WN::|some_specific_noun%1:00:00::| morph maps #'first morphed remaining-words)))
+    (assert-equalp (gethash 'WN::|some_specific_noun%1:00:00::| (concepts *db*)) (gethash 'WN::some_specific_noun.n.1 (concepts *db*)))
     ; TODO more assertions
     ))
 
 (define-test ontonotes-ish
   (with-clean-db
     (ld::provenance ld::OntoNotes (ld::version "fake") (ld::filename "fake-v.xml"))
-    (ld::word ld::fake (ld::morph (ld::pos ld::V)
+    (ld::word ld::fake (ld::pos ld::V)
       (ld::sense ON::fake.v.1
         (ld::definition (ld::text "to do something fake"))
 	(ld::example (ld::text "he faked doing it"))
@@ -148,7 +148,7 @@
         (ld::definition (ld::text "to make something fake"))
 	(ld::example (ld::text "he faked it"))
 	)
-      ))
+      )
     (assert-eql 4 (hash-table-count (concepts *db*)))
     (assert-true (slot-boundp (gethash 'ON::fake.v.1 (concepts *db*)) 'morph))
     (assert-equalp '(w::fake) (eval-path-expression '(ON::fake.v.1 morph maps #'first morphed first-word)))
