@@ -94,6 +94,14 @@
     (assert-eql 8 (hash-table-count (concepts *db*)))
     (assert-eql 2 (length (eval-path-expression '(VN::some_verb-12.3 <inherit))))
     (assert-equal "some_verb-12.3.xml" (filename (first (provenance (gethash 'VN::some_verb-12.3-4 (concepts *db*))))))
+    (assert-true (eval-path-expression '(VN::some_verb-12.3-4 >inherit (when (lambda (x) (typep x '(disjunction concept)))))))
+    (assert-equal '(dsl::+)
+        (eval-path-expression '(
+	  VN::some_verb-12.3 >inherit maps #'identity
+	  (when (lambda (x) (member 'VN::Agent (roles x))))
+	  restriction features
+	  (lambda (x) (second (assoc 'VN::int_control x)))
+	  )))
     ; TODO more assertions
     ))
 
@@ -144,6 +152,7 @@
     (assert-eql 4 (hash-table-count (concepts *db*)))
     (assert-true (slot-boundp (gethash 'ON::fake.v.1 (concepts *db*)) 'morph))
     (assert-equalp '(w::fake) (eval-path-expression '(ON::fake.v.1 morph maps #'first morphed first-word)))
+    (assert-equalp '("he faked it") (eval-path-expression '(ON::fake.v.2 examples #'identity text)))
     ; TODO more assertions
     ))
 
