@@ -63,16 +63,11 @@
 			  ))
 		    words))))))
 
-(defun flatten (x)
-  (if (listp x)
-    (mapcan (lambda (y) (if (listp y) (flatten y) (list y))) x)
-    x))
-
 (defun role-to-role-restr-map (role)
   (destructuring-bind (role-name (trips-class wn-class)) role
     `( ,(repkg role-name :ont)
        ,(if wn-class
-         `(and ,trips-class ,(strs-to-wn-sk-syms (flatten wn-class)))
+         `(and ,trips-class ,(strs-to-wn-sk-syms wn-class))
 	 trips-class)
        )))
 
