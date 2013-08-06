@@ -1,7 +1,5 @@
 #!/usr/bin/ruby
 
-# FIXME the (morph (pos .) (concept . (sense . (word .)))) structure seems to be giving all the words to one morph, instead of copying the morph into each sense for each word to be added to it :-P
-
 $: << ENV['TRIPS_BASE'] + '/etc/WordNetSQL'
 require 'word_net_sql'
 
@@ -56,11 +54,11 @@ def write_dsl_for_ss_type(out, ss_type)
   WordNetSQL.db.execute("SELECT synset_offset, gloss FROM synsets WHERE ss_type=?;", ss_type) { |ss_row|
     synset_offset, gloss = *ss_row
     begin
-      out.puts("  (concept WN::%s%08d" % [ss_type, synset_offset])
+      out.puts("(concept WN::%s%08d" % [ss_type, synset_offset])
       # TODO separate examples and definitions, add tags, provenance?
-      out.puts("    (definition (text #{gloss.inspect}))")
+      out.puts("  (definition (text #{gloss.inspect}))")
       WordNetSQL.db.execute("SELECT pointer_name, target_synset_offset, target_ss_type, target_word_number FROM pointers NATURAL JOIN pointer_symbols WHERE source_synset_offset=? AND source_ss_type=? AND source_word_number IS NULL;", synset_offset, ss_type) { |ptr_row|
-	out.print("    ")
+	out.print("  ")
 	write_pointer(out, *ptr_row)
       }
       WordNetSQL.db.execute("SELECT sense_number, word_number, sense_key, lemma FROM senses WHERE synset_offset=? AND ss_type=?;", synset_offset, ss_type) { |sense_row|
@@ -71,18 +69,18 @@ def write_dsl_for_ss_type(out, ss_type)
 	  ws
 	}.join(' ')
 	out.print <<EOP
-    (sense WN::|#{sense_key}|
-      (alias WN::#{lemma_symbol}.#{ss_type}.#{sense_number})
-      (word (#{word_symbols}))
+  (sense WN::|#{sense_key}|
+    (alias WN::#{lemma_symbol}.#{ss_type}.#{sense_number})
+    (word (#{word_symbols}))
 EOP
 	# TODO look for word numbers in capitalization table too?
 	WordNetSQL.db.execute("SELECT pointer_name, target_synset_offset, target_ss_type, target_word_number FROM pointers NATURAL JOIN pointer_symbols WHERE source_synset_offset=? AND source_ss_type=? AND source_word_number=?;", synset_offset, ss_type, word_number) { |ptr_row|
-	  out.print("      ")
+	  out.print("    ")
 	  write_pointer(out, *ptr_row)
 	}
-	out.puts "      )"
+	out.puts "    )"
       }
-      out.puts "    )"
+      out.puts "  )"
       out.puts
     rescue Exception => e
       raise "Error writing DSL for WN::#{ss_type}%08d:\n#{e.message}\n#{e.backtrace.join("\n")}\n" % synset_offset
@@ -94,10 +92,9 @@ end
   File.open("data.#{pos}.lisp", "w") { |out|
     out.puts ";;;; AUTOMATICALLY GENERATED"
     out.puts %Q{(provenance WordNet (version "3.0") (filename "data.#{pos}"))}
-    out.puts "(morph (pos #{$pos2trips[pos]})"
+    out.puts "(pos #{$pos2trips[pos]})"
     write_dsl_for_ss_type(out, $pos2ss_type[pos])
     write_dsl_for_ss_type(out, 's') if (pos == 'adj')
-    out.puts "  )"
   }
 }
 
