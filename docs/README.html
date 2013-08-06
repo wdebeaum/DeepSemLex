@@ -51,6 +51,34 @@
 
 <p>In general, the operators correspond to the classes they're meant to instantiate, and/or the slots they're meant to fill in the enclosing class instance. Nested instantiations can have one of two meanings. If the inner class is part of the outer one, it is taken to define that part of the outer class (e.g. in (sense (sem-frame ...)), the sem-frame is part of the sense). If the outer class is part of or the same as the inner one, the inner instance gets the properties of the outer one (e.g. in (word foo (morph ...)), the morph gets "foo" as the base form). This happens via an inheritance relation if they're both concepts. It's also possible to inherit concepts by name rather than nesting, in the same way as other relations are formed.</p>
 
+<p>Certain slots can be set outside of any class instantiation for a class with that slot, and in that case they apply to everything after them in the same lexical scope. Slots with this behavior include <code>provenance</code>, <code>word</code>, <code>pos</code>, and <code>morph</code>. In addition, <code>provenance</code>, <code>word</code>, and <code>pos</code> may contain nested instantiations that use those slot values.</p>
+
+<h3>Special sub-formats</h3>
+
+<p>[examples given here should be taken with a grain of salt; I made them up without looking at the actual data]</p>
+
+<p>A word looks like this: <code>(word <var>word-spec</var> [<var>body...</var>])</code>. The <code><var>word-spec</var></code> can be one of the following: a single word symbol (this includes hyphenated words), a list of word symbols, or a list of word symbols with a final list containing a single particle word. Examples:</p>
+<ul>
+ <li><code>(word cake)</code> ; a single word, "cake"
+ <li><code>(word caked-on)</code> ; a single word with a hyphen
+ <li><code>(word (pound cake))</code> ; multiple contiguous words, "pound cake"
+ <li><code>(word (eat (up)))</code> ; "eat up", with "up" as a separable particle, as in "eat the cake up"
+</ul>
+
+<p>A syn-sem-map (part of a syn-sem) looks like this: <code>(<var>syn-arg</var> <var>syn-cat</var> <var>sem-role</var> [optional])</code>. The <code><var>syn-cat</var></code> can either be a syntactic phrase category (like <code>NP</code>) by itself, or a two-item list of the category and a head word or disjunction of head words. The second option is mostly used for prepositions, e.g. <code>(PP with)</code> to indicate that the argument syntax is a prepositional phrase where the preposition is "with". Examples:</p>
+<ul>
+ <li><code>(lsubj NP ONT::agent)</code> ; a required subject that is a noun phrase and fills the agent role
+ <li><code>(liobj NP ONT::recipient optional)</code> ; an optional indirect object that is a noun phrase and fills the recipient role
+ <li><code>(comp (PP (or to into)) ONT::to-loc)</code> ; a required complement that is a prepositional phrase with preposition "to" or "into", that fills the to-loc role
+</ul>
+
+<p>A role-restr-map (part of a sem-frame) looks like this: <code>(<var>sem-role(s)</var> <var>restriction</var> [optional])</code>. Multiple semantic role symbols can be specified as a list. The <code><var>restriction</var></code> should be some kind of (semantic) concept or <code>AND</code>/<code>OR</code> formula of concepts. The symbol <code>t</code> may be used to indicate a lack of restriction (think of it as the "top" concept type). Examples:</p>
+<ul>
+ <li><code>(ONT::agent (sem-feats (intentional +)))</code> ; the agent role is required, and is restricted to be intentional (the semantic feature <code>intentional</code> must have value <code>+</code>)
+ <li><code>(ONT::recipient t optional)</code> ; the recipient role is optional and unrestricted
+ <li><code>(ONT::effect (or ONT::activity ONT::procedure))</code> ; the effect role is required and restricted to be either an activity or a procedure
+</ul>
+
 <h2>Lisp Library</h2>
 
 <h3>Loading Data</h3>

@@ -1,6 +1,6 @@
 (in-package :dsl)
 
-;;; old TRIPS lexicon/ontology loading
+;;; loading of old TRIPS lexicon/ontology
 ;; TODO make sure this actually treats things the same as old lex/ont, to the extent possible
 
 (import '(common-lisp::in-package) :lexicon-data)
