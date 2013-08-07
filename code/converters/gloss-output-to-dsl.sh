@@ -4,9 +4,12 @@ export TRIPS_BASE=../../../..
 export CONFIGDIR=$TRIPS_BASE/src/config
 export LISP=`grep -P -o -e '(?<=^LISP = ).*' $CONFIGDIR/lisp/defs.mk`
 export RUBY=`grep -P -o -e '(?<=^RUBY  = ).*' $CONFIGDIR/ruby/defs.mk`
+export PERL=`grep -P -o -e '(?<=^PERL  = ).*' $CONFIGDIR/perl/defs.mk`
 
+# Note: can't use uniq to remove duplicate lines, because their length may
+# exceed LINE_MAX, and uniq on Mac OS X truncates such lines.
 grep -P -o -e '\(DEFINE-CONCEPT .*\)(?=\)$)' \
-| uniq \
+| $PERL -n -e 'print unless ($_ eq $prev); $prev = $_;' \
 | $LISP \
   --noinform \
   --noprint \
