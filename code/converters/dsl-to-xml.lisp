@@ -15,6 +15,7 @@
     ,@body))
 
 (load #!TRIPS"src;DeepSemLex;code;converters;lf-to-rdf")
+(load #!TRIPS"src;DeepSemLex;code;converters;syntax-tree-to-xml")
 
 (defmacro concept-element ((xml tag-name op-var form-var body-forms) &body cases)
   `(let ((body-forms ,body-forms))
@@ -123,10 +124,10 @@
 	  (format xml "~&~vt<feat name=\"~(~s~)\">" *indent* operator)
 	  (etypecase (second form)
 	    (symbol
-	      (format xml "~(~s</~s>~)" (second form) operator))
+	      (format xml "~(~s~)</feat>" (second form)))
 	    (list
 	      (dsl-to-xml-stream (second form) xml)
-	      (format xml "~&~vt</~(~s~)>" *indent* operator)
+	      (format xml "~&~vt</feat>" *indent*)
 	      )
 	    )
 	  )))
@@ -146,8 +147,8 @@
 	    ((text lf-root)
 	      nil)
 	    (lf-terms
-	      (format xml "~&~vt<lf-terms root=\"~s\">" *indent* (second (assoc 'lf-root (cdr dsl))))
-	      (lf-to-rdf-stream (cdr f) xml)
+	      (format xml "~&~vt<lf-terms root=\"~a\">" *indent* (second (assoc 'lf-root (cdr dsl))))
+	      (indented (lf-to-rdf-stream (cdr f) xml))
 ;	      (indented
 ;		(dolist (term (cdr f))
 ;		  (format xml "~&~vt~s" *indent* term)))
@@ -155,10 +156,10 @@
 	      )
 	    (syntax-tree
 	      (format xml "~&~vt<syntax-tree>" *indent*)
-	      (indented
-	        ;; TODO XML?
-	        (let ((*print-pretty* t))
-		  (format xml "~&~vt~s" *indent* (second f))))
+	      (indented (syntax-tree-to-xml-stream (second f) xml))
+;	      (indented
+;	        (let ((*print-pretty* t))
+;		  (format xml "~&~vt~s" *indent* (second f))))
 	      (format xml "~&~vt</syntax-tree>" *indent*)
 	      )
 	    (lattice

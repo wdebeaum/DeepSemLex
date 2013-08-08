@@ -8,12 +8,14 @@ require 'word_net_sql'
 current_synset = nil
 current_word = nil
 current_word_like = nil
+in_examples = false
 begin
   $stdin.each_line { |l|
     if (l =~ /\(CONCEPT WN::\|([^\|]+)\|/)
       before, capture, after = $`, $1, $'
       current_word = nil
       current_word_like = nil
+      in_examples = false
       current_synset = WordNetSQL.sk2ss(capture)
       senses =
 	WordNetSQL.query_collect(
@@ -24,7 +26,9 @@ begin
 	  "WN::#{lemma.gsub(/'/,'^')}.#{current_synset[0]}.#{sense_number}"
 	}
       l = before + ("(CONCEPT WN::%s%08d ; " % current_synset) + senses.join(' ') + "\n" + after
-    elsif (l =~ /\(DEFINITION\b/)
+    elsif (l =~ /\(EXAMPLE\b/)
+      in_examples = true
+    elsif (l =~ /\(DEFINITION\b/ and not in_examples)
       before, after = $`, $'
       gloss = WordNetSQL.query_first_value(
 	"SELECT gloss FROM synsets WHERE ss_type=? AND synset_offset=?;",

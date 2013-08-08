@@ -25,6 +25,7 @@
       "~&~vt    xmlns:LF=\"http://www.cs.rochester.edu/research/trips/LF#\">"
       ))
     (format s str *indent*))
+  (incf *indent*)
   (dolist (term lf-terms)
     (let ((indicator (convert-to-package (first term)))
 	  (id (convert-to-package (second term)))
@@ -73,6 +74,17 @@
 		  (format s "~&~vt<rdf:li rdf:resource=\"#~s\" />" *indent* m)))
 	      (format s "~&~vt</rdf:Seq></role~s>" *indent* role)
 	      )
+	    ((eql :WNSENSE role)
+	      ;; prevent WN synset IDs being interpreted as term IDs, and
+	      ;; handle AND/OR lists
+	      (if (and (consp value)
+		       (member (symbol-name (car value)) '("AND" "OR")
+			       :test #'string=))
+		(format s "~&~vt<role~s>~(<~a>~{~s~^ ~}</~a>~)</role~s>"
+			*indent* role (car value) (cdr value) (car value) role)
+		; single symbol
+	        (format s "~&~vt<role~s>~s</role~s>" *indent* role value role)
+		))
 	    ((is-trips-variable value)
 	      ;; write the role as a resource reference
 	      (format s "~&~vt<role~s rdf:resource=\"#~s\" />" *indent* role (convert-to-package value)))
@@ -86,6 +98,7 @@
 	)
       (format s "~&~vt</rdf:Description>" *indent*)
       ))
+  (decf *indent*)
   (format s "~&~vt</rdf:RDF>" *indent*)
   )
 
