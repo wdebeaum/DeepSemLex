@@ -6,6 +6,8 @@
                        :name "trips")))
 (load #!TRIPS"src;DeepSemLex;code;lib;defsys")
 
+(in-package :dsl)
+
 (defvar *indent* 0)
 
 (defmacro indented (&body body)
@@ -14,8 +16,8 @@
 
 (defmacro concept-element ((xml tag-name op-var form-var body-forms) &body cases)
   `(let ((body-forms ,body-forms))
-    (format ,xml "~&~vt<~(~a~)" *indent* ',tag-name)
-    (when (or (symbolp (car body-forms)) (dsl::trips-sense-name-p (car body-forms)))
+    (format ,xml "~&~vt<~(~a~)" *indent* ,tag-name)
+    (when (or (symbolp (car body-forms)) (trips-sense-name-p (car body-forms)))
       (format xml " name=\"~(~s~)\"" (pop body-forms)))
     (let (aliases other-forms)
       (loop for f in body-forms
@@ -30,7 +32,7 @@
         (other-forms
           (format ,xml ">")
 	  (indented
-	    (loop for ,form-var in other-forms
+	    (loop for ,form-var in (reverse other-forms)
 		  for ,op-var = (when (consp ,form-var) (car ,form-var))
 		  do
 		    (cond
@@ -38,7 +40,7 @@
 		      (t (dsl-to-xml-stream ,form-var ,xml))
 		      )
 		  ))
-	  (format ,xml "~&~vt</~(~a~)>" *indent* ',tag-name)
+	  (format ,xml "~&~vt</~(~a~)>" *indent* ,tag-name)
 	  )
 	(t ; no other-forms
 	  (format ,xml " />"))
@@ -92,20 +94,20 @@
       (concept-element (xml (car dsl) operator form (cdr dsl))
 	((typep operator '(or sem-role (and cons (list-of sem-role))))
 	  (destructuring-bind (roles restriction &optional optional) form
-	    (format xml "~&~vt<role-restr-map roles=\"~{~s~^ ~}\"~:[ optional=\"optional\"~;~]>" *indent* (if (listp roles) roles (list roles)) optional)
+	    (format xml "~&~vt<role-restr-map roles=\"~(~{~s~^ ~}~)\"~:[~; optional=\"optional\"~]>" *indent* (if (listp roles) roles (list roles)) optional)
 	    (indented
 	      (etypecase restriction
 		(symbol (format xml "~(~s~)" restriction))
 		(list (dsl-to-xml-stream restriction xml))
 		))
-	    (format xml "~&~vt</role-restr-map>" *indent*)
+	    (format xml "~@[~&~vt~]</role-restr-map>" (when (listp restriction) *indent*))
 	    )
 	    )))
     (syn-sem
       (concept-element (xml (car dsl) operator form (cdr dsl))
 	((typep operator 'syn-arg)
 	  (destructuring-bind (syn-arg syn-cat &optional sem-role optional) form
-	    (format xml "~&~vt~(<syn-sem-map syn-arg=\"~s\" syn-cat=\"~s\"~@[ head-word=\"~s\"~]~@[ sem-role=\"~s\"~]~:[ optional=\"optional\"~;~]/>~)"
+	    (format xml "~&~vt~(<syn-sem-map syn-arg=\"~s\" syn-cat=\"~s\"~@[ head-word=\"~s\"~]~@[ sem-role=\"~s\"~]~:[~; optional=\"optional\"~]/>~)"
 		*indent*
 		syn-arg
 		(if (listp syn-cat) (car syn-cat) syn-cat)
@@ -115,7 +117,7 @@
 		)))))
     ((syn-feats sem-feats)
       (concept-element (xml (car dsl) operator form (cdr dsl))
-	((typep operator '(syn-feat sem-feat))
+	((typep operator '(or syn-feat sem-feat))
 	  (format xml "~&~vt<feat name=\"~(~s~)\">" *indent* operator)
 	  (etypecase (second form)
 	    (symbol
@@ -132,14 +134,14 @@
 	  (format xml "~&~vt~a" *indent* form)
 	  )))
     ((definition example)
-      (format xml "~&~vt<~(~s~) text=~s>" *indent* (car dsl) (second (assoc 'text (cdr dsl))))
+      (format xml "~&~vt<~(~s~)~@[ text=~s~]>" *indent* (car dsl) (second (assoc 'text (cdr dsl))))
       (indented
         (dolist (f (cdr dsl))
 	  ;; I would've put these cases up among the others, but I decided to
 	  ;; move lf-root from the input-text to the lf-terms element, since
 	  ;; that's where it is in the WebParser output
 	  (case (car f)
-	    (lf-root
+	    ((text lf-root)
 	      nil)
 	    (lf-terms
 	      (format xml "~&~vt<lf-terms root=\"~s\">" *indent* (second (assoc 'lf-root (cdr dsl))))
@@ -185,16 +187,22 @@
       (format xml "~&~vt<~(~s~)>" *indent* (car dsl))
       (indented
 	(dolist (f (cdr dsl))
-	  (if (listp f)
-	    (dsl-to-xml-stream f xml)
-	    (format xml "~&~vt~s" *indent* f)
+	  (cond
+	    ((listp f)
+	      (dsl-to-xml-stream f xml))
+	    ((symbolp f)
+	      (format xml "~&~vt~(~s~)" *indent* f))
+	    (t
+	      (format xml "~&~vt~s" *indent* f))
 	    )))
+      (format xml "~&~vt</~(~s~)>" *indent* (car dsl))
       )
     ))
 
-(defun run ()
+(defun cl-user::run ()
   (format *standard-output* "<?xml version=\"1.0\"?>~%<dsl>~%")
-  (loop for expr = (read *standard-input* nil) while expr
+  (loop with *package* = (find-package :dsl)
+        for expr = (read *standard-input* nil) while expr
         do (indented (dsl-to-xml-stream expr *standard-output*)))
   (format *standard-output* "</dsl>~%")
   )
