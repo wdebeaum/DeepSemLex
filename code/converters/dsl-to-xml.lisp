@@ -14,6 +14,8 @@
   `(let ((*indent* (1+ *indent*)))
     ,@body))
 
+(load #!TRIPS"src;DeepSemLex;code;converters;lf-to-rdf")
+
 (defmacro concept-element ((xml tag-name op-var form-var body-forms) &body cases)
   `(let ((body-forms ,body-forms))
     (format ,xml "~&~vt<~(~a~)" *indent* ,tag-name)
@@ -145,10 +147,10 @@
 	      nil)
 	    (lf-terms
 	      (format xml "~&~vt<lf-terms root=\"~s\">" *indent* (second (assoc 'lf-root (cdr dsl))))
-	      (indented
-		;; TODO RDF?
-		(dolist (term (cdr f))
-		  (format xml "~&~vt~s" *indent* term)))
+	      (lf-to-rdf-stream (cdr f) xml)
+;	      (indented
+;		(dolist (term (cdr f))
+;		  (format xml "~&~vt~s" *indent* term)))
 	      (format xml "~&~vt</lf-terms>" *indent*)
 	      )
 	    (syntax-tree
@@ -200,10 +202,10 @@
     ))
 
 (defun cl-user::run ()
-  (format *standard-output* "<?xml version=\"1.0\"?>~%<dsl>~%")
+  (format *standard-output* "~&<?xml version=\"1.0\"?>~&<dsl>")
   (loop with *package* = (find-package :dsl)
         for expr = (read *standard-input* nil) while expr
         do (indented (dsl-to-xml-stream expr *standard-output*)))
-  (format *standard-output* "</dsl>~%")
+  (format *standard-output* "~&</dsl>~%")
   )
 
