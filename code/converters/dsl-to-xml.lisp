@@ -17,6 +17,24 @@
 (load #!TRIPS"src;DeepSemLex;code;converters;lf-to-rdf")
 (load #!TRIPS"src;DeepSemLex;code;converters;syntax-tree-to-xml")
 
+(defvar *xml-escapes* '((#\" "quot") (#\< "lt") (#\> "gt") (#\& "amp")))
+
+(defun xml-escape (str)
+  "Replace characters special to XML with their corresponding entities, as
+   listed in the *xml-escapes* alist."
+  (loop with start-pos = 0
+	for pos =
+	  (position-if (lambda (c) (assoc c *xml-escapes*)) str
+	      :start start-pos)
+	while pos
+	nconcing 
+	       (list (subseq str start-pos pos)
+		     "&" (second (assoc (elt str pos) *xml-escapes*)) ";")
+	into chunks
+	do (setf start-pos (1+ pos))
+	finally (return (apply #'concatenate `(string ,@chunks ,(subseq str start-pos))))
+	))
+
 (defmacro concept-element ((xml tag-name op-var form-var body-forms) &body cases)
   `(let ((body-forms ,body-forms))
     (format ,xml "~&~vt<~(~a~)" *indent* ,tag-name)
@@ -134,10 +152,12 @@
     (entailments
       (concept-element (xml (car dsl) operator form (cdr dsl))
         ((stringp form)
-	  (format xml "~&~vt~a" *indent* form)
+	  (format xml "~&~vt~a" *indent* (xml-escape form))
 	  )))
     ((definition example)
-      (format xml "~&~vt<~(~s~)~@[ text=~s~]>" *indent* (car dsl) (second (assoc 'text (cdr dsl))))
+      (let ((text (second (assoc 'text (cdr dsl)))))
+        (when text (setf text (xml-escape text)))
+        (format xml "~&~vt<~(~s~)~@[ text=~s~]>" *indent* (car dsl) text))
       (indented
         (dolist (f (cdr dsl))
 	  ;; I would've put these cases up among the others, but I decided to
@@ -196,7 +216,7 @@
 	    ((symbolp f)
 	      (format xml "~&~vt~(~s~)" *indent* f))
 	    (t
-	      (format xml "~&~vt~s" *indent* f))
+	      (format xml "~&~vt~a" *indent* (xml-escape (format nil "~s" f))))
 	    )))
       (format xml "~&~vt</~(~s~)>" *indent* (car dsl))
       )
