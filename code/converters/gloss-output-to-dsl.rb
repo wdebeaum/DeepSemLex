@@ -23,9 +23,9 @@ begin
 	     WHERE ss_type=? AND synset_offset=? ORDER BY word_number;",
 	    *current_synset
 	  ) { |lemma, sense_number|
-	  "WN::#{lemma.gsub(/'/,'^')}.#{current_synset[0]}.#{sense_number}"
+	  "(sense WN::#{lemma.gsub(/'/,'^')}.#{current_synset[0]}.#{sense_number})"
 	}
-      l = before + ("(CONCEPT WN::%s%08d ; " % current_synset) + senses.join(' ') + "\n" + after
+      l = before + ("(CONCEPT WN::%s%08d\n " % current_synset) + senses.join("\n ") + after
     elsif (l =~ /\(EXAMPLE\b/)
       in_examples = true
     elsif (l =~ /\(DEFINITION\b/ and not in_examples)
