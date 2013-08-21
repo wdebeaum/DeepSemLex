@@ -93,10 +93,10 @@
 	((not (listp (second dsl)))
 	  (error "bogus word spec; expected symbol or list, but got: ~s" (second dsl)))
 	((every #'symbolp (second dsl))
-	  (format xml "<word first-word=\"~s\" remaining-words=\"~{~s~^ ~}\"" (car (second dsl)) (cdr (second dsl))))
+	  (format xml "~&~vt<word first-word=\"~s\" remaining-words=\"~{~s~^ ~}\"" *indent* (car (second dsl)) (cdr (second dsl))))
         ((and (every #'symbolp (butlast (second dsl)))
 	      (typep (car (last (second dsl))) '(cons symbol null)))
-	  (format xml "<word first-word=\"~s\" remaining-words=\"~{~s~^ ~}\" particle=\"~s\"" (car (second dsl)) (butlast (cdr (second dsl))) (caar (last (second dsl)))))
+	  (format xml "~&~vt<word first-word=\"~s\" remaining-words=\"~{~s~^ ~}\" particle=\"~s\"" *indent* (car (second dsl)) (butlast (cdr (second dsl))) (caar (last (second dsl)))))
 	(t
 	  (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s" (second dsl)))
 	)
@@ -106,8 +106,32 @@
       (format xml "~&~vt<pos pos=\"~(~s~)\"" *indent* (second dsl))
       (optional-body xml "pos" (cddr dsl))
       )
-    ((concept syntax semantics sense provenance)
-      ; provenance isn't really a concept subclass, but it still works here
+    (provenance
+      (let ((attributes (cdr dsl)) children)
+        (when (symbolp (car attributes))
+	  (setf attributes
+	        (cons (list 'name (car attributes)) (cdr attributes))))
+	(setf attributes
+	      (remove-if
+	          (lambda (form)
+		    (when (eq 'provenance (car form))
+		      (push form children)
+		      t))
+		  attributes))
+        (format xml "~&~vt<provenance~{ ~(~s~)=\"~a\"~}" *indent* (apply #'append attributes))
+	(cond
+	  (children
+	    (format xml ">")
+	    (indented
+	      (dolist (child children)
+	        (dsl-to-xml-stream child xml)))
+	    (format xml "~&~vt</provenance>" *indent*)
+	    )
+	  (t
+	    (format xml "/>"))
+	  )
+	))
+    ((concept syntax semantics sense)
       (concept-element (xml (car dsl) operator form (cdr dsl))
         ; no special cases
 	))
