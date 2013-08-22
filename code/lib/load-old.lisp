@@ -6,17 +6,19 @@
 (import '(common-lisp::in-package) :lexicon-data)
 
 (defun convert-variables-to-disjunctions (x)
-  "Convert things of the form (? var opt1 opt2) to (w::or opt1 opt2), and (?
-   var) to t."
+  "Convert things of the form (? var opt1 opt2) to (w::or opt1 opt2),
+   (? var foo) to just foo, and (? var) to t."
   (cond
     ((not (consp x))
       x)
     ((not (member (car x) '(? ld::? om::? lxm::?)))
       (mapcar #'convert-variables-to-disjunctions x))
-    ((cddr x)
-      (cons 'w::or (cddr x)))
-    ((cdr x)
+    ((= 2 (length x))
       t)
+    ((= 3 (length x))
+      (third x))
+    ((< 3 (length x))
+      (cons 'w::or (cddr x)))
     (t (mapcar #'convert-variables-to-disjunctions x))
     ))
 
@@ -56,9 +58,9 @@
         ,@(mapcar
 	    (lambda (arg)
 	      (destructuring-bind (optionality role &optional restr-sem &rest params) arg
-	        (let* ((implements (second (assoc :implements params)))
-		       (roles (if implements
-		                (list role (util::convert-to-package implements :ONT))
+	        (let* ((implements (util::convert-to-package (second (assoc :implements params)) :ONT)))
+		       (roles (if (and implements (not (eq implements role)))
+		                (list role implements)
 				role))
 		       (restr (convert-old-sem restr-sem))
 		       )
