@@ -56,10 +56,10 @@
       (let ((part-instance (make-instance part-type)))
         (add-relation whole-instance :inherit part-instance)
 	part-instance))
-    ((not (slot-exists-p part-type whole-instance))
+    ((not (slot-exists-p whole-instance part-type))
       ;; TODO recurse on concept parts of whole-instance?
       (error "Not sure what part of ~s is ~s" (type-of whole-instance) part-type))
-    ((not (slot-boundp part-type whole-instance))
+    ((not (slot-boundp whole-instance part-type))
       (setf (slot-value whole-instance part-type) (make-instance part-type)))
     ((typep (slot-value whole-instance part-type) part-type)
       (slot-value whole-instance part-type))

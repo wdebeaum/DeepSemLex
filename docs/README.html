@@ -103,7 +103,7 @@
  <li>More and better documentation.
  <li>More unit tests.
  <li>Combine information from inherited concepts into one big lex-entry to send to the parser.
- <li>Export to some of XML, OWL, JSON, YAML...
+ <li>Export to some of OWL, JSON, YAML...
  <li>When do DSL files get loaded? Compile-time? Run-time initialization? On demand? Some combination for different resources?
  <li>Overrides.
  <li>Regular morphology defaults.
@@ -113,12 +113,12 @@
   <ul>
    <li>ONT types:
     <ul>
-     <li>:required and :default parts of sem feats as in ONT::MOVE
+     <li>:required and :default parts of sem feats as in ONT::MOVE [currently these just get flattened so they're all required]
     </ul>
    <li>Templates:
     <ul>
-     <li>Parameterized templates as functions?
      <li>What to do about variables used across different parts of a template? (e.g. in THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL)
+     <li>What to do about syntactic features in template constits (some aren't just head words)?
     </ul>
    <li>Senses:
     <ul>
