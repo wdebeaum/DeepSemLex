@@ -33,7 +33,8 @@
  <xsl:text>;;; AUTOMATICALLY GENERATED
 (provenance VerbNet (version "3.2") (filename "</xsl:text>
  <xsl:value-of select="@ID" />
- <xsl:text>.xml"))</xsl:text>
+ <xsl:text>.xml"))
+(pos V)</xsl:text>
  <xsl:call-template name="concept" />
  <xsl:text>
 
@@ -44,34 +45,50 @@
  <xsl:call-template name="concept" />
 </xsl:template>
 
-<xsl:template match="MEMBERS">
- <!-- FIXME should we instead get all members as senses, and have those map to the WN/ON senses instead of mapping directly from the VN class? -->
- <xsl:if test="MEMBER[@wn != '' or @grouping != '']">
-  <xsl:call-template name="nl-indent" />
-  <xsl:text>(overlap</xsl:text>
-  <xsl:apply-templates />
-  <xsl:text>)</xsl:text>
- </xsl:if>
-</xsl:template>
-
 <xsl:template match="MEMBER">
- <xsl:if test="@wn != ''">
-  <!-- TODO do I need to tokenize here too, or is it just for ON? -->
-  <xsl:text> WN::|</xsl:text>
-  <xsl:value-of select="replace(replace(@wn, '\?', ''), '\s+', '::| WN::|')" />
-  <xsl:text>::|</xsl:text>
- </xsl:if>
- <xsl:if test="@grouping != ''">
-  <xsl:variable name="name" select="@name" />
-  <xsl:for-each select="tokenize(@grouping, ' ')">
-   <xsl:text> ON::</xsl:text>
-   <xsl:value-of select="$name" />
-   <xsl:text>.v.</xsl:text>
-   <xsl:value-of select="replace(substring-after(., '.'), '^0', '')" />
-  </xsl:for-each>
- </xsl:if>
+ <xsl:call-template name="nl-indent" />
+ <xsl:text>(sense (word </xsl:text>
+ <xsl:choose>
+  <xsl:when test="contains(@name, '_')">
+   <xsl:text>(</xsl:text>
+   <xsl:value-of select="replace(@name,'_',' ')"/>
+   <!-- FIXME detect prepositions and make them particles? -->
+   <xsl:text>)</xsl:text>
+  </xsl:when>
+  <xsl:otherwise>
+   <xsl:value-of select="@name"/>
+  </xsl:otherwise>
+ </xsl:choose>
+ <xsl:text>)</xsl:text>
+ <xsl:choose>
+  <xsl:when test="@wn != '' or @grouping != ''">
+   <xsl:call-template name="nl-indent" />
+   <xsl:text>  (overlap</xsl:text>
+   <xsl:if test="@wn != ''">
+    <!-- TODO do I need to tokenize here too, or is it just for ON? -->
+    <xsl:text> WN::|</xsl:text>
+    <xsl:value-of select="replace(replace(@wn, '\?', ''), '\s+', '::| WN::|')" />
+    <xsl:text>::|</xsl:text>
+   </xsl:if>
+   <xsl:if test="@grouping != ''">
+    <xsl:variable name="name" select="@name" />
+    <xsl:for-each select="tokenize(@grouping, ' ')">
+     <xsl:text> ON::</xsl:text>
+     <xsl:value-of select="$name" />
+     <xsl:text>.v.</xsl:text>
+     <xsl:value-of select="replace(substring-after(., '.'), '^0', '')" />
+    </xsl:for-each>
+   </xsl:if>
+   <xsl:text>)</xsl:text>
+   <xsl:call-template name="nl-indent" />
+   <xsl:text>  )</xsl:text>
+  </xsl:when>
+  <xsl:otherwise>
+   <xsl:text>)</xsl:text>
+  </xsl:otherwise>
+ </xsl:choose>
 </xsl:template>
-
+ 
 <xsl:template match="THEMROLES[THEMROLE]">
  <xsl:call-template name="nl-indent" />
  <xsl:text>(sem-frame</xsl:text>

@@ -45,7 +45,7 @@ PropBank/frames/%.lisp: $(ONTONOTES)/data/english/metadata/frames/%.xml ../code/
 	      -xsl:../code/converters/propbank-frameset-to-dsl.xsl -s:- -o:$@
 
 VN_CLASSES=$(shell ls $(VERBNET)/*.xml \
-		   |$(PERL) -n -e 'print "$$1\n" if (/\/([^\/\.]+)\.xml$$/);')
+		   |$(PERL) -n -e 'print "$$1\n" if (/\/([^\/]+?)\.xml$$/);')
 
 VerbNet/COMPLETE: $(VN_CLASSES:%=VerbNet/%.lisp)
 	touch $@
