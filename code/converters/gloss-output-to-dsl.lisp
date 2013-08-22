@@ -64,12 +64,23 @@
 		    words))))))
 
 (defun role-to-role-restr-map (role)
-  (destructuring-bind (role-name (trips-class wn-class)) role
-    `( ,(repkg role-name :ont)
-       ,(if wn-class
-         `(and ,trips-class ,(strs-to-wn-sk-syms wn-class))
-	 trips-class)
-       )))
+  (cond ; work around odd variations in restriction format
+    ;; extra parens
+    ((and (= 1 (length (second role))) (listp (first (second role))))
+      (role-to-role-restr-map (list (first role) (first (second role)))))
+    ;; no actual restriction
+    ((null (second role))
+      `( ,(repkg (first role) :ont) t ))
+    ;; the way it's supposed to be
+    ((= 2 (length (second role)))
+      (destructuring-bind (role-name (trips-class wn-class)) role
+	`( ,(repkg role-name :ont)
+	   ,(if wn-class
+	     `(and ,trips-class ,(strs-to-wn-sk-syms wn-class))
+	     trips-class)
+	   )))
+    (t (error "bogus role restriction: ~s" role))
+    ))
 
 (defun convert-example (ex)
   (destructuring-bind (x &key root lfs syntax words) ex

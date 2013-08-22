@@ -35,12 +35,14 @@
       ;; interpret the different kinds of third element
       (if (consp type-word)
 	(cond
-	  ((eql :* (car type-word))
+	  ((eq :* (car type-word))
 	    (setf type (second type-word))
 	    (setf word (convert-one-package (third type-word) :w))
 	    )
+	  ((eq '<OR> (convert-to-package (car type-word)))
+	    (setf type type-word))
 	  ;; FIXME does this even happen anymore?
-	  ((eql 'set-of (convert-to-package (car type-word)))
+	  ((eq 'set-of (convert-to-package (car type-word)))
 	    (setf type 'set)
 	    (setf roles (append (list :of (second type-word)) roles))
 	    )
