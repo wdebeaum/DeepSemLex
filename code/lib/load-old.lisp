@@ -58,7 +58,7 @@
         ,@(mapcar
 	    (lambda (arg)
 	      (destructuring-bind (optionality role &optional restr-sem &rest params) arg
-	        (let* ((implements (util::convert-to-package (second (assoc :implements params)) :ONT)))
+	        (let* ((implements (util::convert-to-package (second (assoc :implements params)) :ONT))
 		       (roles (if (and implements (not (eq implements role)))
 		                (list role implements)
 				role))
