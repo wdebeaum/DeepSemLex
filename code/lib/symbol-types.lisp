@@ -10,39 +10,71 @@
   '(or pos (member adjp advbl CP NP number PP pred S utt VP VP- word)))
 
 (deftype syn-arg ()
-  '(member lsubj lobj liobj comp subcat subcat2 post-subcat premod argument))
+  '(member lsubj lobj liobj lcomp subcat subcat2 post-subcat premod argument))
 
 (deftype syn-feat ()
   '(member
   ; key		; values (unless just + -)
     agr		; 1p 1s 2p 2s 3p 3s
+    allow-before
     allow-deleted-comp
     allow-post-n1-subcat
     atype 	; post pre pre-vp
+    aux
+    auxname	; - passive progr perf
+    cardinality
     case	; - obj sub
+    changesem
     comparative	; + superl
     comp-op	; - less
     conj
     contraction
     diectic
     disj
+    ellipsis
     else-word
     functn	; acceptability-val compare-val linear-scale
+    gap
+    generated
+    implicit-arg
+    indef-only
     lex		; us you
     mass	; bare mass count
+    modal
+    name
+    nname
     neg
     negatable
     npmod
+    nobarespec
+    npagr	; ???
+    number
+    numerical-form	; numercal-both numerical-comp
+    operator	; one-of
     pointer
     pos		; (see deftype pos)
+    poss
+    pro		; + indef recip
+    ptype	; (prepositions)
+;    qcomp	; (constits (blech))
+;    qof		; (ditto)
+    qtype	; wh
     quant
     refl
     seq
     sing-lf-only
+    skip
+    sort	; attribute-unit binary-constraint classifier disc double-subcat else number-unit operator other-reln pp-word pred substance-unit unit-measure
     status	; definite-plural indefinite indefinite-plural quantifier
     stem	; he her him it me one she they we who you
+    subcat	; - s pp np vp adjp
+    subcat1	;
+    subcat2	;
+    subcat3	;
+    unaccusative
     vform	; base fut pres ing past pastpart passive
     wh 		; q r (question, relative clause)
+    ^s-plural
     ))
 
 ;;; sem-feat subtypes

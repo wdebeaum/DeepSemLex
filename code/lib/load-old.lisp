@@ -125,6 +125,16 @@
 		        (cdr (assoc 'lxm::syntax (cdr templ-spec))) :ld)))
 	      (args (cdr (assoc 'lxm::arguments (cdr templ-spec))))
 	      )
+	  (setf syn-feats
+	        (delete-if
+		    (lambda (x)
+		      (member (car x) '(
+		        ld::morph ; TODO handle morph separately
+			ld::arg ld::sa-id ; just variables, useless
+			ld::sem ; not syntactic
+			ld::qcomp ld::qof ; constit-valued (not symbols)
+			)))
+		    syn-feats))
 	  (if (find :parameter args :key #'caadr)
 	    `(defun ,name (&key ,@(get-defun-params-from-templ-args args))
 	      (ld::syntax
