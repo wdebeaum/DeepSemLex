@@ -21,6 +21,21 @@
    nil)
   )
 
+;; unfortunately equalp doesn't work for class instances the way it does for
+;; structures
+;; TODO make this more generic
+(defun provenance-equalp (p1 p2)
+  (or (eq p1 p2)
+      (and (eq (name p1) (name p2))
+      	   (equalp (version p1) (version p2))
+      	   (equalp (filename p1) (filename p2))
+      	   (equalp (record-number p1) (record-number p2))
+	   (= (length (provenance p1)) (length (provenance p2)))
+	   ;; TODO ignore ordering?
+	   (every #'identity
+	          (mapcar #'provenance-equalp (provenance p1) (provenance p2)))
+	   )))
+
 (defclass-simple input-text ()
   "A chunk of text (usually a sentence) to be used as input to the parser."
   (string text "the text itself")

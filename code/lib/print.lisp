@@ -98,7 +98,8 @@
 	     ;; need to listify up here so nested stuff sees the right
 	     ;; *current-provenance*
 	     (mapcar #'listify
-	             (reverse (remove *current-provenance* (provenance c)))))
+	             (reverse (remove *current-provenance* (provenance c)
+		                      :test #'provenance-equalp))))
            relations
 	   nested)
       ;; collapse relations with the same name, and separate out inheritance of
@@ -154,7 +155,7 @@
 (defmethod listify ((m role-restr-map))
   `(,@(listify (if (= 1 (length (roles m))) (roles m) (list (roles m))))
     ,(listify (restriction m))
-    ,@(when (optional m) 'ld::optional)
+    ,@(when (optional m) '(ld::optional))
     ))
 
 (defmethod listify ((e entailments))

@@ -31,7 +31,7 @@
 
 (defpackage :w)
 (defpackage :f) ; should go away at some point...
-(defpackage :ont)
+;(defpackage :ont) ; see resources.lisp
 (defpackage :lexicon-data
   (:use)
   (:nicknames :ld)

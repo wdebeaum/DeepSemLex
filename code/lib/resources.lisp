@@ -108,6 +108,26 @@
 	  (load-dsl-file f)))
       *resource-versions*))
 
+(defresource (ONT)
+  ( :base-dir (:relative :up :up :up "OntologyManager" "Data" "LFdata")
+    :get-all-files
+    (lambda (rv)
+      (let ((bd (base-dir rv)))
+	(mapcar
+	    (lambda (s)
+	      (make-pathname :directory bd :name s :type "lisp"))
+	    '("abstract-types"
+	      "physobj"
+	      "predicates"
+	      "root-types"
+	      "situation-types"
+	      "specific-situation-types"
+	      "speech-acts"
+	      "time-location-types"
+	      )
+	    )))
+    ))
+
 (defresource (WN WordNet)
   ;; the latest downloadable version
   ;; FIXME can actually download just the database files for 3.1
