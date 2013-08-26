@@ -32,8 +32,14 @@
 	 (old-fl (cdr old-sem-disj))
 	 )
     ;; for now just flatten :required and :default
-    (when (every (lambda (x) (member (car x) '(:required :default))) old-fl)
-      (setf old-fl (apply #'append (mapcar #'cdr old-fl))))
+    (setf old-fl
+          (mapcan
+	      (lambda (x)
+	        (if (member (car x) '(:required :default))
+		  (cdr x)
+		  (list x)
+		  ))
+	      old-fl))
     (cond
       ((and old-fl-type old-fl)
           `(ld::sem-feats (ld::inherit ,old-fl-type) ,@old-fl))
@@ -60,6 +66,7 @@
         ,@(mapcar
 	    (lambda (arg)
 	      (destructuring-bind (optionality role &optional restr-sem &rest params) arg
+		(setf role (util::convert-to-package role :ONT))
 	        (let* ((implements (util::convert-to-package (second (assoc :implements params)) :ONT))
 		       (roles (if (and implements (not (eq implements role)))
 		                (list role implements)
