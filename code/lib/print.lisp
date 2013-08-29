@@ -98,8 +98,12 @@
 	     ;; need to listify up here so nested stuff sees the right
 	     ;; *current-provenance*
 	     (mapcar #'listify
-	             (reverse (remove *current-provenance* (provenance c)
-		                      :test #'provenance-equalp))))
+	             (reverse
+		       (if *current-provenance*
+		          (remove *current-provenance* (provenance c)
+		                  :test #'provenance-equalp)
+			  (provenance c)
+			  ))))
            relations
 	   nested)
       ;; collapse relations with the same name, and separate out inheritance of

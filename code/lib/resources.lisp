@@ -128,6 +128,13 @@
 	    )))
     ))
 
+;;; FIXME there's got to be a better way to load templates and senses...
+(defresource (ONT-T)
+  ( :base-dir (:relative :up :up :up "LexiconManager" "Data" "templates") ))
+
+(defresource (ONT-W)
+  ( :base-dir (:relative :up :up :up "LexiconManager" "Data" "new") ))
+
 (defresource (WN WordNet)
   ;; the latest downloadable version
   ;; FIXME can actually download just the database files for 3.1
