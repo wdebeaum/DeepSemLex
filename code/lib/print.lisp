@@ -211,7 +211,10 @@
   (append
       (cons (intern (symbol-name (type-of m)))
 	    (listify-slots m '(pos)))
-      (irregularities m)
+      (if (irregularities m)
+        (irregularities m)
+	(list (listify (base-word m)))
+	)
       ))
 
 (defmethod listify ((s sense))

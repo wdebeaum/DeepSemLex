@@ -104,13 +104,20 @@
        (every #'digit-char-p (subseq (symbol-name (name x)) 1))
        ))
 
+(defvar *dummy-morph-map-syn-feats* (make-instance 'syn-feats :features '((agr |3s|) (vform base))))
+
 (defun add-morph-maps-for-word (m w)
     (declare (type morph m) (type word w))
   "Fill in any missing morph-maps in m corresponding to the base form w and
    appropriate inflections for (pos m)."
   ;; TODO copy stuff from old LXM?
-  ;; for now just add the word itself with no feats
-  (push (make-instance 'morph-map :morphed w) (maps m)))
+  ;; for now just add the word itself with almost no feats
+  (push (make-instance 'morph-map
+            :morphed w
+	    :syn-feats *dummy-morph-map-syn-feats*
+	    )
+        (maps m)
+	))
 
 (defun add-morphed-sense-to-db (db sense)
     (declare (type lexicon-and-ontology db) (type sense sense))

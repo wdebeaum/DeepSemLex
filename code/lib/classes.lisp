@@ -149,6 +149,39 @@
    nil)
   )
 
+(defun base-word (m)
+  "Get the 'morphed' word that is actually the base form (assuming there is one)."
+    (declare (type morph m))
+  (let ((required-feats
+          (case (pos m)
+            (N '((agr |3s|)))
+            (V '((vform base)))
+	    ; TODO
+            (otherwise nil)
+	    )))
+    (morphed
+      (find-if
+        (lambda (mm)
+	  ;; TODO use some general feature-matching function
+	  (let ((mm-feats (syn-feats mm)))
+	    (every
+	      (lambda (rf)
+	        (some
+		  (lambda (mf)
+		    (or (equalp rf mf)
+		        (and (eq (car rf) (car mf))
+			     (consp (second mf))
+			     (eq 'w::or (car (second mf)))
+			     (member (second rf) (cdr (second mf)))
+			     )
+			))
+		  mm-feats
+	          ))
+	      required-feats
+	      )))
+	(maps m)
+	))))
+
 (defclass-simple sense (concept)
   "A concept with all the parts, plus a morph."
   (morph morph)
