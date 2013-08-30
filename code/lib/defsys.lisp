@@ -45,6 +45,7 @@
   :components (
     "mop"
     "lisp-types"
+    "unify"
     "resources"
     "symbol-types"
     "generics"

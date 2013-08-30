@@ -16,6 +16,23 @@
 	 *current-morph*)
     ,@body))
 
+(define-test unification
+  (assert-equal (values '((foo bar) (baz glarch)) '(nil nil) '(nil nil))
+                (unify-feats '((foo bar)) '((baz glarch))))
+  (assert-equal (values nil '(nil nil) '(((foo bar)) ((foo baz))))
+                (unify-feats '((foo bar)) '((foo baz))))
+  (assert-equal (values '((foo bar)) '(nil ((?baz . bar))) '(nil nil))
+                (unify-feats '((foo bar)) '((foo ?baz))))
+  (assert-equal (values '((husband barney) (wife wilma))
+                        '(nil nil nil)
+			'(nil nil nil))
+                (unify-feats '((husband (w::or fred barney))
+		               (wife (w::or wilma betty)))
+		             '((husband barney))
+			     '((wife wilma))
+			     ))
+  )
+
 (define-test anonymous-concept
   (with-clean-db
     (ld::concept

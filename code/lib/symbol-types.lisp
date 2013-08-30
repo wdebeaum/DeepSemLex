@@ -33,6 +33,10 @@
     disj
     ellipsis
     else-word
+    ;; Form wasn't originally an explicit feature, just passed around inside
+    ;; LXM, but I think it makes sense as a feature. Note that this only covers
+    ;; inflections, not cross-POS derivations like :nom, :result, and :ly
+    form	; none 12s123pbase 3s ing past pastpart sing plur er est
     functn	; acceptability-val compare-val linear-scale
     gap
     generated

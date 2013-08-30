@@ -106,6 +106,29 @@
 
 (defvar *dummy-morph-map-syn-feats* (make-instance 'syn-feats :features '((agr |3s|) (vform base))))
 
+(defvar *syn-feats-to-suffix* 
+  (mapcar
+    (lambda (p)
+      (cons (make-instance 'syn-feats :features (first p))
+            (second p)
+	    ))
+    '(
+      (((pos V) (vform base)) "")
+      (((pos (or V N ADJ)) (form none)) "")
+      (((pos V) (form |3s|) (vform pres) (agr |3s|)) "S")
+      (((pos V) (form |12s123pbase|) (vform pres) (agr (or |1s| |2s| |1p| |2p| |3p|))) "")
+      (((pos V) (form ing) (vform ing)) "ING")
+      (((pos V) (form past) (vform past)) "ED")
+      (((pos V) (form pastpart) (vform pastpart)) "ED")
+      (((pos N) (form sing) (agr |3s|)) "")
+      (((pos N) (form plur) (agr |3p|)) "S")
+      (((pos ADJ) (form er) (comparative +)) "ER")
+      (((pos ADJ) (form est) (comparative superl)) "EST")
+      )
+    )
+  "An assoc list from syn-feats to regular suffix strings."
+  )
+
 (defun add-morph-maps-for-word (m w)
     (declare (type morph m) (type word w))
   "Fill in any missing morph-maps in m corresponding to the base form w and
