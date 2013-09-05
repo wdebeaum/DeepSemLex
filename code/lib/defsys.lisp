@@ -6,6 +6,9 @@
 (unless (find-package :util)
   (load #!TRIPS"src;util;defsys"))
 
+(unless (fboundp 'util::add-suffix)
+  (load #!TRIPS"src;util;add_suffix.polyglot"))
+
 (defpackage :deepsemlex
   (:use :common-lisp :util)
   (:nicknames :dsl)

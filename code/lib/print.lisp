@@ -7,7 +7,7 @@
 
 ;; We print concepts and some other classes by listifying them and writing the
 ;; list.
-(defmethods print-object ((c (or concept provenance input-text relation word morph)) s)
+(defmethods print-object ((c (or concept provenance input-text relation word morph morph-map)) s)
   (let ((*package* (find-package :ld)))
     (write (listify c) :stream s)))
 
@@ -211,9 +211,11 @@
   (append
       (cons (intern (symbol-name (type-of m)))
 	    (listify-slots m '(pos)))
-      (if (irregularities m)
-        (irregularities m)
-	(list (listify (base-word m)))
+      (cond
+        ((irregularities m)
+          (irregularities m))
+	((maps m)
+	  (list (listify (base-word m))))
 	)
       ))
 

@@ -430,11 +430,11 @@
 
 (defmacro ld::pos (pos &body body)
   (if body
-    `(let ((*current-pos* ',pos))
+    `(let ((*current-pos* ',(ld-to-dsl-package pos)))
       ,@body
       *current-pos*)
     ;; no body, just set current
-    `(setf *current-pos* ',pos)
+    `(setf *current-pos* ',(ld-to-dsl-package pos))
     ))
 
 (defmacro ld::morph (&body body)

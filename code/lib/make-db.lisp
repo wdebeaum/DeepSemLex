@@ -113,10 +113,8 @@
             (second p)
 	    ))
     '(
-      (((pos V) (vform base)) "")
-      (((pos (or V N ADJ)) (form none)) "")
       (((pos V) (form |3s|) (vform pres) (agr |3s|)) "S")
-      (((pos V) (form |12s123pbase|) (vform pres) (agr (or |1s| |2s| |1p| |2p| |3p|))) "")
+      (((pos V) (form |12s123pbase|) (vform (w::or base pres)) (agr (w::or |1s| |2s| |1p| |2p| |3p|))) "")
       (((pos V) (form ing) (vform ing)) "ING")
       (((pos V) (form past) (vform past)) "ED")
       (((pos V) (form pastpart) (vform pastpart)) "ED")
@@ -129,18 +127,54 @@
   "An assoc list from syn-feats to regular suffix strings."
   )
 
+(defun add-suffix-to-word (w s)
+    (declare (type word w) (type string s))
+  (let* ((non-particle-words (cons (first-word w) (remaining-words w)))
+         (morphed-npw (util::add-suffix non-particle-words s)))
+    (make-instance 'word
+        :first-word (car morphed-npw)
+	:remaining-words (cdr morphed-npw)
+	:particle (particle w)
+	)))
+
 (defun add-morph-maps-for-word (m w)
     (declare (type morph m) (type word w))
   "Fill in any missing morph-maps in m corresponding to the base form w and
    appropriate inflections for (pos m)."
-  ;; TODO copy stuff from old LXM?
-  ;; for now just add the word itself with almost no feats
-  (push (make-instance 'morph-map
-            :morphed w
-	    :syn-feats *dummy-morph-map-syn-feats*
-	    )
-        (maps m)
-	))
+  (case (pos m)
+    ((N V ADJ)
+      (loop for feats-suffix in *syn-feats-to-suffix*
+	    for feats = (car feats-suffix)
+	    for suffix-pos = (second (assoc 'pos (features feats)))
+	    for suffix-form = (second (assoc 'form (features feats)))
+	    for suffix = (cdr feats-suffix)
+	    when (and (eq (pos m) suffix-pos)
+	    	      ;; we don't already have a map for this form/pos
+	              (not (member
+		               `((pos ,suffix-pos) (form ,suffix-form))
+			       (maps m)
+			       :key (lambda (mm) (features (syn-feats mm)))
+			       :test
+			         (lambda (f1 f2)
+				   ;; f1 unifies with f2, with no remainder for
+				   ;; f1
+				   (null (first (nth-value 2 (unify-feats f1 f2)))))
+			       )))
+	      do (push (make-instance 'morph-map
+			   :morphed (add-suffix-to-word w suffix)
+			   :syn-feats feats)
+		       (maps m))
+	    ))
+    (otherwise
+      (push (make-instance 'morph-map
+                :morphed w
+		:syn-feats
+		  (make-instance 'syn-feats
+		      :features `((pos ,(pos m)) (form none)))
+		)
+            (maps m)
+	    ))
+    ))
 
 (defun add-morphed-sense-to-db (db sense)
     (declare (type lexicon-and-ontology db) (type sense sense))
