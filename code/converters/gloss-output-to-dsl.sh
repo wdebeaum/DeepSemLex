@@ -15,7 +15,7 @@ grep -P -o -e '\(DEFINE-CONCEPT .*\)(?=\)$)' \
   --noprint \
   --disable-debugger \
   --load gloss-output-to-dsl.lisp \
-  --eval '(run)' \
+  --eval "(run $@)" \
 | $RUBY gloss-output-to-dsl.rb
 
 # TODO

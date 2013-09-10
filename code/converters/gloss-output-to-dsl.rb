@@ -8,14 +8,12 @@ require 'word_net_sql'
 current_synset = nil
 current_word = nil
 current_word_like = nil
-in_examples = false
 begin
   $stdin.each_line { |l|
     if (l =~ /\(CONCEPT WN::\|([^\|]+)\|/)
       before, capture, after = $`, $1, $'
       current_word = nil
       current_word_like = nil
-      in_examples = false
       current_synset = WordNetSQL.sk2ss(capture)
       senses =
 	WordNetSQL.query_collect(
@@ -26,23 +24,6 @@ begin
 	  "(sense WN::#{lemma.gsub(/'/,'^')}.#{current_synset[0]}.#{sense_number})"
 	}
       l = before + ("(CONCEPT WN::%s%08d\n " % current_synset) + senses.join("\n ") + after
-    elsif (l =~ /\(EXAMPLE\b/)
-      in_examples = true
-    elsif (l =~ /\(DEFINITION\b/ and not in_examples)
-      before, after = $`, $'
-      gloss = WordNetSQL.query_first_value(
-	"SELECT gloss FROM synsets WHERE ss_type=? AND synset_offset=?;",
-	*current_synset
-      )
-      def_seg = WordNetSQL.query_first_row(
-	"SELECT start, end FROM glosstags
-	 WHERE tag_type='def' AND ss_type=? AND synset_offset=?;",
-	*current_synset
-      )
-      def_text = gloss[def_seg[0]...def_seg[1]]
-      def_text.sub!(/;.*/,'') # only use the first definition
-      # TODO add "to" or "a" the way ssgtt.rb does for verbs and nouns, resp.
-      l = "#{before}(DEFINITION\n  (TEXT #{def_text.inspect})\n #{after}"
     end
     comments = ''
     l.gsub!(/\(:\* ONT::\S+ W::([^\)]+)\)|WN::\|([^\|]+)\|/) { |m|
