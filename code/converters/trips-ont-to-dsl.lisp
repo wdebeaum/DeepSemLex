@@ -25,7 +25,7 @@
     (ld::provenance ld::TRIPS)
     (format t "~s~%~%" *current-provenance*)
     ;; sort concepts alphabetically (why not?)
-    (sort ont-names #'string< :key #'symbol-name)
+    (setf ont-names (sort ont-names #'string< :key #'symbol-name))
     ;; print all the concepts
     (dolist (name ont-names)
       (format t "~s~%~%" (listify (gethash name (concepts *db*)))))
