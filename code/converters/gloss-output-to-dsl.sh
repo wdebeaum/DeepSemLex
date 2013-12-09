@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Usage: ./gloss-output-to-dsl ":pos 'v" <facilitator.log >output.lisp
+# (or ":pos 'adj". Other POSes are currently unimplemented.)
+
 export TRIPS_BASE=../../../..
 export CONFIGDIR=$TRIPS_BASE/src/config
 export LISP=`grep -P -o -e '(?<=^LISP = ).*' $CONFIGDIR/lisp/defs.mk`
