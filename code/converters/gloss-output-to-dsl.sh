@@ -12,6 +12,7 @@ export PERL=`grep -P -o -e '(?<=^PERL  = ).*' $CONFIGDIR/perl/defs.mk`
 # Note: can't use uniq to remove duplicate lines, because their length may
 # exceed LINE_MAX, and uniq on Mac OS X truncates such lines.
 grep -P -o -e '\(DEFINE-CONCEPT .*\)(?=\)$)' \
+| sort \
 | $PERL -n -e 'print unless ($_ eq $prev); $prev = $_;' \
 | $LISP \
   --noinform \
