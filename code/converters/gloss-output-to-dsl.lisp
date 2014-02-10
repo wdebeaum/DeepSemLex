@@ -90,7 +90,7 @@
     ))
 
 (defun guess-syn-args (pos syn-cats)
-  (let ((syn-args (mapcar (lambda (x) 'lcomp) syn-cats)))
+  (let ((syn-args (mapcar (lambda (x) (declare (ignore x)) 'lcomp) syn-cats)))
     ;; guess syn-args to go with syn-cats and pos
     (ecase pos
       (v
@@ -173,6 +173,37 @@
 	))
     ))
 
+(defun try-expletive-syn-sem (examples)
+  "Given the list of examples from a DEFINE-CONCEPT message for a verb with no
+   semantic roles, try to make a syn-sem expression for the verb by looking for
+   expletives as the first word of any of the examples. For example, if one
+   example is \"it is raining\", this function might return:
+   (syn-sem (lsubj (NP it))).
+   If both \"it\" and \"there\" are found, this function will put them in a
+   disjunction:
+   (syn-sem (lsubj (NP (or it there))))."
+  (let (expletives)
+    (when (some
+            (lambda (ex)
+	      (eq 'w::it (first (second (member :words ex)))))
+	    examples)
+      (push 'it expletives))
+    (when (some
+            (lambda (ex)
+	      (eq 'w::there (first (second (member :words ex)))))
+	    examples)
+      (push 'there expletives))
+    (case (length expletives)
+      (0
+        (error "0-argument verb with no expletive examples"))
+      (1
+        (setf expletives (first expletives)))
+      (nil
+        (push 'or expletives))
+      )
+    `(syn-sem (lsubj (NP ,expletives)))
+    ))
+
 (defun convert-input-text (text)
   (destructuring-bind (x &key root lfs syntax words) text
       (declare (ignore x))
@@ -192,12 +223,17 @@
 (defun convert-concept (pos msg)
   (destructuring-bind (dc concept-name roles sense-keys definitions examples) msg
       (declare (ignore dc sense-keys))
-    `(concept ,(repkg concept-name :wn) ; FIXME should refer to synset, not sense
-      (sem-frame ,@(mapcar #'role-to-role-restr-map (remove nil roles)))
-      ,(roles-to-syn-sem pos roles)
-      ,@(mapcar #'convert-definition definitions)
-      ,@(mapcar #'convert-example examples)
-      )))
+    (let ((non-nil-roles (remove nil roles)))
+      `(concept ,(repkg concept-name :wn) ; FIXME should refer to synset, not sense
+	,@(when non-nil-roles
+	  `((sem-frame ,@(mapcar #'role-to-role-restr-map non-nil-roles))))
+	,(if (and (eq 'v pos) (null roles))
+	  (try-expletive-syn-sem examples)
+	  (roles-to-syn-sem pos roles)
+	  )
+	,@(mapcar #'convert-definition definitions)
+	,@(mapcar #'convert-example examples)
+	))))
 
 (defun run (&key pos)
   (format t "~s~%~%" '(provenance gloss))
