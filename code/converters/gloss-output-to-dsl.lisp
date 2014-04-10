@@ -31,6 +31,17 @@
 	lf-term)
       lf-terms))
 
+(defun disj-conj-p (x &optional (terminal-type t))
+  "Return t iff x is of type terminal-type, or a disjunction or conjunction
+   thereof, recursively. This is identical to the version in ../lib/lisp-types.lisp except that AND and OR aren't in the W package"
+  (or
+    (typep x terminal-type)
+    (and (consp x)
+         (member (car x) '(and or))
+         (every (lambda (y) (disj-conj-p y terminal-type)) (cdr x))
+         )
+    ))
+
 (defvar *punc* '(
   (w::punc-colon ":")
   (w::punc-comma ",")
@@ -83,7 +94,10 @@
           (declare (ignore syn-cats))
 	`( ,(repkg role-name :ont)
 	   ,(if wn-class
-	     `(and ,trips-class ,(strs-to-wn-sk-syms wn-class))
+	     (let ((wn-sk-syms (strs-to-wn-sk-syms wn-class)))
+	       (unless (disj-conj-p wn-sk-syms 'symbol)
+	         (error "Expected a (disj-conj symbol) but got: ~S" wn-sk-syms))
+	       `(and ,trips-class ,wn-sk-syms))
 	     trips-class)
 	   )))
     (t (error "bogus role restriction: ~s" role))
@@ -114,13 +128,28 @@
 	(when (first syn-cats)
 	  (setf (first syn-args) 'argument))
 	(when (second syn-cats)
-	  (setf (second syn-cats)
+	  (setf (second syn-args)
 		(if (equalp '(NP) (second syn-cats))
 		  'premod 'post-subcat)))
 	(when (third syn-cats)
 	  (error "don't know what to do with 3-argument adjective!"))
 	)
-      ; TODO n, ...
+      (n
+        (when (first syn-cats)
+	  (setf (first syn-args) 'subcat))
+        (when (second syn-cats)
+	  (setf (second syn-args) 'subcat2))
+	;; TODO there's also 'argument, but I don't know how to distinguish
+	;; that from subcat
+	)
+      (adv
+        (when (first syn-cats)
+	  (setf (first syn-args) 'argument))
+        (when (second syn-cats)
+	  (setf (second syn-args) 'subcat))
+        (when (third syn-cats)
+	  (setf (third syn-args) 'subcat2))
+        )
       )
     syn-args))
 
@@ -164,12 +193,12 @@
 				   role-name
 				   )))
 		  )
-	      (dsl::cartesian-product syn-catses)
+	      (remove nil (dsl::cartesian-product syn-catses))
 	      )))
       (case (length syn-sems)
         (0 nil)
-	(1 (first syn-sems))
-	(otherwise `(or ,@syn-sems))
+	(1 syn-sems)
+	(otherwise `((or ,@syn-sems)))
 	))
     ))
 
@@ -201,7 +230,7 @@
       (nil
         (push 'or expletives))
       )
-    `(syn-sem (lsubj (NP ,expletives)))
+    `((syn-sem (lsubj (NP ,expletives))))
     ))
 
 (defun convert-input-text (text)
@@ -220,16 +249,29 @@
 (defun convert-definition (def)
   `(definition ,@(convert-input-text def)))
 
+(defun guess-concept-pos-from-name (name)
+  (let* ((name-str (string name))
+         (pct-pos (position #\% name-str)))
+    (when (and pct-pos (> (length name-str) (+ pct-pos 2)))
+      (let ((ss-type-char (elt name-str (1+ pct-pos))))
+        (case ss-type-char
+	  (#\1 'n)
+	  (#\2 'v)
+	  ((#\3 #\5) 'adj)
+	  (#\4 'adv)
+	  )))))
+
 (defun convert-concept (pos msg)
   (destructuring-bind (dc concept-name roles sense-keys definitions examples) msg
       (declare (ignore dc sense-keys))
-    (let ((non-nil-roles (remove nil roles)))
+    (let ((non-nil-roles (remove nil roles))
+          (concept-pos (if pos pos (guess-concept-pos-from-name concept-name))))
       `(concept ,(repkg concept-name :wn) ; FIXME should refer to synset, not sense
 	,@(when non-nil-roles
 	  `((sem-frame ,@(mapcar #'role-to-role-restr-map non-nil-roles))))
-	,(if (and (eq 'v pos) (null roles))
+	,@(if (and (eq 'v concept-pos) (null roles))
 	  (try-expletive-syn-sem examples)
-	  (roles-to-syn-sem pos roles)
+	  (roles-to-syn-sem concept-pos roles)
 	  )
 	,@(mapcar #'convert-definition definitions)
 	,@(mapcar #'convert-example examples)
@@ -241,7 +283,8 @@
         when (eq 'define-concept (car msg)) do
 	(handler-case (convert-concept pos msg)
 	  (error (e)
-	    (format t "; Error converting concept ~s~%; ~a" (second msg) e))
+	    (let ((*print-pretty* nil))
+	      (format t "; Error converting concept ~s~%; ~a" (second msg) e)))
 	  (:no-error (converted)
 	    (format t "~s" converted))
 	  )
