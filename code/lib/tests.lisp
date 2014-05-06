@@ -173,5 +173,21 @@
     ; TODO more assertions
     ))
 
+(define-test inheritance-repetition
+  (with-clean-db
+    (ld::concept ONT::foo
+      (ld::concept ONT::bar
+        (ld::concept ONT::baz)))
+    (assert-equality #'set-equal
+        (eval-path-expression '(ONT::baz >inherit))
+        (eval-path-expression '(ONT::baz (repeat 1 1 >inherit))))
+    (assert-equality #'set-equal
+        (eval-path-expression '(ONT::baz >inherit >inherit))
+        (eval-path-expression '(ONT::baz (repeat 2 2 >inherit))))
+    (assert-equality #'set-equal
+        (eval-path-expression '(ONT::baz (/ #'identity >inherit (>inherit >inherit))))
+        (eval-path-expression '(ONT::baz (repeat 0 2 >inherit))))
+    ))
+
 (run-tests)
 

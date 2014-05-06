@@ -46,6 +46,29 @@
        (when (eq label (label r))
 	 (add-step-to-output ,input i ,expr (,result r) ,output))))))
 
+(defun repetition-helper (output next)
+  "(See the 'repeat branch of eval-path-expression)
+   Given output and next, return a modified output and prev.
+   Make it so prev has everything we first got on the previous iteration, and
+   output has everything we got on any iteration after min-count.
+   "
+  (cond
+    ((hash-table-p output)
+      (let ((prev (make-hash-table :test #'eq)))
+	(maphash
+	  (lambda (item path-to-item)
+	    (unless (nth-value 1 (gethash item output))
+	      (setf (gethash item prev) path-to-item)
+	      (setf (gethash item output) path-to-item)))
+	  next)
+	(values output prev)))
+    (t
+      (values
+        (union next output :test #'eq)
+        (set-difference next output :test #'eq)
+	))
+    ))
+
 (defun xor (a b)
   (not (eq (not a) (not b))))
 
@@ -166,38 +189,28 @@
 	 (* (eval-path-expression `(repeat 0 nil ,@(cdr expr)) input db))
 	 (repeat
 	   (destructuring-bind (_ min-count max-count &rest subexprs) expr
-	     (let ((prev input) next (once-expr `(1 ,@subexprs)))
+	     (let (prev (next input) (once-expr `(1 ,@subexprs)))
+	       ;; get the required number of repetitions to start with
 	       (loop for c from 1 upto min-count
+	             until (output-empty-p next)
 		     do
 		       (setf prev next)
-		       (setf next
-			     (eval-path-expression once-expr prev db))
-		       (when (output-empty-p next)
-			 (loop-finish))
+		       (setf next (eval-path-expression once-expr prev db))
 		     )
-	       (unless (output-empty-p next)
-		 (if max-count
-		   (loop for c from min-count upto max-count
-			 do
-			   (setf prev next)
-			   (setf next
-				 (eval-path-expression once-expr prev db))
-			   (when (output-empty-p next)
-			     (setf next prev)
-			     (loop-finish))
-			 finally (setf output next)
-			 )
-		   (loop for c from min-count
-			 do
-			   (setf prev next)
-			   (setf next
-				 (eval-path-expression once-expr prev db))
-			   (when (output-empty-p next)
-			     (setf next prev)
-			     (loop-finish))
-			 finally (setf output next)
-			 )
-		   ))
+	       ;; collect output while doing more repetitions until we can't or
+	       ;; we reach max-count
+	       (loop for c from (1+ min-count)
+		     until (or (output-empty-p next)
+			       (and max-count (> c max-count)))
+		     do
+		       (multiple-value-setq (output prev)
+		           (repetition-helper output next))
+		       ;; take the next step
+		       (setf next (eval-path-expression once-expr prev db))
+		     finally
+		       (multiple-value-setq (output prev)
+		           (repetition-helper output next))
+		     )
 	       )))
 	 ;; predicates
 	 ((when unless)
