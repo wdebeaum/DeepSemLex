@@ -3,6 +3,7 @@
 (in-package :dsl)
 
 (defpackage :type-predicates)
+
 (deftype list-of (member-type)
   "Dependent list type. 'list was already taken."
   (if (eq t member-type)

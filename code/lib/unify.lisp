@@ -92,3 +92,5 @@
       )
     ))
 
+;; TODO wrapper for unify-feats as a test whether everything in the first feature list unifies with something in the second
+;; (null (first (nth-value 2 (unify-feats f1 f2))))
