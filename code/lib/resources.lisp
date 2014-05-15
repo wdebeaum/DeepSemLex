@@ -66,6 +66,9 @@
 	    versions)))
   )
 
+(defmethod print-object ((rv resource-version) s)
+  (format s "resource-version ~a" (package-name (pkg rv))))
+
 (defvar *loaded-resource-files* (make-hash-table :test #'equal)
  "A hash whose keys are the resource files we've already loaded.")
 (defvar *loaded-concept-names* (make-hash-table :test #'eq)
@@ -95,9 +98,13 @@
   "Ensure that all files from the resource version identified by the package
    name are loaded."
   (let* ((pkg (find-package pkg-name))
-         (rv (gethash pkg *resource-versions*)))
-    (dolist (f (funcall (get-all-files rv) rv))
-      (require-dsl-file f))))
+         (rv (gethash pkg *resource-versions*))
+	 (files (funcall (get-all-files rv) rv)))
+    (when *load-verbose*
+      (format *standard-output* "; requiring ~s files from ~s~%" (length files) rv))
+      (let ((*load-verbose* nil))
+	(dolist (f files)
+	  (require-dsl-file f)))))
 
 (defun require-all-resource-files ()
   "Ensure that all files from all resource versions with files to load are
