@@ -42,9 +42,10 @@
 			   (hash-table-keys ,input)
 			   ,input)))
     (dolist (i input-concepts)
-      (dolist (r (,direction i))
-       (when (eq label (label r))
-	 (add-step-to-output ,input i ,expr (,result r) ,output))))))
+      (when (typep i 'concept) ; only concepts have relations
+	(dolist (r (,direction i))
+	  (when (eq label (label r))
+	    (add-step-to-output ,input i ,expr (,result r) ,output)))))))
 
 (defun repetition-helper (output next)
   "(See the 'repeat branch of eval-path-expression)
