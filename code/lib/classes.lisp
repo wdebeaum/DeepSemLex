@@ -125,6 +125,7 @@
   "A grouping of syntactic concept parts with no semantic parts."
   ((maybe-disj syn-sem) syn-sem)
   ((maybe-disj syn-feats) syn-feats)
+  (list template-call "the template name and arguments that returned this syntax, if any" nil)
   )
 
 (defclass-simple word ()

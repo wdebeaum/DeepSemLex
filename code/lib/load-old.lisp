@@ -116,6 +116,76 @@
 	      ))))
       args))
 
+(defmacro define-template-function (name args syn-feats)
+  (let ((defun-params (get-defun-params-from-templ-args args)))
+    `(defun ,name (&key ,@defun-params)
+      (ld::syntax
+	;; set template-call to the reconstructed call to this function
+	(setf (template-call (current-concept)) (list ',name))
+	,@(mapcar
+	  (lambda (dp)
+	    ;; add the argument to the list unless it's the default
+	    `(unless (equalp ,(car dp) ',(second dp))
+	      (push ,(repkg (car dp) :keyword)
+	            (template-call (current-concept)))
+	      (push (list 'quote ,(car dp))
+	            (template-call (current-concept)))
+	      ))
+	  defun-params)
+	(setf (template-call (current-concept))
+	      (nreverse (template-call (current-concept))))
+	;; add syn-feats
+	,@(when syn-feats
+	  `((ld::syn-feats ,@syn-feats)))
+	;; add each arg
+	;; see also ld::syn-sem in load.lisp
+	,(optionally-named-concept-subtype 'syn-sem
+	    (mapcar
+	      (lambda (arg)
+		(destructuring-bind (syn-arg constit sem-role
+				     &optional optional) arg
+		  `(let ((syn-cat
+			   ,(if (eq :parameter (car constit))
+			     (second constit)
+			     `',(get-syn-cat-from-constit constit)
+			     )))
+		    (push
+			(make-instance 'syn-sem-map
+			    :syn-arg ',(util::convert-to-package syn-arg :dsl)
+			    :syn-cat (util::convert-to-package (if (listp syn-cat) (car syn-cat) syn-cat) :dsl)
+			    :head-word (when (listp syn-cat) (util::convert-to-package (second syn-cat) :w))
+			    :sem-role ',sem-role
+			    :optional ,(not (null optional))
+			    )
+			(maps (current-concept))
+			))))
+	      args))
+	))))
+
+(defmacro define-template-constant (name args syn-feats)
+  `(progn
+    (ld::syntax ,name
+      (setf (template-call (current-concept)) '(,name))
+      ,@(when syn-feats
+	`((ld::syn-feats ,@syn-feats)))
+      ,@(when args
+	`((ld::syn-sem
+	  ,@(mapcar
+	      (lambda (arg)
+		(destructuring-bind (syn-arg constit sem-role
+				     &optional optional) arg
+		  `(,(util::convert-to-package syn-arg :ld)
+		    ,(get-syn-cat-from-constit constit)
+		    ,sem-role
+		    ,@(when optional '(ld::optional))
+		    )))
+	      args))))
+      )
+    ;; define it as a function anyway so we can always use templates
+    ;; the same way
+    (defun ,name () (gethash ',name (concepts *db*)))
+    ))
+
 ;; TODO the use of variables in templates can be complicated, e.g.
 ;; THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL
 ;; AFFECTED-COST-COMPLEX-SUBJCONTROL-TEMPL
@@ -143,54 +213,8 @@
 			)))
 		    syn-feats))
 	  (if (find :parameter args :key #'caadr)
-	    `(defun ,name (&key ,@(get-defun-params-from-templ-args args))
-	      (ld::syntax
-		,@(when syn-feats
-		  `((ld::syn-feats ,@syn-feats)))
-		;; see also ld::syn-sem in load.lisp
-		,(optionally-named-concept-subtype 'syn-sem
-		    (mapcar
-		      (lambda (arg)
-			(destructuring-bind (syn-arg constit sem-role
-					     &optional optional) arg
-			  `(let ((syn-cat
-			           ,(if (eq :parameter (car constit))
-			             (second constit)
-			             `',(get-syn-cat-from-constit constit)
-			             )))
-			    (push
-				(make-instance 'syn-sem-map
-				    :syn-arg ',(util::convert-to-package syn-arg :dsl)
-				    :syn-cat (util::convert-to-package (if (listp syn-cat) (car syn-cat) syn-cat) :dsl)
-				    :head-word (when (listp syn-cat) (util::convert-to-package (second syn-cat) :w))
-				    :sem-role ',sem-role
-				    :optional ,(not (null optional))
-				    )
-				(maps (current-concept))
-				))))
-		      args))
-	        ))
-	    `(progn
-	      (ld::syntax ,name
-		,@(when syn-feats
-		  `((ld::syn-feats ,@syn-feats)))
-		,@(when args
-		  `((ld::syn-sem
-		    ,@(mapcar
-			(lambda (arg)
-			  (destructuring-bind (syn-arg constit sem-role
-					       &optional optional) arg
-			    `(,(util::convert-to-package syn-arg :ld)
-			      ,(get-syn-cat-from-constit constit)
-			      ,sem-role
-			      ,@(when optional '(ld::optional))
-			      )))
-			args))))
-		)
-	      ;; define it as a function anyway so we can always use templates
-	      ;; the same way
-	      (defun ,name () (gethash ',name (concepts *db*)))
-	      )
+	    `(define-template-function ,name ,args ,syn-feats)
+	    `(define-template-constant ,name ,args ,syn-feats)
 	    )))
       templ-specs
       )))
