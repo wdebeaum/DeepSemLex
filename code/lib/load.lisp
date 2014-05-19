@@ -12,6 +12,8 @@
 (defvar *current-pos* nil)
 (defvar *current-morph* nil)
 
+(defvar *unknown-templates* nil)
+
 (defun load-dsl-file (filename)
   (let (
         ;; reset lexical context
@@ -24,7 +26,25 @@
 	;; make sure we read in the LD package
         (*package* (find-package :lexicon-data))
 	)
-  (load filename)))
+;;  (load filename)
+;;  FIXME temporary workaround for large numbers of undefined templates being used in :ont-w resource
+  (handler-case (load filename)
+    (undefined-function (c)
+      (let ((name (cell-error-name c)))
+	(when (template-name-p name)
+	  (warn "unknown template ~s; aborting load of ~a" name filename)
+	  (pushnew name *unknown-templates*)
+	  )))
+    )))
+
+(defun template-name-p (sym)
+  (let* ((ont-pkg (find-package :ont))
+         (sym-name (symbol-name sym))
+	 (len (length sym-name)))
+    (and (eq ont-pkg (symbol-package sym))
+	 (< 6 len)
+	 (string= "-TEMPL" (subseq sym-name (- len 6)))
+	 ))) 
 
 ;;; macro helper functions
 
@@ -270,7 +290,7 @@
       (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s" spec))
     ))
 
-(defun current-morph ()
+(defun current-morph (&key (add-maps t))
   "Get the current morph, look up the default, make one, or return nil, as
    appropriate."
   (cond
@@ -280,6 +300,7 @@
                  (not (slot-boundp *current-morph* 'pos)))
         (setf (pos *current-morph*) *current-pos*))
       (when (and *current-word*
+      		 add-maps
                  (slot-boundp *current-morph* 'pos)
 		 (null (maps *current-morph*)))
         (add-morph-maps-for-word *current-morph* *current-word*))
@@ -295,7 +316,8 @@
 	    default-for-pos
 	    ;; store a new default morph for this word/pos
 	    (let ((new-morph (make-instance 'morph :pos *current-pos*)))
-	      (add-morph-maps-for-word new-morph *current-word*)
+	      (when add-maps
+	        (add-morph-maps-for-word new-morph *current-word*))
 	      (push new-morph (gethash *current-word* (morphs *db*)))
 	      new-morph
 	      )
@@ -439,6 +461,63 @@
 
 (defmacro ld::morph (&body body)
   (non-concept-class 'morph body))
+
+(defmacro ld::forms (&rest forms)
+  `(progn
+    (setf (irregularities (current-morph :add-maps nil))
+	  (append (irregularities *current-morph*) '((ld::forms ,@forms))))
+    ;; TODO move this to a separate function in make-db.lisp
+    ;; FIXME add implicit base form if *current-word* is set
+    ;; maybe instead of :add-maps above, :add-non-base-maps or :add-regular-morph-maps...
+    ,@(mapcar
+	(lambda (form)
+	  (if (consp form)
+	    ;; an irregular form
+	    `(let* ((form-name ',(ld-to-dsl-package (first form)))
+		    (morphed (make-word-from-spec ',(second form)))
+		    (feature-query `((pos ,(pos *current-morph*))
+				     (form ,form-name)))
+		    (syn-feats (first
+		      (find-if
+			  (lambda (p)
+			    (null (first (nth-value 2
+			      (unify-feats feature-query
+			                   (features (first p)))))))
+			  *syn-feats-to-suffix*)))
+		    (morph-map
+		       (make-instance 'morph-map
+			   :syn-feats syn-feats
+			   :morphed morphed
+			   ))
+		    )
+	      (push morph-map (maps *current-morph*)))
+	    ;; shorthand for a set of regular forms
+	    `(dolist (form-name 
+	              ',(ecase (ld-to-dsl-package form)
+			(-er '(none er est))
+			(-ly '(none ly))
+			(|-S-3P| '(sing plur))
+			(-vb '(|12S123PBASE| |3S| ing past pastpart nom))
+			(-none '(none sing))
+			))
+	      (dolist (sf-suff *syn-feats-to-suffix*)
+		(destructuring-bind (sf . suffix) sf-suff
+		  (let ((feature-query `((pos ,(pos *current-morph*))
+		                         (form ,form-name))))
+		    (multiple-value-bind (unified-feats bindingses remainders)
+		        (unify-feats feature-query (features sf))
+			(declare (ignore unified-feats bindingses))
+		      (unless (first remainders)
+			(push
+			    (make-instance 'morph-map
+				:syn-feats sf
+				:morphed
+				  (add-suffix-to-word *current-word* suffix)
+				)
+			    (maps *current-morph*)
+			    )))))))
+	    ))
+	forms)))
 
 (defmacro ld::sense (&body body)
   (optionally-named-concept-subtype 'sense `(

@@ -104,7 +104,7 @@
        (every #'digit-char-p (subseq (symbol-name (name x)) 1))
        ))
 
-(defvar *dummy-morph-map-syn-feats* (make-instance 'syn-feats :features '((agr |3s|) (vform base))))
+(defvar *dummy-morph-map-syn-feats* (make-instance 'syn-feats :features '((agr |3S|) (vform base))))
 
 (defvar *syn-feats-to-suffix* 
   (mapcar
@@ -113,13 +113,14 @@
             (second p)
 	    ))
     '(
-      (((pos V) (form |3s|) (vform pres) (agr |3s|)) "S")
-      (((pos V) (form |12s123pbase|) (vform (w::or base pres)) (agr (w::or |1s| |2s| |1p| |2p| |3p|))) "")
+      (((pos V) (form |3S|) (vform pres) (agr |3S|)) "S")
+      (((pos V) (form |12S123PBASE|) (vform (w::or base pres)) (agr (w::or |1S| |2S| |1P| |2P| |3P|))) "")
       (((pos V) (form ing) (vform ing)) "ING")
       (((pos V) (form past) (vform past)) "ED")
       (((pos V) (form pastpart) (vform pastpart)) "ED")
-      (((pos N) (form sing) (agr |3s|)) "")
-      (((pos N) (form plur) (agr |3p|)) "S")
+      (((pos N) (form sing) (agr |3S|)) "")
+      (((pos N) (form plur) (agr |3P|)) "S")
+      (((pos ADJ) (form none) (comparative -)) "")
       (((pos ADJ) (form er) (comparative +)) "ER")
       (((pos ADJ) (form est) (comparative superl)) "EST")
       )
@@ -179,6 +180,8 @@
 (defun add-morphed-sense-to-db (db sense)
     (declare (type lexicon-and-ontology db) (type sense sense))
   "Add sense to (senses db) keyed from each morphed form."
+  (unless (maps (morph sense))
+    (warn "adding no morph-maps to (senses db) for sense~%~s" sense))
   (dolist (word (mapcar #'morphed (maps (morph sense))))
     ;; index by...
     (let ((keys (list 
@@ -191,6 +194,7 @@
       (push `(,(first-word word) ,@(remaining-words word) ,(particle word))
             keys))
     (setf keys (util::convert-to-package keys :w))
+;    (format t "keys for ~s are ~s~%" word keys)
     (dolist (key keys)
       (pushnew sense (gethash key (senses db))))
     )))

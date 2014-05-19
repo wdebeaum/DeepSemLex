@@ -108,7 +108,9 @@
 	; ...
 	)
       )
-    (assert-eql 8 (hash-table-count (concepts *db*)))
+    (assert-equality #'set-equal
+        '(VN::some_verb-12.3 VN::_12.3 VN::some_verb-12.3-4 VN::_12.3-4 WN::|some_verb%2:00:00::| WN::|some_other_verb%2:00:00::| VN::some_verb-12.3-5 VN::_12.3-5)
+        (loop for k being the hash-keys of (concepts *db*) collect k))
     (assert-eql 2 (length (eval-path-expression '(VN::some_verb-12.3 <inherit))))
     (assert-equal "some_verb-12.3.xml" (filename (first (provenance (gethash 'VN::some_verb-12.3-4 (concepts *db*))))))
     (assert-true (eval-path-expression '(VN::some_verb-12.3-4 >inherit (when (lambda (x) (typep x '(disjunction concept)))))))
@@ -146,8 +148,12 @@
 	(ld::word (ld::some ld::specific ld::noun))
 	)
       )
-    (assert-eql 9 (hash-table-count (concepts *db*)))
-    (assert-equalp '((w::specific w::noun)) (eval-path-expression '(WN::|some_specific_noun%1:00:00::| morph maps #'first morphed remaining-words)))
+    (assert-equality #'set-equal
+        '(WN::n00001740 WN::n00123456 WN::|some_noun%1:02:03::| WN::some_noun.n.1 WN::|nounsome.a.1| WN::|some_other_noun%1:00:00::| WN::some_other_noun.n.2 WN::|some_specific_noun%1:00:00::| WN::some_specific_noun.n.1)
+        (loop for k being the hash-keys of (concepts *db*) collect k))
+    (assert-equality #'set-equal
+        '((w::specific w::noun) (w::specific w::nouns))
+	(eval-path-expression '(WN::|some_specific_noun%1:00:00::| morph maps #'identity morphed remaining-words)))
     (assert-equalp (gethash 'WN::|some_specific_noun%1:00:00::| (concepts *db*)) (gethash 'WN::some_specific_noun.n.1 (concepts *db*)))
     ; TODO more assertions
     ))
@@ -168,7 +174,9 @@
       )
     (assert-eql 4 (hash-table-count (concepts *db*)))
     (assert-true (slot-boundp (gethash 'ON::fake.v.1 (concepts *db*)) 'morph))
-    (assert-equalp '(w::fake) (eval-path-expression '(ON::fake.v.1 morph maps #'first morphed first-word)))
+    (assert-equality #'set-equal
+        '(w::fake w::fakes w::faking w::faked)
+	(eval-path-expression '(ON::fake.v.1 morph maps #'identity morphed first-word)))
     (assert-equalp '("he faked it") (eval-path-expression '(ON::fake.v.2 examples #'identity text)))
     ; TODO more assertions
     ))

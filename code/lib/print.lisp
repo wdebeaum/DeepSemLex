@@ -11,6 +11,10 @@
   (let ((*package* (find-package :ld)))
     (write (listify c) :stream s)))
 
+;; FIXME this is also in ../converters/gloss-output-to-dsl.lisp
+(defun repkg (sym &optional (new-pkg *package*))
+  (intern (symbol-name sym) new-pkg))
+
 (defmethod listify (x)
   (cond
     ;; Lists are already lists, but their items need to be listified.
@@ -128,13 +132,13 @@
       `(
 	,(intern (symbol-name (type-of c)))
 	,@(unless (anonymous-concept-p c) (list (name c)))
-	,@(when (aliases c) (list (cons 'ld::aliases (aliases c))))
+	,@(when (aliases c) (list (cons (repkg 'aliases) (aliases c))))
 	,@provenance
 	,@(mapcar (lambda (def)
-		    (cons 'ld::definition (cdr (listify def))))
+		    (cons (repkg 'definition) (cdr (listify def))))
 		  (reverse (definitions c)))
 	,@(mapcar (lambda (ex)
-		    (cons 'ld::example (cdr (listify ex))))
+		    (cons (repkg 'example) (cdr (listify ex))))
 		  (reverse (examples c)))
 	,@relations
 	,@nested
@@ -159,7 +163,7 @@
 (defmethod listify ((m role-restr-map))
   `(,@(listify (if (= 1 (length (roles m))) (roles m) (list (roles m))))
     ,(listify (restriction m))
-    ,@(when (optional m) '(ld::optional))
+    ,@(when (optional m) (list (repkg 'optional)))
     ))
 
 (defmethod listify ((e entailments))
@@ -184,7 +188,7 @@
       (intern (symbol-name (syn-cat m)))
       )
     ,@(when (sem-role m) (list (sem-role m)))
-    ,@(when (optional m) '(ld::optional))
+    ,@(when (optional m) (list (repkg 'optional)))
     ))
 
 (defmethod listify ((s syntax))
@@ -213,7 +217,7 @@
 	    (listify-slots m '(pos)))
       (cond
         ((irregularities m)
-          (irregularities m))
+          (util::convert-to-package (irregularities m)))
 	((maps m)
 	  (list (listify (base-word m))))
 	)

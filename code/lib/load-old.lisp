@@ -206,20 +206,45 @@
         ))
 
 (defmacro ld::define-words (&key pos templ boost-word tags words)
-  (setf templ (list (util::convert-to-package templ :ONT)))
+  (when templ
+    (setf templ (list (util::convert-to-package templ :ONT))))
   `(progn
     (ld::pos ,(util::convert-to-package pos :ld))
     (ld::provenance TRIPS
       ,@(mapcar (lambda (tag) `(ld::provenance ,tag)) tags))
     ,@(mapcar
         (lambda (word-senses-spec)
-	  (let ((word-spec (first word-senses-spec))
-	        (wordfeats (cdr (assoc 'ld::wordfeats (cdr word-senses-spec))))
-		(abbrev (cdr (assoc 'ld::abbrev (cdr word-senses-spec))))
-		(sense-specs (cdr (assoc 'ld::senses (cdr word-senses-spec))))
-		)
+	  (let* ((word-spec (first word-senses-spec))
+	         (wordfeats (cdr (assoc 'ld::wordfeats (cdr word-senses-spec))))
+		 (morph (second (assoc 'w::morph wordfeats)))
+		 (syn-wordfeats (remove 'w::morph wordfeats :key #'car))
+		 (abbrev (cdr (assoc 'ld::abbrev (cdr word-senses-spec))))
+		 (sense-specs (cdr (assoc 'ld::senses (cdr word-senses-spec))))
+		 )
+	    (when (eq 'ld::nil morph) (setf morph nil)) ; blech
 	    `(ld::word ,word-spec
-	      ,@(when wordfeats nil) ; TODO
+	      ,@(when morph
+		`((ld::morph
+		  (ld::forms
+		    ,@(let ((forms (second (member :forms morph))))
+		        (unless (or (null forms) (eq 'ld::nil forms))
+			  forms))
+		    ,@(loop for tail = morph then (cddr tail)
+		            for key = (car tail)
+			    for val = (cadr tail)
+			    while tail
+			    unless (eq :forms key)
+			      collect
+			        ;; FIXME add particle to val
+			        (util::convert-to-package (list key val) :ld
+				    :convert-keywords t)
+			    )
+		    ))))
+	      ,@(when syn-wordfeats
+	        ; TODO how to represent word-level syn-feats?
+		; . add the feats to all morph-maps (blech)
+		; . wrap all the senses in a syn-feats so that it becomes a parent
+	        nil)
 	      ,@(when abbrev nil) ; TODO
 	      ,@(mapcar
 	          (lambda (sense-spec)
@@ -229,13 +254,16 @@
 			   (examples (mapcar #'second (remove-if-not (lambda (f) (eq 'ld::example (car f))) sense-spec)))
 			   ;; TODO lf, lf-form, syntax (which includes morph), preference, non-hierarchy-lf, meta-data, prototypical-word
 			   (effective-templ
-			     (if sense-templ
-			       (convert-templ-call sense-templ)
-			       templ
+			     (cond
+			       (sense-templ (convert-templ-call sense-templ))
+			       (templ templ)
+			       (t (error "missing template for (:* ~s ~s)"
+				 	 parent word-spec))
 			       ))
 			   )
 		      `(ld::sense ; TODO :* name?
-			(ld::inherit ,parent)
+			,@(when parent
+			  `((ld::inherit ,parent)))
 		        ,@(when sem-feats
 			  `((ld::semantics ; FIXME icky extra level
 			      (ld::sem-feats

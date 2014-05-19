@@ -97,7 +97,9 @@
        <label - backwards
        ->label - forwards, getting the relations themselves
        <-label - backwards, getting relations
-       slot-name
+       slot-name - get the slot value for each concept (note that this does not
+	 flatten list-valued slots like a function would; if you want that,
+	 follow it with #'identity)
        #'function-name
        (lambda (concept) lisp code...) - call the function and use the returned
 	 list of concepts as the output. If the return value isn't a list, wrap

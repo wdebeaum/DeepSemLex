@@ -154,7 +154,7 @@
     (declare (type morph m))
   (let ((required-feats
           (case (pos m)
-            (N '((agr |3s|)))
+            (N '((agr |3S|)))
             (V '((vform base)))
             (otherwise '((form none)))
 	    )))

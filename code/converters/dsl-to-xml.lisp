@@ -89,14 +89,14 @@
       ;; TODO now that we're loading the lib anyway, change this to actually make a word object
       (cond
         ((symbolp (second dsl))
-	  (format xml "~&~vt<word first-word=\"~s\"" *indent* (second dsl)))
+	  (format xml "~&~vt<word first-word=\"~(~s~)\"" *indent* (second dsl)))
 	((not (listp (second dsl)))
 	  (error "bogus word spec; expected symbol or list, but got: ~s" (second dsl)))
 	((every #'symbolp (second dsl))
-	  (format xml "~&~vt<word first-word=\"~s\" remaining-words=\"~{~s~^ ~}\"" *indent* (car (second dsl)) (cdr (second dsl))))
+	  (format xml "~&~vt<word first-word=\"~(~s~)\" remaining-words=\"~(~{~s~^ ~}~)\"" *indent* (car (second dsl)) (cdr (second dsl))))
         ((and (every #'symbolp (butlast (second dsl)))
 	      (typep (car (last (second dsl))) '(cons symbol null)))
-	  (format xml "~&~vt<word first-word=\"~s\" remaining-words=\"~{~s~^ ~}\" particle=\"~s\"" *indent* (car (second dsl)) (butlast (cdr (second dsl))) (caar (last (second dsl)))))
+	  (format xml "~&~vt<word first-word=\"~(~s~)\" remaining-words=\"~(~{~s~^ ~}~)\" particle=\"~(~s~)\"" *indent* (car (second dsl)) (butlast (cdr (second dsl))) (caar (last (second dsl)))))
 	(t
 	  (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s" (second dsl)))
 	)
@@ -105,6 +105,21 @@
     (pos
       (format xml "~&~vt<pos pos=\"~(~s~)\"" *indent* (second dsl))
       (optional-body xml "pos" (cddr dsl))
+      )
+    (forms
+      (format xml "~&~vt<forms>" *indent*)
+      (indented
+	(dolist (f (cdr dsl))
+	  (etypecase f
+	    (list
+	      (format xml "~&~vt<~(~s~)>" *indent* (repkg (car f)))
+	      (indented (dsl-to-xml-stream (cons 'word (cdr f)) xml))
+	      (format xml "~&~vt</~(~s~)>" *indent* (repkg (car f)))
+	      )
+	    (symbol
+	      (format xml "~&~vt~a" *indent* f))
+	    )))
+      (format xml "~&~vt</forms>" *indent*)
       )
     (provenance
       (let ((attributes (cdr dsl)) children)
@@ -222,16 +237,25 @@
       (format xml "~&~vt<relation label=\"~(~s~)\">" *indent* (second dsl))
       (indented
         (dolist (f (cddr dsl))
-	  (if (listp f)
-	    (dsl-to-xml-stream f xml)
-	    (format xml "~&~vt~s" *indent* f)
+	  (cond
+	    ((listp f)
+	      (dsl-to-xml-stream f xml))
+	    ((and (symbolp f)
+	          (every
+		    (lambda (c)
+		      (or (char= #\-) (digit-char-p c) (upper-case-p c)))
+		    (symbol-name f))
+		  )
+	      (format xml "~&~vt~(~s~)" *indent* f))
+	    (t
+	      (format xml "~&~vt~s" *indent* f))
 	    )))
       (format xml "~&~vt</relation>" *indent*)
       )
     ((inherit overlap subtype-of)
       (dsl-to-xml-stream (cons '> dsl) xml))
-    ((and or morph)
-      (format xml "~&~vt<~(~s~)>" *indent* (car dsl))
+    ((w::and w::or and or morph)
+      (format xml "~&~vt<~(~s~)>" *indent* (repkg (car dsl)))
       (indented
 	(dolist (f (cdr dsl))
 	  (cond
@@ -242,7 +266,7 @@
 	    (t
 	      (format xml "~&~vt~a" *indent* (xml-escape (format nil "~s" f))))
 	    )))
-      (format xml "~&~vt</~(~s~)>" *indent* (car dsl))
+      (format xml "~&~vt</~(~s~)>" *indent* (repkg (car dsl)))
       )
     ))
 
