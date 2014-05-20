@@ -100,14 +100,18 @@
 <h3>TODO</h3>
 
 <ul>
+ <li>Finish lex/ont browser based on DSL XML format.
  <li>More and better documentation.
  <li>More unit tests.
  <li>Combine information from inherited concepts into one big lex-entry to send to the parser.
  <li>Export to some of OWL, JSON, YAML...
  <li>When do DSL files get loaded? Compile-time? Run-time initialization? On demand? Some combination for different resources?
  <li>Overrides.
- <li>Regular morphology defaults.
  <li>Irregular morphology specs.
+  <ul>
+   <li>Make sure base form is included and listifies, even when we also have irregular morphed forms (e.g. W::procure has :nom W::procurement, and listifying senses of it doesn't give us back either word)
+   <li>Handle :forms NIL properly (e.g. in w::afford). I think this means add only the base form of the word and not any of the default stuff, though I need to check that against LXM...
+  </ul>
  <li>Make aliases actually work (right now if you refer to a concept by an alias before you load the definition calling it an alias, a separate concept object will be made with that alias, unconnected to the main one).
  <li>Complete loading of old TRIPS lexicon/ontology data.
   <ul>
@@ -120,10 +124,17 @@
      <li>What to do about variables used across different parts of a template? (e.g. in THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL)
      <li>What to do about syntactic features in template constits (some aren't just head words)?
     </ul>
+   <li>Words:
+    <ul>
+     <li>Word-level syn-feats</li>
+     <li>abbrev</li>
+    </ul>
    <li>Senses:
     <ul>
      <li>Group senses under distinct (:* ONT W) names (subsenses can have different templates, features, examples...).
      <li>Meta-data.
+     <li>Alternatives to LF-PARENT: lf, lf-form, non-hierarchy-lf.
+     <li>Misc. other stuff: preference, prototypical-word.
     </ul>
   </ul>
  <li>Make input texts with the same string the same object, like concept names.

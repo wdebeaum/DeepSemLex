@@ -162,8 +162,9 @@
     (morphed
       (find-if
         (lambda (mm)
-	  (null (first (nth-value 2
-	      (unify-feats required-feats (features (syn-feats mm)))))))
+	  (when (syn-feats mm)
+	    (null (first (nth-value 2
+		(unify-feats required-feats (features (syn-feats mm))))))))
 	(maps m)
 	))))
 
