@@ -146,6 +146,14 @@
 	    (format xml "/>"))
 	  )
 	))
+    (template-call
+      (format xml "~&~vt<template-call template=\"~(~s~)\"" *indent* (car (second dsl)))
+      (loop for r on (cdr (second dsl)) by #'cddr
+            for key = (first r)
+	    for val = (second r)
+	    do (format xml "~( ~a=\"~s\"~)" (symbol-name key) val))
+      (format xml " />")
+      )
     ((concept syntax semantics sense)
       (concept-element (xml (car dsl) operator form (cdr dsl))
         ; no special cases
