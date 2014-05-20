@@ -20,6 +20,8 @@
     ;; Lists are already lists, but their items need to be listified.
     ((listp x)
       (mapcar #'listify x))
+    ;; exception for quote operator
+    ((member x '(dsl::quote common-lisp::quote)) x)
     ;; Convert symbols in DSL or CL packages to LD package.
     ((and (symbolp x)
           (member (symbol-package x)
@@ -196,7 +198,7 @@
         (*current-provenance*
 	  (or (car (provenance s)) *current-provenance*)))
     (if (listp parent-list)
-      (append parent-list (listify-slots s '(syn-sem syn-feats)))
+      (append parent-list (listify-slots s '(template-call syn-sem syn-feats)))
       parent-list)))
 
 (defmethod listify ((w word))

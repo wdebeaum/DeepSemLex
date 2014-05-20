@@ -125,7 +125,7 @@
 	,@(mapcar
 	  (lambda (dp)
 	    ;; add the argument to the list unless it's the default
-	    `(unless (equalp ,(car dp) ',(second dp))
+	    `(unless (equalp ,@dp)
 	      (push ,(repkg (car dp) :keyword)
 	            (template-call (current-concept)))
 	      (push (list 'quote ,(car dp))

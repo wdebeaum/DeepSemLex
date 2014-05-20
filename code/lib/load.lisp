@@ -438,6 +438,9 @@
 	  `(push ',(adjust-feature-packages form) (features (current-concept)))
 	  ))))
 
+(defmacro ld::template-call (call)
+  (setf (template-call (current-concept)) call))
+
 (defmacro ld::syntax (&body body)
   (optionally-named-concept-subtype 'syntax body))
 
