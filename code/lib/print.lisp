@@ -217,12 +217,10 @@
   (append
       (cons (intern (symbol-name (type-of m)))
 	    (listify-slots m '(pos)))
-      (cond
-        ((irregularities m)
-          (util::convert-to-package (irregularities m)))
-	((maps m)
-	  (list (listify (base-word m))))
-	)
+      (when (maps m)
+	(list (listify (base-word m))))
+      (when (irregularities m)
+        (util::convert-to-package (irregularities m)))
       ))
 
 (defmethod listify ((s sense))

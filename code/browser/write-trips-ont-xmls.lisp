@@ -25,7 +25,7 @@
 	      :direction :output
 	      :if-exists :supersede
 	    )
-	    (format xml "<?xml version=\"1.0\"?>~&<dsl>") ; TODO XSL
+	    (format xml "<?xml version=\"1.0\"?>~&<?xml-stylesheet type=\"text/xsl\" href=\"../ont-type.xsl\"?>~&<dsl>")
 	    ;; set and write the provenance so we don't keep repeating it
 	    (let ((*current-provenance* (car (provenance concept))))
 	      (dsl-to-xml-stream (listify *current-provenance*) xml)

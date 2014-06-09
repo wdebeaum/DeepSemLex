@@ -109,7 +109,6 @@
  <li>Overrides.
  <li>Irregular morphology specs.
   <ul>
-   <li>Make sure base form is included and listifies, even when we also have irregular morphed forms (e.g. W::procure has :nom W::procurement, and listifying senses of it doesn't give us back either word)
    <li>Handle :forms NIL properly (e.g. in w::afford). I think this means add only the base form of the word and not any of the default stuff, though I need to check that against LXM...
   </ul>
  <li>Make aliases actually work (right now if you refer to a concept by an alias before you load the definition calling it an alias, a separate concept object will be made with that alias, unconnected to the main one).

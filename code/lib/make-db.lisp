@@ -189,13 +189,13 @@
                       (list (first-word word))
 		      ;; ... all contiguous words
                       (cons (first-word word) (remaining-words word)))))
-    ;; ... all words
-    (when (particle word)
-      (push `(,(first-word word) ,@(remaining-words word) ,(particle word))
-            keys))
-    (setf keys (util::convert-to-package keys :w))
-;    (format t "keys for ~s are ~s~%" word keys)
-    (dolist (key keys)
-      (pushnew sense (gethash key (senses db))))
-    )))
+      ;; ... all words
+      (when (particle word)
+	(push `(,(first-word word) ,@(remaining-words word) ,(particle word))
+	      keys))
+      (setf keys (util::convert-to-package keys :w))
+;      (format t "keys for ~s are ~s~%" word keys)
+      (dolist (key keys)
+	(pushnew sense (gethash key (senses db))))
+      )))
 
