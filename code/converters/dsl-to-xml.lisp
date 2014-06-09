@@ -39,7 +39,8 @@
   `(let ((body-forms ,body-forms))
     (format ,xml "~&~vt<~(~a~)" *indent* ,tag-name)
     (when (or (symbolp (car body-forms)) (trips-sense-name-p (car body-forms)))
-      (format xml " name=\"~(~s~)\"" (pop body-forms)))
+      (let ((*package* (find-package :ld))) ; ick.
+        (format xml " name=\"~(~s~)\"" (pop body-forms))))
     (let (aliases other-forms)
       (loop for f in body-forms
 	    do
@@ -254,7 +255,8 @@
 		      (or (char= #\-) (digit-char-p c) (upper-case-p c)))
 		    (symbol-name f))
 		  )
-	      (format xml "~&~vt~(~s~)" *indent* f))
+	      (let ((*package* (find-package :ld))) ; ick.
+		(format xml "~&~vt~(~s~)" *indent* f)))
 	    (t
 	      (format xml "~&~vt~s" *indent* f))
 	    )))

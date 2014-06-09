@@ -89,12 +89,12 @@
 
 <xsl:template match="sem-feats">
  <h2>Semantic Features</h2>
-   <!-- TODO -->
+   <!-- TODO compute inherited sem feats -->
 </xsl:template>
 
 <xsl:template match="sem-frame">
  <h2>Semantic Frame</h2>
-   <!-- TODO -->
+   <!-- TODO compute inherited sem roles/restrictions -->
 </xsl:template>
 
 </xsl:stylesheet>
