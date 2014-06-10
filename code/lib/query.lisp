@@ -187,9 +187,15 @@
 		 until (setf empty-p (output-empty-p prev))
 		 finally (unless empty-p (setf output prev))
 		 ))
-	 (? (eval-path-expression `(repeat 0 1 ,@(cdr expr)) input db))
-	 (+ (eval-path-expression `(repeat 1 nil ,@(cdr expr)) input db))
-	 (* (eval-path-expression `(repeat 0 nil ,@(cdr expr)) input db))
+	 (?
+	   (setf output
+	         (eval-path-expression `(repeat 0 1 ,@(cdr expr)) input db)))
+	 (+
+	   (setf output
+	         (eval-path-expression `(repeat 1 nil ,@(cdr expr)) input db)))
+	 (*
+	   (setf output
+	         (eval-path-expression `(repeat 0 nil ,@(cdr expr)) input db)))
 	 (repeat
 	   (destructuring-bind (_ min-count max-count &rest subexprs) expr
 	     (let (prev (next input) (once-expr `(1 ,@subexprs)))

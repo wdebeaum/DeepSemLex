@@ -195,6 +195,12 @@
     (assert-equality #'set-equal
         (eval-path-expression '(ONT::baz (/ #'identity >inherit (>inherit >inherit))))
         (eval-path-expression '(ONT::baz (repeat 0 2 >inherit))))
+    (assert-equality #'set-equal
+        (eval-path-expression '(ONT::baz (/ >inherit (>inherit >inherit) (>inherit >inherit >inherit))))
+	(eval-path-expression '(ONT::baz (repeat 1 nil >inherit))))
+    (assert-equality #'set-equal
+	(eval-path-expression '(ONT::baz (repeat 1 nil >inherit)))
+	(eval-path-expression '(ONT::baz (+ >inherit))))
     ))
 
 (run-tests)
