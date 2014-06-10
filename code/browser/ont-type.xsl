@@ -1,17 +1,45 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:exsl="http://exslt.org/common"
   xmlns:str="http://exslt.org/strings"
   extension-element-prefixes="str">
 
 <xsl:output method="html" />
 
+<xsl:key name="concept-name" match="/dsl/concept" use="@name" />
+
+<xsl:template name="inherited">
+ <xsl:param name="part" />
+ <xsl:for-each select="key('concept-name',str:tokenize(normalize-space(relation[@label='inherit']),' '))">
+  <xsl:variable name="part-nodes" select="*[local-name()=$part]" />
+  <xsl:if test="$part-nodes">
+   <h3>From <xsl:apply-templates select="." mode="ref" /></h3>
+   <xsl:apply-templates select="$part-nodes" />
+  </xsl:if>
+  <xsl:call-template name="inherited">
+   <xsl:with-param name="part" select="$part" />
+  </xsl:call-template>
+ </xsl:for-each>
+</xsl:template>
+
 <xsl:template match="/dsl">
  <html>
   <head>
    <title><xsl:value-of select="concept[1]/@name" /></title>
+   <script type="text/javascript">
+    function go() {
+      window.location.href =
+        encodeURIComponent(
+	  'ONT::' + document.getElementById('type_name').value + '.xml')
+    }
+   </script>
   </head>
   <body>
+   <form action="javascript:go()">
+    <label>ONT::<input type="text" id="type_name" /></label>
+    <input type="submit" value="Go" />
+   </form>
    <xsl:apply-templates select="concept[1]" mode="def" />
   </body>
  </html>
@@ -22,49 +50,101 @@
  <h1><xsl:value-of select="@name" /></h1>
  <h2>Relations</h2>
  <xsl:apply-templates select="relation" />
+ <h2>Semantic Features</h2>
  <xsl:apply-templates select="sem-feats" />
+ <xsl:call-template name="inherited">
+  <xsl:with-param name="part" select="'sem-feats'" />
+ </xsl:call-template>
+ <h2>Semantic Frame</h2>
  <xsl:apply-templates select="sem-frame" />
+ <xsl:call-template name="inherited">
+  <xsl:with-param name="part" select="'sem-frame'" />
+ </xsl:call-template>
  <h2>Children</h2>
- <xsl:apply-templates select="/dsl/concept[contains(relation[@label='inherit'], $name)]" mode="ref"/>
+ <ul>
+  <xsl:for-each select="/dsl/concept[contains(relation[@label='inherit'], $name)]">
+   <li><xsl:apply-templates select="." mode="ref" /></li>
+  </xsl:for-each>
+ </ul>
  <h2>Senses</h2>
  <xsl:apply-templates select="/dsl/sense" />
 </xsl:template>
 
 <xsl:template match="concept" mode="ref">
- <xsl:text> </xsl:text><xsl:value-of select="@name" />
+ <xsl:choose>
+  <xsl:when test="starts-with(@name,'ont::')">
+   <a href="ONT%3A%3A{substring(@name,6)}.xml">
+    <xsl:value-of select="@name" />
+   </a>
+  </xsl:when>
+  <xsl:when test="starts-with(@name,'wn::')">
+   <xsl:variable name="sk" select="substring(@name,6,string-length(@name) - 6)" />
+   <xsl:variable name="sk2">
+    <xsl:value-of select="$sk" />
+    <xsl:if test="count(str:tokenize($sk,':'))=3">
+     <xsl:text>%3A%3A</xsl:text>
+    </xsl:if>
+   </xsl:variable>
+   <xsl:variable name="sk3">
+    <xsl:for-each select="str:tokenize($sk2,':')">
+     <xsl:if test="position() != 1">%3A</xsl:if>
+     <xsl:value-of select="." />
+    </xsl:for-each>
+   </xsl:variable>
+   <a href="http://trips.ihmc.us/WordNetWeb/get-word-xml.pl?lang=en&amp;search={$sk3}">
+    <xsl:value-of select="@name" />
+   </a>
+  </xsl:when>
+  <xsl:otherwise>
+   <b><xsl:value-of select="@name" /></b>
+  </xsl:otherwise>
+ </xsl:choose>
 </xsl:template>
 
 <xsl:template match="sense">
  <xsl:for-each select="morph/word">
-  <h3>
-   <xsl:value-of select="@first-word" />
-   <xsl:value-of select="@remaining-words" />
-   <xsl:if test="@particle">
-    (<xsl:value-of select="@particle" />)
-   </xsl:if>
-  </h3>
+  <h3><xsl:apply-templates select="." /></h3>
  </xsl:for-each>
  <xsl:if test="not(morph/word)">
   <h3>MISSING WORD SPEC</h3> <!-- for now -->
  </xsl:if>
- POS: <xsl:value-of select="morph/pos/@pos" /><br/>
- Template: 
- <xsl:for-each select="str:tokenize(normalize-space(relation[@label='inherit']),' ')">
-  <xsl:if test="substring(., string-length(.) - 5) = '-templ'">
-   (<xsl:value-of select="." />)
-  </xsl:if>
- </xsl:for-each>
- <xsl:for-each select="syntax/template-call">
-  <xsl:text>(</xsl:text>
-  <xsl:value-of select="@template" />
-  <xsl:for-each select="@*[local-name() != 'template']">
-   <xsl:text> :</xsl:text>
-   <xsl:value-of select="local-name()" />
-   <xsl:text> </xsl:text>
-   <xsl:value-of select="." />
+ POS: <b><xsl:value-of select="morph/pos/@pos" /></b><br/>
+ <xsl:if test="morph/forms">
+  Forms:<br/>
+  <ul>
+   <xsl:for-each select="morph/forms/* | morph/forms/text()[normalize-space() != '']">
+    <li>
+     <xsl:choose>
+      <xsl:when test="self::text()"><b><xsl:value-of select="." /></b></xsl:when>
+      <xsl:otherwise>
+       <xsl:value-of select="local-name()" />
+       <xsl:text>: </xsl:text>
+       <b><xsl:apply-templates /></b>
+      </xsl:otherwise>
+     </xsl:choose>
+    </li>
+   </xsl:for-each>
+  </ul>
+ </xsl:if>
+ Template call: 
+ <b>
+  <xsl:for-each select="str:tokenize(normalize-space(relation[@label='inherit']),' ')">
+   <xsl:if test="substring(., string-length(.) - 5) = '-templ'">
+    (<xsl:value-of select="." />)
+   </xsl:if>
   </xsl:for-each>
-  <xsl:text>)</xsl:text>
- </xsl:for-each>
+  <xsl:for-each select="syntax/template-call">
+   <xsl:text>(</xsl:text>
+   <xsl:value-of select="@template" />
+   <xsl:for-each select="@*[local-name() != 'template']">
+    <xsl:text> :</xsl:text>
+    <xsl:value-of select="local-name()" />
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="." />
+   </xsl:for-each>
+   <xsl:text>)</xsl:text>
+  </xsl:for-each>
+ </b>
  <br/>
  <xsl:if test="example">
   Examples:
@@ -76,25 +156,103 @@
  </xsl:if>
 </xsl:template>
 
+<xsl:template match="word">
+ <xsl:value-of select="@first-word" />
+ <xsl:value-of select="@remaining-words" />
+ <xsl:if test="@particle">
+  (<xsl:value-of select="@particle" />)
+ </xsl:if>
+</xsl:template>
+
 <xsl:template match="relation">
  <h3><xsl:value-of select="@label" /></h3>
  <ul>
   <xsl:for-each select="str:tokenize(normalize-space(), ' ')">
-   <xsl:if test="substring(., string-length(.) - 5) != '-templ'">
-    <li><xsl:value-of select="." /></li>
-   </xsl:if>
+   <xsl:choose>
+    <xsl:when test="substring(., string-length(.) - 5) = '-templ'">
+     <!-- ignore -->
+    </xsl:when>
+    <xsl:when test="starts-with(., 'ont::') or starts-with(., 'wn::')">
+     <li>
+      <xsl:variable name="concept-node">
+       <concept name="{.}" />
+      </xsl:variable>
+      <xsl:apply-templates select="exsl:node-set($concept-node)" mode="ref" />
+     </li>
+    </xsl:when>
+    <xsl:otherwise>
+     <li><xsl:value-of select="." /></li>
+    </xsl:otherwise>
+   </xsl:choose>
   </xsl:for-each>
  </ul>
 </xsl:template>
 
 <xsl:template match="sem-feats">
- <h2>Semantic Features</h2>
-   <!-- TODO compute inherited sem feats -->
+ <ul>
+  <li>
+   <xsl:text>Feature list type: </xsl:text>
+   <b><xsl:value-of select="relation[@label='inherit']" /></b>
+  </li>
+  <xsl:apply-templates select="feat" />
+ </ul>
+</xsl:template>
+
+<xsl:template match="feat">
+ <li>
+  <xsl:value-of select="@name" />
+  <xsl:text>: </xsl:text>
+  <xsl:choose>
+   <xsl:when test="or">
+    <xsl:for-each select="str:tokenize(normalize-space(or),' ')">
+     <xsl:if test="position()!=1">
+      <i> or </i>
+     </xsl:if>
+     <b><xsl:value-of select="." /></b>
+    </xsl:for-each>
+   </xsl:when>
+   <xsl:otherwise>
+    <b><xsl:value-of select="." /></b>
+   </xsl:otherwise>
+  </xsl:choose>
+ </li>
 </xsl:template>
 
 <xsl:template match="sem-frame">
- <h2>Semantic Frame</h2>
-   <!-- TODO compute inherited sem roles/restrictions -->
+ <ul>
+  <xsl:apply-templates select="role-restr-map" />
+ </ul>
+</xsl:template>
+
+<xsl:template match="role-restr-map">
+ <li>
+  <b><xsl:value-of select="translate(@roles,' ','=')" /></b>
+  <xsl:if test="@optional='optional'">
+   <xsl:text> (</xsl:text><i>optional</i><xsl:text>)</xsl:text>
+  </xsl:if>
+  <xsl:if test="not(concept/@name='t')">
+   <xsl:text> restricted to </xsl:text>
+   <xsl:choose>
+    <xsl:when test="or">
+     <xsl:for-each select="or/*">
+      <xsl:if test="position()!=1">
+       <i> or </i>
+      </xsl:if> 
+      <xsl:choose>
+       <xsl:when test="self::concept"><xsl:apply-templates select="." mode="ref" /></xsl:when>
+       <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
+      </xsl:choose>
+     </xsl:for-each>
+    </xsl:when>
+    <xsl:when test="sem-feats">
+     <xsl:apply-templates select="sem-feats" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:apply-templates select="concept" mode="ref" />
+    </xsl:otherwise>
+   </xsl:choose>
+  </xsl:if>
+ </li>
 </xsl:template>
 
 </xsl:stylesheet>
