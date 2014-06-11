@@ -10,9 +10,12 @@ WWW_DIR = $(prefix)/etc/ont-browser
 
 export TRIPS_BASE
 
-all:: write-trips-ont-xmls.sh write-trips-ont-xmls.lisp
+all:: $(DATA_BUILD_DIR)/COMPLETE
+
+$(DATA_BUILD_DIR)/COMPLETE: write-trips-ont-xmls.sh write-trips-ont-xmls.lisp
 	mkdir -p $(DATA_BUILD_DIR)
 	./write-trips-ont-xmls.sh $(DATA_BUILD_DIR)
+	touch $@
 
 install:: all ont-type.xsl exslt/str.tokenize.template.xsl
 	$(MKINSTALLDIRS) $(WWW_DIR)

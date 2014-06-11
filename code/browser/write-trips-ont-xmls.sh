@@ -11,29 +11,29 @@ CONFIGDIR="$TRIPS_BASE/src/config"
 BATCH=--batch
 LOAD=--load
 EVAL=--eval
-QUIT="--eval '(quit)'"
+QUIT="--eval (quit)"
 
 case "$LISP_FLAVOR" in
   sbcl)
     BATCH="--noinform --noprint --disable-debugger"
-    QUIT="--eval '(sb-ext:quit)'"
+    QUIT="--eval (sb-ext:quit)"
     ;;
   ccl)
     LOAD=-l
     EVAL=-e
-    QUIT="-e '(quit)'"
+    QUIT="-e (quit)"
     ;;
   cmucl)
     BATCH=-batch
     LOAD=-load
     EVAL=-eval
-    QUIT="-eval '(quit)'"
+    QUIT="-eval (quit)"
     ;;
   allegro)
     BATCH=-batch -q
     LOAD=-L
     EVAL=-e
-    QUIT="-e '(exit)'"
+    QUIT="-e (exit)"
     ;;
   *)
     echo "Warning: unknown lisp flavor $LISP_FLAVOR" >&2

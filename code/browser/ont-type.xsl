@@ -5,7 +5,7 @@
   xmlns:str="http://exslt.org/strings"
   extension-element-prefixes="str exsl">
 
-<xsl:import href="exslt/str.tokenize.template.xsl" />
+<xsl:import href="str.tokenize.template.xsl" />
 
 <xsl:output method="html" />
 
