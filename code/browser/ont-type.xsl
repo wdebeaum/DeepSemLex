@@ -3,7 +3,9 @@
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:exsl="http://exslt.org/common"
   xmlns:str="http://exslt.org/strings"
-  extension-element-prefixes="str">
+  extension-element-prefixes="str exsl">
+
+<xsl:import href="exslt/str.tokenize.template.xsl" />
 
 <xsl:output method="html" />
 
@@ -11,7 +13,13 @@
 
 <xsl:template name="inherited">
  <xsl:param name="part" />
- <xsl:for-each select="key('concept-name',str:tokenize(normalize-space(relation[@label='inherit']),' '))">
+ <xsl:variable name="tokens">
+  <xsl:call-template name="str:tokenize">
+   <xsl:with-param name="string" select="normalize-space(relation[@label='inherit'])" />
+   <xsl:with-param name="delimiters" select="' '" />
+  </xsl:call-template>
+ </xsl:variable>
+ <xsl:for-each select="key('concept-name',exsl:node-set($tokens)/token)">
   <xsl:variable name="part-nodes" select="*[local-name()=$part]" />
   <xsl:if test="$part-nodes">
    <h3>From <xsl:apply-templates select="." mode="ref" /></h3>
@@ -81,12 +89,24 @@
    <xsl:variable name="sk" select="substring(@name,6,string-length(@name) - 6)" />
    <xsl:variable name="sk2">
     <xsl:value-of select="$sk" />
-    <xsl:if test="count(str:tokenize($sk,':'))=3">
+    <xsl:variable name="tokens">
+     <xsl:call-template name="str:tokenize">
+      <xsl:with-param name="string" select="$sk" />
+      <xsl:with-param name="delimiters" select="':'" />
+     </xsl:call-template>
+    </xsl:variable>
+    <xsl:if test="count(exsl:node-set($tokens)/token)=3">
      <xsl:text>%3A%3A</xsl:text>
     </xsl:if>
    </xsl:variable>
    <xsl:variable name="sk3">
-    <xsl:for-each select="str:tokenize($sk2,':')">
+    <xsl:variable name="tokens">
+     <xsl:call-template name="str:tokenize">
+      <xsl:with-param name="string" select="$sk2" />
+      <xsl:with-param name="delimiters" select="':'" />
+     </xsl:call-template>
+    </xsl:variable>
+    <xsl:for-each select="exsl:node-set($tokens)/token">
      <xsl:if test="position() != 1">%3A</xsl:if>
      <xsl:value-of select="." />
     </xsl:for-each>
@@ -128,7 +148,13 @@
  </xsl:if>
  Template call: 
  <b>
-  <xsl:for-each select="str:tokenize(normalize-space(relation[@label='inherit']),' ')">
+  <xsl:variable name="tokens">
+   <xsl:call-template name="str:tokenize">
+    <xsl:with-param name="string" select="normalize-space(relation[@label='inherit'])" />
+    <xsl:with-param name="delimiters" select="' '" />
+   </xsl:call-template>
+  </xsl:variable>
+  <xsl:for-each select="exsl:node-set($tokens)/token">
    <xsl:if test="substring(., string-length(.) - 5) = '-templ'">
     (<xsl:value-of select="." />)
    </xsl:if>
@@ -167,7 +193,13 @@
 <xsl:template match="relation">
  <h3><xsl:value-of select="@label" /></h3>
  <ul>
-  <xsl:for-each select="str:tokenize(normalize-space(), ' ')">
+  <xsl:variable name="tokens">
+   <xsl:call-template name="str:tokenize">
+    <xsl:with-param name="string" select="normalize-space()" />
+    <xsl:with-param name="delimiters" select="' '" />
+   </xsl:call-template>
+  </xsl:variable>
+  <xsl:for-each select="exsl:node-set($tokens)/token">
    <xsl:choose>
     <xsl:when test="substring(., string-length(.) - 5) = '-templ'">
      <!-- ignore -->
@@ -204,7 +236,13 @@
   <xsl:text>: </xsl:text>
   <xsl:choose>
    <xsl:when test="or">
-    <xsl:for-each select="str:tokenize(normalize-space(or),' ')">
+    <xsl:variable name="tokens">
+     <xsl:call-template name="str:tokenize">
+      <xsl:with-param name="string" select="normalize-space(or)" />
+      <xsl:with-param name="delimiters" select="' '" />
+     </xsl:call-template>
+    </xsl:variable>
+    <xsl:for-each select="exsl:node-set($tokens)/token">
      <xsl:if test="position()!=1">
       <i> or </i>
      </xsl:if>
