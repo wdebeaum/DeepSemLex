@@ -24,6 +24,7 @@
   <ul>
    <li>lib - Lisp library for loading, querying, and printing lexicon data according to the model in dsl.class.violet
    <li>converters - code for converting lexicon data between different formats, especially for importing data from external resources
+   <li>browser - web-based ontology browser for TRIPS lex/ont data in DSL XML format
   </ul>
  <li>docs - documentation
  <li>data - lexicon data, whether imported from external resources, hand-built, or automatically generated
@@ -40,6 +41,7 @@
    <li>SemLink
    <li>WordNet
    <li>VerbNet
+   <li>browser
   </ul>
 </ul>
 
@@ -97,14 +99,21 @@
 <h4>Look up concepts reachable via a path through slots and relations</h4>
 <code>(eval-path-expression '(1 VN::mix-22.1-1 &gt;inherit))</code>
 
-<h3>TODO</h3>
+<h2>Ontology Browser</h2>
+
+<p>I [Will] am in the process of writing a new web-based lexicon/ontology browser using DSL XML format and client-side XSLT. The old one is <a href="http://www.cs.rochester.edu/research/trips/lexicon/browse-ont-lex-ajax.html">here</a>, and the new one is <a href="http://www.cs.rochester.edu/research/trips/lexicon/dsl/ONT%3A%3Aroot.xml">here</a>. The code for writing all the XML files for the TRIPS ontology, and transforming that XML into an HTML webpage, is in <code>code/browser/</code>, with support from <code>code/converters/dsl-to-xml.lisp</code>.</p>
+
+<p>A feature of this new browser is that you can make your own version of it based on your modified CVS checkout of TRIPS, and just open any of the XML data files in your browser and get the pretty(er) interface without needing a web server. To do this, run <code>make install</code> in <code>code/browser/</code>, and use your web browser to open an XML file in <code><var>$TRIPS_BASE</var>/etc/ont-browser/</code>. This has been tested in Firefox, Safari, and Chrome, however in order for Chrome to work you need to pass it the <code>-allow-file-access-from-files</code> command line argument to disable an overly-restrictive (IMHO) security check. If you change the original TRIPS lex/ont data files, run <code>make install</code> again to update the XML files. If the only files you changed are the individual word files in <code><var>$TRIPS_BASE</var>/src/LexiconManager/Data/new/</code>, you need to do <code>make clean</code> first (adding all of those files as dependencies slows down <code>make</code>, so I didn't do it).</p>
+
+<h2>TODO</h2>
 
 <ul>
  <li>Finish lex/ont browser based on DSL XML format.
   <ul>
-   <li>compute inherited sem-feats and sem-frame in ont-type.xsl
+   <li>compute effective sem-feats and sem-frame in ont-type.xsl
    <li>output W::*.xml files
    <li>write word.xsl
+   <li>polish
   </ul>
  <li>More and better documentation.
  <li>More unit tests.
