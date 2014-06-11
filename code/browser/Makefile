@@ -10,9 +10,15 @@ WWW_DIR = $(prefix)/etc/ont-browser
 
 export TRIPS_BASE
 
+TRIPS_ONT_FILES = $(wildcard ../../../OntologyManager/Data/LFdata/*.lisp)
+# too many of these, they slow down make
+#TRIPS_LEX_FILES = $(wildcard ../../../LexiconManager/Data/new/*.lisp)
+TRIPS_TEMPL_FILES = $(wildcard ../../../LexiconManager/Data/templates/*templates.lisp)
+TRIPS_ALL_FILES = $(TRIPS_ONT_FILES) $(TRIPS_TEMPL_FILES)
+
 all:: $(DATA_BUILD_DIR)/COMPLETE
 
-$(DATA_BUILD_DIR)/COMPLETE: write-trips-ont-xmls.sh write-trips-ont-xmls.lisp
+$(DATA_BUILD_DIR)/COMPLETE: write-trips-ont-xmls.sh write-trips-ont-xmls.lisp $(TRIPS_ALL_FILES)
 	mkdir -p $(DATA_BUILD_DIR)
 	./write-trips-ont-xmls.sh $(DATA_BUILD_DIR)
 	touch $@
