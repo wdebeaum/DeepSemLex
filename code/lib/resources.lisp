@@ -56,7 +56,7 @@
 			      (make-instance 'resource-version
 				  :pkg new-pkg
 				  :version ,version
-				  :base-dir ',base-dir
+				  :base-dir (make-pathname :directory ',base-dir)
 				  :get-files-for-symbol ,get-files-for-symbol
 				  ,@(when get-all-files
 				      (list :get-all-files get-all-files))

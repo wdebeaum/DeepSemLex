@@ -1,4 +1,4 @@
-SUBDIRS=lib converters
+SUBDIRS=lib
 
 all test install clean:
 	@for d in $(SUBDIRS); do \

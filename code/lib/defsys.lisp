@@ -32,8 +32,8 @@
   (:nicknames :om)
   )
 
-(defpackage :w)
-(defpackage :f) ; should go away at some point...
+(defpackage :w (:use))
+(defpackage :f (:use)) ; should go away at some point...
 ;(defpackage :ont) ; see resources.lisp
 (defpackage :lexicon-data
   (:use)
