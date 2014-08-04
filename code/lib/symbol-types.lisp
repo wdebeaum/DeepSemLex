@@ -87,7 +87,7 @@
   '(member object-function origin form mobility group spatial-abstraction intentional information container kr-type trajectory))
 
 (deftype situation-feat ()
-  '(member aspect time-span cause trajectory locative intentional information container kr-type type origin))
+  '(member aspect time-span cause trajectory locative intentional information container kr-type type origin iobj))
 
 (deftype abstr-obj-feat ()
   '(member measure-function scale intentional information container gradability kr-type object-function origin intensity orientation))
@@ -111,8 +111,8 @@
 (common-lisp::in-package :dsl)
 
 (deftype sem-feat ()
-  '(or phys-obj-feat situation-feat abstr-obj-feat proposition-feat time-feat
-       vn::sem-feat))
+  '(or (member type) phys-obj-feat situation-feat abstr-obj-feat
+       proposition-feat time-feat vn::sem-feat))
 
 ;;; feature list types
 
@@ -123,7 +123,7 @@
 
   (common-lisp::deftype sem-role ()
     ;; this list found by grepping templates and OM files (see get-ont-sem-roles.sh)
-    '(common-lisp::member action addressee affected affected1 agent agent1 along arg0 arg1 arg2 associated-information assoc-with beneficiary cause co-agent cognizer content contents co-result cost co-theme criterion donor duration effect effect-implicit entity experiencer figure from-loc goal goal-reln goods ground instrument interval location manner material money neutra11 neutral neutral1 neutral2 norole obj-val of of2 of-state originator path pivot place position-reln predicate property purpose purpose-implicit result result-val situation sit-val source source-reln spatial-loc stative stimulus theme time-duration-rel time-val to-loc trigger trument val val2 value via 
+    '(common-lisp::member action addressee affected affected1 agent agent1 along arg0 arg1 associated-information assoc-with beneficiary cause co-agent cognizer content contents co-result cost co-theme criterion donor duration effect effect-implicit entity experiencer figure from-loc goal goal-reln goods ground instrument interval location manner material money neutra11 neutral neutral1 neutral2 norole obj-val of of2 of-state originator path place position-reln predicate property purpose purpose-implicit result result-val situation sit-val source source-reln spatial-loc stative stimulus theme time-duration-rel time-val to-loc trigger trument val val2 value via 
     ;; some extras output by src/Systems/gloss/test.lisp
     co-theme patient
     ))
