@@ -23,7 +23,7 @@
     in this resource version."
    (lambda (rv)
      (when (base-dir rv)
-       (directory (make-pathname :directory (base-dir rv)
+       (directory (make-pathname :defaults (base-dir rv)
                                  :name :wild :type "lisp"))))
    )
   )
@@ -122,7 +122,7 @@
       (let ((bd (base-dir rv)))
 	(mapcar
 	    (lambda (s)
-	      (make-pathname :directory bd :name s :type "lisp"))
+	      (make-pathname :defaults bd :name s :type "lisp"))
 	    '("abstract-types"
 	      "physobj"
 	      "predicates"
@@ -165,7 +165,7 @@
   ( :version "3.2" :base-dir (:relative :up :up "data" "VerbNet")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
-	     (probed (probe-file (make-pathname :directory (base-dir rv)
+	     (probed (probe-file (make-pathname :defaults (base-dir rv)
 				                :name name :type "lisp"))))
 	(or (when probed (list probed))
 	    (let* ((first-dash-pos (or (position #\- name) 0))
@@ -187,7 +187,7 @@
 			   (subseq found-name (1+ found-dash-pos)))
 			 )
 		    (string= found-numeric-name numeric-name)))
-		(directory (make-pathname :directory (base-dir rv)
+		(directory (make-pathname :defaults (base-dir rv)
 		                          :name :wild :type "lisp"))
 		)
 	      )
@@ -202,7 +202,7 @@
 	     (word (subseq name 0 dot-pos)))
         (when (string= "" word)
 	  (error "bogus PropBank frame ID: ~s" sym))
-	(directory (make-pathname :directory (base-dir rv)
+	(directory (make-pathname :defaults (base-dir rv)
 	                          :name word :type "lisp"))))
     ))
 
@@ -219,7 +219,7 @@
 	     ; after the second dot is the sense number, but we don't need that
 	     (filename (concatenate 'string word "-" pos))
 	     )
-        (directory (make-pathname :directory (base-dir rv)
+        (directory (make-pathname :defaults (base-dir rv)
 	                          :name filename :type "lisp"))))
     ))
 
