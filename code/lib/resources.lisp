@@ -56,7 +56,7 @@
 			      (make-instance 'resource-version
 				  :pkg new-pkg
 				  :version ,version
-				  :base-dir (make-pathname :directory ',base-dir)
+				  :base-dir (make-pathname :directory ,base-dir)
 				  :get-files-for-symbol ,get-files-for-symbol
 				  ,@(when get-all-files
 				      (list :get-all-files get-all-files))
@@ -116,7 +116,7 @@
       *resource-versions*))
 
 (defresource (ONT)
-  ( :base-dir (:relative :up :up :up "OntologyManager" "Data" "LFdata")
+  ( :base-dir (pathname-directory #!TRIPS"src;OntologyManager;Data;LFdata;*")
     :get-all-files
     (lambda (rv)
       (let ((bd (base-dir rv)))
@@ -137,15 +137,16 @@
 
 ;;; FIXME there's got to be a better way to load templates and senses...
 (defresource (ONT-T)
-  ( :base-dir (:relative :up :up :up "LexiconManager" "Data" "templates") ))
+  ( :base-dir (pathname-directory #!TRIPS"src;LexiconManager;Data;templates;*")
+    ))
 
 (defresource (ONT-W)
-  ( :base-dir (:relative :up :up :up "LexiconManager" "Data" "new") ))
+  ( :base-dir (pathname-directory #!TRIPS"src;LexiconManager;Data;new;*") ))
 
 (defresource (WN WordNet)
   ;; the latest downloadable version
   ;; FIXME can actually download just the database files for 3.1
-  ( :version "3.0" #|| :base-dir (:relative :up :up "data" "WordNet")
+  ( :version "3.0" #|| :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;WordNet;*")
     :get-files-for-symbol (lambda (rv sym)
       ;; TODO
       ) ||#
@@ -162,7 +163,7 @@
   )
 
 (defresource (VN VerbNet)
-  ( :version "3.2" :base-dir (:relative :up :up "data" "VerbNet")
+  ( :version "3.2" :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;VerbNet;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
 	     (probed (probe-file (make-pathname :defaults (base-dir rv)
@@ -195,7 +196,7 @@
     ))
 
 (defresource (PB PropBank)
-  ( :base-dir (:relative :up :up "data" "PropBank" "frames")
+  ( :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;PropBank;frames;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (dot-pos (or (position #\. name) 0))
@@ -208,7 +209,7 @@
 
 (defresource (ON OntoNotes)
   ( :version "3.0"
-    :base-dir (:relative :up :up "data" "OntoNotes" "sense-inventories")
+    :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;OntoNotes;sense-inventories;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (first-dot-pos (or (position #\. name) 0))
