@@ -1,9 +1,9 @@
 NAME = DeepSemLex
 DEFSYS = defsys.lisp
-SYSTEM = :dsl
+SYSTEM = :deepsemlex
 
 CONFIGDIR=../../../config
-include $(CONFIGDIR)/lisp/lib.mk
+include $(CONFIGDIR)/lisp/prog.mk
 
 test:
 	echo '(load "tests") (quit)' | $(LISPCMD)
