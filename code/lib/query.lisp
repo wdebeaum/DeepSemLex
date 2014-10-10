@@ -25,7 +25,7 @@
 
 (defmacro add-step-to-output (input source label target output)
   `(if (hash-table-p ,output)
-     (let ((step-path (list ,target ,label ,source)))
+     (let ((step-path (list ,target ,label))) ; ,source)))
        (dolist (source-path (gethash ,source ,input))
 	 (pushnew (append step-path source-path) (gethash ,target ,output)
 		  :test #'equalp)))
@@ -43,6 +43,12 @@
 			   ,input)))
     (dolist (i input-concepts)
       (when (typep i 'concept) ; only concepts have relations
+	(let ((concept-name (name i)))
+	  ;; don't bother trying to look up ld:: names since they're probably
+	  ;; gensyms.
+	  (unless (eq (symbol-package concept-name)
+	  	      (find-package :lexicon-data))
+	    (require-concept concept-name)))
 	(dolist (r (,direction i))
 	  (when (eq label (label r))
 	    (add-step-to-output ,input i ,expr (,result r) ,output)))))))
@@ -132,6 +138,7 @@
        (let ((name (symbol-name expr)))
 	 (cond
 	   ((not (eq (symbol-package expr) (find-package :dsl))) ; seed
+	     (require-concept expr)
 	     (let ((val (gethash expr (concepts db))))
 	       (when val
 		 (add-seed-to-output val output)
