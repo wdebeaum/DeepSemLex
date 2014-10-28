@@ -3,7 +3,12 @@
 ;;; loading of old TRIPS lexicon/ontology
 ;; TODO make sure this actually treats things the same as old lex/ont, to the extent possible
 
-(import '(common-lisp::in-package) :lexicon-data)
+;; Define in-package as a no-op so that we stay in the lexicon-data package
+;; while loading the old TRIPS lex/ont. This way it won't interfere with
+;; LexiconManager/OntologyManager loading the same files if DSL is in the same
+;; Lisp instance as they are.
+(defmacro ld::in-package (name)
+  nil)
 
 (defun convert-variables-to-disjunctions (x)
   "Convert things of the form (? var opt1 opt2) to (w::or opt1 opt2),
@@ -52,7 +57,7 @@
       (t 'ld::t)
       )))
 
-(defmacro om::define-type (type &key parent sem arguments coercions wordnet-sense-keys)
+(defmacro ld::define-type (type &key parent sem arguments coercions wordnet-sense-keys)
   `(ld::concept ,type
     (ld::provenance TRIPS)
     ,@(when parent
@@ -190,7 +195,7 @@
 ;; THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL
 ;; AFFECTED-COST-COMPLEX-SUBJCONTROL-TEMPL
 ;; ...
-(defmacro lxm::define-templates ((&rest templ-specs))
+(defmacro ld::define-templates ((&rest templ-specs))
   `(progn
     (ld::provenance TRIPS)
     ,@(mapcar
@@ -199,8 +204,8 @@
 	      (syn-feats
 	        (convert-variables-to-disjunctions
 		    (util::convert-to-package
-		        (cdr (assoc 'lxm::syntax (cdr templ-spec))) :ld)))
-	      (args (cdr (assoc 'lxm::arguments (cdr templ-spec))))
+		        (cdr (assoc 'ld::syntax (cdr templ-spec))) :ld)))
+	      (args (cdr (assoc 'ld::arguments (cdr templ-spec))))
 	      )
 	  (setf syn-feats
 	        (delete-if
