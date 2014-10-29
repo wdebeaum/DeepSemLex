@@ -72,6 +72,8 @@
 	    (lambda (arg)
 	      (destructuring-bind (optionality role &optional restr-sem &rest params) arg
 		(setf role (util::convert-to-package role :ONT))
+		(unless (typep role 'ont::sem-role)
+		  (error "expected ~s to name a semantic role in (define-type ~s ...), but it's not listed in src/DeepSemLex/code/lib/symbol-types.lisp (maybe you forgot to add it?)" role type))
 	        (let* ((implements (util::convert-to-package (second (assoc :implements params)) :ONT))
 		       (roles (if (and implements (not (eq implements role)))
 		                (list role implements)
