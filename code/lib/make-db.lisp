@@ -86,6 +86,7 @@
              (type (maybe-disj concept) source target)
              (type (maybe provenance) provenance))
   "Make a relation and add it to its source and target concepts if appropriate."
+  ;; FIXME don't add a relation if it's already there
   (let ((r (make-instance 'relation :source source :label label :target target :provenance provenance)))
     (if (consp source)
       (add-references-from-concept-formula source)

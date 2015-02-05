@@ -331,9 +331,14 @@
 ;;; constructor/reference macros
 
 (defmacro ld::alias (&rest names)
-  ;; TODO add aliases to (concepts *db*) too; merge concepts... see
-  ;; make-db.lisp:get-or-make-concept
-  `(setf (aliases (current-concept)) (append (aliases (current-concept)) ',names)))
+  `(progn
+    (setf (aliases (current-concept)) (union (aliases (current-concept)) ',names))
+    ;; FIXME this isn't the right way to do this, but it works in some
+    ;; important cases; really need to merge concepts... see
+    ;; make-db.lisp:get-or-make-concept
+    (dolist (name ',names)
+      (setf (gethash name (concepts *db*)) (current-concept)))
+    ))
 
 ;; oops, some confusion about the plurality of this slot...
 (defmacro ld::aliases (&rest names) `(ld::alias ,@names))
