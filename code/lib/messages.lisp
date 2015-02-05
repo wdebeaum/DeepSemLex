@@ -89,8 +89,10 @@
       (let ((from-list (listify-concept-with-senses from))
             (throughs (eval-path-expression
 	     '(
-	       (* >inherit ; go up the inheritance hierarchy
-		  (unless #'trips-concept-p) ; stop before a TRIPS concept
+	       (* 
+	          ;; unless we would get to a TRIPS concept
+	          (unless >inherit #'trips-concept-p)
+	          >inherit ; go up the inheritance hierarchy
 		  )
 	       ;; get only the concepts that actually mapped into trips
 	       (when >inherit #'trips-concept-p)
