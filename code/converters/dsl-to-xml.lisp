@@ -5,6 +5,7 @@
   (load (make-pathname :directory '(:relative :up :up :up "config" "lisp")
                        :name "trips")))
 (load #!TRIPS"src;DeepSemLex;code;lib;defsys")
+(dfc:load-component :deepsemlex)
 
 (in-package :dsl)
 
