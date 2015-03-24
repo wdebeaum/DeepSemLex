@@ -158,7 +158,7 @@
 	     (let ((label (intern (subseq name 1) :keyword)))
 	       (eval-relation-step expr input in label source output)))
 	   (t ; slot
-	     (dolist (i input)
+	     (dolist (i (if (hash-table-p input) (hash-table-keys input) input))
 	       (when (and (slot-exists-p i expr) (slot-boundp i expr))
 		 (let ((o (slot-value i expr)))
 		   (add-step-to-output input i expr o output)
