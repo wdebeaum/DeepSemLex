@@ -10,6 +10,7 @@
 (in-package :dsl)
 
 (defvar *indent* 0)
+(defvar *read-but-not-loaded* nil "Set to t if the DSL lisp forms were merely read, and not loaded into the DSL database and then listified back out. Affects symbol packages.")
 
 (defmacro indented (&body body)
   `(let ((*indent* (1+ *indent*)))
@@ -40,7 +41,7 @@
   `(let ((body-forms ,body-forms))
     (format ,xml "~&~vt<~(~a~)" *indent* ,tag-name)
     (when (or (symbolp (car body-forms)) (trips-sense-name-p (car body-forms)))
-      (let ((*package* (find-package :ld))) ; ick.
+      (let ((*package* (if *read-but-not-loaded* *package* (find-package :ld)))) ; ick.
         (format xml " name=\"~(~s~)\"" (pop body-forms))))
     (let (aliases other-forms)
       (loop for f in body-forms
@@ -256,7 +257,7 @@
 		      (or (char= #\-) (digit-char-p c) (upper-case-p c)))
 		    (symbol-name f))
 		  )
-	      (let ((*package* (find-package :ld))) ; ick.
+	      (let ((*package* (if *read-but-not-loaded* *package* (find-package :ld)))) ; ick.
 		(format xml "~&~vt~(~s~)" *indent* f)))
 	    (t
 	      (format xml "~&~vt~s" *indent* f))
@@ -284,6 +285,7 @@
 (defun cl-user::run ()
   (format *standard-output* "~&<?xml version=\"1.0\"?>~&<dsl>")
   (loop with *package* = (find-package :dsl)
+	with *read-but-not-loaded* = t
         for expr = (read *standard-input* nil) while expr
         do (indented (dsl-to-xml-stream expr *standard-output*)))
   (format *standard-output* "~&</dsl>~%")
