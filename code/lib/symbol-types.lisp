@@ -15,10 +15,12 @@
 (deftype syn-feat ()
   '(member
   ; key		; values (unless just + -)
+    abbrev
     agr		; 1p 1s 2p 2s 3p 3s
     allow-before
     allow-deleted-comp
     allow-post-n1-subcat
+    allow-pre-mod
     atype 	; post pre pre-vp
     aux
     auxname	; - passive progr perf
