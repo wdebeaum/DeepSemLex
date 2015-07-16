@@ -220,11 +220,33 @@
  </ul>
 </xsl:template>
 
+<xsl:template match="or">
+ <xsl:for-each select="*">
+  <xsl:if test="position()!=1">
+   <i> or </i>
+  </xsl:if> 
+  <xsl:choose>
+   <xsl:when test="self::concept"><xsl:apply-templates select="." mode="ref" /></xsl:when>
+   <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
+  </xsl:choose>
+ </xsl:for-each>
+</xsl:template>
+
 <xsl:template match="sem-feats">
  <ul>
   <li>
    <xsl:text>Feature list type: </xsl:text>
-   <b><xsl:value-of select="relation[@label='inherit']" /></b>
+   <xsl:choose>
+    <xsl:when test="relation[@label='inherit']">
+     <b><xsl:value-of select="relation[@label='inherit']" /></b>
+    </xsl:when>
+    <xsl:when test="or">
+     <xsl:apply-templates select="or" />
+    </xsl:when>
+    <xsl:otherwise>
+     <xsl:apply-templates select="concept" mode="ref" />
+    </xsl:otherwise>
+   </xsl:choose>
   </li>
   <xsl:apply-templates select="feat" />
  </ul>
@@ -272,15 +294,7 @@
    <xsl:text> restricted to </xsl:text>
    <xsl:choose>
     <xsl:when test="or">
-     <xsl:for-each select="or/*">
-      <xsl:if test="position()!=1">
-       <i> or </i>
-      </xsl:if> 
-      <xsl:choose>
-       <xsl:when test="self::concept"><xsl:apply-templates select="." mode="ref" /></xsl:when>
-       <xsl:otherwise><xsl:apply-templates /></xsl:otherwise>
-      </xsl:choose>
-     </xsl:for-each>
+     <xsl:apply-templates select="or" />
     </xsl:when>
     <xsl:when test="sem-feats">
      <xsl:apply-templates select="sem-feats" />
