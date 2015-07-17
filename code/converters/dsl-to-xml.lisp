@@ -85,6 +85,21 @@
       (format xml " />"))
     ))
 
+(defvar *form-to-xml-tag-name* '(
+  :1p first-plural
+  :1s first-singular
+  :2p second-plural
+  :2s second-singular
+  :3p third-plural
+  :3s third-singular
+  ))
+
+(defun form-to-xml-tag-name (form-name)
+  "Some morph form names don't work as XML tag names, so this function converts
+   them to XML-friendly tag names."
+  (let ((tag-name (repkg form-name :keyword)))
+    (repkg (or (find-arg *form-to-xml-tag-name* tag-name) tag-name))))
+
 ;; TODO move xml parameter to first position since that's where it is everywhere else
 (defun dsl-to-xml-stream (dsl xml)
   (ecase (car dsl)
@@ -92,14 +107,25 @@
       ;; TODO now that we're loading the lib anyway, change this to actually make a word object
       (cond
         ((symbolp (second dsl))
-	  (format xml "~&~vt<word first-word=\"~(~s~)\"" *indent* (second dsl)))
+	  (format xml "~&~vt<word first-word=~s"
+		  *indent*
+	          (xml-escape (format nil "~(~s~)" (second dsl)))))
 	((not (listp (second dsl)))
 	  (error "bogus word spec; expected symbol or list, but got: ~s" (second dsl)))
 	((every #'symbolp (second dsl))
-	  (format xml "~&~vt<word first-word=\"~(~s~)\" remaining-words=\"~(~{~s~^ ~}~)\"" *indent* (car (second dsl)) (cdr (second dsl))))
+	  (format xml "~&~vt<word first-word=~s remaining-words=~s"
+		  *indent*
+	          (xml-escape (format nil "~(~s~)" (car (second dsl))))
+		  (xml-escape (format nil "~(~{~s~^ ~}~)" (cdr (second dsl))))
+		  ))
         ((and (every #'symbolp (butlast (second dsl)))
 	      (typep (car (last (second dsl))) '(cons symbol null)))
-	  (format xml "~&~vt<word first-word=\"~(~s~)\" remaining-words=\"~(~{~s~^ ~}~)\" particle=\"~(~s~)\"" *indent* (car (second dsl)) (butlast (cdr (second dsl))) (caar (last (second dsl)))))
+	  (format xml "~&~vt<word first-word=~s remaining-words=~s particle=~s"
+		  *indent*
+	          (xml-escape (format nil "~(~s~)" (car (second dsl))))
+		  (xml-escape (format nil "~(~{~s~^ ~}~)" (butlast (cdr (second dsl)))))
+		  (xml-escape (format nil "~(~s~)" (caar (last (second dsl)))))
+		  ))
 	(t
 	  (error "bogus word spec; expected list of symbols with possible final list of one particle symbol, but got: ~s" (second dsl)))
 	)
@@ -115,10 +141,11 @@
 	(dolist (f (cdr dsl))
 	  (etypecase f
 	    (list
-	      (format xml "~&~vt<~(~s~)>" *indent* (repkg (car f)))
-	      (indented (dsl-to-xml-stream (cons 'word (cdr f)) xml))
-	      (format xml "~&~vt</~(~s~)>" *indent* (repkg (car f)))
-	      )
+	      (let ((tag-name (form-to-xml-tag-name (car f))))
+		(format xml "~&~vt<~(~s~)>" *indent* tag-name)
+		(indented (dsl-to-xml-stream (cons 'word (cdr f)) xml))
+		(format xml "~&~vt</~(~s~)>" *indent* tag-name)
+		))
 	    (symbol
 	      (format xml "~&~vt~a" *indent* f))
 	    )))
