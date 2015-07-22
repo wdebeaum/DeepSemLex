@@ -1,0 +1,42 @@
+#
+# Makefile for TRIPS system
+#
+# George Ferguson, ferguson@cs.rochester.edu, 22 Oct 2001
+# $Id: Makefile.in,v 1.24 2015/01/07 17:59:17 lgalescu Exp $
+#
+# @configure_input@
+#
+# Actually, there aren't any substitutions performed on this Makefile,
+# but not having it present initially will encourage people to configure
+# before trying to make.
+#
+
+CONFIGS = calo boudreaux lou ralf plow plot parser+ speech-demo fruitcarts \
+	  pim cardiac savant step testing sense joust cernl gloss kitchen \
+	  obtw asma pim-taf gps bolt ict woz web-tools drum parser-system
+
+all default install clean compile devel speech compile-java install-java compile-lisp install-lisp compile-speech install-speech clean-lisp::
+	@for c in $(CONFIGS); do \
+	  if test -f Makefile-$$c; then \
+	    $(MAKE) -f Makefile-$$c $@; \
+	  fi; \
+	done
+
+$(CONFIGS):
+	$(MAKE) -f Makefile-$@
+
+$(CONFIGS:%=install-%):
+	$(MAKE) -f Makefile-$(@:install-%=%) install
+
+$(CONFIGS:%=clean-%):
+	$(MAKE) -f Makefile-$(@:clean-%=%) clean
+
+$(CONFIGS:%=compile-%):
+	$(MAKE) -f Makefile-$(@:compile-%=%) compile
+
+clean::
+	rm -f config.log
+
+distclean: clean
+	rm -f config.cache config.status Makefile
+	(cd config; $(MAKE) $@)

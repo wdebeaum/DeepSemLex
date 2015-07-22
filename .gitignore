@@ -1,5 +1,12 @@
 CVS
+*.dfsl
 *.fasl
+*.abcl
 *.x86f
+*.dx64fsl
 *.sse2f
+*.class
+*.jar
+*.o
+*.lo
 .*.swp

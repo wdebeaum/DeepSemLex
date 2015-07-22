@@ -1,0 +1,1 @@
+This directory contains the parts of TRIPS that DeepSemLex depends on, mainly the original TRIPS lexicon and ontology data files, and the build system, along with a couple of basic utility libraries.
