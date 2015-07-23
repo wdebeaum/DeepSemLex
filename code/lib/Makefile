@@ -12,8 +12,8 @@ include $(CONFIGDIR)/lisp/defs.mk
 # even if that file didn't change. Lisp's build system doesn't take this into
 # account, so we need this hack.
 default all compile install::
-	if [ `ls -t *.lisp |head -1` -nt `ls -tr *.$(FASL) |head -1` ] ; then \
-	  rm *.$(FASL) ; \
+	if [ "`ls -t *.lisp |head -1`" -nt "`ls -tr *.$(FASL) |head -1`" ] ; then \
+	  rm -f *.$(FASL) ; \
 	fi
 
 include $(CONFIGDIR)/lisp/prog.mk

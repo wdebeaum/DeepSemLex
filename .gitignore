@@ -5,6 +5,7 @@ CVS
 *.x86f
 *.dx64fsl
 *.sse2f
+*.err
 *.class
 *.jar
 *.o

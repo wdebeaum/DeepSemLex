@@ -1,6 +1,7 @@
 
 (unless (find-package :trips)
-  (load (make-pathname :directory '(:relative :up :up :up "config" "lisp")
+  ;(load (make-pathname :directory '(:relative :up :up :up "config" "lisp")
+  (load (make-pathname :directory '(:relative :up :up "trips" "src" "config" "lisp")
 		       :name "trips")))
 
 (unless (find-package :dfc)
@@ -31,7 +32,7 @@
                   :nicknames (:dsl)
 		  :use (:util :common-lisp)
 		  :system (
-		    :depends-on (:util :comm)
+		    :depends-on (:util)
 				:components (
 					     "mop"
 					     "lisp-types"
