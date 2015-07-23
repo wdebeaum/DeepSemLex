@@ -10,7 +10,8 @@ export TRIPS_BASE=$(prefix)
 
 # TODO detect version numbers and pass as XSL parameters so we can include them in provenance instead of hardcoding them
 
-RESOURCE_SUBDIRS=PropBank/frames OntoNotes/sense-inventories VerbNet WordNet
+RESOURCE_SUBDIRS=PropBank/frames OntoNotes/sense-inventories VerbNet
+# WordNet rule doesn't work yet because WordNetSQL isn't in this repo
 
 all: $(RESOURCE_SUBDIRS:%=%/COMPLETE)
 

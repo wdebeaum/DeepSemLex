@@ -2,7 +2,8 @@ NAME = DeepSemLex
 DEFSYS = defsys.lisp
 SYSTEM = :deepsemlex
 
-CONFIGDIR=../../../config
+#CONFIGDIR=../../../config
+CONFIGDIR=../../trips/src/config
 include $(CONFIGDIR)/lisp/defs.mk
 
 # Hack to ensure things get rebuilt when any .lisp file is newer than any .fasl

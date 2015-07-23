@@ -143,10 +143,15 @@
 (defresource (ONT-W)
   ( :base-dir (pathname-directory #!TRIPS"src;LexiconManager;Data;new;*") ))
 
+(defun data-subdir (subdir-str)
+  ;(pathname-directory (trips::make-trips-pathname (concatenate 'string "src;DeepSemLex;data;" subdir-str)))
+  (pathname-directory (trips::make-trips-pathname (concatenate 'string "..;data;" subdir-str)))
+  )
+
 (defresource (WN WordNet)
   ;; the latest downloadable version
   ;; FIXME can actually download just the database files for 3.1
-  ( :version "3.0" #|| :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;WordNet;*")
+  ( :version "3.0" #|| :base-dir (data-subdir "WordNet;*")
     :get-files-for-symbol (lambda (rv sym)
       ;; TODO
       ) ||#
@@ -163,7 +168,7 @@
   )
 
 (defresource (VN VerbNet)
-  ( :version "3.2" :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;VerbNet;*")
+  ( :version "3.2" :base-dir (data-subdir "VerbNet;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
 	     (probed (probe-file (make-pathname :defaults (base-dir rv)
@@ -196,7 +201,7 @@
     ))
 
 (defresource (PB PropBank)
-  ( :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;PropBank;frames;*")
+  ( :base-dir (data-subdir "PropBank;frames;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (dot-pos (or (position #\. name) 0))
@@ -209,7 +214,7 @@
 
 (defresource (ON OntoNotes)
   ( :version "3.0"
-    :base-dir (pathname-directory #!TRIPS"src;DeepSemLex;data;OntoNotes;sense-inventories;*")
+    :base-dir (data-subdir "OntoNotes;sense-inventories;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
              (first-dot-pos (or (position #\. name) 0))
