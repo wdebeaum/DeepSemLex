@@ -5,7 +5,7 @@
 (define-words :pos W::v 
  :words (
    (W::awake
-   (wordfeats (W::morph (:forms (-vb) :past W::awoke :partpart w::awoken :ing W::awaking)))
+   (wordfeats (W::morph (:forms (-vb) :past W::awoke :pastpart w::awoken :ing W::awaking)))
    (SENSES
     ((EXAMPLE "he awoke at dawn")
      (LF-PARENT ONT::BODILY-PROCESS)
