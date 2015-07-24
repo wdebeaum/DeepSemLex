@@ -321,8 +321,10 @@ in the given object to the given package, default *PACKAGE*."
    ((symbolp x)
     (intern (symbol-name x) package))
    ((consp x)
-    (reuse-cons (convert-to-package (car x) package)
-		(convert-to-package (cdr x) package)
+    (reuse-cons (convert-to-package (car x) package
+				    :convert-keywords convert-keywords)
+		(convert-to-package (cdr x) package
+				    :convert-keywords convert-keywords)
 		x))
    (t
     x)))
