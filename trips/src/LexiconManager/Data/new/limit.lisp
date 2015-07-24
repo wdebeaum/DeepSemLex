@@ -22,7 +22,7 @@
 (define-words :pos W::v :templ agent-theme-xp-templ
  :words (
    (W::limit
-    (wordfeats (W::morph (:forms (-vb) :past W::limited :ing W::limiting w::limitation)))
+    (wordfeats (W::morph (:forms (-vb) :past W::limited :ing W::limiting :nom w::limitation)))
    (SENSES
     ((meta-data :origin chf :entry-date 20070817 :change-date nil :comments chf-proposal)
      (LF-PARENT ONT::hindering)

@@ -5,7 +5,7 @@
 (define-words :pos W::V :templ agent-affected-xp-templ
  :words (
   (W::rise
-   (wordfeats (W::morph (:forms (-vb) :past W::rose :pastpart W::risen :ing W::rising w::rise)))
+   (wordfeats (W::morph (:forms (-vb) :past W::rose :pastpart W::risen :ing W::rising :nom w::rise)))
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("escape-51.1-2"))
      (LF-PARENT ONT::move-upward)
