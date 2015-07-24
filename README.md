@@ -24,5 +24,5 @@ To run:
 
 For a gist of how DSL's database is organized, see `docs/dsl-uml-class-diagram.pdf`.
 
-See also `docs/README.html`, which is written in the context of TRIPS. For reference, `$TRIPS_BASE` is `trips/`, and in TRIPS the rest of this repository would live in `$TRIPS_BASE/src/DeepSemLex/`.
+See also [docs/README.html](docs/README.html), which is written in the context of TRIPS. For reference, `$TRIPS_BASE` is `trips/`, and in TRIPS the rest of this repository would live in `$TRIPS_BASE/src/DeepSemLex/`.
 
