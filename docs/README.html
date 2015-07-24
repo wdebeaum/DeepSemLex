@@ -15,6 +15,7 @@
  <li>Support multiple inheritance of concepts.
  <li>Support inheritance among syntactic frames/templates.
  <li>Support definition of concepts in terms of their entailments, with a few semantic primitives.
+ <li><em>New goal for 2015:</em> enable modification of the TRIPS lexicon/ontology via JSON modification requests from the wiki.
 </ul>
 </p>
 
@@ -47,11 +48,11 @@
 
 <h2>Model</h2>
 
-<p>See dsl.class.violet.</p>
+<p>See dsl.class.violet (or <a href="dsl-uml-class-diagram.pdf">dsl-uml-class-diagram.pdf</a>, which is exported from it).</p>
 
 <h2>Lisp Data Format</h2>
 
-<p>In general, the operators correspond to the classes they're meant to instantiate, and/or the slots they're meant to fill in the enclosing class instance. Nested instantiations can have one of two meanings. If the inner class is part of the outer one, it is taken to define that part of the outer class (e.g. in (sense (sem-frame ...)), the sem-frame is part of the sense). If the outer class is part of or the same as the inner one, the inner instance gets the properties of the outer one (e.g. in (word foo (morph ...)), the morph gets "foo" as the base form). This happens via an inheritance relation if they're both concepts. It's also possible to inherit concepts by name rather than nesting, in the same way as other relations are formed.</p>
+<p>In general, the operators correspond to the classes they're meant to instantiate, and/or the slots they're meant to fill in the enclosing class instance. Nested instantiations can have one of two meanings. If the inner class is part of the outer one, it is taken to define that part of the outer class (e.g. in <code>(sense (sem-frame <var>...</var>))</code>, the sem-frame is part of the sense). If the outer class is part of or the same as the inner one, the inner instance gets the properties of the outer one (e.g. in <code>(word foo (morph <var>...</var>))</code>, the morph gets "foo" as the base form). This happens via an inheritance relation if they're both concepts. It's also possible to inherit concepts by name rather than nesting, in the same way as other relations are formed.</p>
 
 <p>Certain slots can be set outside of any class instantiation for a class with that slot, and in that case they apply to everything after them in the same lexical scope. Slots with this behavior include <code>provenance</code>, <code>word</code>, <code>pos</code>, and <code>morph</code>. In addition, <code>provenance</code>, <code>word</code>, and <code>pos</code> may contain nested instantiations that use those slot values.</p>
 
@@ -110,9 +111,9 @@
 <ul>
  <li>Finish lex/ont browser based on DSL XML format.
   <ul>
-   <li>compute effective sem-feats and sem-frame in ont-type.xsl
-   <li>output W::*.xml files
-   <li>write word.xsl
+   <li>compute effective <code>sem-feats</code> and <code>sem-frame</code> in <code>ont-type.xsl</code>
+   <li>output <code>W::*.xml</code> files
+   <li>write <code>word.xsl</code>?
    <li>polish
   </ul>
  <li>More and better documentation.
@@ -120,39 +121,43 @@
  <li>Combine information from inherited concepts into one big lex-entry to send to the parser.
  <li>Export to some of OWL, JSON, YAML...
  <li>When do DSL files get loaded? Compile-time? Run-time initialization? On demand? Some combination for different resources?
+ <li>When and how do DSL files get unloaded? Need to save memory.
  <li>Overrides.
  <li>Irregular morphology specs.
   <ul>
-   <li>Handle :forms NIL properly (e.g. in w::afford). I think this means add only the base form of the word and not any of the default stuff, though I need to check that against LXM...
+   <li>Handle <code>:forms NIL</code> properly (e.g. in <code>w::afford</code>). I think this means add only the base form of the word and not any of the default stuff, though I need to check that against LXM...
   </ul>
  <li>Make aliases actually work (right now if you refer to a concept by an alias before you load the definition calling it an alias, a separate concept object will be made with that alias, unconnected to the main one).
  <li>Complete loading of old TRIPS lexicon/ontology data.
   <ul>
    <li>ONT types:
     <ul>
-     <li>:required and :default parts of sem feats as in ONT::MOVE [currently these just get flattened so they're all required]
+     <li><code>:required</code> and <code>:default</code> parts of sem feats as in <code>ONT::MOVE</code> [currently these just get flattened so they're all required]
     </ul>
    <li>Templates:
     <ul>
-     <li>What to do about variables used across different parts of a template? (e.g. in THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL)
+     <li>What to do about variables used across different parts of a template? (e.g. in <code>THEME-PRED-EXPERIENCER-OPTIONAL-TEMPL</code>)
      <li>What to do about syntactic features in template constits (some aren't just head words)?
+     <li>What to do about unspecified syn-cats, e.g. <code>(% ?sc)</code>? Are they even useful anymore?
     </ul>
    <li>Words:
     <ul>
-     <li>Word-level syn-feats</li>
-     <li>abbrev</li>
+     <li>Word-level syn-feats
+     <li><code>abbrev</code>
+     <li><code>:nom</code>
+     <li><code>:nomsubjpreps</code> and <code>:nomobjpreps</code>
     </ul>
    <li>Senses:
     <ul>
-     <li>Group senses under distinct (:* ONT W) names (subsenses can have different templates, features, examples...).
+     <li>Group senses under distinct <code>(:* <var>ONT</var> <var>W</var>)</code> names (subsenses can have different templates, features, examples...).
      <li>Meta-data.
-     <li>Alternatives to LF-PARENT: lf, lf-form, non-hierarchy-lf.
-     <li>Misc. other stuff: preference, prototypical-word.
+     <li>Alternatives to LF-PARENT: <code>lf</code>, <code>lf-form</code>, <code>non-hierarchy-lf</code>.
+     <li>Misc. other stuff: <code>preference</code>, <code>prototypical-word</code>.
     </ul>
   </ul>
  <li>Make input texts with the same string the same object, like concept names.
  <li>Handle information beyond text in OntoNotes/PropBank frame examples.
- <li>Make wnsql-to-dsl.rb also output glosstags, like synset-glosses-to-tags.rb.
+ <li>Make <code>wnsql-to-dsl.rb</code> also output glosstags, like <code>synset-glosses-to-tags.rb</code>.
 </ul>
 
 </body>
