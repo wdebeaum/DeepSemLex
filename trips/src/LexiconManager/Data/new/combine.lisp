@@ -5,7 +5,7 @@
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
   (W::combine
-   (wordfeats (W::morph (:forms (-vb) :result W::combination)))
+   (wordfeats (W::morph (:forms (-vb) :nom W::combination)))
    (SENSES
     ((EXAMPLE "I combined the aspirin with my vitamins")
      (LF-PARENT ONT::combine-objects)
