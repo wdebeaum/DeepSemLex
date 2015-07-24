@@ -1027,7 +1027,7 @@
 	(LSUBJ (% W::NP) ONT::AGENT)
 	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::norole)
     ;;;;; the arg of the pred will be the object of the verb
-	(LCOMP (:parmeter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
+	(LCOMP (:parameter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
 											      (W::var ?dobjvar)))))) ont::formal)
 	))
 
@@ -1036,7 +1036,7 @@
 	(LSUBJ (% W::NP) ONT::AGENT)
 	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::affected)
     ;;;;; the arg of the pred will be the subject of the verb
-	(LCOMP (:parmeter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
+	(LCOMP (:parameter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
 											      (W::var ?dobjvar)))))) ONT::RESULT)
 	))
 
