@@ -124,6 +124,7 @@
       (((pos ADJ) (form none) (comparative -)) "")
       (((pos ADJ) (form er) (comparative +)) "ER")
       (((pos ADJ) (form est) (comparative superl)) "EST")
+      (((pos N) (form nom)) nil) ; hack to let :nom "irregular form" work, even though there's no "regular" nom
       )
     )
   "An assoc list from syn-feats to regular suffix strings."
@@ -150,7 +151,8 @@
 	    for suffix-pos = (second (assoc 'pos (features feats)))
 	    for suffix-form = (second (assoc 'form (features feats)))
 	    for suffix = (cdr feats-suffix)
-	    when (and (eq (pos m) suffix-pos)
+	    when (and suffix
+	              (eq (pos m) suffix-pos)
 	    	      ;; we don't already have a map for this form/pos
 	              (not (member
 		               `((pos ,suffix-pos) (form ,suffix-form))

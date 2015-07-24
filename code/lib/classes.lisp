@@ -104,7 +104,7 @@
 (defclass-simple syn-sem-map ()
   "(see slot docs)"
   (syn-arg syn-arg "the syntactic argument name")
-  (syn-cat syn-cat "the POS/phrase tag of the argument")
+  ((maybe-disj syn-cat) syn-cat "the POS/phrase tag of the argument")
   ((maybe (maybe-disj symbol)) head-word
    "the head word of the argument (often the preposition when syn-cat is PP)"
    nil)

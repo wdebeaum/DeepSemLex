@@ -87,7 +87,7 @@
 
 (defun get-syn-cat-from-constit (constit)
   "Get syn-cat and optionally head words from a (% syn-cat . features) constit."
-  (let ((syn-cat (second constit))
+  (let ((syn-cat (convert-variables-to-disjunctions (second constit)))
         (head-words
 	  (mapcan
 	      (lambda (x)
@@ -97,7 +97,8 @@
 		  ))
 	      (remove-if-not
 		  (lambda (x)
-		    (member (car x) '(w::ptype w::lex)))
+		    (and (member (car x) '(w::ptype w::lex))
+		         (not (util:is-variable-name (second x)))))
 		  (cddr constit)
 		  )
 	      )))
@@ -156,16 +157,19 @@
 			     (second constit)
 			     `',(get-syn-cat-from-constit constit)
 			     )))
-		    (push
-			(make-instance 'syn-sem-map
-			    :syn-arg ',(util::convert-to-package syn-arg :dsl)
-			    :syn-cat (util::convert-to-package (if (listp syn-cat) (car syn-cat) syn-cat) :dsl)
-			    :head-word (when (listp syn-cat) (util::convert-to-package (second syn-cat) :w))
-			    :sem-role ',sem-role
-			    :optional ,(not (null optional))
-			    )
-			(maps (current-concept))
-			))))
+		    (multiple-value-bind (dsl-syn-cat head-word)
+		        (separate-head-word-from-syn-cat syn-cat)
+		      (push
+			  (make-instance 'syn-sem-map
+			      :syn-arg ',(util::convert-to-package syn-arg :dsl)
+			      :syn-cat dsl-syn-cat
+			      :head-word head-word
+			      :sem-role
+			        ',(util::convert-to-package sem-role :ont)
+			      :optional ,(not (null optional))
+			      )
+			  (maps (current-concept))
+			  )))))
 	      args))
 	))))
 
@@ -183,7 +187,7 @@
 				     &optional optional) arg
 		  `(,(util::convert-to-package syn-arg :ld)
 		    ,(get-syn-cat-from-constit constit)
-		    ,sem-role
+		    ,(util::convert-to-package sem-role :ont)
 		    ,@(when optional '(ld::optional))
 		    )))
 	      args))))
@@ -264,7 +268,7 @@
 		            for key = (car tail)
 			    for val = (cadr tail)
 			    while tail
-			    unless (eq :forms key)
+			    unless (member key '(:forms :nomsubjpreps :nomobjpreps)) ; TODO use :nom*preps somehow
 			      collect
 			        ;; FIXME add particle to val
 			        (util::convert-to-package (list key val) :ld

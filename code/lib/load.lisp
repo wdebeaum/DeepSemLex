@@ -419,21 +419,57 @@
 (defmacro ld::semantics (&body body)
   (optionally-named-concept-subtype 'semantics body))
 
+(defun separate-head-word-from-syn-cat (syn-cat)
+  "Given a syn-cat that might have a head-word attached to it, return two
+   values: the syn-cat without the head-word attached, and the head-word or
+   nil."
+  ;; FIXME what to do when syn-cat is actually completely
+  ;; unspecified, e.g.:
+  ;;   (OPERATOR-TEMPL
+  ;;    (SYNTAX(W::SORT W::OPERATOR) (W::ATYPE W::PRE))
+  ;;     (ARGUMENTS
+  ;;      (ARGUMENT (% ?argcat) ONT::OF)
+  ;;      ))
+  ;; answer: comment it out :-P
+  (cond
+    ;; just the syn-cat
+    ((symbolp syn-cat)
+      (values (util::convert-to-package syn-cat :dsl) nil))
+    ;; work around the case where syn-cat is a disjunction,
+    ;; e.g. (or advbl adjp)
+    ((and (consp syn-cat)
+	  (symbolp (car syn-cat))
+	  (string= "OR" (symbol-name (car syn-cat))))
+      (values
+	    (cons 'w::or
+		   (util::convert-to-package (cdr syn-cat) :dsl))
+	    nil))
+    ;; (syn-cat head-word)
+    ((and (listp syn-cat) (= 2 (length syn-cat)))
+      (values (util::convert-to-package (first syn-cat) :dsl)
+	      (util::convert-to-package (second syn-cat) :w)
+	      ))
+    (t (error "bogus syn-cat: ~s" syn-cat))
+    ))
+
 (defmacro ld::syn-sem (&body body)
   (optionally-named-concept-subtype 'syn-sem
       (operator-cond (operator form body)
         ((typep operator 'syn-arg)
 	  (destructuring-bind (syn-arg syn-cat &optional sem-role optional) form
-	    `(push
-		(make-instance 'syn-sem-map
-		    :syn-arg ',(util::convert-to-package syn-arg :dsl)
-		    :syn-cat ',(util::convert-to-package (if (listp syn-cat) (car syn-cat) syn-cat) :dsl)
-		    :head-word ',(when (listp syn-cat) (util::convert-to-package (second syn-cat) :w))
-		    :sem-role ',(ld-to-dsl-package sem-role)
-		    :optional ,(not (null optional))
-		    )
-		(maps (current-concept))
-		)))
+	    (multiple-value-bind (dsl-syn-cat head-word)
+	        (separate-head-word-from-syn-cat syn-cat)
+	      `(push
+		  (make-instance 'syn-sem-map
+		      :syn-arg ',(util::convert-to-package syn-arg :dsl)
+		      :syn-cat ',dsl-syn-cat
+		      :head-word ',head-word
+		      :sem-role ',(ld-to-dsl-package sem-role)
+		      :optional ,(not (null optional))
+		      )
+		  (maps (current-concept))
+		  )
+	      )))
 	)))
 
 (defmacro ld::syn-feats (&body body)
@@ -483,7 +519,11 @@
 	    ;; an irregular form
 	    `(let* ((form-name ',(ld-to-dsl-package (first form)))
 		    (morphed (make-word-from-spec ',(second form)))
-		    (feature-query `((pos ,(pos *current-morph*))
+		    (pos (if (eq 'nom form-name)
+		           'N
+			   (pos *current-morph*)
+			   ))
+		    (feature-query `((pos ,pos)
 				     (form ,form-name)))
 		    (syn-feats (first
 		      (find-if
@@ -492,12 +532,15 @@
 			      (unify-feats feature-query
 			                   (features (first p)))))))
 			  *syn-feats-to-suffix*)))
+		    (_ (when (null syn-feats)
+		         (error "no syn-feats found for feature-query ~s" feature-query)))
 		    (morph-map
 		       (make-instance 'morph-map
 			   :syn-feats syn-feats
 			   :morphed morphed
 			   ))
 		    )
+	        (declare (ignore _))
 	      (push morph-map (maps *current-morph*)))
 	    ;; shorthand for a set of regular forms
 	    `(dolist (form-name 

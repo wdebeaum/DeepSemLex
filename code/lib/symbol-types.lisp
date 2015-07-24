@@ -4,7 +4,7 @@
 ;;; lists from querying old lexicon (probably not actually complete)
 
 (deftype pos ()
-  '(member adj adv art conj FP infinitival-to N name neg number-unit ordinal prep pro punc quan uttword V value))
+  '(member adj adv art conj FP infinitival-to N name neg number-unit ordinal prep pro punc quan uttword V value ^ ^o))
 
 (deftype syn-cat ()
   '(or pos (member adjp advbl CP NP number PP pred S utt VP VP- word)))
