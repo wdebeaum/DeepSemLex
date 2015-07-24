@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.7.0_51" class="java.beans.XMLDecoder">
+<java version="1.7.0_79" class="java.beans.XMLDecoder">
  <object class="com.horstmann.violet.ClassDiagramGraph">
   <void method="addNode">
    <object class="com.horstmann.violet.ClassNode" id="ClassNode0">
@@ -168,7 +168,8 @@ particle : maybe&lt;symbol&gt;</string>
    <object class="com.horstmann.violet.ClassNode" id="ClassNode5">
     <void property="attributes">
      <void property="text">
-      <string>head-word : maybe&lt;disj&lt;symbol&gt;&gt;
+      <string>syn-cat : maybe&lt;disj&lt;syn-cat&gt;&gt;
+head-word : maybe&lt;disj&lt;symbol&gt;&gt;
 optional : boolean</string>
      </void>
     </void>
@@ -190,12 +191,12 @@ optional : boolean</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>850.0033162755033</double>
+      <double>840.0033162755033</double>
      </void>
     </void>
     <void method="setLocation">
      <double>1329.1166860564076</double>
-     <double>850.0033162755033</double>
+     <double>840.0033162755033</double>
     </void>
    </object>
   </void>
@@ -452,18 +453,15 @@ syn-arg</string>
    <object class="com.horstmann.violet.ClassNode" id="ClassNode13">
     <void property="attributes">
      <void property="text">
-      <string>adj
-adjp
+      <string>adjp
 advbl
 cp
 np
 number
 pp
 pred
-quan
 s
 utt
-value
 vp
 vp-
 word</string>
@@ -498,7 +496,7 @@ syn-cat</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.PointNode">
+   <object class="com.horstmann.violet.PointNode" id="PointNode0">
     <void id="Rectangle2D$Double0" property="bounds">
      <void method="setRect">
       <double>1081.0</double>
@@ -772,7 +770,7 @@ target : concept</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode0">
     <void property="text">
      <void property="text">
       <string>list&lt;T&gt; is the type of lists whose members are all of type T.
@@ -821,7 +819,7 @@ see symbol-types.lisp</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode0">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode1">
     <void property="text">
      <void property="text">
       <string>Built from the rest of the structures,
@@ -896,6 +894,7 @@ boost-word : boolean</string>
 adv
 art
 conj
+cv
 fp
 infinitival-to
 n
@@ -909,7 +908,10 @@ punc
 quan
 uttword
 v
-value</string>
+value
+^
+^o
+^s</string>
      </void>
     </void>
     <void property="name">
@@ -941,7 +943,7 @@ pos</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode1">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode2">
     <void property="text">
      <void property="text">
       <string>Conjunctions and disjunctions of concepts
@@ -978,7 +980,7 @@ lists can be merged as appropriate.</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode2">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode3">
     <void property="text">
      <void property="text">
       <string>This list from
@@ -993,19 +995,19 @@ have other ideas.</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double28"/>
-      <double>143.7841423000544</double>
+      <double>145.78414230005444</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double28"/>
-      <double>423.9706963946546</double>
+      <double>419.9706963946546</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>143.7841423000544</double>
-     <double>423.9706963946546</double>
+     <double>145.78414230005444</double>
+     <double>419.9706963946546</double>
     </void>
    </object>
   </void>
@@ -1050,7 +1052,7 @@ map-feats(syn-feats) : morph-map</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode3">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode4">
     <void property="text">
      <void property="text">
       <string>These lists are
@@ -1117,7 +1119,7 @@ morphs : hash&lt;word, list&lt;morph&gt;&gt;</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode4">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode5">
     <void property="text">
      <void property="text">
       <string>Subclasses of 
@@ -1149,7 +1151,7 @@ to reduce clutter.</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode5">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode6">
     <void property="text">
      <void property="text">
       <string>Relations can be things like
@@ -1182,7 +1184,7 @@ WN pointers...</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode6">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode7">
     <void property="text">
      <void property="text">
       <string>The grammar has
@@ -1197,24 +1199,24 @@ templates.</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double34"/>
-      <double>1615.7496682339436</double>
+      <double>1611.7496682339436</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double34"/>
-      <double>663.3217967846164</double>
+      <double>1005.3217967846163</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>1615.7496682339436</double>
-     <double>663.3217967846164</double>
+     <double>1611.7496682339436</double>
+     <double>1005.3217967846163</double>
     </void>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode7">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode8">
     <void property="text">
      <void property="text">
       <string>This list from
@@ -1325,7 +1327,7 @@ syntax-tree : list</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode8">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode9">
     <void property="text">
      <void property="text">
       <string>Syn-feat and sem-feat
@@ -1359,7 +1361,7 @@ values for each key.</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.PointNode">
+   <object class="com.horstmann.violet.PointNode" id="PointNode1">
     <void id="Rectangle2D$Double1" property="bounds">
      <void method="setRect">
       <double>1081.0</double>
@@ -1466,7 +1468,7 @@ cont&apos;d</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode9">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode10">
     <void property="text">
      <void property="text">
       <string>are morph feats really the same
@@ -1496,7 +1498,7 @@ as syn-feats? do they intersect?</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode" id="NoteNode10">
+   <object class="com.horstmann.violet.NoteNode" id="NoteNode11">
     <void property="text">
      <void property="text">
       <string>is pos a morph/syn-feat too?</string>
@@ -1508,19 +1510,19 @@ as syn-feats? do they intersect?</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double43"/>
-      <double>73.73084113016867</double>
+      <double>20.73084113016867</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double43"/>
-      <double>764.6601749467495</double>
+      <double>825.6601749467495</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>73.73084113016867</double>
-     <double>764.6601749467495</double>
+     <double>20.73084113016867</double>
+     <double>825.6601749467495</double>
     </void>
    </object>
   </void>
@@ -1612,7 +1614,7 @@ as syn-feats? do they intersect?</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.ClassNode">
+   <object class="com.horstmann.violet.ClassNode" id="ClassNode33">
     <void property="attributes">
      <void property="text">
       <string>Result
@@ -1655,7 +1657,7 @@ cont&apos;d</string>
    </object>
   </void>
   <void method="addNode">
-   <object class="com.horstmann.violet.ClassNode" id="ClassNode33">
+   <object class="com.horstmann.violet.ClassNode" id="ClassNode34">
     <void property="attributes">
      <void property="text">
       <string>name : symbol
@@ -1688,6 +1690,41 @@ record-number : maybe&lt;integer&gt;</string>
     <void method="setLocation">
      <double>493.5209527261292</double>
      <double>49.9466988301143</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="ClassNode35">
+    <void property="attributes">
+     <void property="text">
+      <string>(see far left)</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>&lt;enum&gt;
+pos</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double49">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double49"/>
+      <double>1639.0</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double49"/>
+      <double>639.0</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1639.0</double>
+     <double>639.0</double>
     </void>
    </object>
   </void>
@@ -1820,7 +1857,7 @@ record-number : maybe&lt;integer&gt;</string>
      <object class="com.horstmann.violet.BentStyle" field="HVH"/>
     </void>
     <void property="endLabel">
-     <string>1</string>
+     <string>*</string>
     </void>
     <void property="startArrowHead">
      <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
@@ -1964,12 +2001,12 @@ record-number : maybe&lt;integer&gt;</string>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode22"/>
-   <object idref="NoteNode0"/>
+   <object idref="NoteNode1"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode23"/>
-   <object idref="NoteNode2"/>
+   <object idref="NoteNode3"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2055,12 +2092,12 @@ record-number : maybe&lt;integer&gt;</string>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode20"/>
-   <object idref="NoteNode5"/>
+   <object idref="NoteNode6"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode13"/>
-   <object idref="NoteNode6"/>
+   <object idref="NoteNode7"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2080,7 +2117,7 @@ record-number : maybe&lt;integer&gt;</string>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode3"/>
-   <object idref="NoteNode8"/>
+   <object idref="NoteNode9"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2112,42 +2149,42 @@ record-number : maybe&lt;integer&gt;</string>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode6"/>
-   <object idref="NoteNode8"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode9"/>
-   <object idref="NoteNode7"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode18"/>
-   <object idref="NoteNode1"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode15"/>
-   <object idref="NoteNode4"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode29"/>
-   <object idref="NoteNode3"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode13"/>
-   <object idref="NoteNode3"/>
-  </void>
-  <void method="connect">
-   <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode21"/>
    <object idref="NoteNode9"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
-   <object idref="ClassNode23"/>
+   <object idref="ClassNode9"/>
+   <object idref="NoteNode8"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="ClassNode18"/>
+   <object idref="NoteNode2"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="ClassNode15"/>
+   <object idref="NoteNode5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="ClassNode29"/>
+   <object idref="NoteNode4"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="ClassNode13"/>
+   <object idref="NoteNode4"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="ClassNode21"/>
    <object idref="NoteNode10"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.NoteEdge"/>
+   <object idref="ClassNode23"/>
+   <object idref="NoteNode11"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2191,7 +2228,7 @@ record-number : maybe&lt;integer&gt;</string>
   <void method="connect">
    <object class="com.horstmann.violet.NoteEdge"/>
    <object idref="ClassNode31"/>
-   <object idref="NoteNode4"/>
+   <object idref="NoteNode5"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2233,7 +2270,7 @@ record-number : maybe&lt;integer&gt;</string>
     </void>
    </object>
    <object idref="ClassNode27"/>
-   <object idref="ClassNode33"/>
+   <object idref="ClassNode34"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2248,7 +2285,7 @@ record-number : maybe&lt;integer&gt;</string>
     </void>
    </object>
    <object idref="ClassNode20"/>
-   <object idref="ClassNode33"/>
+   <object idref="ClassNode34"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2260,7 +2297,7 @@ record-number : maybe&lt;integer&gt;</string>
     </void>
    </object>
    <object idref="ClassNode10"/>
-   <object idref="ClassNode33"/>
+   <object idref="ClassNode34"/>
   </void>
   <void method="connect">
    <object class="com.horstmann.violet.ClassRelationshipEdge">
@@ -2273,6 +2310,18 @@ record-number : maybe&lt;integer&gt;</string>
    </object>
    <object idref="ClassNode25"/>
    <object idref="ClassNode24"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="VHV"/>
+    </void>
+    <void property="endArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="TRIANGLE"/>
+    </void>
+   </object>
+   <object idref="ClassNode13"/>
+   <object idref="ClassNode35"/>
   </void>
  </object>
 </java>
