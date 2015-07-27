@@ -82,6 +82,9 @@
     (setf (gethash file *loaded-resource-files*) t)
     ))
 
+; Note: there is no evict-dsl-file, because by the time we get down to the file
+; level, we don't know which concepts we're talking about
+
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
    resource of the name symbol's package."
@@ -92,6 +95,44 @@
 	  (dolist (file files)
 	    (require-dsl-file file)))))
     (setf (gethash name *loaded-concept-names*) t)
+    ))
+
+;; FIXME I think I actually have to do this a different way, since the types
+;; concept and (or symbol concept) are not the same, so I can't just replace
+;; concepts with their names. I was thinking that was what I did while loading,
+;; but actually what I do is create stub concepts and then change their class
+;; (!) and add slots when they're actually loaded.
+(defun evict-concept (concept)
+  "Roughly speaking, undo the effect of require-concept. Replace concept with
+   its name in all its references, and remove it from the *db*, so that it can
+   be garbage-collected. Also update *loaded-concept-names* and
+   *loaded-resource-files* so that we can still load the concept back in later
+   if we need to."
+  (let* ((name (name concept))
+         (rv (gethash (symbol-package name) *resource-versions*)))
+    ;; replace concept with name in all references
+    (dolist (ref (references concept))
+      (etypecase ref
+        (cons
+	  (unless (eq concept (car ref)) (error "WTF"))
+	  (rplaca ref name))
+	(standard-object
+	  (loop for slot-def in (class-slots (class-of ref))
+	        for slot-name = (slot-definition-name slot-def)
+	        when (eq concept (slot-value ref slot-name))
+	          do (setf (slot-value ref slot-name) name)))
+	))
+    ;; remove from *db*
+    (remhash name (concepts *db*))
+    (when (typep concept 'sense)
+      (remove-morphed-sense-from-db *db* concept))
+    ;; remove from *loaded-concept-names*
+    (remhash name *loaded-concept-names*)
+    ;; remove from *loaded-resource-files* if applicable
+    (when (and rv (get-files-for-symbol rv))
+      (let ((files (funcall (get-files-for-symbol rv) rv name)))
+        (dolist (file files)
+	  (remhash file *loaded-resource-files*))))
     ))
 
 (defun require-resource-version (pkg-name)
@@ -105,6 +146,20 @@
       (let ((*load-verbose* nil))
 	(dolist (f files)
 	  (require-dsl-file f)))))
+
+(defun evict-resource-version (pkg-name)
+  "Roughly speaking, undo the effect of require-resource-version. Evict all of
+   the concepts in the named resource verson (really those whose names are
+   symbols in the corresponding Lisp package)."
+  (loop with pkg = (find-package pkg-name)
+        for k being the hash-keys of (concepts *db*)
+        when (eq pkg (symbol-package k))
+	  ; note: can't just do evict-concept here, since it modifies the hash
+	  collect k into to-be-evicted
+	finally
+	  (dolist (k to-be-evicted)
+	    (evict-concept (gethash k (concepts *db*))))
+	))
 
 (defun require-all-resource-files ()
   "Ensure that all files from all resource versions with files to load are

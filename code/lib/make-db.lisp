@@ -180,25 +180,41 @@
 	    ))
     ))
 
+(defun hash-keys-for-sense (sense)
+    (declare (type sense sense))
+  "Return the list of keys in the senses hash that should map to sense."
+  (loop with keys = nil
+        for word in (mapcar #'morphed (maps (morph sense)))
+	do
+        ;; index by...
+	;; ... first word
+        (push (list (first-word word)) keys)
+	;; ... all contiguous words
+        (push (cons (first-word word) (remaining-words word)) keys)
+	;; ... all words
+	(when (particle word)
+	  (push `(,(first-word word) ,@(remaining-words word) ,(particle word))
+		keys))
+	finally (return (util::convert-to-package keys :w))))
+
 (defun add-morphed-sense-to-db (db sense)
     (declare (type lexicon-and-ontology db) (type sense sense))
   "Add sense to (senses db) keyed from each morphed form."
   (unless (maps (morph sense))
     (warn "adding no morph-maps to (senses db) for sense~%~s" sense))
-  (dolist (word (mapcar #'morphed (maps (morph sense))))
-    ;; index by...
-    (let ((keys (list 
-		      ;; ... first word
-                      (list (first-word word))
-		      ;; ... all contiguous words
-                      (cons (first-word word) (remaining-words word)))))
-      ;; ... all words
-      (when (particle word)
-	(push `(,(first-word word) ,@(remaining-words word) ,(particle word))
-	      keys))
-      (setf keys (util::convert-to-package keys :w))
-;      (format t "keys for ~s are ~s~%" word keys)
-      (dolist (key keys)
-	(pushnew sense (gethash key (senses db))))
-      )))
+  (dolist (key (hash-keys-for-sense sense))
+    (pushnew sense (gethash key (senses db))))
+  )
+
+(defun remove-morphed-sense-from-db (db sense)
+    (declare (type lexicon-and-ontology db) (type sense sense))
+  "Remove sense from (senses db)."
+  (loop for key in (hash-keys-for-sense sense)
+        for old-val = (gethash key (senses db))
+	for new-val = (delete sense old-val :test #'eq)
+	do (if (null new-val)
+	     (remhash key (senses db))
+	     (setf (gethash key (senses db)) new-val)
+	     )
+	))
 
