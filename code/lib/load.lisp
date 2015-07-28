@@ -14,11 +14,14 @@
 
 (defvar *unknown-templates* nil)
 
-(defun load-dsl-file (filename)
+(defun load-dsl-file (filename &key provenance-name)
   (let (
         ;; reset lexical context
         *concept-stack*
-        *current-provenance*
+        (*current-provenance*
+	  (when provenance-name
+	    (make-instance 'provenance
+	        :name provenance-name :filename (namestring filename))))
 	*current-input-text*
 	*current-word*
 	*current-pos*

@@ -70,20 +70,26 @@
   (format s "resource-version ~a" (package-name (pkg rv))))
 
 (defvar *loaded-resource-files* (make-hash-table :test #'equal)
- "A hash whose keys are the resource files we've already loaded.")
+ "A hash whose keys are the resource files we've already loaded, and whose
+  values are the value of *require-file-count* the last time the file was
+  required.")
 (defvar *loaded-concept-names* (make-hash-table :test #'eq)
  "A hash whose keys are the names of concepts we've already loaded from
   resources.")
+(defvar *require-file-count* 0
+ "The number of times any DSL file has been required.")
 
-(defun require-dsl-file (file)
+(defun require-dsl-file (file &key provenance-name)
   "Ensure that the given file is loaded."
   (unless (gethash file *loaded-resource-files*)
-    (load-dsl-file file)
-    (setf (gethash file *loaded-resource-files*) t)
-    ))
+    (load-dsl-file file :provenance-name provenance-name)
+    )
+  (setf (gethash file *loaded-resource-files*) (incf *require-file-count*))
+  )
 
-; Note: there is no evict-dsl-file, because by the time we get down to the file
-; level, we don't know which concepts we're talking about
+(defun evict-dsl-file (file)
+  ; TODO look for named concepts whose provenance has the given filename, and delete them and any anonymous concepts or non-concepts (relations, input-texts) connected to them with the same provenance, if it's their only provenance
+  )
 
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
@@ -93,7 +99,8 @@
       (when (and rv (get-files-for-symbol rv))
         (let ((files (funcall (get-files-for-symbol rv) rv name)))
 	  (dolist (file files)
-	    (require-dsl-file file)))))
+	    (require-dsl-file file
+	        :provenance-name (intern (package-name (pkg rv)) :ld))))))
     (setf (gethash name *loaded-concept-names*) t)
     ))
 
@@ -167,7 +174,8 @@
   (maphash
       (lambda (pkg rv)
         (dolist (f (funcall (get-all-files rv) rv))
-	  (load-dsl-file f)))
+	  (load-dsl-file f
+	      :provenance-name (intern (package-name (pkg rv)) :ld))))
       *resource-versions*))
 
 (defresource (ONT)
