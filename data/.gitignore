@@ -4,4 +4,7 @@ PropBank
 SemLink
 WordNet
 VerbNet
-browser
+browser*
+ont-browser
+TRIPS
+gloss-output
