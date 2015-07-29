@@ -27,6 +27,16 @@
 	(change-class c concept-type))
       )))
 
+(defun minimize-concept (concept)
+  "Trim down the given concept so it takes almost as little memory as it did
+   before it was 'required': change its class back to just concept (getting rid
+   of slots not in the concept class), and get rid of definitions and examples.
+   Relations are handled elsewhere."
+  (setf (definitions concept) nil
+        (examples concept) nil)
+  (change-class concept 'concept)
+  )
+
 (defun concept-part-of-p (part whole)
   "Given two concept types part and whole, return true iff part is part of
    whole (or they are eq)."

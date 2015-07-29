@@ -89,7 +89,29 @@
 
 (defun evict-dsl-file (file)
   ; TODO look for named concepts whose provenance has the given filename, and delete them and any anonymous concepts or non-concepts (relations, input-texts) connected to them with the same provenance, if it's their only provenance
-  )
+  (let* ((named-concepts-from-file
+	    (loop for concept-name being the hash-keys of (concepts *db*)
+		  for concept = (gethash concept-name (concepts *db*))
+		  when (some (lambda (p)
+			       (and (stringp (filename p))
+				    (string= (filename p) (namestring file))))
+			     (provenance concept))
+		  collect concept))
+         (relns-from-file
+	     (loop for concept in named-concepts-from-file
+	           append (loop for reln in (append (in concept) (out concept))
+		                when (and (provenance reln)
+				          (stringp (filename (provenance reln)))
+					  (string= (filename (provenance reln))
+					           (namestring file)))
+				collect reln)))
+	 )
+    ; TODO remove relns
+    ; TODO call minimize-concept on subset of named-concepts-from-file for which their only provenances are from the file being evicted
+    ; TODO get related anonymous concepts too, need to untangle their references so they can be freed
+    ; FIXME what about relations between disjunctions? they don't show up in in/out, only indirectly in references
+    )
+  (remhash file *loaded-resource-files*))
 
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
