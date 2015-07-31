@@ -82,50 +82,122 @@
 (defun require-dsl-file (file &key provenance-name)
   "Ensure that the given file is loaded."
   (unless (gethash file *loaded-resource-files*)
+    ; TODO check size of *lrf* against a limit, and if we're over it, evict
+    ; least-recently-used files until we're under
     (load-dsl-file file :provenance-name provenance-name)
     )
   (setf (gethash file *loaded-resource-files*) (incf *require-file-count*))
   )
 
+(defun provenance-from-file-p (p f)
+     (declare (type p provenance)
+              (type f string))
+  (and (stringp (filename p))
+       (string= (filename p) f)))
+
+(defun object-could-be-from-file-p (o f)
+    (declare (type f string))
+  "Could o have been created while loading the DSL file named f?"
+  (typecase
+    (concept
+      (and (provenance o)
+	   (every
+	     (lambda (p)
+	       (provenance-from-file-p p f))
+	     (provenance o))))
+    ((relation input-text)
+      (and (provenance o)
+	   (provenance-from-file-p (provenance o) f)))
+    (otherwise
+      t)))
+
+(defun traverse-stuff-from-file (filename start &optional (traversed (make-hash-table :test #'eq)) prev)
+    (declare (type file string)
+             (type hash-table traversed))
+  "Traverse objects starting at start that were created when the named DSL file
+   was loaded. Put traversed objects in the keys of the traversed hash-table
+   (which should have :test eq). Return a list of (traversed . not-traversed)
+   pairs, where not-traversed would have been traversed if it were from the DSL
+   file."
+  (when (gethash start traversed)
+    (return-from traverse-stuff-from-file nil))
+  (typecase start
+    (cons ; unfortunately, conses aren't standard-objects
+      (setf (gethash start traversed) t)
+      (append (traverse-stuff-from-file (car start) filename traversed start)
+              (traverse-stuff-from-file (cdr start) filename traversed start)))
+    (standard-object
+      (unless (object-could-be-from-file-p start filename)
+	; start is not from file, stop here and return boundary pair
+        (return-from traverse-stuff-from-file
+	  (when prev
+	    (list (cons prev start)))))
+      ; start is from file, recurse on all bound slots
+      (setf (gethash start traversed) t)
+      (loop for slot-def in (class-slots (class-of start))
+	    for slot-name = (slot-definition-name slot-def)
+	    unless (eq 'provenance slot-name)
+	    when (slot-boundp start slot-name)
+	    append (traverse-stuff-from-file
+		       filename (slot-value start slot-name) traversed start)
+	    ))
+    (otherwise 
+      (setf (gethash start traversed) t)
+      nil)
+    ))
+
 (defun evict-dsl-file (file)
-  ; TODO look for named concepts whose provenance has the given filename, and delete them and any anonymous concepts or non-concepts (relations, input-texts) connected to them with the same provenance, if it's their only provenance
-  (let* ((named-concepts-from-file
+  "Look for named concepts whose provenance has the given filename, and delete
+   them and any anonymous concepts or non-concepts (relations, input-texts)
+   connected to them with the same provenance, if it's their only provenance."
+  (let* (
+         ;; get all named concepts with *some* parts from file
+         (named-concepts-from-file
 	    (loop for concept-name being the hash-keys of (concepts *db*)
 		  for concept = (gethash concept-name (concepts *db*))
 		  when (some (lambda (p)
-			       (and (stringp (filename p))
-				    (string= (filename p) (namestring file))))
+		  	       (provenance-from-file-p p (namestring file)))
 			     (provenance concept))
 		  collect concept))
-         (relns-from-file
-	     (loop for concept in named-concepts-from-file
-	           append (loop for reln in (append (in concept) (out concept))
-		                when (and (provenance reln)
-				          (stringp (filename (provenance reln)))
-					  (string= (filename (provenance reln))
-					           (namestring file)))
-				collect reln)))
+	 ;; find all the connected objects that are *only* from the file (they
+	 ;; don't have parts loaded from other files), and the boundary of that
+	 ;; set with the rest of the DB (not counting the start set)
+         (traversed (make-hash-table :test #'eq))
+	 (boundary-pairs
+	   (loop for start in named-concepts-from-file
+	         append (traverse-stuff-from-file file start traversed)))
 	 )
-    ; TODO remove relns
-    ; TODO call minimize-concept on subset of named-concepts-from-file for which their only provenances are from the file being evicted
-    ; TODO get related anonymous concepts too, need to untangle their references so they can be freed
-    ; FIXME what about relations between disjunctions? they don't show up in in/out, only indirectly in references
+    ;; remove boundary relations
+    (loop for (inside . outside) in boundary-pairs
+          when (and (typep inside 'relation) (typep outside 'concept))
+	  do (remove-relation inside))
+    ;; for named concepts that are only from the file:
+    (loop for c in named-concepts-from-file
+          when (object-could-be-from-file-p c)
+	  do ;; remove traversed relations
+	     (dolist (r (append (in c) (out c)))
+	       (when (gethash r traversed)
+	         (remove-relation r)))
+	     ;; if it's a sense, remove it from (senses *db*)
+	     (when (typep c 'sense)
+	       (remove-morphed-sense-from-db *db* c))
+	     ;; mark it as no longer loaded
+	     (remhash (name c) *loaded-concept-names*)
+	     ;; minimize it
+	     (minimize-concept c)
+	  )
     )
+    ; Here there should be no more references to the bulk of the stuff we
+    ; traversed, so it should be able to be GC'd. Note that we don't traverse
+    ; disjunctions backwards (e.g. if concept A utilizes disjunction (OR B C),
+    ; and we're evicting B, we don't get to A). This is probably OK, since if a
+    ; concept is in a disjunction, it was either named, or the concept the
+    ; disjunction was used by was defined in the same file. If it was named, we
+    ; minimized it, so it no longer has references into the rest of the evicted
+    ; set. If the disjunction-using concept was in the same file, we evicted it
+    ; too.
+  ;; mark the file as a whole as no longer loaded
   (remhash file *loaded-resource-files*))
-
-; maybe I should do evict-dsl-file differently:
-; - get all named concepts whose provenance is the file
-; - traverse data structures (including conses and standard-objects), stopping:
-;  - when we see an object/cons we've seen before
-;  - when we reach a named concept
-;  - when we reach an object with a provenance that isn't (only) the file
-; - around the edge of the traversed area, cut all ties so it can be GC'd
-;  - call minimize-concept on the original named concepts
-;  - remove traversed relations from those named concepts
-;  - remove traversed relations from untraversed concepts (both in/out and references)
-;
-; still have the problem that something could still be used in a disjunction and we wouldn't be able to reach it... but if it's an unnamed concept it must have been written inline, meaning it's part of a larger named concept that is either being evicted or has some other provenance. So maybe that's OK.
-
 
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
@@ -140,6 +212,7 @@
     (setf (gethash name *loaded-concept-names*) t)
     ))
 
+#|
 ;; FIXME I think I actually have to do this a different way, since the types
 ;; concept and (or symbol concept) are not the same, so I can't just replace
 ;; concepts with their names. I was thinking that was what I did while loading,
@@ -177,6 +250,7 @@
         (dolist (file files)
 	  (remhash file *loaded-resource-files*))))
     ))
+|#
 
 (defun require-resource-version (pkg-name)
   "Ensure that all files from the resource version identified by the package
@@ -189,7 +263,7 @@
       (let ((*load-verbose* nil))
 	(dolist (f files)
 	  (require-dsl-file f)))))
-
+#|
 (defun evict-resource-version (pkg-name)
   "Roughly speaking, undo the effect of require-resource-version. Evict all of
    the concepts in the named resource verson (really those whose names are
@@ -203,6 +277,7 @@
 	  (dolist (k to-be-evicted)
 	    (evict-concept (gethash k (concepts *db*))))
 	))
+|#
 
 (defun require-all-resource-files ()
   "Ensure that all files from all resource versions with files to load are
