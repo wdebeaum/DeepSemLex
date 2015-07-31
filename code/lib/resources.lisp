@@ -81,12 +81,12 @@
 
 (defun require-dsl-file (file &key provenance-name)
   "Ensure that the given file is loaded."
-  (unless (gethash file *loaded-resource-files*)
+  (unless (gethash (namestring file) *loaded-resource-files*)
     ; TODO check size of *lrf* against a limit, and if we're over it, evict
     ; least-recently-used files until we're under
     (load-dsl-file file :provenance-name provenance-name)
     )
-  (setf (gethash file *loaded-resource-files*) (incf *require-file-count*))
+  (setf (gethash (namestring file) *loaded-resource-files*) (incf *require-file-count*))
   )
 
 (defun provenance-from-file-p (p f)
@@ -124,8 +124,8 @@
   (typecase start
     (cons ; unfortunately, conses aren't standard-objects
       (setf (gethash start traversed) t)
-      (append (traverse-stuff-from-file (car start) filename traversed start)
-              (traverse-stuff-from-file (cdr start) filename traversed start)))
+      (append (traverse-stuff-from-file filename (car start) traversed start)
+              (traverse-stuff-from-file filename (cdr start) traversed start)))
     (standard-object
       (unless (object-could-be-from-file-p start filename)
 	; start is not from file, stop here and return boundary pair
@@ -147,7 +147,7 @@
     ))
 
 (defun evict-dsl-file (file)
-    (declare (type string file))
+    (declare (type (or pathname string) file))
   "Look for named concepts whose provenance has the given filename, and delete
    them and any anonymous concepts or non-concepts (relations, input-texts)
    connected to them with the same provenance, if it's their only provenance."
@@ -157,24 +157,39 @@
 	    (loop for concept-name being the hash-keys of (concepts *db*)
 		  for concept = (gethash concept-name (concepts *db*))
 		  when (some (lambda (p)
-		  	       (provenance-from-file-p p (namestring file)))
+			       (provenance-from-file-p p (namestring file)))
 			     (provenance concept))
 		  collect concept))
+	 ;; similarly, get all senses with some parts from file
+	 (senses-from-file ;; FIXME this is expensive
+	    (loop for word being the hash-keys of (senses *db*)
+	          for senses = (gethash word (senses *db*))
+		  append (remove-if-not
+		           (lambda (s)
+			     (some
+			       (lambda (p)
+			         (provenance-from-file-p p (namestring file)))
+			       (provenance s)))
+			   senses)))
+	 ;; put the two sets together
+	 (named-concepts-and-senses-from-file
+	   (remove-duplicates (append named-concepts-from-file senses-from-file)
+			      :test #'eq))
 	 ;; find all the connected objects that are *only* from the file (they
 	 ;; don't have parts loaded from other files), and the boundary of that
 	 ;; set with the rest of the DB (not counting the start set)
          (traversed (make-hash-table :test #'eq))
 	 (boundary-pairs
-	   (loop for start in named-concepts-from-file
+	   (loop for start in named-concepts-and-senses-from-file
 	         append (traverse-stuff-from-file file start traversed)))
 	 )
     ;; remove boundary relations
     (loop for (inside . outside) in boundary-pairs
           when (and (typep inside 'relation) (typep outside 'concept))
 	  do (remove-relation inside))
-    ;; for named concepts that are only from the file:
-    (loop for c in named-concepts-from-file
-          when (object-could-be-from-file-p c)
+    ;; for named concepts and senses that are only from the file:
+    (loop for c in named-concepts-and-senses-from-file
+          when (object-could-be-from-file-p c (namestring file))
 	  do ;; remove traversed relations
 	     (dolist (r (append (in c) (out c)))
 	       (when (gethash r traversed)
@@ -182,8 +197,9 @@
 	     ;; if it's a sense, remove it from (senses *db*)
 	     (when (typep c 'sense)
 	       (remove-morphed-sense-from-db *db* c))
-	     ;; mark it as no longer loaded
-	     (remhash (name c) *loaded-concept-names*)
+	     ;; if it's named, mark it as no longer loaded
+	     (unless (anonymous-concept-p c)
+	       (remhash (name c) *loaded-concept-names*))
 	     ;; minimize it
 	     (minimize-concept c)
 	  )
@@ -198,7 +214,7 @@
     ; set. If the disjunction-using concept was in the same file, we evicted it
     ; too.
   ;; mark the file as a whole as no longer loaded
-  (remhash file *loaded-resource-files*))
+  (remhash (namestring file) *loaded-resource-files*))
 
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
