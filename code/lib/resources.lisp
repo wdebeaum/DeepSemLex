@@ -141,7 +141,7 @@
 	    append (traverse-stuff-from-file
 		       filename (slot-value start slot-name) traversed start)
 	    ))
-    (otherwise 
+    (otherwise
       (setf (gethash start traversed) t)
       nil)
     ))
