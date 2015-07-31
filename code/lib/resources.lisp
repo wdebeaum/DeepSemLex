@@ -113,6 +113,20 @@
     )
   (remhash file *loaded-resource-files*))
 
+; maybe I should do evict-dsl-file differently:
+; - get all named concepts whose provenance is the file
+; - traverse data structures (including conses and standard-objects), stopping:
+;  - when we see an object/cons we've seen before
+;  - when we reach a named concept
+;  - when we reach an object with a provenance that isn't (only) the file
+; - around the edge of the traversed area, cut all ties so it can be GC'd
+;  - call minimize-concept on the original named concepts
+;  - remove traversed relations from those named concepts
+;  - remove traversed relations from untraversed concepts (both in/out and references)
+;
+; still have the problem that something could still be used in a disjunction and we wouldn't be able to reach it... but if it's an unnamed concept it must have been written inline, meaning it's part of a larger named concept that is either being evicted or has some other provenance. So maybe that's OK.
+
+
 (defun require-concept (name)
   "Ensure that the named concept is completely defined according to the
    resource of the name symbol's package."

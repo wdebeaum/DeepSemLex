@@ -91,6 +91,16 @@
 	     )
 	))
 
+(defun remove-references-from-concept-formula (f)
+    (declare (type (disj-conj concept) f))
+  "Undo add-references-from-concept-formula."
+  (loop for c on (cdr f)
+        do (if (consp (car c))
+	     (remove-references-from-concept-formula (car c))
+	     (setf (references (car c))
+		   (delete (car c) (references (car c)) :test #'eq))
+	     )))
+
 (defun add-relation (source label target &optional provenance)
     (declare (type symbol label)
              (type (maybe-disj concept) source target)
@@ -105,6 +115,20 @@
     (if (consp target)
       (add-references-from-concept-formula target)
       (push r (in target))
+      )
+    ))
+
+(defun remove-relation (r)
+    (declare (type relation r))
+  "Undo add-relation."
+  (with-slots (source target) r
+    (if (consp source)
+      (remove-references-from-concept-formula source)
+      (setf (out source) (delete r (out source) :test #'eq))
+      )
+    (if (consp target)
+      (remove-references-from-concept-formula target)
+      (setf (in source) (delete r (in source) :test #'eq))
       )
     ))
 
