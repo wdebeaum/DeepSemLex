@@ -90,29 +90,29 @@
   )
 
 (defun provenance-from-file-p (p f)
-     (declare (type p provenance)
-              (type f string))
+     (declare (type provenance p)
+              (type string f))
   (and (stringp (filename p))
        (string= (filename p) f)))
 
 (defun object-could-be-from-file-p (o f)
-    (declare (type f string))
+    (declare (type string f))
   "Could o have been created while loading the DSL file named f?"
-  (typecase
+  (typecase o
     (concept
       (and (provenance o)
 	   (every
 	     (lambda (p)
 	       (provenance-from-file-p p f))
 	     (provenance o))))
-    ((relation input-text)
+    ((or relation input-text)
       (and (provenance o)
 	   (provenance-from-file-p (provenance o) f)))
     (otherwise
       t)))
 
 (defun traverse-stuff-from-file (filename start &optional (traversed (make-hash-table :test #'eq)) prev)
-    (declare (type file string)
+    (declare (type string filename)
              (type hash-table traversed))
   "Traverse objects starting at start that were created when the named DSL file
    was loaded. Put traversed objects in the keys of the traversed hash-table
@@ -147,6 +147,7 @@
     ))
 
 (defun evict-dsl-file (file)
+    (declare (type string file))
   "Look for named concepts whose provenance has the given filename, and delete
    them and any anonymous concepts or non-concepts (relations, input-texts)
    connected to them with the same provenance, if it's their only provenance."
