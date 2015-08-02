@@ -2,7 +2,7 @@
 ;; This is VN masquerade-0.26
 ;; act, behave
 (define-type ont::acting
- :wordnet-sense-keys ("do%2:29:09" "behave%2:29:00" "act%2:29:00" "act%1:03:00" "deed%1:03:00" "human_action%1:03:00" "human_activity%1:03:00")
+ :wordnet-sense-keys ("do%2:29:09" "behave%2:29:00" "act%2:29:00" "act%1:03:00" "deed%1:03:00" "human_action%1:03:00" "human_activity%1:03:00" "activity%1:04:00")
     :parent ont::event-of-action
     :arguments ((:required ont::agent  ((? cz F::Phys-obj f::abstr-obj f::situation)))
 
@@ -104,14 +104,24 @@
              )
  ))
 
+;; experiencer has some mental attitude towards some condition, state or situation
+;; awareness, consciousness, know
+(define-type ONT::Awareness
+ :wordnet-sense-keys ("think%2:31:00" "cogitate%2:31:00" "cerebrate%2:31:00")
+ :parent ONT::event-of-experience
+ :sem (F::Situation (F::Cause F::Mental) (F::Trajectory -))
+ :arguments ((:ESSENTIAL ONT::Formal)
+	     (:OPTIONAL ont::neutral  ((? cg1 f::abstr-obj F::Phys-obj)))
+	     (:OPTIONAL ont::neutral1  ((? cg1 f::abstr-obj F::Phys-obj)))  ;; backwards compatability
+             )
+ )
+
 ;; perceive using senses
 (define-type ONT::Perception
  :wordnet-sense-keys ("feel%2:35:00")
- :parent ONT::event-of-action
+ :parent ONT::event-of-experience
  ;;; Perceiver
- :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::origin (? o F::human f::non-human-animal))))
-             ;;; Phenomenon
-             (:ESSENTIAL ONT::neutral)
+ :arguments ((:ESSENTIAL ONT::neutral)
 	     (:optional ONT::neutral1)
 	     (:optional ont::formal)
              )
@@ -166,17 +176,11 @@
              )
  )
 
-;; cognizer has some mental attitude towards some condition, state or situation
-;; awareness, consciousness, know
-(define-type ONT::Awareness
- :wordnet-sense-keys ("think%2:31:00" "cogitate%2:31:00" "cerebrate%2:31:00")
- :parent ONT::event-of-state
- :sem (F::Situation (F::Cause F::Mental) (F::Trajectory -))
- :arguments ((:ESSENTIAL ONT::Formal)
-	     (:OPTIONAL ont::neutral  ((? cg2 f::abstr-obj F::Phys-obj) (F::intentional +)))
-	     (:OPTIONAL ont::neutral1  ((? cg1 f::abstr-obj F::Phys-obj)))
-             )
- )
+(define-type ONT::event-of-experience
+   :parent ONT::event-of-state
+   :arguments ((:ESSENTIAL ONT::experiencer (F::Phys-obj (F::intentional +))))
+   )
+
 
 
 (define-type ONT::Change-Awareness
@@ -418,10 +422,11 @@
 ;;; swift 01/12/01 -- changed aspect feature f_static to F_Stage-Level to allow progressive
 (define-type ONT::Experiencer-emotion
  :wordnet-sense-keys ("like%2:37:05" "experience%2:37:00" "feel%2:37:00" "feeling%1:03:00")
- :parent ONT::event-of-state
+ :parent ONT::event-of-experience
  :sem (F::Situation (:required (F::Cause F::Mental))(:default (F::Aspect F::Stage-Level)))
- :arguments ((:ESSENTIAL ONT::neutral ((? ep  F::Phys-obj f::abstr-obj) (F::intentional +)))
-              (:OPTIONAL ONT::neutral1) 
+ :arguments (
+              (:OPTIONAL ONT::neutral) 
+	     (:OPTIONAL ONT::neutral1)  ;; backwards compat
              (:OPTIONAL ONT::Formal) 
              ;;; Means
              (:OPTIONAL ONT::action)
@@ -577,7 +582,7 @@
  )
 
 (define-type ONT::activity
- :wordnet-sense-keys ("activity%1:04:00")
+ :wordnet-sense-keys ("project%1:04:00" "project%1:09:00" "activity%1:04:00")
  :parent ONT::event-of-action
   :sem (F::Situation (:required (F::trajectory -))(:default (F::aspect F::dynamic)(F::time-span F::extended)))
  )
@@ -691,7 +696,7 @@
 ;; 12/2010 -- conflating with ont::participating, so now allowing located event nouns
 (define-type ONT::have-experience
  :wordnet-sense-keys ("get%2:29:00" "take%2:29:08" "contract%2:29:00" "take%2:39:00"  "have%2:39:06" "have%2:42:12" "have%2:30:01" "have%2:40:05" "have%2:40:03" "have%2:29:05" "have%2:35:00")
- :parent ONT::event-of-state
+ :parent ONT::event-of-experience
  :sem (F::Situation (F::Aspect F::static) (F::Time-span F::extended) (F::Trajectory -))
  :arguments ((:REQUIRED ONT::neutral ((? afh F::Phys-obj))) ;; F::Abstr-obj F::Situation)))
 	     (:required ONT::neutral1 (F::Situation))

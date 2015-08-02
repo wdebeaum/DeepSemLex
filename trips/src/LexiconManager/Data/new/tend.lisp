@@ -9,7 +9,7 @@
     ((LF-PARENT ONT::be-inclined)
      (example "he tends to speed")
      (SEM (F::Aspect F::stage-level) (F::Time-span F::extended))
-     (TEMPL neutral-theme-SUBJCONTROL-TEMPL (xp (% W::cp (W::ctype W::s-to))))
+     (TEMPL experiencer-theme-SUBJCONTROL-TEMPL (xp (% W::cp (W::ctype W::s-to))))
      )
         )
    )

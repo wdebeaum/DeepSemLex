@@ -8,7 +8,7 @@
    (SENSES
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("want-32.1") :wn ("fancy%2:37:00"))
      (LF-PARENT ONT::want)
-     (TEMPL neutral-neutral-templ) ; like desire
+     (TEMPL experiencer-neutral-templ) ; like desire
      )
     )
    )

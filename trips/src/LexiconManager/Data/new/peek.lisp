@@ -8,7 +8,7 @@
    (wordfeats (W::morph (:forms (-vb) :nom W::peek)))
  (senses
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("peer-30.3") :wn ("peek%2:39:00" "peek%2:39:02"))
-     (LF-PARENT ONT::active-perception)
+     (LF-PARENT ONT::scrutiny)
      (TEMPL agent-templ) ; like look
      (PREFERENCE 0.96)
      )

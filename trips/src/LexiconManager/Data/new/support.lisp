@@ -9,7 +9,7 @@
    (SENSES
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("admire-31.2") :wn ("support%2:31:04" "support%2:41:00" "support%2:41:01"))
      (LF-PARENT ONT::experiencer-emotion)
-     (TEMPL neutral-action-objcontrol-templ) ; like hate,like,love
+     (TEMPL experiencer-action-objcontrol-templ) ; like hate,like,love
      )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("admire-31.2") :wn ("support%2:31:04" "support%2:41:00" "support%2:41:01"))
      (LF-PARENT ONT::experiencer-emotion)

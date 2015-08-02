@@ -13,7 +13,7 @@
      )
     ((LF-PARENT ONT::believe)
      (example "he judged his opponent incompetent")
-     (TEMPL neutral-neutral-adj-predicate-templ)
+     (TEMPL experiencer-neutral-objcontrol-pred-templ)
      (meta-data :origin calo :entry-date 20060124 :change-date nil :comments meeting-understanding :vn ("declare-29.4-1-1-2"))
      )
     )

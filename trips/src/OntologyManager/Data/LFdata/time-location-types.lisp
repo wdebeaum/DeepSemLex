@@ -814,6 +814,7 @@
 ;;; swift 04/14/02 added for yet, still
 (define-type ONT::continuation
  :parent ONT::event-duration-modifier
+ :wordnet-sense-keys ("temporary%3:00:00")
  :arguments ((:ESSENTIAL ONT::OF (F::Situation))
              )
  )

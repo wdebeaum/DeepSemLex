@@ -8,7 +8,7 @@
   (W::WAY
    (SENSES
     ((meta-data :origin trips :entry-date 20060803 :change-date nil :comments nil)
-     (LF-PARENT ONT::procedure)
+     (LF-PARENT ONT::method)
      (templ other-reln-templ)
      (example "this is the way to paint a house")
      )

@@ -6,13 +6,17 @@
  :words (
  (W::abort
    (SENSES
-    ((LF-PARENT ONT::CANCEL)
+    ((LF-PARENT ONT::STOP)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (TEMPL AGENT-affected-XP-TEMPL)
-     (example "abort the plan")
-     (meta-data :origin lou2 :entry-date 20061121 :change-date nil :comments nil)
+     (example "abort the mission")
      )
-    ((LF-PARENT ONT::CANCEL)
+    ((LF-PARENT ONT::DESTROY)
+     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (TEMPL AGENT-affected-XP-TEMPL)
+     (example "abort the fetus")
+     )
+    ((LF-PARENT ONT::DIE)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (TEMPL AGENT-TEMPL)
      (example "abort")

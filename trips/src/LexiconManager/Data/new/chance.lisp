@@ -21,7 +21,7 @@
      (LF-PARENT ONT::happen)
      (example "he chanced to see it")
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL neutral-Theme-subjcontrol-TEMPL  (xp (% W::cp (W::ctype W::s-to))))
+     (TEMPL experiencer-Theme-subjcontrol-TEMPL  (xp (% W::cp (W::ctype W::s-to))))
      (SYNTAX (w::exclude-passive +))
      )
     )

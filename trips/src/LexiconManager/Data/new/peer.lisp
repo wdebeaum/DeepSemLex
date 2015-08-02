@@ -18,7 +18,7 @@
   (W::peer
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("peer-30.3") :wn ("peer%2:39:00"))
-     (LF-PARENT ONT::active-perception)
+     (LF-PARENT ONT::scrutiny)
      (TEMPL agent-templ) ; like look
      )
     )

@@ -8,7 +8,7 @@
    (SENSES
     ((LF-PARENT ONT::WANT)
      (example "I wanna go along the coast")
-     (TEMPL neutral-theme-SUBJCONTROL-TEMPL (xp (% W::VP (W::vform W::base))))
+     (TEMPL experiencer-theme-SUBJCONTROL-TEMPL (xp (% W::VP (W::vform W::base))))
      )
     )
    )

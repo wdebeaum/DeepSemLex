@@ -64,6 +64,13 @@
              )
  )
 
+(define-type ONT::living-val
+ :parent ONT::property-val
+ :wordnet-sense-keys  ("live%3:00:00" "dead%3:00:01"  "dead%3:00:02")
+ :arguments ((:ESSENTIAL ONT::of (F::phys-obj (f::intentional +) (f::type ont::organism))
+	     ))
+ )
+
 (define-type ONT::behavioral-property
  :parent ONT::property-val
  :arguments ((:ESSENTIAL ONT::of (F::phys-obj (f::intentional +) (f::type ont::organism))
@@ -1259,11 +1266,7 @@
 
 ;; able, capable, competent
 (define-type ONT::ABILITY-VAL
- :parent  ONT::can-be-done-val
- :arguments ((:optional ONT::val ((? tp F::phys-obj F::situation)))
-	     (:optional ONT::agent (F::phys-obj))
-	     (:optional ont::formal)
-             )
+ :parent  ONT::property-val
  )
 
 ;; (un)manageable, (un)controllable
@@ -2139,6 +2142,10 @@
   :parent ont::gathering-event
   )
 
+(define-type ont::performance-play
+  :parent ont::gathering-event
+  )
+
 ;; class, course
 (define-type ont::instruction-event
   :parent ont::located-event
@@ -2146,7 +2153,7 @@
 
 ;; talk, lecture, demo, presentation
 (define-type ont::presentation
-  :parent ont::located-event
+  :parent ont::gathering-event
   )
 
 ;; idea
@@ -2646,16 +2653,6 @@
     :parent ont::information-function-object
     :arguments ((:essential ont::of))
     )
-
-
-;; difference - we are comparing multiple values (in formal) of a property, which should be some abstract measurement
-(define-type ont::comparison-function
-    :parent ont::abstract-function
-    :arguments ((:essential ont::val)
-		(:essential ont::formal)
-		(:essential ont::neutral );; (f::abstr-obj (f::measure-function f::term)))
-		))
-
 
 ;; To put in adjectives which are difficult to find a spot somewhere
 ;; else. They have something to do with the information (technical

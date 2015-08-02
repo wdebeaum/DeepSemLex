@@ -9,7 +9,7 @@
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("admire-31.2") :wn ("miss%2:37:00"))
      (LF-PARENT ONT::misses)
-     (TEMPL neutral-action-objcontrol-templ) ; like suffer
+     (TEMPL experiencer-action-objcontrol-templ) ; like suffer
      (PREFERENCE 0.96)
      )
     
@@ -21,7 +21,7 @@
     ((LF-PARENT ONT::misses)
      (SEM (F::Aspect F::indiv-level))
      (example "I miss oranges")
-     (TEMPL neutral-neutral-templ)
+     (TEMPL experiencer-neutral-templ)
      )
     )
    )

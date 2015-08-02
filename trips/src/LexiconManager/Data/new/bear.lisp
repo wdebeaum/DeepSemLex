@@ -20,7 +20,7 @@
     ((meta-data :origin "verbnet-2.0" :entry-date 20060505 :change-date 20090511 :comments nil :vn ("admire-31.2"))
      (EXAMPLE "I can't bear it")
      (LF-PARENT ONT::enduring)
-     (TEMPL agent-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss,tolerate
+     (TEMPL experiencer-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss,tolerate
      )
     )
    )

@@ -13,7 +13,7 @@
      )
     ((meta-data :origin "verbnet-1.5-corrected" :entry-date 20051219 :change-date nil :comments nil :vn ("amalgamate-22.2-2"))
      (LF-PARENT ONT::confuse)
-     (TEMPL agent-neutral-theme-templ (xp2 (% w::pp (w::ptype w::with)))) ; like associate but changed sense to ont::confuse & agent role to cognizer
+     (TEMPL agent-neutral-theme-templ (xp2 (% w::pp (w::ptype w::with)))) 
      (PREFERENCE 0.96)
      )
     ((EXAMPLE "He confused the issues ")

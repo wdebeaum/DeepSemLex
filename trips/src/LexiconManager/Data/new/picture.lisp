@@ -21,8 +21,8 @@
   (W::picture
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("characterize-29.2"))
-     (LF-PARENT ONT::categorization)
-     (TEMPL agent-neutral-as-theme-optional-templ) ; like interpret,classify
+     (LF-PARENT ONT::correlation)
+     (TEMPL neutral-neutral-as-theme-templ) ; like interpret,classify
      )
     )
    )

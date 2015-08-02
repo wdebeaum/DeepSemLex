@@ -56,8 +56,8 @@
     ;; but shouldn't this really be an agent??
     ;; seems reasonable -- but perception verbs in framenet have experiencer subjects
     ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("peer-30.3") :wn ("look%2:39:00" "look%2:39:02"))
-     (LF-PARENT ONT::ACTIVE-PERCEPTION)
-     (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
+     (LF-PARENT ONT::scrutiny)
+     (SEM (F::Time-span F::extended))
      (TEMPL agent-location-TEMPL)
      (example "look behind the shed")
      )

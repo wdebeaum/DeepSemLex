@@ -9,11 +9,11 @@
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("admire-31.2") :wn ("savor%2:37:00"))
      (LF-PARENT ONT::appreciate)
-     (TEMPL neutral-neutral-xp-templ) ; like worship,treasure,venerate,appreciate,prize,value
+     (TEMPL experiencer-neutral-xp-templ) ; like worship,treasure,venerate,appreciate,prize,value
      )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("sight-30.2") :wn ("savor%2:37:00" "savor%2:39:00"))
      (LF-PARENT ONT::active-perception)
-     (TEMPL agent-neutral-templ) ; like observe,view,watch
+     (TEMPL experiencer-neutral-templ) ; like observe,view,watch
      )
 ;    ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("admire-31.2") :wn ("savor%2:37:00"))
 ;     (LF-PARENT ONT::experiencer-emotion)

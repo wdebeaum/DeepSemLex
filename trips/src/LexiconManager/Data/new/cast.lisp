@@ -21,7 +21,7 @@
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090501 :comments nil :vn ("characterize-29.2") :wn ("cast%2:32:00" "cast%2:36:01"))
      (LF-PARENT ONT::classify)
-     (TEMPL agent-neutral-as-theme-optional-templ) ; like interpret,classify
+     (TEMPL agent-neutral-as-theme-templ) ; like interpret,classify
      )
     )
    )

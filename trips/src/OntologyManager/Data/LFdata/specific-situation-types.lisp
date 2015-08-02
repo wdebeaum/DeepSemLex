@@ -99,7 +99,7 @@
 ;; give the man a book / give a book to the man
 ;; the windmill supplies areas with electricity 
 (define-type ONT::GIVING
- :wordnet-sense-keys ("give%2:40:00" "offer%1:10:01" "offering%1:10:01" "gift%2:40:00" "give%2:40:03" "allow%2:41:01" "fall%2:40:12" "send_in%2:41:00")
+ :wordnet-sense-keys ("give%2:40:00" "offer%1:10:01" "offering%1:10:01" "gift%2:40:00" "give%2:40:03" "allow%2:41:01" "fall%2:40:12" "send_in%2:41:00" "giving%1:04:00" "gift%1:21:00")
  :parent ONT::RELINQUISH
  :sem (F::SITUATION (f::cause f::agentive) (F::iobj F::recipient))
  :arguments ((:REQUIRED ONT::affected ((? tc  F::Phys-obj f::abstr-obj)))
@@ -995,7 +995,7 @@
  )
 
 (define-type ONT::Stop
-    :wordnet-sense-keys ("lay_off%2:42:00" "quit%2:42:04" "give_up%2:42:00" "cease%2:42:00" "stop%2:42:00" "discontinue%2:42:00" "cease%2:42:13" "terminate%2:42:00" "finish%2:42:00" "stop%2:42:13" "end%2:42:00" "run_out%2:42:00" "expire%2:42:00" "blow_out%2:43:00" "bog_down%2:38:01" "break%2:42:04" "get_off%2:41:00" "halt%2:38:01" "stop%2:38:01")
+    :wordnet-sense-keys ("lay_off%2:42:00" "quit%2:42:04" "give_up%2:42:00" "cease%2:42:00" "stop%2:42:00" "discontinue%2:42:00" "cease%2:42:13" "terminate%2:42:00"  "terminate%2:30:01" "finish%2:42:00" "stop%2:42:13" "end%2:42:00" "run_out%2:42:00" "expire%2:42:00" "blow_out%2:43:00" "bog_down%2:38:01" "break%2:42:04" "get_off%2:41:00" "halt%2:38:01" "stop%2:38:01" "abort%2:29:00" "terminate%2:30:01")
     :parent ONT::inhibit-effect
  )
 
@@ -1005,7 +1005,6 @@
  :arguments ((:OPTIONAL ONT::neutral ((? agt f::abstr-obj f::situation)))  ;; start the meeting
 	     )
  )
-
 
 
 ;; 20121027 GUM change new type
@@ -1087,7 +1086,7 @@
 		))
 
 (define-type ont::physical-activity
- :wordnet-sense-keys ("diversion%1:04:00" "recreation%1:04:00")
+ :wordnet-sense-keys ("exercise%2:29:01")
   :parent ont::activity
   )
 
@@ -1582,6 +1581,19 @@
  :parent ONT::in-relation
  )
 
+;; DIFFER - the set of things being compared is NEUTRAL, the value for the difference is EXTENT, and
+;;   the property/scale that its on is FORMAL1
+
+(define-type ont::differ
+    :wordnet-sense-keys ("differ%2:42:00" "difference%1:07:00")
+    :parent ont::in-relation
+    :arguments ((:essential ont::neutral)
+		(:essential ont::formal)
+		;;12/02/08 MD relaxed the restriction on property to handle "voltage is a difference in states between the terminals
+		(:essential ont::extent (f::abstr-obj (f::measure-function f::term)))
+		))
+
+
 (define-type ONT::accept
  :wordnet-sense-keys ("take_on%2:40:00" "take%2:40:07" "admit%2:40:00" "accept%2:40:03" "accept%2:40:12" "take%2:40:15" "take%2:31:09" "submit%2:31:12")
  :parent ONT::agent-interaction
@@ -1784,6 +1796,13 @@
  :sem (F::SITUATION (F::Aspect F::Indiv-Level) (F::Time-span F::Extended))
  )
 
+;; cognizer understands some fact/material
+(define-type ONT::UNDERSTAND
+ :wordnet-sense-keys ("know%2:31:02" "know%2:31:03" "know%2:31:01" "cognize%2:31:00" "cognise%2:31:00")
+ :parent ONT::AWARENESS
+ :sem (F::SITUATION (F::Aspect F::Indiv-Level) (F::Time-span F::Extended))
+ )
+
 ;; cognizer knows whether situation holds
 ;; know
 (define-type ONT::KNOWIF
@@ -1808,7 +1827,7 @@
 
 (define-type ONT::FAMILIAR
  :wordnet-sense-keys ("know%2:31:14" "know%2:31:00" "recognize%2:31:00" "recognise%2:31:00" "know%2:31:15" "know%2:31:04")
- :parent ont::event-of-state ;; 20120529 GUM change
+ :parent ont::awareness ;; 20120529 GUM change
  ;;:parent ONT::SALIENCE + args
  :arguments ((:REQUIRED ONT::Formal)
              (:OPTIONAL ONT::Neutral (F::phys-obj))
@@ -3257,7 +3276,7 @@
 ;; )
 
 (define-type ONT::EXISTS
-  :wordnet-sense-keys ("be%2:42:00" "exist%2:42:00" "be%2:42:04" "dwell%2:42:01" "consist%2:42:00" "lie%2:42:01" "lie_in%2:42:00" "be%2:42:012" "play%2:36:04" "reach_one's_nostrils%2:39:00")
+  :wordnet-sense-keys ("be%2:42:00" "exist%2:42:00" "be%2:42:04" "dwell%2:42:01" "consist%2:42:00" "lie%2:42:01" "lie_in%2:42:00" "be%2:42:012" "play%2:36:04" "reach_one's_nostrils%2:39:00" "abound%2:42:00")
  :parent ONT::BE
  :sem (F::Situation (F::aspect F::stage-level) (F::time-span F::extended)(F::cause -) (F::locative F::located) (F::trajectory -))
  :arguments ((:REQUIRED ONT::neutral)
@@ -3877,7 +3896,7 @@
 
 ;; deny, hold out, withhold
 (define-type ONT::refuse
- :wordnet-sense-keys ("deny%2:40:00" "refuse%2:40:01" "deny%2:32:05")
+ :wordnet-sense-keys ("deny%2:40:00" "refuse%2:40:01" "deny%2:32:05" "reject%2:31:00")
   :parent ont::inhibit-effect
  ;; refuse the purchase (sit); proposal (abstr); that package (phys-obj)
   :arguments ((:Required ONT::Effect ((? ro F::Phys-obj F::Situation F::abstr-obj)))

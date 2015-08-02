@@ -7,9 +7,8 @@
  (W::regard
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("characterize-29.2") :wn ("regard%2:31:00"))
-     (LF-PARENT ONT::categorization)
-     (TEMPL agent-neutral-as-theme-optional-templ) ; like interpret,classify
-     (PREFERENCE 0.96)
+     (LF-PARENT ONT::belief-ascription)
+     (TEMPL experiencer-neutral-as-theme-templ) 
      )
     ;; this sense is needed so the passive-by rule can apply 
     ((LF-PARENT ONT::scrutiny)

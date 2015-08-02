@@ -15,7 +15,7 @@
     ((meta-data :origin calo :entry-date 20031230 :change-date nil :comments html-purchasing-corpus)
      (LF-PARENT ONT::come-to-understand)
      (example "He recognized him [as a spy)")
-     (TEMPL agent-neutral-as-theme-optional-templ (xp (% W::NP (w::wh W::-))))  
+     (TEMPL agent-neutral-as-theme-optional-templ )
      )
     )
    )

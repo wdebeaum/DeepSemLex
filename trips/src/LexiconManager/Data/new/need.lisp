@@ -23,12 +23,12 @@
    (SENSES
     ((LF-PARENT ONT::necessity)
      (SEM (F::Aspect F::stage-level));; allow temporal modifiers here, as implicit /=action/
-     (TEMPL neutral-neutral-templ)
+     (TEMPL experiencer-neutral-templ)
      (example "I need this book")
      )
     ((LF-PARENT ONT::WANT)
      (SEM (F::Aspect F::indiv-level))
-     (TEMPL neutral-action-objcontrol-templ)
+     (TEMPL experiencer-action-objcontrol-templ)
      (example "I need the truck to go")
      (PREFERENCE 0.98)   ;;;; prefer above reading first
      )

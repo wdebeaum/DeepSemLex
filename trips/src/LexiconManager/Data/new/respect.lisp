@@ -8,7 +8,7 @@
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("admire-31.2") :wn ("respect%2:31:00"))
      (LF-PARENT ONT::appreciate)
-     (TEMPL neutral-neutral-templ) ; like worship,treasure,venerate,appreciate,prize,value
+     (TEMPL experiencer-neutral-templ) ; like worship,treasure,venerate,appreciate,prize,value
      )
     )
    )

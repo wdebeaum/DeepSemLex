@@ -8,15 +8,15 @@
   (W::want
    (SENSES
     ((LF-PARENT ONT::WANT)
-     (TEMPL neutral-neutral-templ)
+     (TEMPL experiencer-neutral-templ)
      (EXAMPLE "I want a dog")
      )
     ((LF-PARENT ONT::WANT)
-     (TEMPL neutral-theme-subjcontrol-templ)
+     (TEMPL experiencer-theme-subjcontrol-templ)
      (EXAMPLE "I want to go")
      )
     ((LF-PARENT ONT::WANT)
-     (TEMPL neutral-action-OBJCONTROL-TEMPL)
+     (TEMPL experiencer-action-OBJCONTROL-TEMPL)
      (EXAMPLE "I want you to go")
      )
     )

@@ -24,7 +24,7 @@
    (SENSES
      ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("consider-29.9-2"))
       (LF-PARENT ONT::believe)
-      (TEMPL neutral-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite)))) ; like believe,think
+      (TEMPL experiencer-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite)))) ; like believe,think
      (PREFERENCE .99)
       )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("see-30.1") :wn ("feel%2:29:00" "feel%2:31:00" "feel%2:35:00" "feel%2:39:00"))
@@ -37,7 +37,7 @@
      (LF-PARENT ONT::perception)
      ;;(SEM (F::Aspect F::Stage-level) (F::Time-span F::extended))
      (example "he felt him move")
-     (TEMPL agent-action-objcontrol-templ (xp (% W::VP (W::vform W::base))))
+     (TEMPL experiencer-action-objcontrol-templ (xp (% W::VP (W::vform W::base))))
      )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("stimulus_subject-30.4") :wn ("feel%2:39:09" "feel%2:42:00"))
      (LF-PARENT ONT::appears-to-have-property)

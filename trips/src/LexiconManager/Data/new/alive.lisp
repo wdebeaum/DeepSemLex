@@ -7,7 +7,7 @@
    (W::alive
    (SENSES
     ((meta-data :origin cardiac :entry-date 20090413 :change-date nil :comments nil :wn nil)
-     (LF-PARENT ONT::BODY-PROPERTY-VAL)
+     (LF-PARENT ONT::LIVING-VAL)
      )
     )
    )

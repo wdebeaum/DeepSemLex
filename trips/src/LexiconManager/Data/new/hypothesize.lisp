@@ -11,13 +11,13 @@
      (LF-PARENT ONT::HYPOTHESIZE)
      (SEM (F::Aspect F::stage-level))
      (example "We hypothesize the gene activates the protein")
-     (TEMPL neutral-formal-as-comp-templ (xp (% W::cp (W::ctype W::s-finite))))
+     (TEMPL experiencer-formal-as-comp-templ (xp (% W::cp (W::ctype W::s-finite))))
      )
     (
      (LF-PARENT ONT::HYPOTHESIZE)
      (SEM (F::Aspect F::stage-level))
      (example "We hypothesize this theory")
-     (TEMPL neutral-neutral-xp-templ)
+     (TEMPL experiencer-neutral-xp-templ)
      )
 
     )

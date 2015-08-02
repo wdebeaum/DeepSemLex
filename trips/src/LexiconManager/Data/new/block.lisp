@@ -22,3 +22,15 @@
    )
 ))
 
+(define-words :pos W::n :templ COUNT-PRED-TEMPL
+ :tags (:base500)
+ :words (
+   (W::block
+   (SENSES
+    ((meta-data :origin fruitcarts :entry-date 20050225 :change-date nil :wn ("box%1:06:00") :comments nil)
+     ;(LF-PARENT ONT::small-container)
+     (lf-parent ont::manufactured-object)
+     (example "paint the block")
+     )
+   ))
+))

@@ -2,7 +2,7 @@
 ;;;; W::sniff
 ;;;;
 
-(define-words :pos W::V :templ agent-theme-xp-templ
+(define-words :pos W::V 
  :words (
   (W::sniff
    (SENSES
@@ -11,7 +11,7 @@
      (TEMPL agent-templ) ; like laugh
      )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("sight-30.2") :wn ("sniff%2:39:00"))
-     (LF-PARENT ONT::active-perception)
+     (LF-PARENT ONT::scrutiny)
      (TEMPL agent-neutral-templ) ; like observe,view,watch
      )
     )

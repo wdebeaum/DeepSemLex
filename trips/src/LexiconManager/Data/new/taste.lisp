@@ -14,7 +14,7 @@
      (PREFERENCE 0.96)
      )
     ((LF-PARENT ONT::active-perception)
-     (TEMPL agent-neutral-templ)
+     (TEMPL experiencer-neutral-templ)
      )
     )
    )

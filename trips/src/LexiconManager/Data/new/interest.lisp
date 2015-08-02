@@ -20,7 +20,7 @@
    )
 ))
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :tags (:base500)
  :words (
   (W::interest

@@ -20,17 +20,7 @@
      (TEMPL AGENT-THEME-XP-TEMPL)
      (example "He proposed a plan")
      )
-    (
-     (LF-PARENT ONT::HYPOTHESIZE)
-     (SEM (F::Aspect F::stage-level))
-     (TEMPL neutral-formal-as-comp-templ (xp (% W::cp (W::ctype W::s-finite))))
-     )
-    (
-     (LF-PARENT ONT::HYPOTHESIZE)
-     (SEM (F::Aspect F::stage-level))
-     (TEMPL neutral-neutral-xp-templ)
-     )
-
+    
     )
    )
 ))

@@ -21,7 +21,7 @@
      )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("admire-31.2") :wn ("value%2:31:01" "value%2:40:00"))
      (LF-PARENT ONT::appreciate)
-     (TEMPL neutral-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss
+     (TEMPL experiencer-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss
      )
     )
    )

@@ -198,7 +198,7 @@
    )
 ))
 
-(define-words :pos W::UttWord :boost-word t :templ NO-FEATURES-TEMPL
+#||(define-words :pos W::UttWord :boost-word t :templ NO-FEATURES-TEMPL
  :words (
   ((W::I W::suppose)
    (SENSES
@@ -208,7 +208,7 @@
      )
     )
    )
-))
+))||#
 
 (define-words :pos W::UttWord :boost-word t :templ NO-FEATURES-TEMPL
  :words (

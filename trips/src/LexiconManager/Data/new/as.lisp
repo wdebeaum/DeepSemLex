@@ -105,7 +105,7 @@
      (meta-data :origin mobius :entry-date 20080702 :change-date nil :comments nil)
      (example "as this happens the valve closes")
      )
-    ((LF-PARENT ONT::as-role)
+    ((LF-PARENT ONT::manner)
      (example "use/try/select/find/ this as an example")
      (meta-data :origin plow :entry-date 20060306 :change-date nil :comments pq0384)
      (TEMPL BINARY-CONSTRAINT-S-or-NP-TEMPL)

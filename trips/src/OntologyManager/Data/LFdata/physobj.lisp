@@ -180,6 +180,7 @@
 
 
 (define-type ONT::geo-formation
+    :wordnet-sense-keys ("land%1:17:00" "grassland%1:15:00")
     :parent ONT::GEO-OBJECT
     :sem (F::Phys-obj (F::origin F::natural) (F::trajectory -))
     )
@@ -219,6 +220,7 @@
     )
 
 (define-type ont::atmospheric-phenomenon
+     :wordnet-sense-keys ("atmospheric_phenomenon%1:19:00")
     :parent ont::natural-phenomenon
     :sem (F::Phys-obj (F::origin F::non-living) (f::object-function f::weather))
     )

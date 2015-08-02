@@ -111,6 +111,12 @@
 		 (:essential ONT::formal ((? neu F::situation F::Abstr-obj)))))
 
 
+(define-type ONT::event-of-experience
+   :parent ONT::event-of-state
+   :arguments ((:ESSENTIAL ONT::experiencer (F::Phys-obj (F::intentional +))))
+   )
+
+
 
 
 ;;; I've left this in for compatability until I clean up the hierarchy JFA 9/01

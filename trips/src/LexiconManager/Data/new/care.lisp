@@ -25,7 +25,7 @@
      (example "I don't care about it")
      )
     ((LF-PARENT ONT::care)
-     (TEMPL neutral-TEMPL)
+     (TEMPL experiencer-TEMPL)
      (example "I don't care")
      )
     )

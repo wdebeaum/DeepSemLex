@@ -19,14 +19,14 @@
    )
 ))
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :words (
  (W::view
    (wordfeats (W::morph (:forms (-vb) :nom w::view)))
    (SENSES
     ((meta-data :origin calo :entry-date 20031230 :change-date nil :comments html-purchasing-corpus)
      (LF-PARENT ONT::ACTIVE-PERCEPTION)
-     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (SEM (F::Time-span F::atomic))
      (TEMPL agent-NEUTRAL-TEMPL)
      )
     )
