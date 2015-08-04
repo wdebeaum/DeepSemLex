@@ -145,11 +145,11 @@
 		      (F::Form F::Geographical-Object)
 ;		   (F::Object-Function F::Place)
 		      (F::Object-Function F::Spatial-object)
-		      ) 
+		      )
     :arguments (;(:OPTIONAL ONT::OF ((? lof F::Phys-obj)))
 ; this needs to be less restrictive as long as it's used for "where" clauses, e.g. the party where he met her
-		(:OPTIONAL ONT::OF ((? lof f::situation F::Phys-obj))) 
-; (:OPTIONAL ONT::OF ((? lof F::Phys-obj))) 
+		(:OPTIONAL ONT::OF ((? lof f::situation F::Phys-obj)))
+; (:OPTIONAL ONT::OF ((? lof F::Phys-obj)))
 		)
     )
 
@@ -260,7 +260,7 @@
 
 (define-type ONT::POLITICAL-REGION
     :parent ONT::geographic-region
-    :sem (F::Phys-obj (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)) 
+    :sem (F::Phys-obj (F::spatial-abstraction (? sa F::spatial-point F::spatial-region))
 		      (F::origin F::Artifact)
 ;		   (f::object-function f::place)
 		      (F::mobility f::fixed) (f::intentional +)) ; political regions can be intentional agents
@@ -288,7 +288,7 @@
 
 (define-type ONT::FACILITY
     :parent ONT::man-made-structure
-    :sem (F::Phys-obj (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)) 
+    :sem (F::Phys-obj (F::spatial-abstraction (? sa F::spatial-point F::spatial-region))
 		      (F::origin F::Artifact)(F::trajectory -)
 		      (f::object-function f::building)
 		      (F::mobility f::fixed) (f::container +))
@@ -395,7 +395,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; types of medication identified by Jill for CARDIAC.
-;; These should be updated to link with UMLS categories, or removed  
+;; These should be updated to link with UMLS categories, or removed
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(define-type ONT::antihypertensive
@@ -614,7 +614,7 @@
 
 (define-type ONT::user
     :wordnet-sense-keys ("user%1:18:00")
-    :parent ONT::person           
+    :parent ONT::person
     )
 
 ;; mother, father...
@@ -641,7 +641,7 @@
     :sem (F::Phys-obj (F::form F::solid-object)
 		      (F::spatial-abstraction F::spatial-point)
 		      (F::origin F::Human)
-		      (F::Object-Function F::Occupation) 
+		      (F::Object-Function F::Occupation)
 		      (F::Container -) (F::intentional +) (F::information -))
     :arguments ((:OPTIONAL ONT::OF ((? lof F::Phys-obj f::abstr-obj)))
 		)
@@ -678,6 +678,7 @@
     :wordnet-sense-keys ("athlete%1:18:00" "jock%1:18:00")
     :parent ONT::person
     )
+
 ;; passenger, traveller
 (define-type ONT::traveller
     :wordnet-sense-keys ("traveler%1:18:00" "traveller%1:18:00")
@@ -1143,8 +1144,8 @@
     :parent ONT::functional-region
     ;;check this
     :wordnet-sense-keys ("path%1:17:00" "track%1:17:00" "course%1:17:00" "route%1:06:00")
-    :sem (F::Phys-obj (F::origin F::non-living) (F::Form F::Geographical-Object) 
-		      (F::Object-Function F::Path) (F::Mobility F::Fixed) 
+    :sem (F::Phys-obj (F::origin F::non-living) (F::Form F::Geographical-Object)
+		      (F::Object-Function F::Path) (F::Mobility F::Fixed)
 		      ;; Myrosia 2007/11/20 marked as container + to account for examples like "this path contains a bulb/2 terminals/3 segments"
 		      (f::Container +)
 		      (F::spatial-abstraction (? sa F::line F::strip)) (F::trajectory +))
@@ -1214,6 +1215,7 @@
 		(:required ONT::OF2) ;;y
 		)
     )
+
 (define-type ONT::Corner
     :parent ONT::LOCATION-by-description
     :wordnet-sense-keys ("corner%1:15:02" "corner%1:06:00")
@@ -1282,7 +1284,7 @@
     :sem (F::Phys-obj (F::spatial-abstraction F::spatial-point))
     )
 
-;;; REPRESENTATIONS
+;;; > REPRESENTATIONS
 
 ;; Types like diagram and image, which are physical representations of physical or abstract objects
 ;; these are typically containers (e.g. diagram, map) to which things can be added
@@ -1328,7 +1330,7 @@
 		)
     )
 
-;; items in this class don't stand for something, but they can contain represntations
+;; items in this class don't stand for something, but they can contain representations
 ;; e.g. page, book, display
 (define-type ONT::info-medium
     :wordnet-sense-keys ("written_communication%1:10:00")
@@ -1336,7 +1338,7 @@
     :sem (F::Phys-obj (F::information F::data)) ;; why (f::container -) here?
     )
 
-;; narratives, stories, accounts, histories 
+;; narratives, stories, accounts, histories
 (define-type ONT::chronicle
     :parent ONT::info-medium
     )
@@ -1371,7 +1373,7 @@
 
 (define-type ONT::message
     :parent ont::direct-representation
-    
+
     )
 
 ;; copy, backup, cc, bcc
@@ -1381,7 +1383,7 @@
 
 ;(define-type ONT::reservation
 ; :parent ont::direct-representation
-; 
+;
 ; )
 
 (define-type ONT::MAP
@@ -1516,6 +1518,8 @@
     :parent ONT::symbolic-representation
     )
 
+; <
+
 (define-type ONT::SHORE
     :parent ONT::geo-formation
     :wordnet-sense-keys ("shore%1:17:00")
@@ -1575,7 +1579,7 @@
     :parent ONT::functional-phys-object
     )
 
-;;; Anatomy
+;;; > Anatomy
 
 (define-type ont::anatomy
     :parent ont::natural-object
@@ -1593,7 +1597,7 @@
     )
 
 (define-type ONT::external-body-part
-    :wordnet-sense-keys ("animal_skin%1:27:00") 
+    :wordnet-sense-keys ("animal_skin%1:27:00")
     :parent ONT::BODY-PART
     :sem (F::Phys-obj (F::intentional -))
     )
@@ -1643,6 +1647,7 @@
     :parent ONT::CELL-PART
     )
 
+; <
 
 (define-type ONT::DEVICE
     :parent ONT::MANUFACTURED-OBJECT
@@ -1903,6 +1908,7 @@
     :arguments ((:OPTIONAL ONT::OF (F::Phys-obj (f::origin f::human) (f::intentional +)))
 		)
     )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; boudreaux-types.lisp
 ;; swift 20030918
@@ -2017,6 +2023,7 @@
     )
 
 ;; specific types added for CAET
+
 (define-type ont::button
     :parent ont::operating-switch
     )
@@ -2057,7 +2064,7 @@
 		      ))
 
 (define-type ONT::container
-    :wordnet-sense-keys ("container%1:06:00::" "cupboard%1:06:00" "closet%1:06:03" "drawer%1:06:00") 
+    :wordnet-sense-keys ("container%1:06:00::" "cupboard%1:06:00" "closet%1:06:03" "drawer%1:06:00")
     :parent ONT::MANUFACTURED-OBJECT
     :sem (F::Phys-obj (F::container +) (F::form F::solid-object) (F::origin F::artifact) (f::object-function f::container-object))
     :arguments ((:OPTIONAL ONT::CONTENTS)
@@ -2219,7 +2226,7 @@
     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Types added for FOOD KB
+;; > Types added for FOOD KB
 
 (define-type ONT::GRAINS
     :parent ONT::FOOD
@@ -2231,6 +2238,7 @@
     :wordnet-sense-keys ("dairy_product%1:13:00")
 
     )
+
 (define-type ONT::BEVERAGES
     :parent ONT::FOOD
     :wordnet-sense-keys ("beverage%1:13:00" "drink%1:13:00" "drinkable%1:13:00" "potable%1:13:00")
@@ -2245,6 +2253,7 @@
 (define-type ONT::PREPARED
     :parent ONT::FOOD
     )
+
 (define-type ONT::INGREDIENTS
     :parent ONT::FOOD
     :wordnet-sense-keys ("ingredient%1:13:00" "fixings%1:13:00")
@@ -2267,53 +2276,69 @@
 (define-type ONT::FATS-OILS
     :parent ONT::INGREDIENTS
     )
+
 (define-type ONT::FRUIT
     :wordnet-sense-keys ("edible_fruit%1:13:00")
     :parent ONT::PRODUCE
     )
+
 (define-type ONT::VEGETABLE
     :wordnet-sense-keys ("vegetable%1:13:00" "veggie%1:13:00" "veg%1:13:00")
     :parent ONT::PRODUCE
     )
+
 (define-type ONT::VITAMINS
     :parent ONT::VITAMINS-MINERALS
     )
+
 (define-type ONT::MINERALS
     :parent ONT::VITAMINS-MINERALS
     )
+
 (define-type ONT::BEEF
     :parent ONT::MEAT
     )
+
 (define-type ONT::PORK
     :parent ONT::MEAT
     )
+
 (define-type ONT::lamb
     :parent ONT::MEAT
     )
+
 (define-type ONT::MEAT-OTHER
     :parent ONT::MEAT
     )
+
 (define-type ONT::WILD-GAME
     :parent ONT::MEAT
     )
+
 (define-type ONT::EMU
     :parent ONT::MEAT
-    ) 
+    )
+
 (define-type ONT::POULTRY
     :parent ONT::MEAT
     )
+
 (define-type ONT::CHICKEN
     :parent ONT::POULTRY
     )
+
 (define-type ONT::GOOSE
     :parent ONT::POULTRY
     )
+
 (define-type ONT::PHEASANT
     :parent ONT::POULTRY
     )
+
 (define-type ONT::QUAIL
     :parent ONT::POULTRY
     )
+
 (define-type ONT::PIGEON
     :parent ONT::POULTRY
     )
@@ -2321,12 +2346,15 @@
 (define-type ONT::DUCK
     :parent ONT::POULTRY
     )
+
 (define-type ONT::OSTRICH
     :parent ONT::POULTRY
     )
+
 (define-type ONT::TURKEY
     :parent ONT::POULTRY
     )
+
 (define-type ONT::SEAFOOD
     :parent ONT::FOOD
     )
@@ -2334,49 +2362,64 @@
 (define-type ONT::SALTWATER-FISH
     :parent ONT::SEAFOOD
     )
+
 (define-type ONT::FRESHWATER-FISH
     :parent ONT::SEAFOOD
     )
+
 (define-type ONT::MOLLUSKS
     :parent ONT::SEAFOOD
     )
+
 (define-type ONT::CRUSTACEANS
     :parent ONT::SEAFOOD
     )
+
 (define-type ONT::BAKED-GOODS
     :parent ONT::PREPARED
     )
+
 (define-type ONT::PASTA
     :parent ONT::BAKED-GOODS
     )
+
 (define-type ONT::BREAD
     :parent ONT::BAKED-GOODS
     )
+
 (define-type ONT::CRACKERS
     :parent ONT::BAKED-GOODS
     )
+
 (define-type ONT::COOKIES
     :parent ONT::BAKED-GOODS
     )
+
 (define-type ONT::CAKE-PIE
     :parent ONT::BAKED-GOODS
     )
+
 (define-type ONT::BAGELS-BISCUITS
     :parent ONT::BAKED-GOODS
     )
+
 (define-type ONT::SWEETS
     :parent ONT::PREPARED
     )
+
 (define-type ONT::MEALS
     :parent ONT::PREPARED
     )
+
 (define-type ONT::SOUP
     :wordnet-sense-keys ("soup%1:13:00")
     :parent ONT::MEALS
     )
+
 (define-type ONT::CEREALS
     :parent ONT::PREPARED
     )
+
 (define-type ONT::FAST-FOOD
     :wordnet-sense-keys ("fast_food%1:13:00")
     :parent ONT::PREPARED
@@ -2385,21 +2428,26 @@
 (define-type ONT::SPICES-HERBS
     :parent ONT::INGREDIENTS
     )
+
 (define-type ONT::BEANS-PEAS
     :wordnet-sense-keys ("legume%1:20:02")
     :parent ONT::vegetable
     )
+
 (define-type ONT::DRESSINGS-SAUCES-COATINGS
     :wordnet-sense-keys ("sauce%1:13:00")
     :parent ONT::INGREDIENTS
     )
+
 (define-type ONT::PRESERVATIVES
     :parent ONT::INGREDIENTS
     )
+
 (define-type ONT::NUTS-SEEDS
     :wordnet-sense-keys ("seed%1:20:00")
     :parent ONT::INGREDIENTS
     )
+
 (define-type ONT::CONDIMENTS
     :wordnet-sense-keys ("condiment%1:13:00")
     :parent ONT::INGREDIENTS
@@ -2408,15 +2456,18 @@
 (define-type ONT::JUICE
     :parent ONT::BEVERAGES
     )
+
 (define-type ONT::SODA
     :wordnet-sense-keys ("soda%1:13:00")
     :parent ONT::BEVERAGES
     )
+
 (define-type ONT::TEAS-COCKTAILS-BLENDS
     :parent ONT::BEVERAGES
     )
 
-;; specific types for CAET
+;; > specific types for CAET
+
 (define-type ont::tea
     :parent ont::teas-cocktails-blends
     )
@@ -2428,13 +2479,17 @@
 (define-type ONT::YOGURT
     :parent ONT::DAIRY
     )
+
 (define-type ONT::MILK
     :parent ONT::DAIRY
     )
+
 (define-type ONT::CHEESE
     :parent ONT::DAIRY
     )
+
 (define-type ONT::BUTTER
     :parent ONT::DAIRY
     )
-
+; <
+; <

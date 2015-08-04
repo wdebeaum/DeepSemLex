@@ -8,6 +8,7 @@
 ; new organization for spatial prepositions / adverbials
 ;
 ; ****************************************************************
+
 ; high-level type for spatial locations
 ; a relation between an object (figure) to another object (ground) by a spatial relation, possible abstract
 (define-type ont::position-reln
@@ -26,7 +27,7 @@
 ; *********************************************
 
 ; figure is viewed as a point
-(define-type ont::position-as-point-reln 
+(define-type ont::position-as-point-reln
  :parent ont::position-reln
 ; :arguments ((:ESSENTIAL ONT::OF ((? of f::phys-obj (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)))))
 ;             )
@@ -78,7 +79,7 @@
   :parent ont::pos-distance
   )
 
-; close (to), nearby, by, thereabouts, near, around 
+; close (to), nearby, by, thereabouts, near, around
 (define-type ont::near-reln
   :parent ont::proximate-reln
   )
@@ -94,7 +95,7 @@
 ; figure is large distance on the scale
 (define-type ont::distal-reln
   :parent ont::pos-distance
- ) 
+ )
 
 ; far
 (define-type ont::far-reln
@@ -192,7 +193,7 @@
   :parent ont::position-as-point-reln
   )
 
-;; 
+;;
 (define-type ont::orients-to
   :parent ont::oriented-loc-reln
   )
@@ -255,7 +256,7 @@
 ; *********************************************
 
 ; figure is a linear object
-(define-type ont::position-as-extent-reln 
+(define-type ont::position-as-extent-reln
  :parent ont::position-reln
 ; :arguments ((:ESSENTIAL ONT::of ((? of f::phys-obj (F::spatial-abstraction (? sa F::line F::strip)))))
 ;             )
@@ -266,7 +267,7 @@
 (define-type ont::linear-extent
  :parent ont::position-as-extent-reln
  )
- 
+
 ; figure is distributed over ground
 ; over
 (define-type ont::pos-as-over
@@ -287,60 +288,62 @@
 
 ; *********************************************
 ;
-; ont::position-w-trajectory-reln subtree
+; > ont::position-w-trajectory-reln subtree
 ;
 ; *********************************************
 
 ; relation involves a trajectory (figure, ground or other)
 ; ?? how do these relate to the ont::path subtree?
-(define-type ont::position-w-trajectory-reln 
+(define-type ont::position-w-trajectory-reln
  :parent ont::position-reln
  )
 
 ; ground is in the trajectory
-(define-type ont::pos-relative-wrt-trajectory 
+(define-type ont::pos-relative-wrt-trajectory
  :parent ont::position-w-trajectory-reln
  )
 
 ; before, future
 (define-type ont::pos-before-in-trajectory
- :parent ont::pos-relative-wrt-trajectory 
+ :parent ont::pos-relative-wrt-trajectory
  )
 
 ; after, past
 (define-type ont::pos-after-in-trajectory
- :parent ont::pos-relative-wrt-trajectory 
+ :parent ont::pos-relative-wrt-trajectory
  )
 
 ; ground is the trajectory
-(define-type ont::pos-located-in-trajectory 
+(define-type ont::pos-located-in-trajectory
  :parent ont::position-w-trajectory-reln
  )
 
 ; ?? these are nouns -- belong elsewhere??
 ; start, beginning
 (define-type ont::pos-start-of-trajectory
- :parent ont::pos-located-in-trajectory 
+ :parent ont::pos-located-in-trajectory
  )
 
 ; end, finish
 (define-type ont::pos-end-of-trajectory
- :parent ont::pos-located-in-trajectory 
+ :parent ont::pos-located-in-trajectory
  )
 
 ; mid, midway
 (define-type ont::pos-midway
- :parent ont::pos-located-in-trajectory 
+ :parent ont::pos-located-in-trajectory
  )
+
+ ; <
 
 ; *********************************************
 ;
-; ont::conventional-position-reln subtree
+; > ont::conventional-position-reln subtree
 ;
 ; *********************************************
 
 ; figure is defined in terms of relation to a built environment
-(define-type ont::conventional-position-reln 
+(define-type ont::conventional-position-reln
  :parent ont::position-reln
  )
 
@@ -378,6 +381,8 @@
 (define-type ont::dwelling
  :parent ont::conventional-position-reln
  )
+
+; <
 
 ; *********************************************
 ;
@@ -585,7 +590,7 @@
  :parent ONT::PREDICATE
  :arguments ((:ESSENTIAL ONT::OF ((? t F::Phys-obj F::Situation) (F::trajectory +)))
 	     (:ESSENTIAL ONT::VAL (F::Phys-obj))
-            ) 
+            )
  )
 
 ;; north, south, east, west
@@ -625,7 +630,7 @@
 
 
 ;;;
-;;; Time predicates here
+;;; > Time predicates here
 ;;;
 ;;; The general parent class for all time relationships
 
@@ -721,7 +726,7 @@
  :parent ONT::temporal-location
  :arguments ((:ESSENTIAL ONT::VAL (F::time (F::time-scale F::interval)
 			 (F::time-function (? funcn F::month-name F::year-name F::day-period))))
-					  
+
 	     (:ESSENTIAL ONT::SIT-VAL (F::situation))
 	     ;;(:ESSENTIAL ONT::VAL (F::time ((? vl F::abstr-obj f::time) (F::scale f::duration-scale))) ;; five minutes/days/hours
 	     ;; now used shared (f::scale f::duration feature on the ont::val instead of ont::time-val
@@ -796,8 +801,8 @@
  :parent ONT::event-duration-modifier
  :arguments ((:ESSENTIAL ONT::OF (F::Situation (F::Aspect F::bounded) (F::Time-span F::extended)))
 ;             (:ESSENTIAL ONT::VAL (F::time (F::time-function f::time-unit)))
-	     (:ESSENTIAL ONT::VAL (F::abstr-obj (F::scale f::duration-scale))) 
-	     (:optional ont::result-val (f::abstr-obj)) ; until recently / ready 
+	     (:ESSENTIAL ONT::VAL (F::abstr-obj (F::scale f::duration-scale)))
+	     (:optional ont::result-val (f::abstr-obj)) ; until recently / ready
 	     (:optional ont::time-val  (f::abstr-obj (f::scale f::time-measure-scale)))
              )
  )
@@ -869,7 +874,7 @@
 ;; ont::time-unit has been moved under ont::measure-unit (with other units pounds, ghz, etc.)
 ;;; Covers all explicit things with date and time counting
 ;; Hours, minutes etc.
-;(define-type ONT::time-unit    
+;(define-type ONT::time-unit
 ;    :parent ONT::TIME-OBJECT
 ;    :sem (f::time (f::time-function f::time-unit))
 ;    :arguments ((:OPTIONAL ONT::OF ((? t f::situation f::abstr-obj)))
@@ -881,7 +886,7 @@
 (define-type ONT::Time-point
  :wordnet-sense-keys ("time%1:28:06" "clip%1:11:00" "time%1:11:00" "point%1:28:00" "point_in_time%1:28:00")
  :parent ONT::TIME-OBJECT
- :sem (F::time (f::time-scale f::point)) 
+ :sem (F::time (f::time-scale f::point))
  :arguments ((:OPTIONAL ONT::OF ((? lof f::situation F::time)))
 	     ;; this is because we may have things "the end of an event". In reality, there should be a coercion rule, but we are not doing it yet
 	     ;; middle of the meeting
@@ -924,4 +929,3 @@
 	      (:essential ont::val (f::abstr-obj (f::measure-function f::value) (f::scale (? sc f::rate-scale f::money-scale))))
 	      )
   )
-

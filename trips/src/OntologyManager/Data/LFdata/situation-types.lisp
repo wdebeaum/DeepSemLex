@@ -1,11 +1,11 @@
 (in-package :om)
+
 ;; This is VN masquerade-0.26
 ;; act, behave
 (define-type ont::acting
  :wordnet-sense-keys ("do%2:29:09" "behave%2:29:00" "act%2:29:00" "act%1:03:00" "deed%1:03:00" "human_action%1:03:00" "human_activity%1:03:00" "activity%1:04:00")
     :parent ont::event-of-action
     :arguments ((:required ont::agent  ((? cz F::Phys-obj f::abstr-obj f::situation)))
-
 ;		(:essential ont::predicate)
 ;		(:optional ont::formal) ;; he acted the part
 ;		(:optional ont::agent  ((? aoc F::phys-obj F::abstr-obj) (F::intentional +)) (:implements cause))
@@ -21,7 +21,7 @@
 		))
 
 (define-type ONT::cause-effect
-;; 20121101 gloss change removing incorrect "produce%2:36:03" "bring_about%2:36:03" "give_rise%2:36:01" synset mapping 
+;; 20121101 gloss change removing incorrect "produce%2:36:03" "bring_about%2:36:03" "give_rise%2:36:01" synset mapping
  :wordnet-sense-keys ( "cause%2:36:00" "do%2:36:02" "make%2:36:08" ;;"produce%2:36:03" "bring_about%2:36:03" "give_rise%2:36:01"
   "receive%2:35:00" "drive%2:35:00" "get%2:30:02" "get%2:30:00" )
  :parent ONT::acting
@@ -139,7 +139,7 @@
              (:ESSENTIAL ONT::agent ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
              ;;; result of interaction
              (:OPTIONAL ONT::Result (F::Phys-obj))
-	     (:OPTIONAL ONT::Effect (F::Situation)) 
+	     (:OPTIONAL ONT::Effect (F::Situation))
              )
  )
 
@@ -204,7 +204,7 @@
 	     (:OPTIONAL ONT::formal ((? prd F::Phys-obj F::Abstr-obj F::situation))) ;;classify this as a mine, call me ishmael
            ;  (:OPTIONAL ONT::Criterion)
 	     (:optional ont::formal1 (?cth (f::intentional -)) (:implements criterion))
-             
+
              )
  )
 
@@ -310,7 +310,7 @@
              (:OPTIONAL ONT::Source)
              ;;; State
              (:OPTIONAL ONT::Stative)
-	     ;; why does this have both agent and cognizer roles (see above)? 
+	     ;; why does this have both agent and cognizer roles (see above)?
              (:ESSENTIAL ONT::agent () (:implements cognizer))
              )
  )
@@ -425,9 +425,9 @@
  :parent ONT::event-of-experience
  :sem (F::Situation (:required (F::Cause F::Mental))(:default (F::Aspect F::Stage-Level)))
  :arguments (
-              (:OPTIONAL ONT::neutral) 
+              (:OPTIONAL ONT::neutral)
 	     (:OPTIONAL ONT::neutral1)  ;; backwards compat
-             (:OPTIONAL ONT::Formal) 
+             (:OPTIONAL ONT::Formal)
              ;;; Means
              (:OPTIONAL ONT::action)
              )
@@ -563,7 +563,7 @@
  :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Intentional +)))
              ;;; Phenomenon
              (:ESSENTIAL ONT::neutral ((? tt F::phys-obj F::situation)))
-	     (:ESSENTIAL ONT::action ((? act F::situation))) ;; He saw him leave - present treatment 
+	     (:ESSENTIAL ONT::action ((? act F::situation))) ;; He saw him leave - present treatment
 	      (:optional ONT::formal)
              )
  )
@@ -595,8 +595,8 @@
  :sem (F::Situation (:required (F::trajectory -))(:default (F::Cause F::agentive) (F::aspect F::dynamic) (F::time-span F::extended)))
  :arguments ((:REQUIRED ONT::Agent (F::Phys-obj (f::origin f::living)))
              ;;; Formal changed to comestible, although probably too strong
-	     ;; form substance is also too strong. 
-             (:REQUIRED ONT::Affected (F::Phys-obj (F::mobility F::movable) (F::form F::substance) (f::object-function f::comestible))) 
+	     ;; form substance is also too strong.
+             (:REQUIRED ONT::Affected (F::Phys-obj (F::mobility F::movable) (F::form F::substance) (f::object-function f::comestible)))
 	     ;; This is eat with a spoon/fork etc.
              (:OPTIONAL ONT::Instrument (F::Phys-obj (F::mobility F::movable) (F::intentional -) (f::form f::solid-object) (f::information -)))
 	     ;;; Myrosia added accompaniment to account for frequent usages of "take/eat it with food/milk etc
@@ -711,7 +711,7 @@
  :sem (F::Situation (F::Aspect F::static) (F::Time-span F::extended) (F::Trajectory -))
  :arguments ((:REQUIRED ONT::neutral ((? oc1 F::Phys-obj F::Abstr-obj F::Situation)))
 	     ;; this is still here until we decide what to do with the formal-pred mappings for be
-	     (:optional ONT::formal ((? oc1 F::Phys-obj F::Abstr-obj F::Situation)))  
+	     (:optional ONT::formal ((? oc1 F::Phys-obj F::Abstr-obj F::Situation)))
              (:ESSENTIAL ONT::PROPERTY ((? oc2 F::abstr-obj))) ;; only properties (preds) -- for event nouns use ont::have-experience or ont::participating
              )
  )
@@ -821,7 +821,7 @@
              )
  )
 
-; ont::action is used as role name for verb complements 
+; ont::action is used as role name for verb complements
 
 ;; cognizer has an intention
 ;; aim, intend, mean
@@ -834,7 +834,7 @@
 ;; aim, intend, mean
 (define-type ONT::intention
  :wordnet-sense-keys ("specify%2:31:00" "designate%2:31:00" "destine%2:31:00" "intend%2:31:01" "intend%2:31:00" "mean%2:31:00" "think%2:31:06")
- :parent ONT::awareness 
+ :parent ONT::awareness
  ;;:parent ont::event-of-state ;; 20120529 GUM change new parent  + args
  :sem (F::Situation (F::Cause F::Mental) (F::Trajectory -))
  :arguments ((:REQUIRED ONT::Neutral ((? cg f::abstr-obj F::Phys-obj) (F::intentional +)))
@@ -988,6 +988,3 @@
 	     (:optional ont::affected-result)
 	     )
  )
-
-
-
