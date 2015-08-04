@@ -690,6 +690,7 @@
     :wordnet-sense-keys ("consumer%1:18:00")
     :parent ONT::person
     )
+
 ;; friend, buddy
 (define-type ONT::friend
     :wordnet-sense-keys ("friend%1:18:00")
@@ -2233,6 +2234,7 @@
     :wordnet-sense-keys ("grain%1:13:00" "food_grain%1:13:00" "cereal%1:13:00" "grain%1:20:00" "caryopsis%1:20:00")
     :sem (f::phys-obj (f::origin f::natural))
     )
+
 (define-type ONT::DAIRY
     :parent ONT::FOOD
     :wordnet-sense-keys ("dairy_product%1:13:00")

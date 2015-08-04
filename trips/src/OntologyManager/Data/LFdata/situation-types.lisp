@@ -556,6 +556,7 @@
 	      (:OPTIONAL ONT::agent (F::phys-obj (F::intentional +))) ;; storer
 	      )
  )
+
 (define-type ONT::Active-Perception
  :wordnet-sense-keys ("look%2:39:00" "feel%2:39:00" "sense%2:39:00" "note%2:39:02" "look_on%2:39:00" "look_out%2:39:00" "watch%2:39:00" "watch%2:39:03")
  :parent ONT::PERCEPTION

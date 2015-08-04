@@ -652,6 +652,7 @@
  :arguments ((:REQUIRED ONT::of)
 	     )
  )
+
 ;;; A class for temporal modifiers introduced by adjectives or adverbials
 (define-type ONT::temporal-modifier
  :parent ONT::TEMPORAL-PREDICATE

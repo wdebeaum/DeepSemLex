@@ -225,6 +225,7 @@
 (define-type ONT::software-company
  :parent ONT::company
  )
+
 ;; court
 (define-type ONT::legal-organization
  :parent ONT::organization
@@ -3630,7 +3631,7 @@
 (define-type ont::linear-scale
   :parent ont::size-scale
   )
-  
+ 
 (define-type ont::area-scale
   :parent ont::size-scale
   )
