@@ -340,6 +340,7 @@
              (:REQUIRED ONT::val (F::situation))
              )
  )
+
 ;; for if-then sentences -- ont::conditional is currently in use for would and should
 (define-type ONT::CONDITION
  :parent ONT::SITUATION-MODIFIER

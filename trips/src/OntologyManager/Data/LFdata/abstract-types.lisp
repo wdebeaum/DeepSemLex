@@ -1,8 +1,11 @@
 (in-package :om)
 
+; > starts a block
+; < ends the block
+; use `[code]` to use lisp syntax in code (optional, but makes eliminating commented code easier)
+
 ;;; A special type for pronouns etc that can refer to arbitrary abstract objects
 ;;; declares all features as arbibtary vars to override default - features
-
 (define-type ONT::FACT
  :parent ONT::ABSTRACT-OBJECT-nontemporal
  :arguments ((:optional ONT::Associated-information)
@@ -55,12 +58,12 @@
  ;; For example, "this is good for him"
  ;; purpose-implicit is something related to the action that would be a purpose, but which requires coercion
  ;; for example, this drug is good for leukemia = this drug is useful for treating leukemia, the treatment as purpose is implicit
- :arguments ((:REQUIRED ONT::OF)					
+ :arguments ((:REQUIRED ONT::OF)
 	     (:optional ONT::NEUTRAL1  ((? pvt F::Phys-obj f::abstr-obj)))
              (:optional ONT::NEUTRAL ((? pvt F::Phys-obj f::abstr-obj)))
 	     (:optional ont::Purpose (f::situation (f::aspect f::dynamic)))
 	     (:optional ONT::Affected ((? aff f::phys-obj f::abstr-obj f::situation)))
-	     (:optional ONT::Purpose-implicit ((? pi f::phys-obj f::abstr-obj f::situation)))		
+	     (:optional ONT::Purpose-implicit ((? pi f::phys-obj f::abstr-obj f::situation)))
              )
  )
 
@@ -138,7 +141,7 @@
   :parent ONT::max-val
  )
 
-(define-type ONT::med 
+(define-type ONT::med
   :parent ONT::max-val ; ??
  )
 
@@ -171,7 +174,7 @@
   :arguments ((:OPTIONAL ONT::OF ((? lof f::phys-obj f::abstr-obj))))
   )
 
-;; swift 20110928 crew defined for obtw demo 
+;; swift 20110928 crew defined for obtw demo
 (define-type ont::crew
     :parent ont::social-group
     )
@@ -222,6 +225,7 @@
 (define-type ONT::software-company
  :parent ONT::company
  )
+
 ;; court
 (define-type ONT::legal-organization
  :parent ONT::organization
@@ -243,7 +247,7 @@
  :parent ONT::organization
  )
 
-;; ansi 
+;; ansi
 (define-type ONT::regulatory-organization
  :parent ONT::organization
  )
@@ -295,7 +299,7 @@
 (define-type ONT::combination
  :wordnet-sense-keys ("combination%1:14:00")
  :parent ONT::group-object
- ) 
+ )
 
 
 (define-type ONT::physical-property-val
@@ -308,7 +312,7 @@
 ;;; big/large/small
 (define-type ONT::Size-val
  :parent ONT::physical-property-val
- :sem (F::abstr-obj (F::scale F::size-scale)) 
+ :sem (F::abstr-obj (F::scale F::size-scale))
  )
 
 ;;; process-related adjectives
@@ -440,7 +444,7 @@
   :parent ont::body-property-val
   )
 
-;; digestive, immune, 
+;; digestive, immune,
 (define-type ONT::body-system-val
  :parent ONT::body-related-property-val ;; of arguments can be more than just human; cardiac care; intestinal disturbance
  )
@@ -469,7 +473,7 @@
 
 ;; happy, sad, gloomy...
 (define-type ONT::emotional-property-val
-    :parent ONT::psychological-property-val    
+    :parent ONT::psychological-property-val
  )
 
 ;; smart, (un)intelligent
@@ -519,7 +523,7 @@
  :parent ONT::property-val
  )
 
-;; old, young 
+;; old, young
 (define-type ONT::age-VAL
   :parent ONT::temporal
   :sem (F::abstr-obj (F::scale F::age-scale))
@@ -537,27 +541,34 @@
  :parent ONT::physical-property-val
  )
 
-;;; the traditional five senses:
+;;; > the traditional five senses:
+
 ;; sight
 (define-type ONT::visible-property-val
  :parent ONT::sensory-property-val
  )
+
 ;; sound
 (define-type ONT::audible-property-val
  :parent ONT::sensory-property-val
  )
+
 ;; smell
 (define-type ONT::smellable-property-val
  :parent ONT::sensory-property-val
  )
+
 ;; taste
 (define-type ONT::tastable-property-val
  :parent ONT::sensory-property-val
  )
+
 ;; touch
 (define-type ONT::tangible-property-val
  :parent ONT::sensory-property-val
  )
+
+ ; <
 
 ;; hot, cold
 (define-type ONT::temperature-val
@@ -708,7 +719,7 @@
  )
 
 ;; consecutive, sequential, groups of ordered items
-;; didn't use ordered-domain here because these words describe the ordered 
+;; didn't use ordered-domain here because these words describe the ordered
 ;; nature of the objects, but not the domain itself
 (define-type ont::ordered-val
  :parent ont::process-val
@@ -897,7 +908,7 @@
  :parent ONT::PROCESS-VAL
  )
 
-;; broadband 
+;; broadband
 (define-type ONT::BANDWIDTH-VAL
  :parent ONT::substantial-PROPERTY-VAL
  )
@@ -1072,7 +1083,7 @@
   :parent ont::physical-val
   :arguments ((:essential ONT::of (F::phys-obj (F::origin F::human) (F::intentional +))))
   )
-  
+
 ;; lightheaded, tired
 (define-type ONT::physical-symptom-val
  :parent ONT::has-medical-condition
@@ -1212,7 +1223,7 @@
 
 ;; how does this relate to ont::truth-val??
 ;;; e.g., wrong, problematic, right,
-;; the wrong day, the right time, the right number 
+;; the wrong day, the right time, the right number
 (define-type ONT::EVALUATION-VAL
  :parent ONT::RELATION
  :arguments ((:ESSENTIAL ONT::neutral ((? tp f::time f::abstr-obj F::phys-obj F::situation)))
@@ -1312,7 +1323,7 @@
 ;;; Function terms have one or more arguments and have a value
 (define-type ONT::abstract-function
  :parent ONT::ABSTRACT-OBJECT
- :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INTENTIONAL -) (F::measure-function 
+ :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INTENTIONAL -) (F::measure-function
                   F::term))(:default (F::GRADABILITY -) (f::information -)))
  :arguments ((:ESSENTIAL ONT::val (F::abstr-obj (:default (F::measure-function F::value))))
              )
@@ -1343,7 +1354,7 @@
        )
   )
 
-;; for numbers 
+;; for numbers
 ;(define-type ONT::number
 ; :parent ONT::ABSTRACT-OBJECT
 ; :sem (F::Abstr-obj (F::information F::data))
@@ -1400,7 +1411,7 @@
 (define-type ONT::MEASURE-UNIT
  :wordnet-sense-keys ("unit_of_measurement%1:23:00" "unit%1:23:00")
  :parent ONT::ABSTRACT-OBJECT-nontemporal
- :sem (F::abstr-obj (F::measure-function F::value) (F::CONTAINER -) (F::INFORMATION -) 
+ :sem (F::abstr-obj (F::measure-function F::value) (F::CONTAINER -) (F::INFORMATION -)
        (F::INTENTIONAL -))
  ;;; We define an argument here because we want to express selectional restrictions on what this unit can measure
  :arguments ((:ESSENTIAL ONT::OF)
@@ -1439,6 +1450,7 @@
  :arguments ((:REQUIRED ONT::OF1))
  :sem (F::Abstr-obj (F::Scale F::ratio-scale))
  )
+
 ;;  be enumerated: 5 sets of people
 ;;; set, group, series, string (of events), suite (of tests)
 ;(define-type ont::set-unit
@@ -1501,7 +1513,7 @@
              )
  )
 
-;; e.g., graphical, tactile, vocal 
+;; e.g., graphical, tactile, vocal
 (define-type ONT::MODE
  :parent ONT::substantial-property-val
  :sem (F::Abstr-obj (F::gradability -))
@@ -1517,7 +1529,7 @@
 ;;;    :parent ONT::ABSTRACT-OBJECT
 ;;;    :sem (F::Abstr-obj (F::information F::data))
 ;;; )
-    
+
 ;; dozen, hundred, thousand...
 (define-type ONT::NUMBER-UNIT
  :parent ONT::ABSTRACT-OBJECT-nontemporal
@@ -1545,7 +1557,7 @@
  :sem (F::Abstr-obj (F::Scale F::length-scale))
  )
 
-;; acre, sqare feet 
+;; acre, sqare feet
 (define-type ONT::AREA-UNIT
  :wordnet-sense-keys ("area_unit%1:23:00" "square_measure%1:23:00")
  :parent ONT::tangible-unit
@@ -1671,7 +1683,7 @@
 (define-type ONT::LEVEL
  :parent ONT::ordered-DOMAIN
  :arguments ((:ESSENTIAL ONT::of ((? of f::phys-obj F::Abstr-obj))) ;; noise, water
-	     (:essential ont::val (f::abstr-obj   (F::INFORMATION F::INFORMATION-CONTENT))) 
+	     (:essential ont::val (f::abstr-obj   (F::INFORMATION F::INFORMATION-CONTENT)))
              )
  )
 
@@ -1715,11 +1727,11 @@
 (define-type ONT::DISTANCE
  :parent ONT::linear-d
  ;; need this sem specification to get "a short/long distance"
- :sem (f::abstr-obj (F::Scale F::Linear-scale)) 
+ :sem (f::abstr-obj (F::Scale F::Linear-scale))
  :arguments ((:REQUIRED ONT::neutral (F::phys-obj))
              (:OPTIONAL ONT::neutral1 (F::phys-obj))
 	     (:OPTIONAL ONT::OF (F::phys-obj))
-             
+
              )
  )
 
@@ -1835,7 +1847,7 @@
 
 (define-type ONT::size
  :parent ONT::PHYSICAL-DISCRETE-DOMAIN
- ;; making it f::size, to match w/ small & large 
+ ;; making it f::size, to match w/ small & large
  :sem (F::abstr-obj (F::scale F::size-scale)) ; what scale should this be? weight? length? does it need a scale?
  :arguments ((:REQUIRED ONT::of (F::Phys-obj))
              )
@@ -2120,7 +2132,7 @@
   )
 
 ;; for events that you can go to, arrive at, depart from -- the locative feature triggers
-;; a coercion rule in the grammar 
+;; a coercion rule in the grammar
 (define-type ont::located-event
   :parent ont::event-type
   :sem (f::situation (f::trajectory +) (f::locative f::located))
@@ -2194,7 +2206,7 @@
      :wordnet-sense-keys ("manner%1:07:01" "method%1:09:00")
      :parent ONT::ps-object
      )
-     
+
 ;; recipe, procedure, plan
 (define-type ONT::recipe
  :parent ONT::procedure
@@ -2439,7 +2451,7 @@
              )
  )
 
-;; unique lf for price 
+;; unique lf for price
 (define-type ONT::PRICE
  :parent ONT::VALUE-COST
   :arguments ((:REQUIRED ont::of ((? lo f::phys-obj f::abstr-obj)))
@@ -2512,7 +2524,7 @@
     :parent ont::abstract-function
 ;; F::proposition is true or false, this does not apply to sense
 ;; :sem (F::proposition (F::information F::information-content))
-    
+
  )
 
 ;;; (health) care, treatment
@@ -2528,7 +2540,7 @@
 
 ;; can be either treatment or test -- not sure where to classify but adding WN mappings
 (define-type ont::medical-procedure
-  :wordnet-sense-keys  ("medical_procedure%1:04:00"  "incision%1:04:00" "section%1:04:00" "surgical_incision%1:04:00") 
+  :wordnet-sense-keys  ("medical_procedure%1:04:00"  "incision%1:04:00" "section%1:04:00" "surgical_incision%1:04:00")
   :parent ont::procedure
   )
 
@@ -2536,14 +2548,15 @@
   :wordnet-sense-keys ("diagnostic_procedure%1:04:00" "diagnostic_technique%1:04:00")
   :parent ont::medical-test
   )
-	    
+
 ;;; ----------------------------------------------------------
+
 (define-type ONT::CONSTRAINT
  :wordnet-sense-keys ("control%1:04:00" "restriction%1:09:00" "limitation%1:09:00")
  :wordnet-sense-keys ("control%1:04:00" "restriction%1:09:00" "limitation%1:09:00")
  :parent ONT::SITUATION
  :arguments ((:OPTIONAL ONT::OF)
-	     (:optional ont::associated-information) 
+	     (:optional ont::associated-information)
              )
  )
 
@@ -2787,7 +2800,7 @@
              )
  )
 
-;;; Adjective subtypes automatically added using WordNet clustering information
+;;; > Adjective subtypes automatically added using WordNet clustering information
 
 (define-type ONT::QUICK
  :parent ONT::EVENT-DURATION-MODIFIER
@@ -3585,6 +3598,8 @@
  :wordnet-sense-keys ("mutant%3:01:00")
  )
 
+ ; <
+
 (define-type ont::scale
   :parent ont::abstract-object-nontemporal
   )
@@ -3616,6 +3631,7 @@
 (define-type ont::linear-scale
   :parent ont::size-scale
   )
+ 
 (define-type ont::area-scale
   :parent ont::size-scale
   )
@@ -3664,6 +3680,6 @@
   :parent ont::any-scale
   )
 
-(define-type ont::phosphorilated 
+(define-type ont::phosphorilated
     :parent ont::physical-property-val
     :arguments ((:ESSENTIAL ONT::of (F::phys-obj (f::type ont::molecular-part)))))
