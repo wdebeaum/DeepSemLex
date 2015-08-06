@@ -205,14 +205,16 @@
       (concept-element (xml (car dsl) operator form (cdr dsl))
 	((typep operator 'syn-arg)
 	  (destructuring-bind (syn-arg syn-cat &optional sem-role optional) form
-	    (format xml "~&~vt~(<syn-sem-map syn-arg=\"~s\" syn-cat=\"~s\"~@[ head-word=\"~s\"~]~@[ sem-role=\"~s\"~]~:[~; optional=\"optional\"~]/>~)"
-		*indent*
-		syn-arg
-		(if (listp syn-cat) (car syn-cat) syn-cat)
-		(when (listp syn-cat) (second syn-cat))
-		sem-role
-		optional
-		)))))
+	    (multiple-value-bind (dsl-syn-cat head-word)
+	        (separate-head-word-from-syn-cat syn-cat)
+	      (format xml "~&~vt~(<syn-sem-map syn-arg=\"~s\" syn-cat=\"~s\"~@[ head-word=\"~s\"~]~@[ sem-role=\"~s\"~]~:[~; optional=\"optional\"~]/>~)"
+		  *indent*
+		  syn-arg
+		  dsl-syn-cat
+		  head-word
+		  sem-role
+		  optional
+		  ))))))
     ((syn-feats sem-feats)
       (concept-element (xml (car dsl) operator form (cdr dsl))
 	((typep operator '(or syn-feat sem-feat))
