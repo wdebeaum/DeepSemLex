@@ -2,7 +2,7 @@
 # William de Beaumont
 # 2014-06-11
 
-CONFIGDIR = ../../../config
+CONFIGDIR = ../../trips/src/config
 include $(CONFIGDIR)/defs.mk
 TRIPS_BASE = $(prefix)
 DATA_BUILD_DIR = ../../data/browser

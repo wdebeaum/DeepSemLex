@@ -1,5 +1,5 @@
 (unless (find-package :trips)
-  (load (make-pathname :directory '(:relative :up :up :up "config" "lisp")
+  (load (make-pathname :directory '(:relative :up :up "trips" "src" "config" "lisp")
                        :name "trips")))
 (load #!TRIPS"src;DeepSemLex;code;converters;dsl-to-xml")
 
