@@ -469,8 +469,8 @@
     ))
 
    (SUBCAT-inf-TEMPL
-    (SYNTAX(W::AGR (W::SORT  W::PRED) 
-		  (w::allow-deleted-comp +) (W::MASS W::COUNT)))
+    (SYNTAX (W::SORT  W::PRED) 
+	    (w::allow-deleted-comp +) (W::MASS W::COUNT))
     (ARGUMENTS
      (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-to) (W::subj ?lsubj)))) ONT::OF)
      ))
