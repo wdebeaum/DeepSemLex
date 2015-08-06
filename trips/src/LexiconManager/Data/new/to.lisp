@@ -29,7 +29,7 @@
   ((w::to w::date)
    (wordfeats (W::ATYPE (? atype W::pre W::post w::pre-vp)))
    (SENSES
-    ((LF-PARENT ONT::EVENT-TIME-REL)
+    ((LF-PARENT ONT::TIME-REL-so-far)
      (example "add the best answer to date to the list of choices")
      (SYNTAX (W::IMPRO-CLASS (:* ONT::TIME-LOC W::TO-DATE)))
      )

@@ -745,6 +745,13 @@
              )
  )
 
+;; still, yet, so far, ....
+(define-type ONT::time-rel-so-far
+ :parent ONT::event-time-rel
+ :arguments ((:ESSENTIAL ONT::OF (F::Situation))
+             )
+ )
+
 ;; event times not including situations
 (define-type ONT::event-time
  :parent ONT::event-time-rel
@@ -817,13 +824,6 @@
              )
  )
 
-;;; swift 04/14/02 added for yet, still
-(define-type ONT::continuation
- :parent ONT::event-duration-modifier
- :wordnet-sense-keys ("temporary%3:00:00")
- :arguments ((:ESSENTIAL ONT::OF (F::Situation))
-             )
- )
 
 (define-type ONT::while
  :parent ONT::SITUATION-MODIFIER

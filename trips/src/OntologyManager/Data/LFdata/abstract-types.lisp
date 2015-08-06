@@ -2177,6 +2177,12 @@
              )
  )
 
+(define-type ONT::FEELING
+    :wordnet-sense-keys ("feeling%1:03:00" "bother%1:09:00" "worry%1:09:00" "sorrow%1:09:00")
+    :parent ONT::mental-construction
+    :arguments ((:OPTIONAL ONT::OF (f::situation (f::information f::mental-construct) (f::cause f::mental)))
+		))
+
 ;; reason, motivation
 (define-type ONT::motive
  :parent ONT::mental-object
@@ -2941,19 +2947,22 @@
  ; Antonym: NIL (W::ATTENTIVE)
  )
 
+(define-type ONT::linear-extent
+ :parent ONT::LINEAR-VAL
+ :wordnet-sense-keys ("low%3:00:02" "low%3:00:01" "deep%5:00:00" "deep%5:00:00" "shallow%3:00:01" "high%3:00:02" "long%5:00:00" "long%3:00:02" "tall%3:00:00"  "short%3:00:03"  "deep%3:00:01" "short%3:00:02" "low%3:00:02" "low%3:00:01")
+ )
+
 (define-type ONT::BROAD
  :parent ONT::LINEAR-VAL
  ; Words: (W::LOW W::SHORT W::WIDE W::DEEP W::THICK W::FAT W::PLUMP)
-:wordnet-sense-keys ("wide%3:00:00" "wide%3:00:00" "short%3:00:03" "deep%3:00:01" "short%3:00:02" "low%3:00:02" "low%3:00:01" "fat%3:00:01" "thick%3:00:01" "compact%5:00:00" "chubby%5:00:00" "fat%3:00:01" "deep%5:00:00" "deep%5:00:00" "deep%5:00:00")
- ; Antonym: ONT::SLIGHT (W::HIGH W::LONG W::THIN W::NARROW W::TALL W::FLAT W::SHALLOW W::SLIM W::SLENDER W::SKINNY)
- )
+:wordnet-sense-keys ("wide%3:00:00" "fat%3:00:01" "thick%3:00:01" "compact%5:00:00" "chubby%5:00:00" "fat%3:00:01")
+)
 
 (define-type ONT::SLIGHT
  :parent ONT::LINEAR-VAL
  ; Words: (W::HIGH W::LONG W::THIN W::NARROW W::TALL W::FLAT W::SHALLOW W::SLIM W::SLENDER W::SKINNY)
-:wordnet-sense-keys ("slender%5:00:00" "thin%3:00:03" "high%3:00:02" "narrow%3:00:00" "long%3:00:02" "tall%3:00:00" "scraggy%5:00:00" "slender%5:00:00" "compressed%5:00:00" "shallow%3:00:01" "narrow%3:00:00" "thin%3:00:01" "long%5:00:00")
- ; Antonym: ONT::BROAD (W::LOW W::SHORT W::WIDE W::DEEP W::THICK W::FAT W::PLUMP)
- )
+:wordnet-sense-keys ("slender%5:00:00" "thin%3:00:03" "scraggy%5:00:00"  "compressed%5:00:00" "narrow%3:00:00" "thin%3:00:01")
+)
 
 (define-type ONT::COLD
  :parent ONT::TEMPERATURE-VAL

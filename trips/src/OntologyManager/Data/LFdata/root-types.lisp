@@ -143,6 +143,12 @@
     :sem (F::abstr-obj (f::information f::mental-construct))
    )
 
+(define-type ont::social-contract
+    :wordnet-sense-keys ("right%1:07:00" "law%1:14:00" "freedom%1:26:00" "freedom%1:26:01")
+    :arguments ((:OPTIONAL ONT::OF (f::situation)))
+    :parent ont::mental-construction
+    )
+
 (define-type ont::abstract-object-property
     :parent ont::abstract-object
     :sem (F::abstr-obj)
@@ -153,7 +159,7 @@
  :wordnet-sense-keys ("part%1:24:00" "portion%1:24:00" "component_part%1:24:00" "component%1:24:00" "constituent%1:24:00" "part%1:17:00" "piece%1:17:00")
 ;; :parent ONT::ANY-SEM
   :parent ont::referential-sem
- :arguments ((:OPTIONAL ONT::OF)
+ :arguments ((:OPTIONAL ONT::OF )
              )
  )
 

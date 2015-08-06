@@ -23,7 +23,7 @@
    (wordfeats (W::MORPH (:FORMS (-ER -LY))))
    (SENSES
     ((meta-data :origin calo :entry-date 20031223 :change-date 20090731 :wn ("deep%3:00:01") :comments html-purchasing-corpus)
-     (LF-PARENT ONT::BROAD)
+     (LF-PARENT ONT::linear-extent)
      (TEMPL LESS-ADJ-TEMPL)
      (example "a deep hole")
      )

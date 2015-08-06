@@ -24,13 +24,13 @@
  :words (
   (W::STILL
    (SENSES
-    ((LF-PARENT ONT::CONTINUATION)
+    ((LF-PARENT ONT::time-rel-so-far)
      (TEMPL PRED-S-POST-TEMPL)
      )
-    ((LF-PARENT ONT::CONTINUATION)
+    ((LF-PARENT ONT::time-rel-so-far)
      (TEMPL PRED-S-VP-TEMPL)
      )
-    ((lf-parent ont::continuation)
+    ((lf-parent ont::time-rel-so-far)
      (example "still 1.5 volts")
      (meta-data :origin beetle :entry-date 20080711 :change-date nil :comments nil) 
      (templ disc-templ)

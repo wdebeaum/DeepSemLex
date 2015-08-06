@@ -24,6 +24,12 @@
      (TEMPL BINARY-CONSTRAINT-S-subjcontrol-TEMPL)
      (EXAMPLE "he killed it through immersing it in water")
     )
+
+    ((LF-PARENT ONT::BY-MEANS-OF)
+     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     (EXAMPLE "through this method")
+     )
+
    )
    )))
 

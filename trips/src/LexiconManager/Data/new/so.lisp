@@ -79,7 +79,7 @@
   ((w::so w::far)
    (wordfeats (W::ATYPE (? atype W::pre W::post w::pre-vp)))
    (SENSES
-    ((LF-PARENT ONT::EVENT-TIME-REL)
+    ((LF-PARENT ONT::TIME-REL-SO-FAR)
      (example "add the best answer so far to the list of choices")
       (SYNTAX (W::IMPRO-CLASS (:* ONT::TIME-LOC W::SO-FAR)))
      )

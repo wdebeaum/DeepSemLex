@@ -15,9 +15,12 @@
      ;; enforced subcat to reduce ambiguity, but prevents "on the right" unless we add another grammar rule
 ;;     (TEMPL other-reln-subcat-required-templ)
      )
-    )
-   )
-))
+   ((LF-PARENT ont::social-contract)
+     (example "the right to sing")
+     (TEMPL SUBCAT-INF-TEMPL)
+    ))
+   
+  )))
 
 (define-words :pos W::adj :templ CENTRAL-ADJ-TEMPL
  :tags (:base500)

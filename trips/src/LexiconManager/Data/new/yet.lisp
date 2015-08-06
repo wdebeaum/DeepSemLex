@@ -21,10 +21,10 @@
  :words (
   (W::YET
    (SENSES
-    ((LF-PARENT ONT::CONTINUATION)
+    ((LF-PARENT ONT::time-rel-so-far)
      (TEMPL PRED-S-POST-TEMPL)
      )
-    ((LF-PARENT ONT::CONTINUATION)
+    ((LF-PARENT ONT::time-rel-so-far)
      (TEMPL PRED-S-VP-TEMPL)
      )
     )
