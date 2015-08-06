@@ -468,13 +468,20 @@
     (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-to) (W::subj ?lsubj)))) ONT::EFFECT)
     ))
 
+   (SUBCAT-inf-TEMPL
+    (SYNTAX(W::AGR (W::SORT  W::PRED) 
+		  (w::allow-deleted-comp +) (W::MASS W::COUNT)))
+    (ARGUMENTS
+     (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-to) (W::subj ?lsubj)))) ONT::OF)
+     ))
+
   ;;; nouns that subcategorize for a "that" clause
   ;; the constraint that it must be less than 500 dollars
   (count-subcat-that-optional-templ
    (SYNTAX(W::AGR (? a W::3s W::3p)) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::PRED) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
-    (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-finite) (W::subj ?lsubj)))) ONT::content optional)
+    (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-finite) (W::subj ?lsubj)))) ONT::formal optional)
     ))
 
   ;; reason for the appointment

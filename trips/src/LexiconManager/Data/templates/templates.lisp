@@ -15,6 +15,11 @@
 	(LSUBJ (% W::NP) ONT::AGENT)
 	(LOBJ (:parameter xp (:default (% W::NP))) ONT::FORMAL)
 	))
+    (experiencer-THEME-XP-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
+	(LOBJ (:parameter xp (:default (% W::NP))) ONT::FORMAL)
+	))
 
       (agent-formal-xp-templ
        (ARGUMENTS
@@ -116,9 +121,21 @@
 	(LCOMP (:parameter xp (:default (% W::NP))) ONT::formal)
 	))
 
+      (experiencer-formal-as-comp-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
+	(LCOMP (:parameter xp (:default (% W::NP))) ONT::formal)
+	))
+
       (AGENT-neutral-XP-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
+	(LOBJ (:parameter xp (:default (% W::NP  (w::sort (? !xx W::unit-measure))))) ONT::neutral)
+	))
+
+      (experiencer-neutral-XP-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
 	(LOBJ (:parameter xp (:default (% W::NP  (w::sort (? !xx W::unit-measure))))) ONT::neutral)
 	))
 
@@ -782,7 +799,7 @@
 	(LSUBJ (% W::NP (W::var ?subjvar) (W::lex ?lsubjlex)) ONT::neutral)
     ;;;;;(argument ?lsubj)
     ;;;;; the arg of the pred will be the subject of the verb
-	(LOBJ (:parameter xp (:default (% W::PRED (W::arg ?subjvar))) (:required(W::filled -) (W::argument ?lsubj) 
+	(LOBJ (:parameter xp (:default (% W::PRED (W::arg ?subjvar))) (:required (W::filled -) (W::argument ?lsubj) 
 										(W::gap ?gap))) ONT::FORMAL)
 	))
 
@@ -855,6 +872,12 @@
 	(LOBJ (% W::NP) ONT::neutral)
 	))
 
+(experiencer-neutral-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
+	(LOBJ (% W::NP) ONT::neutral)
+	))
+
 (agent-neutral-optional-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::agent)
@@ -881,13 +904,7 @@
 	(LOBJ (% W::NP) ONT::FORMAL)
 	(LCOMP (:parameter xp (:default (% W::PP (w::ptype w::with)))) ONT::FORMAL1 optional)
 	))
-      #||
-      (cognizer-THEME-CO-THEME-OPTIONAL-TEMPL
-      (ARGUMENTS
-      (LSUBJ (% W::NP) ONT::agent)
-      (LOBJ (% W::NP) ONT::FORMAL)
-      (LCOMP (:parameter xp (:default (% W::PP (w::ptype w::with)))) ONT::FORMAL1 optional)
-      ))||#
+      
 
       (AGENT-THEME-SUBJCONTROL-TEMPL
        (ARGUMENTS
@@ -990,6 +1007,17 @@
 	       ONT::FORMAL)
 	))
 
+     (experiencer-theme-OBJCONTROL-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
+	(LOBJ (% W::NP (W::lex ?dobjlex) (w::sort (? !xx W::WH-DESC)) (W::var ?dobjvar)) ONT::NOROLE)  ;; no WH descriptions work
+	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to)))
+			   (:required (W::subj (% W::np (W::sem ?dobjsem)
+						  (W::lex ?dobjlex)
+						  (W::var ?dobjvar)))))
+	       ONT::FORMAL)
+	))
+
       #|| ;;;;; swift 11/26/01 -- add this for aspirin makes me sick
       (CAUSE-EFFECT-AFFECTED-OBJCONTROL-PRED-TEMPL
        (ARGUMENTS
@@ -1022,9 +1050,18 @@
 								      (W::var ?subjvar)))) ont::formal)
 	))
 
-(AGENT-neutral-complex-TEMPL
+   (AGENT-neutral-complex-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
+	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::norole)
+    ;;;;; the arg of the pred will be the object of the verb
+	(LCOMP (:parameter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
+											      (W::var ?dobjvar)))))) ont::formal)
+	))
+
+    (experiencer-neutral-complex-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
 	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::norole)
     ;;;;; the arg of the pred will be the object of the verb
 	(LCOMP (:parameter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
@@ -1040,6 +1077,15 @@
 											      (W::var ?dobjvar)))))) ONT::RESULT)
 	))
 
+      (experiencer-neutral-OBJCONTROL-PRED-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
+	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::neutral)
+    ;;;;; the arg of the pred will be the object of the verb
+	(LCOMP (:parameter xp (:default (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) 
+											      (W::var ?dobjvar)))))) ONT::formal)
+	))
+
       #||
       (CAUSE-EFFECT-XP-TEMPL
       (ARGUMENTS
@@ -1053,21 +1099,7 @@
 	(LSUBJ (% W::NP) ONT::EFFECT)
 	))||#
       
-      (COGNIZER-RESULT-TEMPL
-       (ARGUMENTS
-	(LSUBJ (% W::NP) ONT::agent)
-	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::RESULT)
-	))
-      
-      (COGNIZER-THEME-SOURCE-OPTIONAL-TEMPL
-       (ARGUMENTS
-	(LSUBJ (% W::NP) ONT::agent)
-	(LOBJ (:parameter xp1 (:default (% W::NP))) ONT::FORMAL)
-	(LCOMP (:parameter xp2 (:default (% W::pp (w::ptype w::from)))) ONT::Source optional)
-	))
-      
-
-      (affected-SOURCE-XP-TEMPL
+     (affected-SOURCE-XP-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::affected)
 	(LCOMP (:parameter xp (:default (% W::pp (W::ptype W::from)))) ONT::SOURCE)
@@ -1201,20 +1233,14 @@
 	))
       
 
-      (COGNIZER-affected-XP-TEMPL
-       (ARGUMENTS
-	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (:parameter xp (:default (% W::NP))) ONT::affected)
-	))
-      
-      (COGNIZER-TEMPL
-       (ARGUMENTS
-	(LSUBJ (% W::NP) ONT::agent)
-	))
-      
       (neutral-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::neutral)
+	))
+
+      (experiencer-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::experiencer)
 	))
       
   ;;;;; these do change the sem features
@@ -1816,7 +1842,14 @@
                     (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ont::formal)
     ))
 
-(affected-theme-SUBJCONTROL-TEMPL
+   (experiencer-theme-SUBJCONTROL-TEMPL
+   (ARGUMENTS
+    (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::experiencer)
+    (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
+                    (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ont::formal)
+    ))
+
+  (affected-theme-SUBJCONTROL-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::affected)
     (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
@@ -1831,10 +1864,17 @@
                     (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL)
     ))
   
-  ;;;;; e.g., I want to go
+  
   (neutral-ACTION-SUBJCONTROL-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::neutral)
+    (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
+                    (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::ACTION)
+    ))
+    ;;;;; e.g., I want to go
+   (experiencer-ACTION-SUBJCONTROL-TEMPL
+   (ARGUMENTS
+    (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::experiencer)
     (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
                     (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::ACTION)
     ))
@@ -1856,8 +1896,29 @@
 		(W::lex ?dobjlex) (W::var ?dobjvar))))) ONT::FORMAL)
     ))
 
+ (action-ACTION-OBJCONTROL-TEMPL
+   (ARGUMENTS
+    (LSUBJ (% W::NP) ONT::agent)
+    (LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::neutral)
+    (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) 
+		       (:required (W::subj (% W::np (W::sem ?dobjsem)
+					      (W::lex ?dobjlex) (W::var ?dobjvar))))) 
+	   ONT::FORMAL)
+    ))
+
+
   ;;;;; I want you to go
-  (neutral-ACTION-OBJCONTROL-TEMPL
+  (experiencer-ACTION-OBJCONTROL-TEMPL
+   (ARGUMENTS
+    (LSUBJ (% W::NP) ONT::experiencer)
+    (LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::neutral)
+    (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) 
+		       (:required (W::subj (% W::np (W::sem ?dobjsem)
+					      (W::lex ?dobjlex) (W::var ?dobjvar))))) 
+	   ONT::FORMAL)
+    ))
+
+   (neutral-ACTION-OBJCONTROL-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::neutral)
     (LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::neutral1)
@@ -1877,6 +1938,16 @@
 	    ONT::FORMAL)
      ))
 
+ (neutral-neutral-theme-OBJCONTROL-TEMPL
+    (ARGUMENTS
+     (LSUBJ (% W::NP) ONT::neutral)
+     (LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::neutral1)
+     (LCOMP (:parameter xp (:default (% W::vp (W::vform W::ing))) 
+		       (:required (W::subj (% W::np (W::sem ?dobjsem)
+					      (W::lex ?dobjlex) (W::var ?dobjvar))))) 
+	    ONT::FORMAL)
+     ))
+
 (neutral-neutral-neutral-xp-templ
  (ARGUMENTS
   (LSUBJ (% W::NP) ONT::neutral)
@@ -1886,7 +1957,7 @@
 
 (neutral-plural-templ
  (ARGUMENTS
-  (LSUBJ (% W::NP (W::agr (? a W::1p W::2p W::3p))) ONT::neutral1)
+  (LSUBJ (% W::NP (W::agr (? a W::1p W::2p W::3p))) ONT::neutral)
   ))
 
 (neutral-neutral-plural-templ
@@ -1913,7 +1984,7 @@
   (LOBJ  (:parameter xp (:default (% W::NP))) ONT::neutral1)
   ))
 
- (AGENT-ACTION-OBJCONTROL-TEMPL
+(AGENT-ACTION-OBJCONTROL-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::AGENT)
     (LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ont::neutral)
@@ -1938,24 +2009,52 @@
 (neutral-EFFECT-SUBJCONTROL-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::neutral)
-    (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
-                    (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL)
+    (LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) 
+		       (:required (W::subj (% W::np (W::sem ?lsubjsem) 
+					     (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL)
     ))
-
    
-
+;;  all the followins "as theme" templates require an ARG value in the PP - which only occurs with constructs like "as happy"
 (agent-neutral-as-theme-optional-templ		
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::agent)
-    (LOBJ (:parameter xp (:default (% W::NP))) ONT::neutral)
-    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as)))) ont::formal optional)
+    (LOBJ (:parameter xp (:default (% W::NP (w::var ?dobjvar)))) ONT::neutral)
+    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as) (w::arg ?dobjvar)))) ont::formal optional)
     ))
 
 (agent-neutral-as-theme-templ		
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::agent)
-    (LOBJ (:parameter xp (:default (% W::NP))) ONT::neutral)
-    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as)))) ont::formal)
+    (LOBJ (:parameter xp (:default (% W::NP (w::var ?dobjvar)))) ONT::neutral)
+    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as) (w::arg ?dobjvar)))) ont::formal)
+    ))
+
+(experiencer-neutral-as-theme-optional-templ		
+   (ARGUMENTS
+    (LSUBJ (% W::NP) ONT::experiencer)
+    (LOBJ (:parameter xp (:default (% W::NP (w::var ?dobjvar)))) ONT::neutral)
+    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as) (w::arg ?dobjvar)))) ont::formal optional)
+    ))
+
+(experiencer-neutral-as-theme-templ		
+   (ARGUMENTS
+    (LSUBJ (% W::NP) ONT::experiencer)
+    (LOBJ (:parameter xp (:default (% W::NP (w::var ?dobjvar)))) ONT::neutral)
+    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as) (w::arg ?dobjvar)))) ont::formal)
+    ))
+
+(neutral-neutral-as-theme-templ		
+   (ARGUMENTS
+    (LSUBJ (% W::NP) ONT::neutral)
+    (LOBJ (:parameter xp (:default (% W::NP (w::var ?dobjvar)))) ONT::neutral1)
+    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as) (w::arg ?dobjvar)))) ont::formal)
+    ))
+
+  (neutral-neutral-as-theme-optional-templ		
+   (ARGUMENTS
+    (LSUBJ (% W::NP) ONT::neutral)
+    (LOBJ (:parameter xp (:default (% W::NP (w::var ?dobjvar)))) ONT::neutral1)
+    (LCOMP (:parameter xp2 (:default(% W::PP (w::ptype w::as) (w::arg ?dobjvar)))) ont::formal optional)
     ))
 
   (agent-neutral-name-optional-templ		
@@ -2990,14 +3089,14 @@
   (central-adj-experiencer-templ
    (SYNTAX(W::COMP-OP W::MORE) (W::SORT W::PRED) (W::ATYPE W::central) (W::SUBCAT -) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ont::affected)
+    (ARGUMENT (% W::NP) ont::of)
     ))
 
   ;; a sad movie/ the movie is sad
    (central-adj-content-templ
    (SYNTAX(W::COMP-OP W::MORE) (W::SORT W::PRED) (W::ATYPE W::central) (W::SUBCAT -) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::content)
+    (ARGUMENT (% W::NP) ONT::of)
     ))
   
   (central-adj-plur-templ
