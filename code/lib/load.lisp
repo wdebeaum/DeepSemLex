@@ -34,9 +34,14 @@
   (handler-case (load filename)
     (undefined-function (c)
       (let ((name (cell-error-name c)))
-	(when (template-name-p name)
-	  (warn "unknown template ~s; aborting load of ~a" name filename)
-	  (pushnew name *unknown-templates*)
+	(cond
+	  ((template-name-p name)
+	    (warn "unknown template ~s; aborting load of ~a" name filename)
+	    (pushnew name *unknown-templates*)
+	    )
+	  (t
+	    (warn "called undefined function ~s; aborting load of ~a" name filename)
+	    )
 	  )))
     )))
 
