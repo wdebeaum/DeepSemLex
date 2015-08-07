@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export TRIPS_BASE=../../../../
+export TRIPS_BASE=../../trips
 . ../lisp-env.sh
 $LISP \
   $BATCH \
