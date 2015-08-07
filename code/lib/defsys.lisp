@@ -67,3 +67,5 @@
   (:nicknames :ld)
   )
 
+(defpackage :type-predicates)
+

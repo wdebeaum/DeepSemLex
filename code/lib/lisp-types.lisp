@@ -2,35 +2,41 @@
 
 (in-package :dsl)
 
-(defpackage :type-predicates)
+(defun list-of-predicate-name (member-type)
+  (let* ((*package* (find-package :dsl)) ; ugh
+         (predicate-name (intern (format nil "LIST-OF-~s-P" member-type) :type-predicates)))
+      (unless (fboundp predicate-name)
+	(eval `(defun ,predicate-name (x) (or (null x) (and (consp x) (typep (car x) ',member-type) (,predicate-name (cdr x)))))))
+      predicate-name))
 
 (deftype list-of (member-type)
   "Dependent list type. 'list was already taken."
   (if (eq t member-type)
     'list
-    (let ((predicate-name (intern (format nil "LIST-OF-~s-P" member-type) :type-predicates)))
-      (unless (fboundp predicate-name)
-	(eval `(defun ,predicate-name (x) (or (null x) (and (consp x) (typep (car x) ',member-type) (,predicate-name (cdr x)))))))
-      `(satisfies ,predicate-name)
-      )))
+    `(satisfies ,(list-of-predicate-name member-type))
+    ))
+
+(defun hash-predicate-name (from to)
+  (let* ((*package* (find-package :dsl)) ; ugh
+	 (predicate-name (intern (format nil "HASH-FROM-~s-TO-~s-P" from to) :type-predicates)))
+    (unless (fboundp predicate-name)
+      (eval
+	  `(defun ,predicate-name (x)
+	    (when (hash-table-p x)
+	      (maphash
+		  (lambda (k v)
+		    (unless (and (typep k ',from) (typep v ',to))
+		      (return-from ,predicate-name nil)))
+		  x)
+	      t))))
+    predicate-name))
 
 (deftype hash (&key (from 'symbol) (to t))
   "Dependent hash-table type."
   (if (and (eq t from) (eq t to))
     'hash-table
-    (let ((predicate-name (intern (format nil "HASH-FROM-~s-TO-~s-P" from to) :type-predicates)))
-      (unless (fboundp predicate-name)
-	(eval
-	    `(defun ,predicate-name (x)
-	      (when (hash-table-p x)
-		(maphash
-		    (lambda (k v) 
-		      (unless (and (typep k ',from) (typep v ',to))
-			(return-from ,predicate-name nil)))
-		    x)
-		t))))
-      `(satisfies ,predicate-name)
-      )))
+    `(satisfies ,(hash-predicate-name from to))
+    ))
 
 (deftype alist (&key (from 'symbol) (to t))
   "Dependent assoc-list type.
@@ -74,12 +80,15 @@
 	 )
     ))
 
-(deftype disj-conj (&optional (terminal-type t))
-  (let ((predicate-name (intern (format nil "DISJ-CONJ-OF-~s-P" terminal-type) :type-predicates)))
+(defun disj-conj-predicate-name (terminal-type)
+  (let* ((*package* (find-package :dsl)) ; ugh
+         (predicate-name (intern (format nil "DISJ-CONJ-OF-~s-P" terminal-type) :type-predicates)))
     (unless (fboundp predicate-name)
       (eval `(defun ,predicate-name (x) (disj-conj-p x ',terminal-type))))
-    `(satisfies ,predicate-name)
-    ))
+    predicate-name))
+
+(deftype disj-conj (&optional (terminal-type t))
+  `(satisfies ,(disj-conj-predicate-name terminal-type)))
 
 (deftype maybe (just-type)
   `(or null ,just-type))
