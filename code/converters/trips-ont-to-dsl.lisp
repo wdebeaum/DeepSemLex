@@ -1,7 +1,7 @@
 ;;;; trips-ont-to-dsl.lisp - load the entire old TRIPS ontology into the DSL library and write it back out in Lisp DSL format
 
 (unless (find-package :trips)
-  (load (make-pathname :directory '(:relative :up :up :up "config" "lisp")
+  (load (make-pathname :directory '(:relative :up :up "trips" "src" "config" "lisp")
                        :name "trips")))
 (load #!TRIPS"src;DeepSemLex;code;lib;defsys")
 (dfc:load-component :deepsemlex)
