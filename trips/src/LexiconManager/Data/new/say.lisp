@@ -8,6 +8,7 @@
   (W::say
    (wordfeats (W::morph (:forms (-vb) :past W::said)))
    (SENSES
+    
     ((LF-PARENT ONT::SAY)
      (example "He said (to me) that three teams are going to Delta")
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
@@ -22,7 +23,7 @@
    
     ((LF-PARENT  ONT::say)
      (example "say it to him")
-     (TEMPL AGENT-THEME-to-addressee-TEMPL)
+     (TEMPL AGENT-THEME-to-addressee-optional-TEMPL)
      )
     )
    )

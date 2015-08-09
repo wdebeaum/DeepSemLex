@@ -26,7 +26,17 @@
      (SEM (F::ASPECT F::DYNAMIC))
      (templ agent-affected-xp-templ  (xp (% W::pp (W::ptype W::on))))
      )
+    ((LF-PARENT ONT::giving)
+     (example "feed some bread to the dog")
+     (TEMPL agent-affected-goal-templ) ; like grant,offer
      )
+    ((lf-parent ont::giving)
+     (templ agent-affected-recipient-alternation-templ)
+     (example "feed the dog some bread")
+     )
+    
+    
+    )
    )
 ))
 
