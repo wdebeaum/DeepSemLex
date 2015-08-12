@@ -73,20 +73,65 @@
  "A hash whose keys are the resource files we've already loaded, and whose
   values are the value of *require-file-count* the last time the file was
   required.")
+(defvar *permanently-loaded-resource-files* (make-hash-table :test #'equal)
+ "A hash whose keys are the resource files we've loaded permanently, so that
+  they won't be evicted by maybe-evict-dsl-files.")
 (defvar *loaded-concept-names* (make-hash-table :test #'eq)
  "A hash whose keys are the names of concepts we've already loaded from
   resources.")
 (defvar *require-file-count* 0
  "The number of times any DSL file has been required.")
+(defvar *max-loaded-resource-files* 20000
+ "The maximum number of resource files to have loaded into memory at one time.
+  Set to nil to disable eviction.")
+(defvar *num-files-to-evict* 1000
+ "The number of files to evict when *max-loaded-resource-files* is reached.")
 
-(defun require-dsl-file (file &key provenance-name)
+(defun maybe-evict-dsl-files ()
+  "Evict *num-files-to-evict* if *max-loaded-resource-files* has been reached."
+  ;; if we have the maximum number of files loaded
+  (when (and *max-loaded-resource-files*
+	     (<= *max-loaded-resource-files*
+	         (hash-table-count *loaded-resource-files*)))
+    (format t "; *max-loaded-resource-files*=~s reached; evicting ~s files"
+            *max-loaded-resource-files* *num-files-to-evict*)
+    ;; find some least-recently-required files
+    (loop with to-evict = nil
+          for k being the hash-keys of *loaded-resource-files*
+          for v = (gethash k *loaded-resource-files*)
+	  unless (gethash k *permanently-loaded-resource-files*)
+	  do
+	    ;; insert (k . v) into to-evict in order of descending v (i.e.
+	    ;; least recently required first)
+	    (setf to-evict
+	          (merge 'list (list (cons k v)) to-evict #'> :key #'cdr))
+	    ;; keep to-evict length down
+	    (when (< *num-files-to-evict* (length to-evict))
+	      (pop to-evict))
+	  finally
+	    ;; evict each file
+	    ;; FIXME it might be more efficient to push this into
+	    ;; evict-dsl-file, making it evict-dsl-fileS; if their concept
+	    ;; graphs overlap we can avoid having to erase the boundaries
+	    ;; between them, and regardless we can avoid scanning the whole
+	    ;; database multiple times for concepts/senses to evict
+	    (dolist (p to-evict) (evict-dsl-file (car p)))
+	  )))
+
+(defun require-dsl-file (file &key provenance-name permanently)
   "Ensure that the given file is loaded."
+  ;; if we don't have the file loaded
   (unless (gethash (namestring file) *loaded-resource-files*)
-    ; TODO check size of *lrf* against a limit, and if we're over it, evict
-    ; least-recently-used files until we're under
+    ;; make sure there's room
+    (maybe-evict-dsl-files)
+    ;; load the required file
     (load-dsl-file file :provenance-name provenance-name)
     )
-  (setf (gethash (namestring file) *loaded-resource-files*) (incf *require-file-count*))
+  ;; remember that we required the file so we don't evict it too soon
+  (setf (gethash (namestring file) *loaded-resource-files*)
+	(incf *require-file-count*))
+  (when permanently
+    (setf (gethash (namestring file) *permanently-loaded-resource-files*) t))
   )
 
 (defun provenance-from-file-p (p f)
@@ -229,49 +274,10 @@
     (setf (gethash name *loaded-concept-names*) t)
     ))
 
-#|
-;; FIXME I think I actually have to do this a different way, since the types
-;; concept and (or symbol concept) are not the same, so I can't just replace
-;; concepts with their names. I was thinking that was what I did while loading,
-;; but actually what I do is create stub concepts and then change their class
-;; (!) and add slots when they're actually loaded.
-(defun evict-concept (concept)
-  "Roughly speaking, undo the effect of require-concept. Replace concept with
-   its name in all its references, and remove it from the *db*, so that it can
-   be garbage-collected. Also update *loaded-concept-names* and
-   *loaded-resource-files* so that we can still load the concept back in later
-   if we need to."
-  (let* ((name (name concept))
-         (rv (gethash (symbol-package name) *resource-versions*)))
-    ;; replace concept with name in all references
-    (dolist (ref (references concept))
-      (etypecase ref
-        (cons
-	  (unless (eq concept (car ref)) (error "WTF"))
-	  (rplaca ref name))
-	(standard-object
-	  (loop for slot-def in (class-slots (class-of ref))
-	        for slot-name = (slot-definition-name slot-def)
-	        when (eq concept (slot-value ref slot-name))
-	          do (setf (slot-value ref slot-name) name)))
-	))
-    ;; remove from *db*
-    (remhash name (concepts *db*))
-    (when (typep concept 'sense)
-      (remove-morphed-sense-from-db *db* concept))
-    ;; remove from *loaded-concept-names*
-    (remhash name *loaded-concept-names*)
-    ;; remove from *loaded-resource-files* if applicable
-    (when (and rv (get-files-for-symbol rv))
-      (let ((files (funcall (get-files-for-symbol rv) rv name)))
-        (dolist (file files)
-	  (remhash file *loaded-resource-files*))))
-    ))
-|#
-
-(defun require-resource-version (pkg-name)
+(defun require-resource-version (pkg-name &key (permanently t))
   "Ensure that all files from the resource version identified by the package
-   name are loaded."
+   name are loaded. If :permanently t (the default), don't ever evict any of
+   the files so loaded."
   (let* ((pkg (find-package pkg-name))
          (rv (gethash pkg *resource-versions*))
 	 (files (funcall (get-all-files rv) rv)))
@@ -279,22 +285,7 @@
       (format *standard-output* "; requiring ~s files from ~s~%" (length files) rv))
       (let ((*load-verbose* nil))
 	(dolist (f files)
-	  (require-dsl-file f)))))
-#|
-(defun evict-resource-version (pkg-name)
-  "Roughly speaking, undo the effect of require-resource-version. Evict all of
-   the concepts in the named resource verson (really those whose names are
-   symbols in the corresponding Lisp package)."
-  (loop with pkg = (find-package pkg-name)
-        for k being the hash-keys of (concepts *db*)
-        when (eq pkg (symbol-package k))
-	  ; note: can't just do evict-concept here, since it modifies the hash
-	  collect k into to-be-evicted
-	finally
-	  (dolist (k to-be-evicted)
-	    (evict-concept (gethash k (concepts *db*))))
-	))
-|#
+	  (require-dsl-file f :permanently permanently)))))
 
 (defun require-all-resource-files ()
   "Ensure that all files from all resource versions with files to load are

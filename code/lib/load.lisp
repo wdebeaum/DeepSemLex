@@ -246,11 +246,9 @@
 	(t
 	  (error "incompatible nested concept types: ~s inside ~s" ',concept-type outer-type))
 	)
-      (unless (or (null *current-provenance*)
-                  (member *current-provenance*
-		          (provenance (current-concept))
-			  :test #'eq))
-        (push *current-provenance* (provenance (current-concept))))
+      (unless (null *current-provenance*)
+        (pushnew *current-provenance* (provenance (current-concept))
+	         :test #'provenance-equalp))
       ;; mostly just keep body the way it is, but special case OR and
       ;; provenance forms
       ,@(operator-cond (operator form body)
@@ -262,7 +260,8 @@
 			 *current-morph*)
 		     ,form)))
 	    ((eq 'provenance operator)
-	       `(push ,form (provenance (current-concept))))
+	       `(pushnew ,form (provenance (current-concept))
+	                 :test #'provenance-equalp))
 	    )
       (current-concept))
     ))
