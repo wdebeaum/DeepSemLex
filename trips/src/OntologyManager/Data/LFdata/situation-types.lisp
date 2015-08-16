@@ -176,13 +176,6 @@
              )
  )
 
-(define-type ONT::event-of-experience
-   :parent ONT::event-of-state
-   :arguments ((:ESSENTIAL ONT::experiencer (F::Phys-obj (F::intentional +))))
-   )
-
-
-
 (define-type ONT::Change-Awareness
  :parent ONT::event-of-awareness
  :sem (F::Situation (F::Cause F::Mental) (F::Trajectory -))

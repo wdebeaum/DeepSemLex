@@ -10,7 +10,7 @@
    (SENSES
     ((meta-data :origin trips :entry-date 20060824 :change-date 20090731 :comments nil :wn ("long%3:00:01"))
      (EXAMPLE "a long line")
-     (LF-PARENT ONT::linear-extent)
+     (LF-PARENT ONT::linear-dimension)
      )
 ;    ((meta-data :origin trips :entry-date 20060824 :change-date nil :comments nil :wn ("long%3:00:01"))
 ;     (EXAMPLE "a 5 feet long line")

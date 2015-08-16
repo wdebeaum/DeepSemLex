@@ -2947,7 +2947,7 @@
  ; Antonym: NIL (W::ATTENTIVE)
  )
 
-(define-type ONT::linear-extent
+(define-type ONT::linear-dimension
  :parent ONT::LINEAR-VAL
  :wordnet-sense-keys ("low%3:00:02" "low%3:00:01" "deep%5:00:00" "deep%5:00:00" "shallow%3:00:01" "high%3:00:02" "long%5:00:00" "long%3:00:02" "tall%3:00:00"  "short%3:00:03"  "deep%3:00:01" "short%3:00:02" "low%3:00:02" "low%3:00:01")
  )

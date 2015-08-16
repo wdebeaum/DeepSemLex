@@ -2121,16 +2121,21 @@
  :parent ONT::control-manage
  )
 
+;; something that means something (to someone - the experiencer)
 (define-type ONT::Correlation
- :wordnet-sense-keys ("indicate%2:32:02" "argue%2:32:01" "imply%2:32:01" "entail%2:42:01" "imply%2:42:00" "mean%2:42:00" "affirm%2:31:00" "conform%2:42:06" "intend%2:32:02")
- :parent ONT::event-of-state
+ :wordnet-sense-keys ("indicate%2:32:02" "argue%2:32:01" "imply%2:32:01" "entail%2:42:01" "imply%2:42:00" "mean%2:42:00" "affirm%2:31:00" "conform%2:42:06" "intend%2:32:02" "read%2:32:02:")
+ :parent ONT::event-of-experience
  :sem (F::situation (F::aspect F::static) (F::trajectory -))
  :arguments ((:REQUIRED ONT::neutral ((? n  F::Phys-obj f::abstr-obj)))
 	     (:REQUIRED ONT::neutral1 ((? n1 F::Phys-obj f::abstr-obj)))
              (:REQUIRED ONT::formal (F::situation))
-	     ;; Cognizer, for cases like "the reading tells me that the bulb is damaged"
-	     (:OPTIONAL ONT::affected (F::phys-obj (F::intentional +)))
-             )
+	     ))
+
+;;  something that encodes a message via text 
+(define-type ONT::encodes-textual-info
+ :wordnet-sense-keys ("read%2:42:00" "go%2:42:02")
+ :arguments ((:REQUIRED ONT::neutral ((? n  F::Phys-obj f::abstr-obj) (f::information f::information-content))))
+ :parent ONT::correlation
  )
 
 (define-type ONT::RELATE
