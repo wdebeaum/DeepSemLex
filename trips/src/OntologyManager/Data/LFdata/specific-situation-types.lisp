@@ -3992,6 +3992,15 @@
              )
  )
 
+(define-type ont::participate-attend
+    :wordnet-sense-keys ("attend%2:42:00" "participate%2:41:00")
+    :parent ont::event-of-causation ;; 20120529 GUM change new parent + args
+    :arguments ((:REQUIRED ONT::agent (F::phys-obj (F::intentional +)))
+		(:REQUIRED ONT::neutral ((? xx F::situation F::abstract-object)
+					 )
+			   ))
+    )
+
 ;; twitch, jerk, tremble
 (define-type ONT::uncontrolled-body-motion
  :wordnet-sense-keys ("tremble%2:38:00" "move_involuntarily%2:29:00" "move_reflexively%2:29:00")
