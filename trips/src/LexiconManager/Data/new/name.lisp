@@ -33,7 +33,7 @@
      (meta-data :origin calo-ontology :entry-date 20060124 :change-date 20090501 :comments caloy3 :vn ("dub-29.3-1"))
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (example "this was named by him")
-     (TEMPL agent-theme-xp-templ)
+     (TEMPL agent-neutral-xp-templ)
      )
     ((meta-data :origin ptb :entry-date 20100429 :change-date nil :comments nil :vn ("dub-29.3-1"))
      (LF-PARENT ONT::naming)

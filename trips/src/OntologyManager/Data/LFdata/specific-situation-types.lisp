@@ -2002,20 +2002,41 @@
  :wordnet-sense-keys ("propose%2:32:00" "suggest%2:32:00" "advise%2:32:02")
  :parent ONT::communication
  :sem (F::Situation (F::Cause F::Agentive))
- :arguments ((:REQUIRED ONT::effect (f::situation))
+ :arguments (;(:REQUIRED ONT::effect (f::situation))
+	     (:OPTIONAL ONT::formal (f::situation))
              )
  )
 
-
+;;; [BOB] renamed back to SUGGEST
 ;; 20120524 GUM change new type
-(define-type ont::propose-recommend-suggest
-    :parent ont::suggest
+;(define-type ont::propose-recommend-suggest
+;    :parent ont::suggest
+;    )
+
+; performative acts, e.g., nominating somebody; I'll call him X.
+(define-type ONT::PERFORMATIVE-ACT
+ :parent ONT::communication
+ :sem (F::Situation (F::Cause F::Agentive))
+ )
+
+;;; [BOB] moved to under PERFORMATIVE (minus "refer")
+;; 20120524 GUM change new type
+(define-type ont::nominate
+    :parent ONT::PERFORMATIVE-ACT
     )
 
-;; 20120524 GUM change new type
-(define-type ont::nominate-refer
-    :parent ont::suggest
-    )
+
+(define-type ONT::naming
+ :wordnet-sense-keys ("designate%2:32:00" "denominate%2:32:00")
+;  :parent ONT::categorization
+  :parent ONT::PERFORMATIVE-ACT
+  )
+
+(define-type ONT::ritual-classification
+ :wordnet-sense-keys ("anoint%2:31:00" "install%2:41:00")
+;  :parent ONT::categorization
+  :parent ONT::PERFORMATIVE-ACT
+  )
 
 ;; 20120524 GUM change new type
 (define-type ont::incur-inherit-receive
@@ -2126,9 +2147,9 @@
  :wordnet-sense-keys ("indicate%2:32:02" "argue%2:32:01" "imply%2:32:01" "entail%2:42:01" "imply%2:42:00" "mean%2:42:00" "affirm%2:31:00" "conform%2:42:06" "intend%2:32:02" "read%2:32:02:")
  :parent ONT::event-of-experience
  :sem (F::situation (F::aspect F::static) (F::trajectory -))
- :arguments ((:REQUIRED ONT::neutral ((? n  F::Phys-obj f::abstr-obj)))
-	     (:REQUIRED ONT::neutral1 ((? n1 F::Phys-obj f::abstr-obj)))
-             (:REQUIRED ONT::formal (F::situation))
+ :arguments ((:ESSENTIAL ONT::neutral ((? n  F::Phys-obj f::abstr-obj) (F::intentional -)))
+	     (:OPTIONAL ONT::neutral1 ((? n1 F::Phys-obj f::abstr-obj)))
+             (:OPTIONAL ONT::formal (F::situation))
 	     ))
 
 ;;  something that encodes a message via text 
@@ -3490,11 +3511,6 @@
              )
  )
 
-(define-type ONT::ritual-classification
- :wordnet-sense-keys ("anoint%2:31:00" "instal%2:41:00")
-  :parent ONT::categorization
-  )
-
 (define-type ONT::ordering
  :wordnet-sense-keys ("rate%2:31:00" "rank%2:31:00" "range%2:31:00" "order%2:31:00" "grade%2:31:03" "place%2:31:01")
   :parent ONT::categorization
@@ -3502,11 +3518,6 @@
 
 (define-type ONT::classify
  :wordnet-sense-keys ("classify%2:31:01" "relegate%2:31:02" "classify%2:41:00" "separate%2:31:00" "sort_out%2:31:00" "assort%2:31:00" "sort%2:31:00" "class%2:31:00" "classify%2:31:00" "categorise%2:31:00" "categorize%2:31:00" "take%2:31:07" "read%2:31:09" "describe%2:31:00" "discern%2:39:00" "discover%2:39:00")
-  :parent ONT::categorization
-  )
-
-(define-type ONT::naming
- :wordnet-sense-keys ("designate%2:32:00" "denominate%2:32:00")
   :parent ONT::categorization
   )
 

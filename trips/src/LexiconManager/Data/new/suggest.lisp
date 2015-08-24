@@ -2,21 +2,21 @@
 ;;;; W::suggest
 ;;;;
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :words (
   (W::suggest
    (SENSES    
     ;;;; I suggested that ...
-    (;;(LF-PARENT ONT::SUGGEST)
-     (lf-parent  ont::propose-recommend-suggest) ;; 20120524 GUM change new parent
+    ((LF-PARENT ONT::SUGGEST)
+     ;;(lf-parent  ont::propose-recommend-suggest) ;; 20120524 GUM change new parent
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
-     (TEMPL AGENT-effect-XP-TEMPL (xp (% W::cp (W::ctype (? ctp W::s-finite w::s-that-subjunctive)))))
+     (TEMPL AGENT-formal-XP-TEMPL (xp (% W::cp (W::ctype (? ctp W::s-finite w::s-that-subjunctive)))))
      )
     ((meta-data :origin calo :entry-date 20040121 :change-date nil :comments calo-y1script)
-     ;;(LF-PARENT ONT::SUGGEST)
-     (lf-parent  ont::propose-recommend-suggest) ;; 20120524 GUM change new parent
+     (LF-PARENT ONT::SUGGEST)
+     ;;(lf-parent  ont::propose-recommend-suggest) ;; 20120524 GUM change new parent
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
-     (TEMPL AGENT-THEME-XP-TEMPL)
+     (TEMPL AGENT-NEUTRAL-XP-TEMPL)
      (example "He suggested a plan")
      )
     #||(;;(LF-PARENT ONT::SUGGEST)

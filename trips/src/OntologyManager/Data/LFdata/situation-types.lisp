@@ -60,7 +60,8 @@
 	     ;; swift 04/28/04
 	     ;; this feature restriction prohibits utts like "show me the computer" --either this should be restricted at a lower
 	     ;; level or some of the child lf-types like ont::show should be moved.
-	     (:ESSENTIAL ONT::Formal (F::situation)) ;;?type (F::information F::information-content)))
+	     (:OPTIONAL ONT::Formal (F::situation)) ;;?type (F::information F::information-content)))
+	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj)))
 	                  ;;; Medium
              (:OPTIONAL ONT::Instrument ((? inst F::phys-obj f::abstr-obj) (F::intentional -)))
              ;;; topic, about smth - has an arbitrary restriction
