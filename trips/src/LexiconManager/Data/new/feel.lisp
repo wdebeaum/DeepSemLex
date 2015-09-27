@@ -20,7 +20,7 @@
  :tags (:base500)
  :words (
   (W::feel
-   (wordfeats (W::morph (:forms (-vb) :past W::felt)))
+   (wordfeats (W::morph  (:forms (-vb) :past W::felt)))
    (SENSES
      ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("consider-29.9-2"))
       (LF-PARENT ONT::believe)
@@ -30,7 +30,7 @@
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("see-30.1") :wn ("feel%2:29:00" "feel%2:31:00" "feel%2:35:00" "feel%2:39:00"))
      (LF-PARENT ONT::perception)
      (example "I can feel the sun" "he feels pain in his leg")
-     (TEMPL agent-neutral-xp-templ) ; like smell,taste
+     (TEMPL experiencer-neutral-xp-templ) ; like smell,taste
      (PREFERENCE 0.96)
      )
     ((meta-data :origin trips :entry-date 20090331 :change-date nil :comments missing-sense)

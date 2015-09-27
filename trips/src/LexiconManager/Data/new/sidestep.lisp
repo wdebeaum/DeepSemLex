@@ -2,7 +2,7 @@
 ;;;; W::sidestep
 ;;;;
 
-(define-words :pos W::V :templ agent-theme-xp-templ
+(define-words :pos W::V :templ agent-neutral-xp-templ
  :words (
   (W::sidestep
    (SENSES

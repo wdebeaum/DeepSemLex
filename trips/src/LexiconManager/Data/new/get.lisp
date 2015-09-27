@@ -70,7 +70,7 @@
      (example "get around the problem")
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (meta-data :origin calo :entry-date 20041201 :change-date nil :comments caloy2)
-     (TEMPL AGENT-THEME-XP-TEMPL (xp (% W::PP (W::ptype W::around))))
+     (TEMPL AGENT-neutral-XP-TEMPL (xp (% W::PP (W::ptype W::around))))
      )
     ((LF-PARENT ONT::PASSIVE)
      (example "abrams got hired by brown")

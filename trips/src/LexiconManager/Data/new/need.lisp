@@ -21,7 +21,7 @@
   (W::NEED
    (wordfeats (W::morph (:forms (-vb) :nom w::need)))
    (SENSES
-    ((LF-PARENT ONT::necessity)
+    ((LF-PARENT ONT::want)
      (SEM (F::Aspect F::stage-level));; allow temporal modifiers here, as implicit /=action/
      (TEMPL experiencer-neutral-templ)
      (example "I need this book")

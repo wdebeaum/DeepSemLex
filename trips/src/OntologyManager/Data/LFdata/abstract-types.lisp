@@ -1198,14 +1198,14 @@
  )
 
 
-;;; ownership, property, etc.
+#||;;; ownership, property, etc.
 (define-type ONT::possession
  :wordnet-sense-keys ("possession%1:03:00")
  :parent ONT::RELATION
  :arguments ((:ESSENTIAL ONT::neutral (F::phys-obj (F::origin F::human) (F::intentional +)))
              (:ESSENTIAL ONT::neutral1 ((? cth f::phys-obj f::abstr-obj)))
              )
- )
+ )||#
 
 ;;; these two books are the same
 

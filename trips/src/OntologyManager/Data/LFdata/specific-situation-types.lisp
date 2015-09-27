@@ -716,7 +716,8 @@
  :wordnet-sense-keys ("avoid%2:32:00" "avoid%2:41:03" "keep_off%2:34:00" "avoid%2:34:00" "forbear%2:42:00")
  :parent ont::intentionally-act
  :sem (F::SITUATION (F::Cause F::Agentive))
- :arguments ((:required ont::formal)
+ :arguments ((:optional ont::neutral ((? o F::Phys-obj f::abstr-obj f::situation)))
+	     (:optional ont::formal (f::situation))
 	     )
  )
 
@@ -1172,8 +1173,8 @@
  :parent ONT::event-of-state
  :sem (F::Situation (F::Cause F::Phenomenal))
  :arguments ((:optional ont::formal ((? tp f::situation f::abstr-obj)))
-	     )
- )
+	     (:optional ont::experiencer ((? atp F::phys-obj F::abstr-obj) (F::intentional +)))
+	     ))
 
 ;;; When something appears, there are no agents
 (define-type ONT::appear
@@ -1535,17 +1536,15 @@
  :parent ONT::evoke-relation
  )
 
-;; the town needs supplies; the truck needs repairs
-;; "affected" is a needer
-;; "formal" is what is needed
-;; "effect" is the effect (as in I need to go) expressed explicitly as a proposition, usually a VP
+;;  This is for "the truck needs repair"
+
 (define-type ONT::NECESSITY
  :wordnet-sense-keys ("want%1:17:00" "need%1:17:00" "demand%1:26:00" "need%1:26:00" "need%2:34:01" "demand%2:42:00" "call_for%2:42:00" "involve%2:42:07" "take%2:42:00" "require%2:42:00" "need%2:42:00" "postulate%2:42:00" "ask%2:42:00" "necessitate%2:42:00" "require%2:34:00" "need%2:34:00" "want%2:34:00" "motivation%1:03:00" "motive%1:03:00" "need%1:03:00")
  :parent ONT::event-of-state
  :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::extended) (F::Cause -) (F::Trajectory -))
  ;;; basically any - restriction comes from somewhere else
  :arguments ((:REQUIRED ONT::Formal ((? o F::Phys-obj F::abstr-obj F::situation)))
-	     (:required ont::neutral)
+	     (:optional ont::neutral) ;; the trucks needs repair??
 	     (:optional ont::action (f::situation))
              )
  )

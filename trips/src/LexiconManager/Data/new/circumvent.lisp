@@ -15,7 +15,7 @@
     ((lf-parent ont::avoiding)
      (example "how did you circumvent the problem")
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
-     (templ agent-theme-xp-templ)
+     (templ agent-neutral-xp-templ)
      (meta-data :origin calo :entry-date 20041201 :change-date nil :comments caloy2 :vn ("avoid-52"))
      )
     )

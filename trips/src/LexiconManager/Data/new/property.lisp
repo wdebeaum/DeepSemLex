@@ -12,7 +12,7 @@
      (meta-data :origin task-learning :entry-date 20050817 :change-date nil :wn ("property%1:09:00") :comments nil)
      )
     ((LF-PARENT ONT::possession)
-     (TEMPL OTHER-RELN-THEME-TEMPL)
+     
      (EXAMPLE "don't steal my property")
      (meta-data :origin task-learning :entry-date 20050926 :change-date nil :wn ("property%1:21:00") :comments nil)
      )

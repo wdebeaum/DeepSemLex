@@ -8,7 +8,7 @@
     (wordfeats (W::morph (:forms (-vb) :past W::surrendered :ing surrendering)))
    (SENSES
     ((lf-parent ont::surrender)
-     (templ agent-affected2-optional-templ (xp (% W::pp (W::ptype W::to))))
+     (templ agent-affected-goal-optional-templ (xp (% W::pp (W::ptype W::to))))
      (example "surrender rights to him")
      (meta-data :origin task-learning :entry-date 20050831 :change-date 20090501 :comments nil)
      )
