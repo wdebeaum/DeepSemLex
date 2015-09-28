@@ -310,6 +310,7 @@
 	      "predicates"
 	      "root-types"
 	      "situation-types"
+	      "social-contract"
 	      "specific-situation-types"
 	      "speech-acts"
 	      "time-location-types"
