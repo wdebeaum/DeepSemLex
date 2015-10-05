@@ -309,6 +309,7 @@
 ;             )
  )
 
+
 ;;; big/large/small
 (define-type ONT::Size-val
  :parent ONT::physical-property-val
@@ -378,9 +379,15 @@
              )
  )
 
+
+(define-type ONT::relative-quantity-val
+ :parent ONT::quantity-related-property-val
+ )
+
 (define-type ONT::measure-related-property-val
  :parent ONT::quantity-related-property-val
  )
+
 
 (define-type ONT::number-related-property-val
  :parent ONT::quantity-related-property-val
