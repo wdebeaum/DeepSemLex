@@ -697,12 +697,7 @@
              )
  )
 
-(define-type ONT::swing-by
- :parent ONT::pass
- :sem (F::situation (F::Aspect F::dynamic))
- )
 
-;;;	 (:optional agent (ft_Phys-obj (intentional +) (Mobility F_Self-Moving)))
 (define-type ONT::AVOID-LOCATION
  :parent ONT::PATH-SHAPE
  :sem (F::SITUATION (F::Cause F::Agentive) (F::Trajectory -))
@@ -766,12 +761,12 @@
 
 (define-type ONT::PULL
  :wordnet-sense-keys ("force%2:35:01" "draw%2:35:03" "pull%2:35:00" "pull%2:35:04" "trigger%2:33:00")
- :parent ONT::CAUSE-TO-MOVE
+ :parent ONT::apply-force
  )
 
 (define-type ONT::PUSH
  :wordnet-sense-keys ("push%2:38:00" "force%2:38:00" "thrust%2:38:00" "thrust%2:42:01")
-  :parent ONT::CAUSE-TO-MOVE
+  :parent ONT::apply-force
  )
 
 (define-type ONT::PRESS
@@ -779,14 +774,9 @@
  :parent ONT::PUSH
  )
 
-(define-type ONT::POP
-  :wordnet-sense-keys ("pop%2:35:05")
- :parent ONT::CAUSE-TO-MOVE
- )
-
 (define-type ONT::squeeze
  :wordnet-sense-keys ("squeeze%2:35:00")
- :parent ONT::cause-to-move
+ :parent ONT::apply-force
  )
 
 ;;; These are all opposite to movement - stopping, staying, standing etc
@@ -2219,7 +2209,7 @@
     :wordnet-sense-keys ("take%2:40:02" "pick_out%2:31:00" "select%2:31:00" "take%2:31:01" "choose%2:31:00" "choose%2:31:02" "prefer%2:31:00" "opt%2:31:00" "vote%2:41:09" "determine%2:31:01")
     :parent ONT::CHOOSING
     :arguments ((:REQUIRED ONT::AGENT ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
-		(:ESSENTIAL ONT::affected ((? tt F::phys-obj F::abstr-obj f::situation f::time))))
+		(:ESSENTIAL ONT::neutral ((? tt F::phys-obj F::abstr-obj f::situation f::time))))
  )
 
 ;; for clicking (with a mouse)
@@ -2557,9 +2547,9 @@
 ;; collect, gather up
 (define-type ONT::collect
  :wordnet-sense-keys ("gather%2:35:00" "garner%2:35:00" "collect%2:35:00" "pull_together%2:35:00")
- :parent ont::physical-motion
+ :parent ont::event-of-causation
  :arguments ((:ESSENTIAL ONT::agent)
-	     (:essential ont::formal)
+	     ;;(:essential ont::formal)
              )
  )
 
@@ -2567,20 +2557,20 @@
 (define-type ONT::pickup
  :parent ont::physical-motion
  :arguments ((:ESSENTIAL ONT::agent)
-	     (:essential ont::formal)
+	     (:essential ont::affected)
              )
  )
 
 ;; herd
 (define-type ONT::herd
- :parent ont::collect
+ :parent ont::cause-to-move
  :arguments ((:ESSENTIAL ONT::agent)
-	     (:essential ont::formal  (F::phys-obj (f::mobility f::movable) (f::intentional +)))
+	     (:essential ont::affected  (F::phys-obj (f::mobility f::movable) (f::intentional +)))
              )
  )
 
 (define-type ONT::sampling
- :parent ont::collect
+ :parent ont::choosing
  )
 
 (define-type ONT::Unload

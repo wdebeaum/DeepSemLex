@@ -117,26 +117,6 @@
 
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :words (
-  ((W::get (W::away))
-   (wordfeats (W::morph (:forms (-vb) :ing W::getting :past W::got :pastpart W::gotten)))
-   (SENSES
-    ;;;; prefer 'obtain' sense without a directional
-    ((EXAMPLE "we can get more people away quickly")
-     (LF-PARENT ONT::depart)
-     (SEM (F::aspect F::bounded) (F::time-span F::atomic) (F::trajectory +))
-     )
-    ((EXAMPLE "the robber escaped")
-     (LF-PARENT ONT::depart)
-     (SEM (F::aspect F::bounded) (F::time-span F::atomic) (F::trajectory +))
-     (templ agent-templ)
-     (meta-data :origin "wordnet-3.0" :entry-date 20090608 :change-date nil :comments nil)
-     )
-    )
-   )
-))
-
-(define-words :pos W::v :templ AGENT-affected-XP-TEMPL
- :words (
    ((w::get w::together)
     (wordfeats (W::morph (:forms (-vb) :past w::got :nom (w::get w::together))))
    (senses

@@ -8,7 +8,7 @@
    (wordfeats (W::morph (:forms (-vb) :nom w::installation)))
  (senses
   ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("put-9.1-1"))
-   (LF-PARENT ONT::put-away)
+   (LF-PARENT ONT::put)
    (TEMPL agent-affected-xp-templ) ; like stow
      (PREFERENCE 0.96)
    )

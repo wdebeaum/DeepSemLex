@@ -12,11 +12,6 @@
      (TEMPL agent-affected-xp-templ) ; like insert,position
      (PREFERENCE 0.96)
      )
-    ;;;; swier -- deposit the oranges
-    ((LF-PARENT ONT::UNLOAD)
-     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     )
-    )
-   )
-))
+   
+   ))))
 

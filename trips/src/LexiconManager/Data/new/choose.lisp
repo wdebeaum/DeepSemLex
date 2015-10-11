@@ -2,7 +2,7 @@
 ;;;; W::choose
 ;;;;
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v :templ AGENT-neutral-XP-TEMPL
  :words (
   (W::choose
    (wordfeats (W::morph (:forms (-vb) :past W::chose :pastpart W::chosen)))

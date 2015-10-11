@@ -31,26 +31,6 @@
      (example "he pressed the door closed")
      (TEMPL agent-affected-xp-templ) ; like push
      )
-    ((meta-data :origin plot :entry-date 20080812 :change-date nil :comments nil)
-;     (LF-PARENT ONT::type)
-     (lf-parent ont::author-write-burn-print_reprint_type_retype_mistype)
-     (example "press \"enter\"")
-     (TEMPL agent-THEME-XP-TEMPL)
-     )
-    )
+        )
    )
 ))
-
-(define-words :pos W::V :templ agent-affected-xp-templ
- :words (
-  ((W::press w::on)
-   (SENSES
-    ((meta-data :origin plow :entry-date 20060620 :change-date nil :comments nil)
-     (LF-PARENT ONT::press)
-     (example "press on the button")
-     (TEMPL agent-affected-xp-templ) ; like push
-     )
-    )
-   )
-))
-

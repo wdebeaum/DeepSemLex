@@ -174,20 +174,6 @@
 
 (define-words :pos W::v :templ AGENT-AFFECTED-XP-TEMPL
  :words (
-  ((W::go (W::by))
-   (wordfeats (W::morph (:forms (-vb) :3s W::goes :past W::went :pastpart W::gone)))
-   (SENSES
-    ;;;; when the truck goes by
-    ((LF-PARENT ONT::PASS-BY)
-     (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
-     (TEMPL AFFECTED-TEMPL)
-     )
-    )
-   )
-))
-
-(define-words :pos W::v :templ AGENT-AFFECTED-XP-TEMPL
- :words (
   ((W::go W::out)
    (wordfeats (W::morph (:forms (-vb) :3s W::goes :past W::went :pastpart W::gone)))
    (SENSES

@@ -12,13 +12,7 @@
      (PREFERENCE 0.96)
      (example "they discharged him from the military")
      )
-    ;; this sense is specific to cargo and containers
-    ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("free-80"))
-     (LF-PARENT ONT::UNLOAD)
-     (example "discharge the oj from the tanker")
-     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL AGENT-affected-SOURCE-TEMPL (xp (% W::PP (W::ptype W::from))))
-     )
+        
      (
       (lf-parent ont::emit-giveoff-discharge) ;; 20120524 GUM change new parent
      (meta-data :origin LbR :entry-date 20080922 :change-date nil :comments nil :vn ("free-78-1"))

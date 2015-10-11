@@ -40,7 +40,7 @@
  (W::pop
    (SENSES
     ((meta-data :origin calo :entry-date 20031230 :change-date nil :comments html-purchasing-corpus)
-     (LF-PARENT ONT::POP)
+     (LF-PARENT ONT::PUT)
      (SEM (F::cause F::agentive) (F::aspect F::bounded) (F::time-span F::atomic))
      (TEMPL agent-affected-xp-templ)
      )

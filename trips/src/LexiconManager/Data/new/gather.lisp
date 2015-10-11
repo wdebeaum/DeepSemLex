@@ -2,7 +2,7 @@
 ;;;; w::gather
 ;;;;
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :words (
   (w::gather
    (wordfeats (W::morph (:forms (-vb) :past W::gathered :ing w::gathering)))
@@ -15,7 +15,7 @@
     ((LF-PARENT ONT::collect)
      (example "gather the wood")
      (meta-data :origin calo-ontology :entry-date 20060126 :change-date nil :comments caloy3 :vn ("shake-22.3-2"))
-     (TEMPL AGENT-THEME-XP-TEMPL)
+     (TEMPL AGENT-affected-XP-TEMPL)
      )
     )
    )
@@ -29,7 +29,7 @@
     ((LF-PARENT ONT::collect)
      (example "gather up the pieces")
      (meta-data :origin calo-ontology :entry-date 20060126 :change-date nil :comments caloy3)
-     (TEMPL AGENT-THEME-XP-TEMPL)
+     (TEMPL AGENT-affected-XP-TEMPL)
      )
     )
    )

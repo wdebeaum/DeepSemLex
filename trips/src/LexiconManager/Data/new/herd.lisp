@@ -2,7 +2,7 @@
 ;;;; W::herd
 ;;;;
 
-(define-words :pos W::v :templ agent-theme-xp-templ
+(define-words :pos W::v :templ agent-affected-xp-templ
  :words (
   (W::herd
    (SENSES

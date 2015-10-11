@@ -10,12 +10,8 @@
     ((meta-data :origin chf :entry-date 20070810 :change-date 20090504 :comments nil :vn ("entity_specific_cos-45.5") :wn ("swell%2:30:00" "swell%2:30:02"))
      (LF-PARENT ONT::swell)
      (SYNTAX (w::resultative +))
-     (templ theme-unaccusative-templ)
+     (templ affected-templ)
      )
-;    ((meta-data :origin cardiac :entry-date 20080228 :change-date nil :comments nil)
-;     (LF-PARENT ONT::bodily-process)
-;     (TEMPL theme-unaccusative-templ) ; like bleed
-;     )
     )
    )
 ))
@@ -30,7 +26,7 @@
      (LF-PARENT ONT::swell)
      (SYNTAX (w::resultative +))
      (preference .97)
-     (templ theme-unaccusative-templ)
+     (templ affected-templ)
  ; like ferment
      )
     )

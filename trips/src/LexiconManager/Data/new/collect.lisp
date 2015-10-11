@@ -14,8 +14,8 @@
      )
     
     ((meta-data :origin "wordnet-3.0" :entry-date 20090430 :change-date nil :comments nil)
-     (LF-PARENT ONT::commerce-collect)
-     (example "do not collect $200/the loot")
+     (LF-PARENT ONT::collect)
+     
      (TEMPL agent-affected-xp-templ)
      )
     )

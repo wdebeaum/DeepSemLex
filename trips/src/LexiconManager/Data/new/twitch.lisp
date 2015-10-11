@@ -9,7 +9,7 @@
     ((meta-data :origin cardiac :entry-date 20080222 :change-date nil :comments nil)
      (LF-PARENT ONT::uncontrolled-body-motion)
      (example "his leg twitched")
-     (TEMPL theme-unaccusative-templ)
+     (TEMPL affected-templ)
      )
     )
    )

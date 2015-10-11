@@ -455,6 +455,15 @@
              )
  )
 
+
+(define-type ONT::apply-force
+ :wordnet-sense-keys ("reflect%2:39:00" "drive%2:35:01")
+ :parent ont::event-of-causation
+ :sem (F::Situation (F::Cause F::Force) )
+ :arguments ((:ESSENTIAL ONT::agent)
+             )
+ )
+
 (define-type ONT::Co-motion
  :parent ont::physical-motion
  :arguments ((:essential ont::neutral)   ;; the object with which the motion is relative to
@@ -483,7 +492,7 @@
 ;; put the title in the text box, put the city here, insert the text here
 (define-type ONT::put
  :wordnet-sense-keys ("put%2:35:00" "set%2:35:00" "place%2:35:00" "pose%2:35:02" "position%2:35:00" "lay%2:35:01" "interpose%2:38:01")
- :parent ont::motion
+ :parent ont::event-of-causation
  :arguments ((:ESSENTIAL ONT::agent)
 	     ;;(:OPTIONAL ONT::Spatial-Loc (F::Phys-obj (F::spatial-abstraction F::Any-spatial-abstraction))
              ;; (:implements goal))
@@ -498,9 +507,6 @@
              )
  )
 
-(define-type ONT::Placing
- :parent ONT::DIRECTED-MOTION
- )
 
 (define-type ONT::Arriving
  :parent ont::physical-motion
