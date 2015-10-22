@@ -3614,7 +3614,7 @@
 
 ;; stow the equipment
 (define-type ONT::PUT-AWAY
-  :parent ONT::placing
+  :parent ONT::put
   :SEM (F::SITUATION (f::Cause F::Agentive) (f::Aspect F::Dynamic))
   :arguments
   ((:required ONT::AGENT  ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))

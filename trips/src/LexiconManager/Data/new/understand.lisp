@@ -16,7 +16,7 @@
     ((LF-PARENT ONT::KNOW)
      (TEMPL experiencer-theme-xp-templ (xp (% W::cp (w::ctype w::s-that) (w::wh w::-))))
      )
-    ((LF-PARENT ONT::confirm)
+    ((LF-PARENT ONT::understand)
      (SEM (F::Aspect F::Indiv-level))
      (TEMPL experiencer-templ)
      (example "I understand")
