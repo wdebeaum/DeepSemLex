@@ -57,7 +57,8 @@
       (t 'ld::t)
       )))
 
-(defmacro ld::define-type (type &key parent sem arguments coercions wordnet-sense-keys)
+(defmacro ld::define-type (type &key parent sem arguments coercions wordnet-sense-keys comment)
+  ;; TODO include comment
   `(ld::concept ,type
     (ld::provenance TRIPS)
     ,@(when parent
