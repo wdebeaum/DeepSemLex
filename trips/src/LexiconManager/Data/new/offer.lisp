@@ -1,7 +1,7 @@
 ;;;;
 ;;;; w::offer
 ;;;;
-
+#||
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (
    (w::offer
@@ -14,10 +14,12 @@
     )
    )
 ))
+||#
 
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :words (
 (W::offer
+   (wordfeats (W::morph (:forms (-vb) :past W::offered :ing offering :nom offer)))
    (SENSES
     ((lf-parent ont::offer)
      (templ agent-addressee-theme-templ)
@@ -27,7 +29,6 @@
     )
     ((LF-PARENT ONT::offer)
      (example "the bid offers incentive (to the group)")
-     (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
      (TEMPL agent-affected-goal-optional-TEMPL)
      (meta-data :origin ptb :entry-date 20100604 :change-date 20090501 :comments nil)
      )

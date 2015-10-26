@@ -52,22 +52,61 @@
 (define-type ONT::Communication
  :wordnet-sense-keys ("put_across%2:32:00" "pass_along%2:32:00" "pass%2:32:01" "pass_on%2:32:00" "communicate%2:32:01" "intercommunicate%2:32:00" "communicate%2:32:00" "communication%1:03:00")
  :parent ONT::agent-interaction
- :sem (F::Situation (F::Cause F::Force) (F::Trajectory -))
- :arguments (;;; Addressee
-             ;;(:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
-	     (:ESSENTIAL ONT::Affected ((? adr F::Phys-obj f::abstr-obj)))
-             ;;; Message -- the information
-	     ;; swift 04/28/04
-	     ;; this feature restriction prohibits utts like "show me the computer" --either this should be restricted at a lower
-	     ;; level or some of the child lf-types like ont::show should be moved.
-	     (:OPTIONAL ONT::Formal (F::situation)) ;;?type (F::information F::information-content)))
+ :comment "activity that involves transfer of information between agents"
+ :sem (F::Situation (F::Cause F::agentive) (F::Trajectory -)  (F::Aspect F::bounded) (F::Time-span F::extended))
+ :arguments ((:ESSENTIAL ONT::Affected ((? adr F::Phys-obj f::abstr-obj)))
+	     (:OPTIONAL ONT::Formal ((? th21 F::Abstr-obj F::Situation F::Proposition)))
 	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj)))
-	                  ;;; Medium
-             (:OPTIONAL ONT::Instrument ((? inst F::phys-obj f::abstr-obj) (F::intentional -)))
-             ;;; topic, about smth - has an arbitrary restriction
-             (:OPTIONAL ONT::Associated-information) ;; they talked ABOUT X
-             )
+	     )
  )
+
+(define-type ONT::locution
+  :wordnet-sense-keys ("spell%2:32:00" "spell_out%2:32:01" "spell%2:36:00" "pronounce%2:32:01")
+    :parent ONT::communication
+    :comment "activities that solely address the mechanics of communicating: e.g., pronounce"
+    )
+
+(define-type ONT::illocution
+    :parent ONT::communication
+    :sem (F::Situation (F::Cause F::Agentive))
+    :comment "activities describe the act performed in saying something (cf. Austin)"
+    )
+
+(define-type ONT::representative
+    :parent ONT::illocution
+    :comment "speech act that expresses the speakers belief about what is true (cf. Searle)"
+    )
+
+(define-type ONT::loaded-claim
+    :parent ONT::representative
+    :comment "speech act that expresses the speakers belief with a particular purpose (e.g., accuse, explain)"
+    )
+
+(define-type ONT::commissive
+    :parent ONT::illocution
+    :comment "speech act that expresses the speakers commitment to future acts (cf. Searle)"
+    )
+
+(define-type ONT::directive
+    :parent ONT::illocution
+    :comment "speech act that ia aimed at influences the hearer's future actions (cf. Searle)"
+    )
+
+(define-type ONT::conventional-speech-act
+ :parent ONT::illocution
+ :comment "speech act that is conventional in nature and generally determined by an explicit performative verb (cf. Searle)"
+ )
+
+(define-type ONT::exclamation
+ :parent ONT::communication
+ :comment "communicative act that expresses an emotional response with no propositional content"
+ )
+
+
+(define-type ONT::perlocution
+    :parent ONT::communication
+    :comment "activities describe the act performed by saying something but beyond the speaker's control (cf. Austin)"
+    )
 
 (define-type ONT::agreement
  :parent ONT::agent-interaction
@@ -105,17 +144,23 @@
              )
  ))
 
-;; experiencer has some mental attitude towards some condition, state or situation
-;; awareness, consciousness, know
+
 (define-type ONT::Awareness
  :wordnet-sense-keys ("think%2:31:00" "cogitate%2:31:00" "cerebrate%2:31:00")
  :parent ONT::event-of-experience
  :sem (F::Situation (F::Cause F::Mental) (F::Trajectory -))
+ :comment "a state in which an EXPERIENCER holds some attitude towards a proposition"
  :arguments ((:ESSENTIAL ONT::Formal)
 	     (:OPTIONAL ont::neutral  ((? cg1 f::abstr-obj F::Phys-obj)))
 	     (:OPTIONAL ont::neutral1  ((? cg1 f::abstr-obj F::Phys-obj)))  ;; backwards compatability
              )
  )
+
+(define-type ont::attitude-of-belief
+    :comment "a state that captures an EXPERIENCER to some degree of belief or disbelief"
+    :parent ont::awareness)
+
+
 
 ;; perceive using senses
 (define-type ONT::Perception
@@ -239,16 +284,16 @@
              )
  )
 
-;; cognizer expects a situation to hold
+
 (define-type ONT::expectation
  :wordnet-sense-keys ("expect%2:31:00" "anticipate%2:31:00")
- :parent ONT::awareness
+ :parent ONT::attitude-of-belief
+ :comment "EXPERIENCER expects some proposition to hold"
  :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::extended) (F::Trajectory -))
   :arguments ((:ESSENTIAL ONT::neutral (F::phys-obj (F::intentional +)))
 	     (:OPTIONAL ONT::Formal)
-             (:OPTIONAL ONT::Action (F::Situation))
-             )
- )
+	      )
+  )
 
 
 ;; cf related concept ont::create, with agent and formal roles
@@ -335,6 +380,7 @@
              )
  )
 
+#|
 (define-type ONT::Conversation
  :wordnet-sense-keys ("talk_about%2:32:01" "talk_of%2:32:00" "converse%2:32:00" "discourse%2:32:01" "correspond%2:32:00")
  :parent ONT::event-type
@@ -346,7 +392,10 @@
 	     (:OPTIONAL ONT::Associated-information) ;; they talked ABOUT X
              )
  )
+|#
 
+#|
+;; now locution
 (define-type ONT::encoding
  :wordnet-sense-keys ("spell%2:32:00" "spell_out%2:32:01" "spell%2:36:00")
  :parent ONT::communication
@@ -355,38 +404,43 @@
              (:OPTIONAL ONT::Purpose)
              )
  )
+|#
+
+(define-type ONT::directed-communication
+    :parent ONT::COMMUNICATION
+    :comment "typically asymmetric extended interaction controlled by a single agent"
+    )
 
 (define-type ONT::Questioning
  :wordnet-sense-keys ("ask%2:32:00" "inquire%2:32:01" "enquire%2:32:00")
- :parent ONT::COMMUNICATION
+ :parent ONT::directed-COMMUNICATION
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments ((:REQUIRED ONT::formal)
-             (:OPTIONAL ONT::associated-information)
-             )
+	     )
  )
 
 (define-type ONT::Request
  :wordnet-sense-keys ("quest%2:32:01" "call_for%2:32:04" "bespeak%2:32:00" "request%2:32:01" "request%1:10:00" "asking%1:10:00")
- :parent ONT::COMMUNICATION
+ :parent ONT::directive
+ :comment "the generic directive act"
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments ((:ESSENTIAL ONT::effect ((? t f::situation)))
              )
  )
 
-;; accept, reject, etc.
+
 (define-type ONT::Response
  :wordnet-sense-keys ("react%2:31:00" "respond%2:31:00")
- :parent ONT::agreement
- :sem (F::Situation (F::Cause F::Agentive))
- :arguments ((:OPTIONAL ONT::affected ((? adr F::Phys-obj f::abstr-obj)))
-             )
+ :parent ONT::communication
+ :comment "Communicative act that is in direct response to a previous communicative act"
  )
 
-;; express -- can be nonverbal.
+#|
 (define-type ont::express
  :wordnet-sense-keys ("state%2:32:02" "express%2:32:03" "give_tongue_to%2:32:00" "utter%2:32:01" "verbalise%2:32:03" "verbalize%2:32:03" "express%2:32:00" "frame%2:32:00" "redact%2:32:00" "cast%2:32:00" "put%2:32:00" "couch%2:32:00")
   :parent ont::communication
   )
+|#
 
 (define-type ONT::Statement
  :wordnet-sense-keys ("tell%2:32:04" "say%2:32:00" "state%2:32:00" "speak%2:32:01" "talk%2:32:01" "inform%2:32:00")
@@ -406,7 +460,7 @@
  )
 
 (define-type ONT::offer
- :parent ONT::statement
+ :parent ONT::commissive
  :arguments ((:REQUIRED ont::result)
              )
  )
@@ -503,7 +557,7 @@
 (define-type ONT::directed-motion
  :parent ont::physical-motion
  :arguments ((:ESSENTIAL ONT::agent)
-             (:OPTIONAL ONT::assoc-with) ;; what's this for?
+             (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
              )
  )
 
@@ -822,20 +876,11 @@
              )
  )
 
-; ont::action is used as role name for verb complements
 
-;; cognizer has an intention
-;; aim, intend, mean
-; (define-type ONT::intention
-;  :wordnet-sense-keys ("specify%2:31:00" "designate%2:31:00" "destine%2:31:00" "intend%2:31:01" "intend%2:31:00" "mean%2:31:00" "think%2:31:06")
-;  :parent ONT::awareness
-;  )
-
-;; cognizer has an intention
-;; aim, intend, mean
 (define-type ONT::intention
  :wordnet-sense-keys ("specify%2:31:00" "designate%2:31:00" "destine%2:31:00" "intend%2:31:01" "intend%2:31:00" "mean%2:31:00" "think%2:31:06")
  :parent ONT::awareness
+ :comment "EXPERIENCERS has intention to achieve some situation (e.g., aim, intend, mean)"
  ;;:parent ont::event-of-state ;; 20120529 GUM change new parent  + args
  :sem (F::Situation (F::Cause F::Mental) (F::Trajectory -))
  :arguments ((:REQUIRED ONT::Neutral ((? cg f::abstr-obj F::Phys-obj) (F::intentional +)))

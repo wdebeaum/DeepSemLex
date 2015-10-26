@@ -1198,41 +1198,27 @@
 (define-type ONT::INFORM
  :wordnet-sense-keys ("apprize%2:32:01" "apprise%2:32:00" "send_word%2:32:00" "give_notice%2:32:00" "notify%2:32:00" "advise%2:32:01" "declare%2:32:00" "prosecute%2:41:00")
  :parent ONT::STATEMENT
- :sem (F::SITUATION (F::Cause F::agentive))
- :arguments ( (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
-             )
  )
 
 ;; swear  20120523 GUM change new type
 (define-type ont::swear
-    :parent ont::statement
+    :parent ont::exclamation
     )
 
 (define-type ONT::warn
  :wordnet-sense-keys ("warn%2:32:00")
- :parent ONT::statement
- :sem (F::SITUATION (F::Cause F::agentive))
- :arguments ( (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
- 	     )
+ :parent ONT::directive
  )
 
-;; promise, guarantee
+(define-type ONT::instruct
+    :parent ONT::directive
+    )
+
+
 (define-type ONT::promise
- :wordnet-sense-keys ("promise%2:32:00" "assure%2:32:02")
- :parent ONT::communication
- :sem (F::SITUATION (F::Cause F::agentive))
- :arguments ( (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
-             )
+ :wordnet-sense-keys ("promise%2:32:00" "promise%2:32:01")
+ :parent ONT::commissive
  )
-
-
-(define-type ont::insure ;; 20120524 GUM change new type
-    :parent ont::promise
-    )
-
-(define-type ont::gum-promise ;; 20120524 GUM change new type
-    :parent ont::promise
-    )
 
 ;; kill, destroy
 (define-type ont::destroy
@@ -1251,33 +1237,13 @@
 (define-type ONT::Conversing
  :wordnet-sense-keys ("talk_about%2:32:01" "talk_of%2:32:00" "converse%2:32:00" "discourse%2:32:01" "correspond%2:32:00")
  :parent ONT::communication
+ :comment "extended interaction using communication acts, symmetric  AGENT1"
  :sem (F::Situation (F::Cause F::Agentive))
- ;;; We inherit most of the arguments and add a formal1
- ;;; :arguments ((:OPTIONAL formal1))
  :arguments ((:ESSENTIAL ONT::agent ((? atp F::phys-obj F::abstr-obj) (F::intentional +)))
 	     (:ESSENTIAL ONT::agent1 ((? atp F::phys-obj F::abstr-obj) (F::intentional +)))
              )
  )
 
-; moved from EVENT-OF-CAUSATION
-;
-;;; JFA 8/7/01 - maybe joining and separating should be a subclass of this one
-;;;(:OPTIONAL LF_Instrument (ft_Phys-obj)) ;; Maybe catalyst in the future
-
-#|
-(define-type ONT::Interact
- :wordnet-sense-keys ("interact%2:41:00" "collide%2:35:01")
- :parent ONT::EVENT-OF-causation
- :sem (F::Situation (F::Trajectory -))
- ;;; Part-1 or Parts
- :arguments ((:REQUIRED ONT::agent ((? o1 F::Situation F::Phys-obj)))
-             ;;; Part-2 or Part
-             (:ESSENTIAL ONT::affected ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
-             ;;; result of interaction
-             (:OPTIONAL ONT::Result (F::Phys-obj))
-             )
- )
-|#
 
 (define-type ONT::Interact
  :wordnet-sense-keys ("interact%2:41:00" "collide%2:35:01")
@@ -1293,10 +1259,9 @@
 ;;; interview people
 (define-type ONT::INTERVIEW
  :wordnet-sense-keys ("question%2:32:09" "interview%2:32:00" "interview%1:10:01")
- :parent ONT::conversation
+ :parent ONT::directed-communication
+ :comment "interviewing people"
  :sem (F::SITUATION (F::Cause F::agentive))
- :arguments ( (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
-             )
  )
 
 ;; cognizer gains knowledge from understanding a text or other signs
@@ -1323,10 +1288,10 @@
              )
  )
 
-;; cognizer doubts a situation holds
+
 (define-type ONT::doubt
  :wordnet-sense-keys ("doubt%2:31:00" "disbelieve%2:31:00" "discredit%2:31:00")
-  :parent ONT::awareness
+  :parent ONT::attitude-of-belief
   )
 
 ;; fight, struggle, contend, defend
@@ -1554,7 +1519,7 @@
  )
 
 (define-type ONT::PARDON
- :parent ONT::agreement
+ :parent ONT::forgive
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments ((:required ONT::affected)
              )
@@ -1585,8 +1550,7 @@
 
 (define-type ONT::accept
  :wordnet-sense-keys ("take_on%2:40:00" "take%2:40:07" "admit%2:40:00" "accept%2:40:03" "accept%2:40:12" "take%2:40:15" "take%2:31:09" "submit%2:31:12")
- :parent ONT::agent-interaction
- :arguments ((:optional ont::formal))
+ :parent ONT::response
  )
 
 ;; 20120523 GUM change new type
@@ -1645,7 +1609,7 @@
 
 (define-type ONT::criticize
  :wordnet-sense-keys ("knock%2:32:02" "criticize%2:32:00" "criticise%2:32:00" "pick_apart%2:32:00")
- :parent ONT::STATEMENT
+ :parent ONT::loaded-claim
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
@@ -1656,7 +1620,7 @@
 
 (define-type ONT::praise
  :wordnet-sense-keys ("praise%2:32:00")
- :parent ONT::STATEMENT
+ :parent ONT::loaded-claim
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments ((:OPTIONAL ONT::Predicate((? prd F::Phys-obj F::Abstr-obj F::situation))) ;; praise it as exceptional
               )
@@ -1664,25 +1628,29 @@
 
 (define-type ONT::complain
  :wordnet-sense-keys ("complain%2:32:00" "kick%2:32:00" "plain%2:32:00" "sound_off%2:32:00" "quetch%2:32:00" "kvetch%2:32:00")
- :parent ONT::STATEMENT
+ :parent ONT::loaded-claim
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
 (define-type ONT::insult
  :wordnet-sense-keys ("diss%2:32:00" "insult%2:32:00" "affront%2:32:00")
- :parent ONT::STATEMENT
+ :parent ONT::loaded-claim
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
 (define-type ONT::accuse
  :wordnet-sense-keys ("accuse%2:32:00" "impeach%2:32:00" "incriminate%2:32:00" "criminate%2:32:00")
- :parent ONT::STATEMENT
+ :parent ONT::loaded-claim
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
 (define-type ONT::convince
  :wordnet-sense-keys ("convert%2:32:00" "win_over%2:32:00" "convince%2:32:00" "court%2:41:01")
- :parent ONT::statement
+ :parent ONT::perlocution
+ )
+
+(define-type ONT::dissuade
+    :parent ONT::perlocution
  )
 
 (define-type ONT::defame
@@ -1695,50 +1663,46 @@
  :parent ONT::accuse
  )
 
-(define-type ONT::conventional
- :parent ONT::communication
- :sem (F::Situation (F::Cause F::Agentive))
- )
 
 (define-type ONT::thank
  :wordnet-sense-keys ("thank%2:32:00" "give_thanks%2:32:04")
- :parent ONT::conventional
+ :parent ONT::conventional-speech-act
  )
 
 (define-type ONT::ANSWER
  :wordnet-sense-keys ("answer%2:32:00" "reply%2:32:00" "respond%2:32:00")
- :parent ONT::statement
+ :parent ONT::response
  )
 
 (define-type ONT::APOLOGIZE
  :wordnet-sense-keys ("apologize%2:32:00" "apologise%2:32:00")
- :parent ONT::conventional
+ :parent ONT::conventional-speech-act
  )
 
 (define-type ONT::greet
  :wordnet-sense-keys ("greet%2:32:00" "recognize%2:32:01" "recognise%2:32:01")
- :parent ONT::conventional
+ :parent ONT::conventional-speech-act
  )
 
 (define-type ONT::welcome
  :wordnet-sense-keys ("welcome%2:32:00" "receive%2:32:00")
- :parent ONT::conventional
+ :parent ONT::conventional-speech-act
  )
 
 (define-type ONT::congratulate
  :wordnet-sense-keys ("compliment%2:32:00" "congratulate%2:32:00")
- :parent ONT::conventional
+ :parent ONT::conventional-speech-act
  )
 
 (define-type ONT::forgive
  :wordnet-sense-keys ("forgive%2:32:00")
- :parent ONT::conventional
+ :parent ONT::judgement
  )
 
 ;; agree to, commit to, consent to
 (define-type ONT::consent
  :wordnet-sense-keys ("accept%2:32:00" "consent%2:32:00" "go_for%2:32:00" "affirm%2:32:01")
- :parent ONT::agreement
+ :parent ONT::response
  )
 
 ;; honor, respect, prize, treasure, value
@@ -1778,10 +1742,10 @@
  :parent ONT::INFORMATION-SCRUTINY
  )
 
-;; cognizer knows/is sure situation holds
 (define-type ONT::KNOW
  :wordnet-sense-keys ("know%2:31:02" "know%2:31:03" "know%2:31:01" "cognize%2:31:00" "cognise%2:31:00")
- :parent ONT::AWARENESS
+ :parent ONT::attitude-of-belief
+ :comment "EXPERIENCER is certain that a situation holds"
  :sem (F::SITUATION (F::Aspect F::Indiv-Level) (F::Time-span F::Extended))
  )
 
@@ -1833,10 +1797,10 @@
 	     )
  )
 
-;; cognizer believes some situation may hold
 (define-type ONT::SUPPOSE
  :wordnet-sense-keys ("say%2:32:03" "suppose%2:32:00")
- :parent ONT::awareness
+ :comment "EXPERIENCER posits a possible proposition"
+ :parent ONT::attitude-of-belief
  :sem (F::SITUATION (F::Aspect F::Stage-level) (F::Time-span F::Extended))
  )
 
@@ -1851,73 +1815,88 @@
 (define-type ONT::TALK
  :wordnet-sense-keys ("posit%2:32:02" "put_forward%2:32:00" "state%2:32:01" "submit%2:32:00" "talk%2:32:00" "speak%2:32:00" "utter%2:32:00" "mouth%2:32:00" "verbalize%2:32:00" "verbalise%2:32:00")
  :parent ONT::conversing
- :sem (F::Situation (F::Cause F::agentive) (F::Aspect F::unbounded) (F::Time-span F::extended))
+ :comment "extended communicative interaction, FORMAL is the topic of discussion"
+ :sem (F::Situation (F::Cause F::agentive) (F::Time-span F::extended))
  :arguments ((:ESSENTIAL ONT::formal ((? th20 F::Abstr-obj F::Situation F::Proposition f::phys-obj)))
              )
  )
 
- ;; 20120521 GUM change new type
 (define-type ont::discuss
     :wordnet-sense-keys ("discuss%2:32:00")
-    :parent ont::talk
+    :parent ont::conversing
+    :comment "extended communication on a specific topic (FORMAL)"
     )
 
 
- ;; 20120521 GUM change new type
 (define-type ont::mention-claim
     :wordnet-sense-keys ("leak%2:30:00" "articulate%2:32:00")
     :parent ont::talk
     )
 
-;; 20120521 GUM change new type
 (define-type ONT::schmooze-talk
     :parent ont::talk
+    :wordnet-sense-keys ("chat%2:32:00") 
+    :comment "informal extended conversing "
     )
 
-;; 20120524 GUM change new type
 (define-type ONT::tell
-    :parent ont::talk
+    :parent ont::representative
+    :wordnet-sense-keys ("say%2:32:00") 
+    :comment "fairly generic representative act"
     )
+
+(define-type ONT::EXPLAIN
+ :wordnet-sense-keys ("explain%2:32:00" "explicate%2:32:00")
+ :parent ONT::representative
+ :comment "a representative speech act that explains some situation"
+ )
 
 
 (define-type ONT::TRANSFER-INFORMATION
  :wordnet-sense-keys ("explain%2:32:00" "explicate%2:32:00")
  :parent ONT::inform
- :sem (F::Situation (F::Cause F::agentive) (F::Aspect F::bounded) (F::Time-span F::extended))
- :arguments  ((:ESSENTIAL ONT::Agent ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
-             (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
-             (:ESSENTIAL ONT::Formal ((? th21 F::Abstr-obj F::Situation F::Proposition)))
-	  ;;   (:ESSENTIAL ONT::Effect ((? th F::Situation)))
-             )
  )
 
 (define-type ONT::teach-train
- :wordnet-sense-keys ("describe%2:32:00" "depict%2:32:01" "draw%2:32:00")
- :parent ont::transfer-information
- )
+    :parent ont::transfer-information
+    )
 
 (define-type ONT::describe
- :wordnet-sense-keys ("describe%2:32:00" "depict%2:32:01" "draw%2:32:00")
- :parent ont::communication
- :arguments ((:REQUIRED ONT::neutral))
- )
+    :wordnet-sense-keys ("describe%2:32:00" "depict%2:32:01" "draw%2:32:00")
+    :parent ont::representative
+    :arguments ((:REQUIRED ONT::neutral))
+    )
 
 (define-type ONT::SAY
- :wordnet-sense-keys ("note%2:32:00" "observe%2:32:00" "mention%2:32:00" "remark%2:32:00" "say%2:32:13"  "say%2:32:01")
- :parent ONT::COMMUNICATION
- :sem (F::Situation (F::Cause F::agentive))
- :arguments ((:REQUIRED ONT::Formal)
-	     (:optional ont::neutral)  ;; for special case of THE CAT said/reported/mentioned to be green
-             (:ESSENTIAL ONT::Agent ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
-	     (:optional ont::result)
-             )
- )
+    :wordnet-sense-keys ("note%2:32:00" "observe%2:32:00" "mention%2:32:00" "remark%2:32:00" "say%2:32:13"  "say%2:32:01")
+    :parent ONT::COMMUNICATION
+    :comment "A single act of verbal communication, or sequence of acts by the same agent"
+    :sem (F::Situation (F::Cause F::agentive))
+    :arguments ((:REQUIRED ONT::Formal)
+		(:optional ont::neutral)  ;; for special case of THE CAT said/reported/mentioned to be green
+		(:ESSENTIAL ONT::Agent ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
+		(:optional ont::result)
+		)
+    )
+
+(define-type ont::extended-say
+    :parent ont::say
+    :wordnet-sense-keys ("recount%2:32:00" "dictate%2:31:00" "narrate%2:31:01") 
+    :comment "an extended series of communicative acts by an agent, following some script or structure"
+    )
+
+
+(define-type ont::scripted-say
+    :parent ont::say
+    :wordnet-sense-keys ("quote%2:32:00")
+    :comment "an communicative acts controlled by an existing source"
+    )
 
 
 ;; stream, channel information objects, e.g. stream the data
 (define-type ONT::DIRECT-information
  :wordnet-sense-keys ("traffic%1:10:00")
- :parent ONT::COMMUNICATION
+ :parent ONT::EVENT-OF-ACTION
  :sem (F::Situation)
  :arguments ((:REQUIRED ONT::Formal (?s (F::information F::Information-content)))
 	     (:essential ont::instrument)
@@ -1926,10 +1905,27 @@
 
 (define-type ONT::REPEAT
  :wordnet-sense-keys ("repeat%2:32:00" "reiterate%2:32:00" "ingeminate%2:32:00" "iterate%2:32:00" "restate%2:32:00" "retell%2:32:00" "remind%2:31:00")
- :parent ONT::inform
+ :parent ONT::say
+ :comment "say again"
  :arguments ((:ESSENTIAL ONT::Formal)
              )
  )
+
+(define-type ONT::manner-say
+ :wordnet-sense-keys ("whisper%2:32:00" "blab%2:32:02" "scream%2:32:01" "scream%2:32:08" "scream%2:39:00" "shout%2:32:00" "shout%2:38:08")
+ :parent ONT::say
+ :comment "saying in a particular manner of speaking"
+ :arguments ((:ESSENTIAL ONT::Formal)
+             )
+ )
+
+(define-type ONT::nonverbal-say
+    :parent ONT::say
+    :comment "saying using a medium other that speech"
+    :arguments ((:ESSENTIAL ONT::Formal)
+		)
+    )
+
 
 (define-type ONT::collaborate
  :parent ONT::agent-interaction
@@ -1939,24 +1935,23 @@
  )
 
 
-;; believe, bet, feel, think and proposition
 (define-type ONT::BELIEVE
   :wordnet-sense-keys ("think%2:31:01" "believe%2:31:04" "consider%2:31:08" "conceive%2:31:00" "think%2:31:03" "opine%2:31:02" "suppose%2:31:00" "imagine%2:31:01" "reckon%2:31:02" "guess%2:31:00")
- :parent ONT::awareness
+ :parent ONT::attitude-of-belief
  :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::Extended))
  :arguments ((:optional ont::neutral1)
 	     (:REQUIRED ONT::formal ((? formal f::situation f::abstr-obj)))
              )
  )
 
-;; BELIEF-ascription is a subclass of believe for verbs that take constructions such as "I deem him as unsuitable" or "I view him be be ready". They do not take that complements like ONT::BELIEVE verbs do
 (define-type ONT::BELIEF-ascription
   :wordnet-sense-keys ("view%2:31:00")
+  :comment " a subclass of believe for verbs that take constructions such as 'I deem him as unsuitable'. They do not take that complements like ONT::BELIEVE verbs do"
   :parent ONT::believe)
 
 (define-type ONT::HYPOTHESIZE
   :wordnet-sense-keys ("hypothesize%2:31:00::")
- :parent ONT::awareness
+ :parent ONT::attitude-of-belief
  :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::Extended))
  :arguments ((:optional ont::neutral1)
 	     (:REQUIRED ONT::formal ((? formal f::situation f::abstr-obj)))
@@ -1964,9 +1959,19 @@
  )
 
 ;;  trust, believe - a person or entity
+(define-type ONT::believe-source
+    :parent ONT::awareness
+    :comment "EXPERIENCER trusts or relys on some source/person/authority"
+    :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::Extended))
+    :arguments ((:required ont::neutral1 ((? cg2 f::abstr-obj F::Phys-obj) (F::intentional +)))
+		)
+    )
+
+;;  trust, believe - a person or entity
 (define-type ONT::TRUST
   :wordnet-sense-keys ("accept%2:31:00")
-  :parent ONT::awareness
+  :comment "e.g., trust, believe - generally 'in' something"
+  :parent ONT::believe-source
   :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::Extended))
   :arguments ((:required ont::neutral1 ((? cg2 f::abstr-obj F::Phys-obj) (F::intentional +)))
 	      )
@@ -1989,45 +1994,24 @@
 
 (define-type ONT::SUGGEST
  :wordnet-sense-keys ("propose%2:32:00" "suggest%2:32:00" "advise%2:32:02")
- :parent ONT::communication
- :sem (F::Situation (F::Cause F::Agentive))
- :arguments (;(:REQUIRED ONT::effect (f::situation))
-	     (:OPTIONAL ONT::formal (f::situation))
-             )
+ :parent ONT::directive
  )
 
-;;; [BOB] renamed back to SUGGEST
-;; 20120524 GUM change new type
-;(define-type ont::propose-recommend-suggest
-;    :parent ont::suggest
-;    )
-
-; performative acts, e.g., nominating somebody; I'll call him X.
-(define-type ONT::PERFORMATIVE-ACT
- :parent ONT::communication
- :sem (F::Situation (F::Cause F::Agentive))
- )
-
-;;; [BOB] moved to under PERFORMATIVE (minus "refer")
-;; 20120524 GUM change new type
 (define-type ont::nominate
-    :parent ONT::PERFORMATIVE-ACT
+    :parent ONT::conventional-speech-act
     )
-
 
 (define-type ONT::naming
  :wordnet-sense-keys ("designate%2:32:00" "denominate%2:32:00")
-;  :parent ONT::categorization
-  :parent ONT::PERFORMATIVE-ACT
-  )
+ :parent ONT::conventional-speech-act
+ )
 
 (define-type ONT::ritual-classification
  :wordnet-sense-keys ("anoint%2:31:00" "install%2:41:00")
-;  :parent ONT::categorization
-  :parent ONT::PERFORMATIVE-ACT
-  )
+ :parent ONT::conventional-speech-act
+ )
 
-;; 20120524 GUM change new type
+
 (define-type ont::incur-inherit-receive
     :wordnet-sense-keys ("get%2:39:14" "inherit%2:40:02")
     :arguments ((:REQUIRED ONT::affected1))
@@ -2053,9 +2037,16 @@
 
 (define-type ONT::NEGOTIATE
  :wordnet-sense-keys ("negociate%2:32:00" "negotiate%2:32:00" "talk_terms%2:32:00")
- :parent ONT::CONVERSing
+ :parent ONT::discuss
+ :comment "extended communication with goal of reaching some agreement (RESULT)"
  :arguments ((:optional ONT::result ((? ag f::phys-obj f::abstr-obj) (f::intentional +))))
  )
+
+(define-type ONT::ARGUE
+    :wordnet-sense-keys ("argue%2:32:00" )
+    :parent ONT::discuss
+    :comment "extended communication with opposing views on a topic"
+    )
 
 ; for non-agent-interaction senses of reveal, show, ...
 (define-type ONT::reveal
@@ -2066,11 +2057,9 @@
 	      )
  )
 
-
 (define-type ONT::visual-display
  :wordnet-sense-keys ("expose%2:39:00" "exhibit%2:39:01" "display%2:39:00" "bring_on%2:36:01" "expose%2:35:00" "confront%2:32:03")
  :parent ONT::communication
- ;;:arguments ((:ESSENTIAL ONT::FORMAL ((? tt F::phys-obj F::abstr-obj))))
  )
 
 (define-type ONT::show
@@ -2078,8 +2067,6 @@
  :parent ont::visual-display
  :arguments ((:ESSENTIAL ONT::Agent ((? agt F::Phys-obj f::abstr-obj) (F::intentional +))))
  )
-
-
 
 ;;; This is a mental action - highlighting important points
 ;; no, this is for highlighting things on a display/map
@@ -2308,16 +2295,16 @@
  :parent ONT::request
  )
 
-(define-type ont::appeal-apply-demand ;; 20120523 GUM change new type
+(define-type ont::appeal-apply-demand 
      :wordnet-sense-keys ("turn_to%2:30:00" "play%2:42:00")
      :parent ont::request
     )
 
-(define-type ont::ask ;; 20120524 GUM change new type
+(define-type ont::ask
     :parent ont::request
     )
 
-(define-type ont::remind ;; 20120524 GUM change new type
+(define-type ont::remind 
     :parent ont::request
     )
 
@@ -3455,7 +3442,7 @@
 
 (define-type ONT::RIOT
  :wordnet-sense-keys ("riot%2:41:00")
- :parent ONT::contest
+ :parent ONT::located-event
  :sem (F::SITUATION (F::Cause F::Agentive) (F::Trajectory -) (F::Aspect F::Dynamic))
  :arguments ((:REQUIRED ONT::AGENT  ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
              )
@@ -3494,7 +3481,7 @@
 
 (define-type ONT::nonverbal-expression
  :wordnet-sense-keys ("express_emotion%2:37:00" "express_feelings%2:37:00")
- :parent ONT::communication
+ :parent ONT::event-of-action
  :sem (F::situation (F::Cause F::Agentive) (F::Time-span F::Extended))
  :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj  (:required (f::origin (? org f::human f::non-human-animal)))))
              )
@@ -3512,7 +3499,8 @@
 
 (define-type ONT::rely
  :wordnet-sense-keys ("rely%2:31:11" "depend_on%2:42:00" "depend_on%2:42:01" "depend_on%2:42:02" "fall%2:40:03" "count%2:31:02" "bet%2:31:00" "depend%2:31:00" "look%2:31:02" "calculate%2:31:05" "reckon%2:31:05")
- :parent ONT::event-of-awareness
+ :parent ONT::believe-source
+ :comment "EXPERIENCER relies on a certain proposition or source of information - generally allows 'on' PP"
  :sem (F::situation (F::trajectory -))
  :arguments ((:ESSENTIAL ONT::agent ((? cthm F::Phys-obj F::Abstr-obj) (f::intentional +)))
 	     (:ESSENTIAL ONT::NEUTRAL ((? neu F::Phys-obj F::Abstr-obj)))
@@ -4186,18 +4174,17 @@
 	      )
   )
 
-;; 20120523 GUM change new type
+
 (define-type ont::assert
     :wordnet-sense-keys ("insist%2:32:00")
-    :parent ont::announce
+    :comment "tell categorically"
+    :parent ont::representative
     )
 
- (define-type ont::convey ;; 20120523 GUM change new type
+ (define-type ont::convey 
      :wordnet-sense-keys ("bring_on%2:39:00")
      :parent ont::announce
      )
-
-
 
 ;; beat
 (define-type ont::rhythmic-motion

@@ -15,7 +15,7 @@
       (PREFERENCE 0.98)
       )
      
-     ((LF-PARENT ONT::express)
+     ((LF-PARENT ONT::say)
       (example "she expressed the idea to him")
       (meta-data :origin calo-ontology :entry-date 20051209 :change-date 20090506 :comments Express)
       ;; this verb doesn't participate in the alternation

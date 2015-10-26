@@ -14,6 +14,7 @@
 )
 ))
 
+#|
 (define-words :pos W::n :templ count-pred-templ
  :words (
 	 (W::argument
@@ -25,4 +26,5 @@
 	   )
 	  )
 ))
+|#
 

@@ -26,7 +26,7 @@
  )
 
 ;; example, illustration, instance
-(define-type ONT::representative
+(define-type ONT::representation
  :parent ONT::kind
  )
 
@@ -2138,14 +2138,15 @@
   :parent ont::trip
   )
 
-;; for events that you can go to, arrive at, depart from -- the locative feature triggers
-;; a coercion rule in the grammar
+
 (define-type ont::located-event
   :parent ont::event-type
-  :sem (f::situation (f::trajectory +) (f::locative f::located))
+  :sem (f::situation (f::trajectory -) (f::locative f::located))
+  :comment "events that are located in time/space - e.g., riot, war, ..."
    :arguments ((:optional ont::formal)
 	       (:optional ont::neutral)
-  ))
+	       )
+   )
 
 ;; meeting, party, conference
 (define-type ont::gathering-event

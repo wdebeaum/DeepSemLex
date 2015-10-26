@@ -2,6 +2,7 @@
 ;;;; W::call
 ;;;;
 
+#|
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :tags (:base500)
  :words (
@@ -14,11 +15,13 @@
     )
    )
 ))
+|#
 
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :tags (:base500)
  :words (
   (W::call
+   (wordfeats (W::morph (:forms (-vb) :nom w::call)))
    (SENSES
     ((EXAMPLE "Call the doctor")
      (LF-PARENT ONT::establish-communication)

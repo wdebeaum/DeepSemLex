@@ -22,7 +22,7 @@
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090505 :comments nil :vn ("say-37.7"))
      ;;(LF-PARENT ONT::talk)
  ; like respond,reply
-     (lf-parent ont::mention-claim)
+     (lf-parent ont::say)
      )
     )
    )

@@ -13,7 +13,7 @@
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (templ agent-neutral-to-addressee-optional-templ)
      )
-    ((LF-PARENT ONT::confirm)
+    ((LF-PARENT ONT::describe)
      (example "I described it to be broken")
      (TEMPL agent-effect-affected-objcontrol-templ)
     )

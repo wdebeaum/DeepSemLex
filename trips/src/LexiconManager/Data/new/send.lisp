@@ -29,19 +29,3 @@
     )
    )
 ))
-
-(define-words :pos W::v :templ AGENT-affected-XP-TEMPL
- :words (
- ((w::send (w::forth))
-  (wordfeats (W::morph (:forms (-vb) :past W::sent)))
-   (senses
-    ((LF-PARENT ont::releasing)
-     (meta-data :origin LbR :entry-date 20080922 :change-date nil :comments nil :vn ("free-78-1"))
-     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (example "the spark plug emits a spark")
-     (TEMPL agent-affected-xp-templ)
-     )
-    )
-   )
-))
-

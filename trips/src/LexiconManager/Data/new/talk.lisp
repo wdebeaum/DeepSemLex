@@ -22,19 +22,19 @@
   (W::talk
    (SENSES
     (;;(LF-PARENT ONT::talk)
-     (LF-PARENT  ONT::schmooze-talk)
-     (example "he talked")
+     (LF-PARENT  ONT::talk)
+     (example "We talked")
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      (TEMPL AGENT-TEMPL)
      )
     (;;(LF-PARENT ONT::TALK)
-     (LF-PARENT  ONT::schmooze-talk)
+     (LF-PARENT  ONT::talk)
      (example "he talked with her [about it]")
      (TEMPL AGENT-ADDRESSEE-THEME-OPTIONAL-TEMPL 
 	    (xp1 (% w::pp (w::ptype (? ptp w::to w::with)))))
      )
     (;;(LF-PARENT ONT::TALK)
-     (LF-PARENT  ONT::schmooze-talk)
+     (LF-PARENT  ONT::talk)
      (example "he talked about it [to/with her]")
      (TEMPL AGENT-ABOUT-THEME-ADDRESSEE-OPTIONAL-TEMPL)
      )

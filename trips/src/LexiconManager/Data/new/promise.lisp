@@ -2,6 +2,7 @@
 ;;;; W::promise
 ;;;;
 
+#|
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (
   (W::promise
@@ -13,6 +14,7 @@
     )
    )
 ))
+|#
 
 (define-words :pos W::V :templ agent-theme-xp-templ
  :words (
@@ -20,22 +22,21 @@
     (wordfeats (W::morph (:forms (-vb) :nom W::promise)))
    (SENSES
     ((meta-data :origin "verbnet-1.5-corrected" :entry-date 20051219 :change-date 20060120 :comments nil :vn ("future_having-13.3") :wn ("promise%2:32:01"))
-     ;;(LF-PARENT ONT::promise)
-     (lf-parent ont::gum-promise) ;;  ;; 20120524 GUM change new type
+     (lf-parent ont::promise) ;;  ;; 20120524 GUM change new type
      (TEMPL agent-affected-iobj-theme-templ) ; like grant,offer
      )
     (
-     (lf-parent ont::gum-promise) ;; 
+     (lf-parent ont::promise) ;; 
      (example "he promised to go")
      (TEMPL AGENT-THEME-SUBJCONTROL-TEMPL))
 
     (
-     (lf-parent ont::gum-promise) ;;  
+     (lf-parent ont::promise) ;;  
      (example "he promised me to go")
      (TEMPL agent-affected-theme-subjcontrol-templ))
 
     (
-     (lf-parent ont::gum-promise) ;;  
+     (lf-parent ont::promise) ;;  
      (example "he promised me to go")
       (TEMPL AGENT-ADDRESSEE-THEME-OPTIONAL-TEMPL (xp (% W::cp (W::ctype W::s-finite)))))
     )

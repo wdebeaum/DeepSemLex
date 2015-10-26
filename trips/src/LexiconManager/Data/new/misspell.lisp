@@ -6,7 +6,7 @@
  :words (
   (w::misspell
    (senses
-    ((lf-parent ont::encoding)
+    ((lf-parent ont::locution)
      (example "you misspelled the word")
      (templ agent-theme-affected-optional-templ (xp1 (% w::NP)) (xp2 (% w::pp (w::ptype w::for))))	     
      (meta-data :origin task-learning :entry-date 20050912 :change-date nil :comments nil)

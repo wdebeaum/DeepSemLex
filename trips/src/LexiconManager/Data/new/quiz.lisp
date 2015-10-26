@@ -21,7 +21,7 @@
    (wordfeats (W::morph (:forms (-vb) :past W::quizzed :ing W::quizzing :nom w::quiz)))
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("investigate-35.4") :wn ("quiz%2:32:00"))
-     (LF-PARENT ONT::ask-query-question)
+     (LF-PARENT ONT::questioning)
      (TEMPL  AGENT-ADDRESSEE-TEMPL)
      )
     )

@@ -12,7 +12,7 @@
      (example "confirm that they arrived")
      (TEMPL AGENT-theme-XP-TEMPL (xp (% W::cp (W::ctype W::s-finite))))
      )
-    ((LF-PARENT ONT::NEGOTIATE)
+    ((LF-PARENT ONT::confirm)
      (example "he confirmed the information with him")
      (TEMPL AGENT-result-CO-AGENT-OPTIONAL-TEMPL)
      )

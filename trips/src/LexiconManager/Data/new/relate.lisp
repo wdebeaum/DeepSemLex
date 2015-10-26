@@ -9,7 +9,7 @@
    (SENSES
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("say-37.7") :wn ("relate%2:32:00"))
      ;;(LF-PARENT ONT::talk)
-     (lf-parent ont::mention-claim)
+     (lf-parent ont::extended-say)
      (TEMPL agent-affected-iobj-theme-templ) ; like say
      (PREFERENCE 0.96)
      )

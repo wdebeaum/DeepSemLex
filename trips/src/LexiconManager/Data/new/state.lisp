@@ -25,14 +25,14 @@
  :words (
   (W::state
    (SENSES
-    ((LF-PARENT ONT::SAY)
+    ((LF-PARENT ONT::assert)
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (TEMPL AGENT-THEME-XP-TEMPL (xp (% W::cp (W::ctype W::s-finite))))
      (EXAMPLE "he stated that he couldn't come")
      (meta-data :origin task-learning :entry-date 20050831 :change-date nil :comments nil)
      )
     (;;(LF-PARENT ONT::talk)
-     (lf-parent ont::mention-claim)
+     (lf-parent ont::assert)
      (example "he stated his name/purpose")
      (TEMPL AGENT-THEME-XP-TEMPL)
      )

@@ -38,6 +38,7 @@
      (TEMPL AGENT-AFFECTED-THEME-TEMPL (xp (% W::PP (W::ptype (? pt W::with W::on)))))
      (meta-data :origin cernl :entry-date 20110210 :change-date nil :comments ticket-242)
      )
+#|
     ;;; Myrosia 20040805 lowered the preference so that this sense doesn't interfere unless main selectional restrictions
     ((LF-PARENT ONT::TALK)
      (example "continue with the story")
@@ -45,6 +46,7 @@
      (TEMPL AGENT-affected-XP-TEMPL (xp (% W::pp (W::ptype W::with))))
      (preference 0.95)
      )
+|#
     ))
 ))
 

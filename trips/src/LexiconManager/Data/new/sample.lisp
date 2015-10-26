@@ -12,7 +12,7 @@
      (TEMPL OTHER-RELN-TEMPL)
      )
     ((meta-data :origin calo :entry-date 20041203 :change-date 20050817 :wn ("example%1:09:00") :comments lf-restructuring)
-     (LF-PARENT ONT::representative)
+     (LF-PARENT ONT::representation)
      (TEMPL OTHER-RELN-TEMPL)
      (example "try a free sample")
      )
