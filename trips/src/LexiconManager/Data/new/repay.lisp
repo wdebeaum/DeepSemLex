@@ -20,7 +20,7 @@
      (TEMPL agent-source-templ (xp (% w::pp (w::ptype w::with)))) ; like pay
      )||#
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("judgement-33") :wn ("repay%2:40:02"))
-     (LF-PARENT ONT::reward)
+     (LF-PARENT ONT::compensate)
      (example "how can I repay you")
      (TEMPL agent-addressee-templ) ; like thank
      )

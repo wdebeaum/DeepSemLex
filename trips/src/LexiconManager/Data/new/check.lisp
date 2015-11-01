@@ -67,7 +67,6 @@
      (templ agent-theme-pred-templ)
      )
     ((LF-PARENT ONT::coming-to-believe)
-     (SEM (F::Aspect F::Stage-level) (F::Time-span F::extended))
      (TEMPL agent-theme-xp-templ (xp (% W::cp (W::ctype W::s-finite))))
      (example "check whether/if/that it's a book order")
      (meta-data :origin plow :entry-date 20050909 :change-date nil :comments nil)

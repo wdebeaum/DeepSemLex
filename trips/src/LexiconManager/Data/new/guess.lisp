@@ -31,7 +31,7 @@
      )
     ((LF-PARENT ONT::coming-to-believe)
      (example "he guessed the answer")
-     (TEMPL neutral-theme-xp-templ)
+     (TEMPL agent-theme-xp-templ)
      (meta-data :origin calo-ontology :entry-date 20060426 :change-date nil :comments nil)
      )
     )

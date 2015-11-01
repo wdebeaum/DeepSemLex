@@ -11,8 +11,8 @@
     (;;(LF-PARENT ONT::inform)
      (lf-parent ont::tell) ;; 20120524 GUM change new parent
      (example "tell the driver the plan")
-     (TEMPL AGENT-ADDRESSEE-THEME-OPTIONAL-TEMPL (xp (% w::NP (information +))))
-     )
+     (TEMPL AGENT-ADDRESSEE-neutral-OPTIONAL-TEMPL (xp (% w::NP))
+     ))
     ((lf-parent ont::tell) 
      (example "tell the plan to the driver")
      (TEMPL AGENT-THEME-TO-ADDRESSEE-optional-TEMPL)

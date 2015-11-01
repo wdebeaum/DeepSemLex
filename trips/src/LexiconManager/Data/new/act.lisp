@@ -2,6 +2,7 @@
 ;;;; W::ACT
 ;;;;
 
+#|
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :tags (:base500)
  :words (
@@ -15,6 +16,7 @@
     )
    )
 ))
+|#
 
 (define-words :pos W::V 
   :templ agent-theme-xp-templ
@@ -22,7 +24,8 @@
  :words (
 	  (w::act
 ;; 20120426 :origin jr removing nominalization for gloss to improve control over the key word "act"
-;;	   (wordfeats (W::morph (:forms (-vb) :nom W::act)))
+;; BOB: put the noun "act" back here; let's see what happens
+	   (wordfeats (W::morph (:forms (-vb) :nom W::act)))
 	   (senses
 	    ((lf-parent ont::act-behave)
 	      ;; the like modification is a function of the adverbial

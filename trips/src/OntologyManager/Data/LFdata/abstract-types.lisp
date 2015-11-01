@@ -2011,14 +2011,15 @@
   :parent ont::non-measure-ordered-domain
   )
 
-(define-type ONT::Event
- :wordnet-sense-keys ("event%1:03:00")
+(define-type  ONT::event-defined-by-activity
+ :wordnet-sense-keys ("event%1:03:00" "time_period%1:28:00" "period_of_time%1:28:00" "period%1:28:00")
  :parent ONT::EVENT-TYPE
  :sem (F::Situation (F::aspect F::dynamic))
  :arguments ((:OPTIONAL ONT::OF)
 	     (:optional ont::content)
              )
  )
+
 
 (define-type ONT::caused-event
  :parent ONT::EVENT-TYPE
@@ -2071,24 +2072,20 @@
     :parent ont::property-val
     )
 
-;(define-type ONT::search
-; :parent ONT::event
-; :sem (F::situation (F::trajectory +))
-; )
 
 ;; tour
 ; can tour a house, a museum; doesn't have to be travel
 (define-type ont::tour
-  :parent ont::event
+  :parent ont::event-defined-by-activity
   )
 
 ;; travel
 (define-type ONT::travel
- :parent ONT::event
+ :parent ONT::event-defined-by-activity
  :sem (F::situation (F::trajectory +))
  )
 
-;; trip, journeyt
+;; trip, journey
 (define-type ONT::trip
  :wordnet-sense-keys ("journey%1:04:00" "journeying%1:04:00")
  :parent ONT::travel
@@ -2799,7 +2796,7 @@
 ;; abnormality, irregularity, anomaly
 (define-type ONT::abnormality
  :wordnet-sense-keys ("abnormality%1:04:00" "irregularity%1:04:00")
- :parent ONT::event
+ :parent ONT::event-type
  :sem (F::Situation (F::aspect F::dynamic))
  :arguments ((:OPTIONAL ONT::OF)
              )

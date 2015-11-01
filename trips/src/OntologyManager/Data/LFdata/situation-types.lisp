@@ -1,51 +1,49 @@
 (in-package :om)
 
-;; This is VN masquerade-0.26
-;; act, behave
 (define-type ont::acting
  :wordnet-sense-keys ("do%2:29:09" "behave%2:29:00" "act%2:29:00" "act%1:03:00" "deed%1:03:00" "human_action%1:03:00" "human_activity%1:03:00" "activity%1:04:00")
     :parent ont::event-of-action
+    :comment "abstract event of doing something: behave, activity, ..."
     :arguments ((:required ont::agent  ((? cz F::Phys-obj f::abstr-obj f::situation)))
-;		(:essential ont::predicate)
-;		(:optional ont::formal) ;; he acted the part
-;		(:optional ont::agent  ((? aoc F::phys-obj F::abstr-obj) (F::intentional +)) (:implements cause))
 		))
 
-;; 04262012 adding (really, reinstating) this for gloss to get better readings of the definitions
-;; :origin jr gloss-variant
+#|
 (define-type ont::act
     :wordnet-sense-keys ("atone%2:37:00" "break_even%2:40:00" "campaign%2:33:00" "err%2:31:00" "excel%2:42:00" "exercise%2:29:00" "experiment%2:41:02" "fall%2:41:15" "fall_in%2:41:02" "go%2:33:00" "hide%2:39:01" "indulge%2:41:01" "keep_one's_mouth_shut%2:32:00" "keep_to_oneself%2:41:00" "keep_up%2:33:00")
     :parent ont::event-of-action
     :arguments ((:optional ont::agent ((? cz F::Phys-obj f::abstr-obj f::situation)))
 		(:required ont::of  ((? of f::situation)))
 		))
+|#
 
 (define-type ONT::cause-effect
-;; 20121101 gloss change removing incorrect "produce%2:36:03" "bring_about%2:36:03" "give_rise%2:36:01" synset mapping
- :wordnet-sense-keys ( "cause%2:36:00" "do%2:36:02" "make%2:36:08" ;;"produce%2:36:03" "bring_about%2:36:03" "give_rise%2:36:01"
-  "receive%2:35:00" "drive%2:35:00" "get%2:30:02" "get%2:30:00" )
+    :wordnet-sense-keys ( "cause%2:36:00" "do%2:36:02" "make%2:36:08" 
+					  "receive%2:35:00" "drive%2:35:00" "get%2:30:02" "get%2:30:00")
  :parent ONT::acting
+ :comment "an AGENT causes some event to occur or proposition to become true"
  :sem (F::Situation (F::Cause (? cz F::Force f::agentive)) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::agent((? oc F::Phys-obj F::Abstr-obj F::Situation)))
-	     (:ESSENTIAL ONT::AFFECTED)
-	     (:ESSENTIAL ONT::formal ((? eoc F::situation F::Abstr-obj)))
-	     (:optional ont::result)
+	     (:optional ont::affected)
+	     (:essential ont::result)
+	     (:optional ont::formal) ;; here for now while we decide the FORMAL/RESULT issue
 	     )
  )
 
 (define-type ONT::inhibit-effect
  :parent ONT::acting
  :sem (F::Situation (F::Cause (? cz F::Force f::agentive)) (F::Trajectory -))
- :arguments ((:ESSENTIAL ONT::affected ((? oc F::Phys-obj F::Abstr-obj F::Situation)))   ;; leave in F::Situation, e.g., inhibits expression, inhibits growth
-             (:ESSENTIAL ONT::formal ((? eoc2 F::situation)));; F::Abstr-obj f::phys-obj f::time)))
+ :comment "an AGENT prevents some activity from occuring or proposition from becoming true"
+ :arguments ((:ESSENTIAL ONT::affected ((? oc F::Phys-obj F::Abstr-obj F::Situation)))  
+             (:ESSENTIAL ONT::result ((? eoc2 F::situation)))
              (:OPTIONAL ONT::agent ((? aoc F::phys-obj F::abstr-obj) (F::intentional +)) (:implements cause))
              )
  )
 
 (define-type ONT::agent-interaction
- :parent ONT::event-of-agent-interaction
- :arguments (;;; Communicator
-             (:ESSENTIAL ONT::Agent ((? atp F::phys-obj F::abstr-obj) (F::intentional +)))
+ :parent ONT::event-of-action
+ :comment "events that involve the interaction of two or more agents"
+ :arguments ((:ESSENTIAL ONT::Agent ((? atp F::phys-obj F::abstr-obj) (F::intentional +)))
+	     (:essential ONT::agent1 ((? cau3 F::Abstr-obj f::phys-obj) (F::intentional +)))
              )
  )
 
@@ -56,7 +54,7 @@
  :sem (F::Situation (F::Cause F::agentive) (F::Trajectory -)  (F::Aspect F::bounded) (F::Time-span F::extended))
  :arguments ((:ESSENTIAL ONT::Affected ((? adr F::Phys-obj f::abstr-obj)))
 	     (:OPTIONAL ONT::Formal ((? th21 F::Abstr-obj F::Situation F::Proposition)))
-	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj)))
+	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj) (F::information F::information-content)))
 	     )
  )
 
@@ -121,28 +119,23 @@
 (define-type ont::motion
  :parent ONT::EVENT-OF-causation
  :sem (F::Situation (F::Cause (? c F::Force -)) (F::Aspect F::Dynamic))
- :arguments ((:REQUIRED ONT::affected ((? th1 f::phys-obj f::abstr-obj f::situation f::time))) ;; mostly unrestricted
-             ;;; Source Path Goal Area
-	     (:OPTIONAL ONT::Instrument (F::Phys-obj (F::mobility F::movable) (F::intentional -)))
-             ;;; Now the list of "trajectory" roles
-             (:OPTIONAL ONT::Source )
-             (:OPTIONAL ont::result )
-             ;;(:OPTIONAL ONT::From-Loc (F::Phys-obj (F::spatial-abstraction F::Any-spatial-abstraction))
-             ;; (:implements source))
-	     ;;(:OPTIONAL ONT::To-Loc (F::Phys-obj (F::spatial-abstraction F::Any-spatial-abstraction))
-             ;; (:implements goal))
+ :comment "events of motion through some space (physical or abstract). Even though many motion verbs express simply undergoing motion, all these verbs allow to possibiliity of an AGENT"
+ :arguments ((:REQUIRED ONT::affected ((? th1 f::phys-obj f::abstr-obj f::situation f::time)))
+             (:OPTIONAL ONT::Source)
+             (:OPTIONAL ont::result)
 	     (:OPTIONAL ONT::agent ((? causetype F::phys-obj F::situation F::abstr-obj)))
+	     (:optional ont::extent (F::abstr-obj (F::type ont::quantity))
 	     )
- )
+	     ))
 
-;; must be a movable, physical object
+#||;; must be a movable, physical object
 (define-type ont::physical-motion
  :parent ONT::motion
+ :comment "actual physical motion"
  :sem (F::Situation (F::Cause (? c F::Force -)) (F::Aspect F::Dynamic))
  :arguments ((:REQUIRED ONT::affected (F::Phys-obj (F::mobility F::movable)))
-	     (:optional ont::extent (F::abstr-obj (F::type ont::quantity))
-             )
- ))
+	     )
+ )||#
 
 
 (define-type ONT::Awareness
@@ -160,66 +153,41 @@
     :comment "a state that captures an EXPERIENCER to some degree of belief or disbelief"
     :parent ont::awareness)
 
-
-
-;; perceive using senses
 (define-type ONT::Perception
  :wordnet-sense-keys ("feel%2:35:00")
  :parent ONT::event-of-experience
- ;;; Perceiver
+ :comment "an EXPERIENCER is perceiving something (remember its stative)"
  :arguments ((:ESSENTIAL ONT::neutral)
 	     (:optional ONT::neutral1)
 	     (:optional ont::formal)
              )
  )
 
-;;; ONT::INTERACT has moved to specific-situation-types
 
 (define-type ONT::Objective-influence
     :wordnet-sense-keys ("force%1:07:01" "appeal%2:37:00" "keep_up%2:29:00" "assail%2:33:00" "retire%2:33:00" "sensitise%2:39:00" "sound%2:39:01" "stampede%2:38:01" "stampede%2:41:01" "trip%2:38:01" "unbalance%2:42:00" "undo%2:36:00")
     :parent ONT::EVENT-OF-causation
+    :comment "an AGENT influences the AFFECTED role in some way (typically unspecified by the verb)"
     :sem (F::Situation (F::Trajectory -))
- :arguments ( ;; e.g. "plans" in "it affects his plans"
-	     (:REQUIRED ONT::Affected ((? o1 F::Situation F::Phys-obj f::abstr-obj)))
-             ;; e.g. switch in "the switch affects the bulb"
-             (:ESSENTIAL ONT::agent ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
-             ;;; result of interaction
-             (:OPTIONAL ONT::Result (F::Phys-obj))
-	     (:OPTIONAL ONT::Effect (F::Situation))
-             )
+ :arguments ((:REQUIRED ONT::Affected ((? o1 F::Situation F::Phys-obj f::abstr-obj)))
+	     (:ESSENTIAL ONT::agent ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
+	     (:OPTIONAL ONT::Result (F::Phys-obj))
+	     )
  )
 
 (define-type ONT::Body-movement
  :wordnet-sense-keys ("change_posture%2:38:00")
  :parent ONT::EVENT-OF-causation
  :sem (F::Situation (f::trajectory +))
- ;;; Agent
- :arguments (;;(:ESSENTIAL ONT::Agent (F::phys-obj (F::intentional +)))
-             ;;; BodyPart
-             (:ESSENTIAL ONT::affected)
-             ;;; Cause/Internal Cause
-	     (:ESSENTIAL ONT::agent ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
-              ;;; Addressee (e.g. wink at/wave to someone)
-             (:OPTIONAL ONT::Addressee)
-             ;;; Path/Goal/Area/Source
-             (:OPTIONAL ONT::Path)
-             )
  )
 
-;; hold/grasp something
 (define-type ONT::Body-manipulation
  :wordnet-sense-keys ("hold%2:35:00" "take_hold%2:35:00" "bear%2:35:01" "immobilise%2:35:00")
  :parent ONT::EVENT-OF-causation
+ :comment "and AGENT grasps something to manipulate it"
  :sem (F::Situation (F::Cause F::Agentive))
- ;;; Agent
  :arguments ((:ESSENTIAL ONT::Agent (F::phys-obj (F::intentional +)))
-             ;;; Entity
-             (:REQUIRED ONT::affected (F::phys-obj (F::intentional -)))
-             ;;; Locus
-             (:OPTIONAL ONT::Place)
-             ;;; Agent's body part
-             (:OPTIONAL ONT::Instrument (F::phys-obj (f::origin f::living) (F::intentional -)))
-             )
+	     )
  )
 
 (define-type ONT::Change-Awareness
@@ -356,7 +324,7 @@
 
 ;; cognizer evaluates something
 (define-type ONT::Scrutiny
-    :wordnet-sense-keys ("take%2:31:02" "read%2:31:05" "study%2:31:00" "learn%2:31:02" "inspect%2:31:00" "scrutinise%2:31:00" "scrutinize%2:31:00" "audit%2:31:01" "inspect%2:39:00" "try%2:41:06" "adjudicate%2:41:03" "judge%2:41:09" "measure%2:31:01" "evaluate%2:31:00" "valuate%2:31:00" "assess%2:31:00" "appraise%2:31:01" "value%2:31:00" "analyse%2:31:00" "analyse%2:31:01" "analyse%2:31:04" "check%2:42:09" "check_out%2:40:00" "follow%2:30:01" "follow%2:39:13")
+    :wordnet-sense-keys ("take%2:31:02" "read%2:31:05" "study%2:31:00" "learn%2:31:02" "inspect%2:31:00" "scrutinise%2:31:00" "scrutinize%2:31:00" "audit%2:31:01" "inspect%2:39:00" "try%2:41:06" "adjudicate%2:41:03" "judge%2:41:09" "measure%2:31:01" "evaluate%2:31:00" "valuate%2:31:00" "assess%2:31:00" "appraise%2:31:01" "value%2:31:00" "analyse%2:31:00" "analyse%2:31:01" "analyse%2:31:04" "check%2:42:09" "check_out%2:40:00" "follow%2:30:01" "follow%2:39:13" "experiment%2:41:02" "experiment%2:41:01")
     :parent ONT::cogitation
     :arguments ((:REQUIRED ONT::neutral ((? th6 f::phys-obj f::abstr-obj f::situation))) ;;Ground
 		(:OPTIONAL ONT::formal1 ((? cth f::phys-obj f::abstr-obj f::situation)))  ;;Phenomenon
@@ -503,7 +471,7 @@
 
 (define-type ONT::Cause-to-Move
  :wordnet-sense-keys ("reflect%2:39:00" "drive%2:35:01")
- :parent ont::physical-motion
+ :parent ont::motion
  :sem (F::Situation (F::Cause F::Force) (f::trajectory +))
  :arguments ((:ESSENTIAL ONT::agent)
              )
@@ -519,25 +487,25 @@
  )
 
 (define-type ONT::Co-motion
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:essential ont::neutral)   ;; the object with which the motion is relative to
              )
  )
 
 (define-type ONT::Emptying
- :parent ont::physical-motion
+ :parent ont::motion
  )
 
 (define-type ONT::Filling
  :wordnet-sense-keys ("impregnate%2:30:00" "saturate%2:30:04" "spread%2:35:13")
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:ESSENTIAL ONT::affected-result)
              )
  )
 
 ;;; Even if we do not know the path, it is implied in the verb
 (define-type ONT::Path-shape
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:ESSENTIAL ONT::Path)
              )
  )
@@ -555,7 +523,7 @@
 
 ;;; These are all cases where there is an (implicit) agent directing the motion
 (define-type ONT::directed-motion
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:ESSENTIAL ONT::agent)
              (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
              )
@@ -563,13 +531,13 @@
 
 
 (define-type ONT::Arriving
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:ESSENTIAL ONT::To-loc)
              )
  )
 
 (define-type ONT::Departing
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:ESSENTIAL ONT::From-loc)
 	     (:optional ont::neutral)
              )
@@ -578,7 +546,7 @@
 ;; enter,  ingress
 (define-type ONT::ENTERING
  :wordnet-sense-keys ("enter%2:38:00" "come_in%2:38:02" "get_into%2:38:00" "get_in%2:38:01" "go_into%2:38:00" "go_in%2:38:00" "move_into%2:38:00" "enter%2:36:00")
- :parent ont::physical-motion
+ :parent ont::motion
  :arguments ((:REQUIRED ONT::affected ((? ttype f::phys-obj)))
 	     (:ESSENTIAL ont::result (F::phys-obj (F::spatial-abstraction (? sa F::spatial-region))
 					       (F::object-function (? of f::spatial-object f::building))))
@@ -597,7 +565,7 @@
  )
 
 (define-type ONT::Transportation
- :parent ont::physical-motion
+ :parent ont::motion
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments ((:ESSENTIAL ONT::Instrument (F::phys-obj (F::object-function F::vehicle) (F::intentional -)))
              )
@@ -963,10 +931,10 @@
  )
 
 
-;; fail, neglect
+;; fail
 ;; this isn't a subtype of ont::try because the intentionality is indeterminate
 (define-type ONT::fail
- :wordnet-sense-keys ("bomb%2:41:00" "fail%2:30:07" "fail%2:40:00" "fail%2:41:00" "fail%2:41:02" "fail%2:41:08" "fail%2:41:12" "fall_short_of%2:42:00" "neglect%2:31:05")
+ :wordnet-sense-keys ("bomb%2:41:00" "fail%2:30:07" "fail%2:40:00" "fail%2:41:00" "fail%2:41:02" "fail%2:41:08" "fail%2:41:12" "fall_short_of%2:42:00" "neglect%2:41:00")
  :parent ONT::acting
  :arguments ((:OPTIONAL ONT::neutral)
 	     (:REQUIRED ONT::formal (F::Situation))
@@ -992,7 +960,7 @@
  )
 
 (define-type ONT::succeed
- :wordnet-sense-keys ("hold_one's_own%2:42:00" "succeed%2:41:00")
+ :wordnet-sense-keys ("hold_one's_own%2:42:00" "succeed%2:41:00" "excel%2:42:00")
  :parent ONT::acting
  :arguments ((:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
 	     (:REQUIRED ONT::effect (F::Situation))

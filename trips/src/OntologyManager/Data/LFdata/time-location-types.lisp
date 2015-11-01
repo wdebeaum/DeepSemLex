@@ -843,7 +843,7 @@
 ;; these are intervals such as "duration", which cannot generally be counted
 ;; or serve as time units
 (define-type ONT::TIme-interval
- :wordnet-sense-keys ("interval%1:28:00" "time_interval%1:28:00" "time%1:28:03" "clock_time%1:28:00" "time%1:28:00" "time%1:28:05" "time_period%1:28:00" "period_of_time%1:28:00" "period%1:28:00")
+ :wordnet-sense-keys ("interval%1:28:00" "time_interval%1:28:00" "time%1:28:03" "clock_time%1:28:00" "time%1:28:00" "time%1:28:05" )
  :parent ONT::TIME-OBJECT
  :arguments ((:OPTIONAL ONT::OF (F::time (f::time-function f::time-frame) (f::time-scale f::interval) (f::scale f::duration-scale)))
              ;;; a time of two hours

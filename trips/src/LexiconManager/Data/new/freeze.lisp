@@ -12,11 +12,11 @@
      (TEMPL expletive-templ) ; like rain
      )
     (
-     (LF-PARENT ont::objective-influence)
+     (LF-PARENT ont::change-integrity)
      (TEMPL affected-templ)
      (example "the ice froze")
      )
-    ((LF-PARENT ont::objective-influence)
+    ((LF-PARENT ont::change-integrity)
      (TEMPL agent-affected-xp-templ)
      (example "I froze the ice")
      )

@@ -65,7 +65,7 @@
    (SENSES 
     ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("appear-48.1.1"))
      (LF-PARENT ONT::ARRIVE)
-     (TEMPL agent-location-optional-TEMPL (xp (% W::pp (W::ptype W::at))))
+     (TEMPL affected-result-xp-TEMPL )
      (preference .98)
      )
        )
