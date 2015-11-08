@@ -11,8 +11,12 @@
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      (TEMPL agent-TEMPL)
      )
+    ((LF-PARENT ONT::STAY)
+     (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
+     (TEMPL agent-TEMPL))
+    
     ((example "the bulbs remain on")
-     (LF-PARENT ONT::maintain-activity)
+     (LF-PARENT ONT::stay)
      (TEMPL agent-theme-complex-subjcontrol-templ)
      (meta-data :origin bee :entry-date 20090220 :change-date nil :comments beetle-pilots)
      )

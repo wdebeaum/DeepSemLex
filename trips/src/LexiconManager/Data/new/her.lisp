@@ -7,7 +7,7 @@
  :words (
   (W::HER
    (SENSES
-     ((LF-PARENT ONT::PERSON)
+     ((LF-PARENT ONT::FEMALE-PERSON)
      (SYNTAX (W::CASE W::OBJ))
      )
     )
@@ -20,7 +20,7 @@
 	  (W::HER
 	   (wordfeats (W::agr W::3s) (W::stem W::she))
 	   (SENSES
-	    ((LF-PARENT ONT::PERSON))
+	    ((LF-PARENT ONT::FEMALE-PERSON))
 	    )
 	   )
 ))

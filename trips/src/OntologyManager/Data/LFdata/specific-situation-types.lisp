@@ -1250,7 +1250,7 @@
 
 
 (define-type ONT::Interact
- :wordnet-sense-keys ("interact%2:41:00" "collide%2:35:01")
+ :wordnet-sense-keys ("interact%2:41:00")
  :parent ONT::agent-interaction
  :sem (F::Situation (F::Trajectory -))
  :arguments (
@@ -2949,7 +2949,6 @@
     :parent ont::adjust
     :arguments ((:essential ont::affected (F::PHYS-OBJ (F::type ont::molecular-part)))
 		(:optional  ont::location )
-		(:optional ont::spatial-loc)
     ))
 
 (define-type ont::phosphorylation

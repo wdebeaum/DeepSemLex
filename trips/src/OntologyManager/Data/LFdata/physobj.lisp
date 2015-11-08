@@ -703,10 +703,23 @@
     :parent ONT::person
     )
 
+;; girl
+;; woman, lady, female
+(define-type ONT::female-child
+    :wordnet-sense-keys ("woman%1:18:00" "adult_female%1:18:00")
+    :parent ONT::female-person
+    )
+
 ;; man, male
 (define-type ONT::male-person
     :wordnet-sense-keys ("man%1:18:00" "adult_male%1:18:00")
     :parent ONT::person
+    )
+
+;; boy
+(define-type ONT::male-child
+    :wordnet-sense-keys ("man%1:18:00" "adult_male%1:18:00")
+    :parent ONT::male-person
     )
 
 ;; child, kid, girl, boy (need multiple inheritance for male, female)
@@ -1155,7 +1168,6 @@
 		(:OPTIONAL ONT::to-loc (F::Phys-obj))
 		(:OPTIONAL ONT::via (F::Phys-obj))
 		)
-    :coercions (((:operator ont::spatial-loc) (:result ont::location)))
     )
 
 ;; road

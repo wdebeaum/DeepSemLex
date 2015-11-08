@@ -8,7 +8,7 @@
   (W::HE
    (wordfeats (W::CASE W::SUB))
    (SENSES
-    ((LF-PARENT ONT::PERSON)
+    ((LF-PARENT ONT::MALE-PERSON)
      )
     )
    )

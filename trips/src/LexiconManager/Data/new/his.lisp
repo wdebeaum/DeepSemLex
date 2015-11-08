@@ -8,7 +8,7 @@
   (W::HIS
    (wordfeats (W::agr w::3s) (W::stem W::he))
    (SENSES
-    ((LF-PARENT ONT::PERSON)
+    ((LF-PARENT ONT::MALE-PERSON)
      (TEMPL poss-pronoun-templ)
      (example "it is his")
      )
@@ -22,7 +22,7 @@
 	   (W::HIS
 	   (wordfeats (W::agr W::3s) (W::stem W::he))
 	   (SENSES
-	    ((LF-PARENT ONT::PERSON))
+	    ((LF-PARENT ONT::MALE-PERSON))
 	    )
 	   )
 ))

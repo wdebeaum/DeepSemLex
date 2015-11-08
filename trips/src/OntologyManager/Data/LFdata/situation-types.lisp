@@ -39,6 +39,16 @@
              )
  )
 
+(define-type ONT::CAUSE-Interact
+ :wordnet-sense-keys ("interact%2:41:00" "collide%2:35:01")
+ :parent ONT::CAUSE-EFFECT
+ :sem (F::Situation (F::Trajectory -))
+ :arguments (
+	     (:REQUIRED ONT::agent ((? o1 F::Situation F::Phys-obj f::abstr-obj)))
+	     (:ESSENTIAL ONT::agent1 ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
+             )
+ )
+
 (define-type ONT::agent-interaction
  :parent ONT::event-of-action
  :comment "events that involve the interaction of two or more agents"

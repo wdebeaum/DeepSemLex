@@ -8,7 +8,7 @@
   (W::girl
    (SENSES
     ((meta-data :origin calo-ontology :entry-date 20051214 :change-date nil :wn ("girl%1:18:04") :comments nil)
-     (LF-PARENT ONT::child)
+     (LF-PARENT ONT::female-child)
      )
     )
    )
