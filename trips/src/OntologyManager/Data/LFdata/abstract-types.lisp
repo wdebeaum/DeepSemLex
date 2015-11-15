@@ -1164,8 +1164,7 @@
  :sem (F::abstr-obj (:required)(:default (F::gradability +) (f::intensity ont::hi)))
  :arguments ((:REQUIRED ONT::NEUTRAL1)
              (:ESSENTIAL ONT::NEUTRAL)
-	     (:OPTIONAL ONT::PROPERTY)
-             )
+	                  )
  )
 
 ;; own: his own truck
@@ -1181,8 +1180,8 @@
  :arguments ((:ESSENTIAL ONT::neutral)
 	     (:ESSENTIAL ONT::neutral1)
 	     (:ESSENTIAL ONT::of)
-	     (:ESSENTIAL ONT::PROPERTY)
-             )
+	     (:optional ont::formal)
+	                  )
  )
 
 ;; such as, as in. These should have the same representation as produced by the grammar rule such-X-as-Y>
@@ -1200,7 +1199,7 @@
  :arguments ((:REQUIRED ONT::neutral)
              (:ESSENTIAL ONT::neutral1)
 	     (:ESSENTIAL ONT::of)
-	     (:ESSENTIAL ONT::PROPERTY)
+	     (:ESSENTIAL ONT::formal)
              )
  )
 

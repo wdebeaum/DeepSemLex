@@ -10,7 +10,6 @@
     ((LF-PARENT ONT::METHOD)
      (example "how did he do it")
      (SYNTAX (W::IMPRO-CLASS ONT::method))
-     (SEM (F::information F::information-content))
      )
     )
    )

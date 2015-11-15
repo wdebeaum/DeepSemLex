@@ -143,7 +143,9 @@
    )
 ))
 
-(define-words :pos W::v :templ AGENT-affected-XP-TEMPL
+;; This should be compositional
+
+#||(define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :words (
    ((W::get w::dressed)
        (wordfeats (W::morph (:forms (-vb) :past w::got :ing w::getting)))
@@ -161,4 +163,4 @@
      )
     )
    )
-))
+))||#

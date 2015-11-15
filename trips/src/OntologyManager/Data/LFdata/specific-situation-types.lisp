@@ -505,12 +505,11 @@
 
 (define-type ONT::DRIVE
  :wordnet-sense-keys ("drive%2:38:01")
- :parent ONT::TRANSPORT
+ :parent ONT::MOTION
  :sem (F::situation (F::Aspect F::dynamic))
- :arguments ((:ESSENTIAL ONT::Instrument (F::Phys-obj (F::object-Function F::Vehicle) (F::Container +) (F::Mobility
-                             F::land-movable) (F::intentional -)))
+ :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Mobility F::land-movable))
              )
- )
+	     ))
 
 ;; wheel (as a verb); need a new name
 (define-type ONT::wheel-drive
@@ -548,12 +547,12 @@
 
 (define-type ONT::FLY
  :wordnet-sense-keys ("fly%2:38:00" "wing%2:38:00" "fly%2:38:07")
- :parent ONT::TRANSPORT
+ :parent ONT::MOTION
  :sem (F::situation (F::Aspect F::dynamic))
- :arguments ((:ESSENTIAL ONT::Instrument (F::Phys-obj (F::object-Function F::Vehicle) (F::Container +) (F::Mobility
-                             F::air-movable) (F::intentional -)))
+ :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Mobility
+                             F::air-movable))
              )
- )
+ ))
 
 
 ;;; Note that we reserve self-movement for "undirected" verbs
@@ -1226,9 +1225,16 @@
 
 ;; kill, destroy
 (define-type ont::destroy
- :wordnet-sense-keys ("kill%2:35:00" "destroy%2:35:00" "destroy%2:36:00" "destroy%2:35:01" "down%2:38:00" "kill%2:35:01" "kill%2:35:02")
+ :wordnet-sense-keys ("destroy%2:35:00" "destroy%2:36:00" "destroy%2:35:01" "down%2:38:00")
   :parent ont::change-state
    )
+
+(define-type ont::kill
+    :wordnet-sense-keys ("kill%2:35:00" "kill%2:35:01" "kill%2:35:02")
+    :comment "killing a living being"
+    ;;:definitions ((cause-effect :agent (R :agent) :formal (ont::die :affected (R :affected))))
+    :parent ont::destroy
+    )
 
 ;; denude, depopulate
 (define-type ONT::destroy-part-of-whole
@@ -3463,8 +3469,7 @@
  :parent ONT::event-of-undergoing-action
  :sem (F::Situation (F::Aspect F::Dynamic) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::affected)
-	     (:ESSENTIAL ONT::PROPERTY) ;; become nauseous
-	     (:essential ont::formal) ;; he became a manager
+	     (:essential ont::formal) 
              )
  )
 
@@ -4161,6 +4166,7 @@
  :parent ont::scrutiny
  :arguments ((:REQUIRED ONT::Formal ((? th30 f::phys-obj f::abstr-obj f::situation)))
              (:ESSENTIAL ONT::Agent (f::phys-obj  (f::origin (? org f::human f::non-human-animal)) (F::intentional +)))
+	     (:ESSENTIAL ONT::LOCATION)
              )
  )
 

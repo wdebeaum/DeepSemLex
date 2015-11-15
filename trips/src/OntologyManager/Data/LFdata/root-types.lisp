@@ -81,7 +81,7 @@
      :parent ONT::event-of-change
      :comment "A small class of events that take an affected but do not allow an AGENT"
      :sem (F::Situation)
-     :arguments ((:essential ONT::affected  ((? aff F::Abstr-obj f::phys-obj)))))
+     :arguments ((:essential ONT::affected  ((? aff F::Abstr-obj f::phys-obj f::situation)))))
 
 (define-type ont::event-of-causation 
      :parent ONT::event-of-action
