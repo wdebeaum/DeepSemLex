@@ -20,9 +20,9 @@
      )
     ((meta-data :origin calo-ontology :entry-date 20060315 :change-date 20090506 :comments nil)
      ;;(LF-PARENT ONT::announce)
-     (lf-parent ont::assert)
+     (lf-parent ont::encodes-message)
      (example "the report disclosed that they left")
-     (TEMPL instrument-theme-xp-templ (xp (% w::cp (w::ctype w::s-that)))) ; like report
+     (TEMPL neutral-theme-xp-templ (xp (% w::cp (w::ctype w::s-that)))) ; like report
      )
     )
    )

@@ -38,12 +38,5 @@
      (TEMPL AGENT-ASSOCIATED-INFORMATION-TEMPL  (xp (% W::PP (W::ptype W::for))))
      (meta-data :origin step :entry-date 20080629 :change-date 20090508 :comments nil)
      )
-    ((EXAMPLE "the agenda calls for change")
-     (LF-PARENT ONT::convey)
-     (TEMPL instrument-theme-xp-TEMPL  (xp (% W::PP (W::ptype W::for))))
-     (meta-data :origin step :entry-date 20080629 :change-date 20090508 :comments nil)
-     )
-    )
-   )
-))
+    ))))
 

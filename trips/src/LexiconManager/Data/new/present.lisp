@@ -28,10 +28,10 @@
      (example "she presented to New York hospital")
      (TEMPL AGENT-TEMPL))
 
-    ((LF-PARENT ONT::visual-display)
+    ((LF-PARENT ONT::encodes-message)
      (meta-data :origin "bee" :entry-date 20091394 :change-date nil :comments nil)
      (example "this book presents a different solution")
-     (TEMPL INSTRUMENT-THEME-XP-TEMPL)
+     (TEMPL neutral-THEME-XP-TEMPL)
      (Preference 0.97) ;; choose agentive interpretation whenever possible
      )
     )

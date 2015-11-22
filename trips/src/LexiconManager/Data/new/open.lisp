@@ -20,12 +20,7 @@
 	     (example "after the piston moves downward the valve opens")
 	     (meta-data :origin mobius :entry-date 20080702 :change-date 20091008 :comments nil)
 	     )
-	   #|| ((LF-parent ont::open)
-	     (example "a damaged bulb opens a path")
-	     (meta-data :origin beetle2 :entry-date 20070617 :change-date 20091008 :comments pilot2)
-	     (templ instrument-theme-xp-templ)
-	     )||#	    
-	    ))
+	  	    ))
 ))
 
 (define-words :pos W::adj :templ CENTRAL-ADJ-TEMPL
