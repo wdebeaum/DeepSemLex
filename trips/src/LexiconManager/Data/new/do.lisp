@@ -27,7 +27,7 @@
     ((LF-PARENT ONT::EXECUTE)
      (example "I did it." "I did the task")
      (SEM (F::Aspect F::Unbounded) (F::Time-span F::extended))
-     (TEMPL agent-affected-xp-templ)
+     (TEMPL agent-neutral-xp-templ)
      (example "I did the activity")
      )
       )
@@ -43,7 +43,7 @@
 	      (senses
 	       ((lf-parent ont::objective-influence)
 		(example "It did damage to a battery")
-		(TEMPL agent-RESULT-AFFECTED-XP-TEMPL) 
+		(TEMPL agent-RESULT-TO-AFFECTED-optional-TEMPL) 
 		(meta-data :origin bee :entry-date 20040805 :change-date nil :comments portability-followup)
 		)
 	       ))

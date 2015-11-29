@@ -29,8 +29,6 @@
 ; figure is viewed as a point
 (define-type ont::position-as-point-reln
  :parent ont::position-reln
-; :arguments ((:ESSENTIAL ONT::OF ((? of f::phys-obj (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)))))
-;             )
  )
 
 ; figure is viewed as a point and related to ground by (abstract) containment
@@ -46,6 +44,8 @@
 ; in, within, inside (of)
 (define-type ont::in-loc
   :parent ont::pos-as-containment-reln
+  :arguments ((:ESSENTIAL ONT::VAL ((? val f::phys-obj)
+				   )))
   )
 
 ; figure is outside a container, group or area

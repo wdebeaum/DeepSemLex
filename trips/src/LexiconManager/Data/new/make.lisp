@@ -41,6 +41,14 @@
      )
     (
      (LF-PARENT ONT::cause-effect) ;; GUM change new parent 20121027
+     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+       ;;;; at the moment this needs a different template from above; should try to consolidate
+     (TEMPL agent-EFFECT-affected-OBJCONTROL-TEMPL (xp (% W::VP (W::vform W::base))))
+     (meta-data :origin medadvisor :entry-date 20011126)
+     (example "aspirin makes him bleed")
+     )
+    (
+     (LF-PARENT ONT::cause-effect) ;; GUM change new parent 20121027
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (TEMPL agent-effect-xp-templ (xp (% W::NP (w::gerund -))))
      )

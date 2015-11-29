@@ -22,9 +22,9 @@
  :parent ONT::acting
  :comment "an AGENT causes some event to occur or proposition to become true"
  :sem (F::Situation (F::Cause (? cz F::Force f::agentive)) (F::Trajectory -))
- :arguments ((:ESSENTIAL ONT::agent((? oc F::Phys-obj F::Abstr-obj F::Situation)))
+ :arguments ((:ESSENTIAL ONT::agent ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
 	     (:optional ont::affected)
-	     (:essential ont::result)
+	     (:essential ont::result ((? res F::SITUATION F::ABSTR-OBJ)))
 	     (:optional ont::formal) ;; here for now while we decide the FORMAL/RESULT issue
 	     )
  )
@@ -181,7 +181,7 @@
     :sem (F::Situation (F::Trajectory -))
  :arguments ((:REQUIRED ONT::Affected ((? o1 F::Situation F::Phys-obj f::abstr-obj)))
 	     (:ESSENTIAL ONT::agent ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
-	     (:OPTIONAL ONT::Result (F::Phys-obj))
+	     (:OPTIONAL ONT::Result ((? res F::situation F::abstra-obj)))
 	     )
  )
 

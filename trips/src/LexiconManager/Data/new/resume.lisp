@@ -15,7 +15,7 @@
     ((lf-parent ont::resume-action)
      (SEM (F::Cause F::Agentive) (F::Locative F::Located) (F::Time-span F::extended))
      (example "resume the search")
-     (TEMPL AGENT-ACTION-OPTIONAL-TEMPL)
+     (TEMPL AGENT-neutral-OPTIONAL-TEMPL)
      (meta-data :origin plow :entry-date 20050401 :change-date 20091008 :comments nil)
      )
     ))

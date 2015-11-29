@@ -18,7 +18,7 @@
 (define-words :pos W::v 
  :words (
 (W::feed
-    (wordfeats (W::morph (:forms (-vb) :pastpart W::fed)))
+    (wordfeats (W::morph (:forms (-vb) :past W::fed :pastpart W::fed)))
    (SENSES
     ((meta-data :origin cardiac :entry-date 20090406 :change-date nil :comments nil)
      (LF-PARENT ONT::consume)
@@ -28,10 +28,12 @@
      )
     ((LF-PARENT ONT::giving)
      (example "feed some bread to the dog")
-     (TEMPL agent-affected-goal-templ) ; like grant,offer
+;     (TEMPL agent-affected-goal-templ) ; like grant,offer
+     (TEMPL AGENT-AFFECTED-AR-TO-TEMPL)
      )
     ((lf-parent ont::giving)
-     (templ agent-affected-recipient-alternation-templ)
+;     (templ agent-affected-recipient-alternation-templ)
+     (templ AGENT-RECIPIENT-affected-TEMPL)
      (example "feed the dog some bread")
      )
     

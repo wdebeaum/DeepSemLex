@@ -24,10 +24,12 @@
   (W::return
    (wordfeats (W::morph (:forms (-vb) :nom W::return)))
    (SENSES
-    ((LF-PARENT ONT::GO-BACK)
-     (example "he returned from/to avon")
+;    ((LF-PARENT ONT::GO-BACK)
+    ((LF-PARENT ONT::RESTART)
+     (example "he returned to watching tv")
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL agent-templ)
+;     (TEMPL agent-templ)
+     (TEMPL AGENT-FORMAL-TEMPL)
      )
    #|| ((LF-PARENT ONT::RETURN)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
@@ -36,9 +38,9 @@
      (PREFERENCE 0.98)
      )||#
     ((LF-PARENT ONT::RETURN)
-     (example "return him to the station")
+     (example "he returned to/from Avon" "return him to the station")
      (SEM (F::Cause F::agentive) (F::Aspect F::bounded) (F::time-span F::atomic))
-     (TEMPL agent-affected-xp-templ)
+     (TEMPL agent-affected-xp-optional-templ)
      )
     ((lf-parent ont::giving)
      (templ agent-affected-recipient-alternation-templ)

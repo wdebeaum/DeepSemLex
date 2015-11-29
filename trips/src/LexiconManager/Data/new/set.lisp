@@ -35,6 +35,7 @@
  :tags (:base500)
  :words (
   (W::SET
+   (wordfeats (W::morph (:forms (-vb) :past W::set :ing W::setting)))
    (SENSES
     ((lf-parent ont::change-device-state)
      (TEMPL AGENT-affected-RESULT-TEMPL (xp (% w::pp (w::ptype w::to))))

@@ -12,6 +12,7 @@
     ((LF-PARENT ONT::CONJUNCT)
      )
     ((LF-PARENT ONT::SEQUENCE-POSITION)
+     (TEMPL pred-s-vp-templ)
      )
     )
    )  

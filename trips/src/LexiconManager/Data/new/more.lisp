@@ -17,3 +17,15 @@
    )
 ))
 
+(define-words :pos W::ADV
+ :words (
+  (W::MORE
+   (SENSES
+    ((LF-PARENT ONT::degree-modifier)
+     (TEMPL PRED-S-POST-TEMPL)
+     (example "Eat more.")
+     )
+    )
+   )
+))
+

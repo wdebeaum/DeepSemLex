@@ -42,9 +42,9 @@
     
     ((LF-PARENT ONT::MOVE)
      (SEM (F::aspect F::unbounded) (F::time-span F::extended))
-     (example "go to amazon dot com"" go by the store")
+     (example "go to amazon dot com" "go by the store")
      (meta-data :origin plow :entry-date 20050315 :change-date nil :comments nil)
-     (TEMPL AGENT-goal-TEMPL (xp (% w::pp (w::ptype (? pt w::to)))))
+     (TEMPL AGENT-goal-XP-TEMPL (xp (% w::pp (w::ptype (? pt w::to)))))
      )
     ((meta-data :origin plow :entry-date 20060113 :change-date nil :comments pqs)
      (EXAMPLE "this goes here" "the title goes in the textbox")
@@ -64,6 +64,11 @@
      (TEMPL AGENT-effect-SUBJCONTROL-TEMPL (xp (% W::vp (W::vform W::base))))
      (SYNTAX (W::morph (:forms NIL)) (W::vform W::base))
      (PREFERENCE 0.92)    ;;;; use any other possible sense first
+     )
+    ((LF-PARENT ONT::DEPART)
+     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (example "This ugly carpet goes.")
+     (TEMPL AGENT-TEMPL)
      )
    
    ))
@@ -122,7 +127,7 @@
     ;;;; go on with the story
     ((LF-PARENT ONT::ACTIVITY-ONGOING)
      (SEM (F::Cause F::Agentive) (F::Aspect F::unbounded) (F::Time-span F::extended))
-     (TEMPL AGENT-ACTION-OPTIONAL-TEMPL (xp (% W::pp (W::ptype W::with))))
+     (TEMPL AGENT-neutral-OPTIONAL-TEMPL (xp (% W::pp (W::ptype W::with))))
      (meta-data :origin bee :entry-date ? :change-date 20040805 :comments portability-followup)
      )
     ((LF-PARENT ONT::START-OBJECT)

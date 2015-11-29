@@ -65,7 +65,7 @@
     ;;;; continue on with the plan
     ((LF-PARENT ONT::ACTIVITY-ONGOING)
      (SEM (F::Cause F::Agentive) (F::Aspect F::unbounded) (F::Time-span F::extended))
-     (TEMPL AGENT-ACTION-OPTIONAL-TEMPL (xp (% W::pp (W::ptype W::with))))
+     (TEMPL AGENT-neutral-OPTIONAL-TEMPL (xp (% W::pp (W::ptype W::with))))
      (meta-data :origin bee :entry-date ? :change-date 20040805 :comments portability-followup)
      )
     ))

@@ -1151,7 +1151,8 @@
 (define-type ont::activity-ongoing
     :parent ont::event-of-action
     :sem (f::situation (:default (f::aspect f::dynamic) (f::cause f::phenomenal)) (:required (f::trajectory -)))
-    :arguments ((:essential ont::action (f::situation)) ;; this would be the interview which went well
+    :arguments ((:essential ont::formal (f::situation)) ;; this would be the interview which went well
+		(:essential ont::neutral) 
 		(:optional ont::agent ((? agt f::phys-obj f::abstr-obj) (f::intentional +))) ;; this is the person who keeps going
 		))
 
@@ -1510,7 +1511,7 @@
  ;;; basically any - restriction comes from somewhere else
  :arguments ((:REQUIRED ONT::Formal ((? o F::Phys-obj F::abstr-obj F::situation)))
 	     (:optional ont::neutral) ;; the trucks needs repair??
-	     (:optional ont::action (f::situation))
+	     
              )
  )
 
@@ -2710,7 +2711,7 @@
  :wordnet-sense-keys ("take%2:40:06" "occupy%2:40:08" "use_up%2:40:02")
  :parent ONT::event-of-state
  :sem (F::Situation (f::cause -) (f::trajectory -))
- :arguments ((:REQUIRED ONT::formal ((? ttp F::Situation F::phys-obj) (F::Aspect (? asp f::dynamic f::stage-level)))) ;; shouldn't this be ont::action
+ :arguments ((:REQUIRED ONT::formal ((? ttp F::Situation F::phys-obj) (F::Aspect (? asp f::dynamic f::stage-level)))) 
              (:REQUIRED ONT::Duration  (F::abstr-obj (F::scale F::duration-scale)))
              ;;; it will take the truck 5 minutes [to arrive]
              (:OPTIONAL ONT::neutral (f::phys-obj))
@@ -3040,9 +3041,9 @@
  :arguments ((:REQUIRED ONT::Agent (F::Phys-obj (F::origin F::human)))
              ;;(:REQUIRED ONT::Formal (f::phys-obj (f::origin (? fo F::Natural-non-human f::non-living))))
 	     (:essential ont::affected);; (f::phys-obj))  ;; one of these gives an error - need to check when I have time
-	     (:OPTIONAL ONT::affected-result);; (f::phys-obj))
-	     (:OPTIONAL ONT::result (f::phys-obj)
-             ))
+	     (:OPTIONAL ONT::affected-result  (f::phys-obj))
+	     ;;(:OPTIONAL ONT::result (f::phys-obj)
+             )
  )
 
 ;; specific types for caet
@@ -3960,7 +3961,7 @@
     :sem (f::situation (f::cause f::agentive) (f::aspect f::dynamic))
     :arguments ((:optional ONT::Agent  ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
 		(:required ONT::Formal (F::abstr-obj)) ;; correspnords to norm/act (non-disambiguatable) no restrictions so far: stick with rules/notation/behavior
-		(:optional ONT::Action (f::situation)) ;; state_of_affairs, to be used in "his actions adhered to / complied with the law
+		
 		))
 
 (define-type ont::employment
