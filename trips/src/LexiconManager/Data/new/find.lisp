@@ -2,7 +2,7 @@
 ;;;; W::find
 ;;;;
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :words (
   ((W::find (W::out))
    (wordfeats (W::morph (:forms (-vb) :past W::found)))
@@ -50,14 +50,11 @@
      (LF-PARENT ONT::come-to-understand)
      (TEMPL agent-formal-xp-templ)
      )
-;    (
-;     (LF-PARENT ONT::come-to-understand)
-;     (TEMPL agent-neutral-xp-templ)
-;     )
     
     ((EXAMPLE "Find a clear lane")
      (meta-data :origin lou :entry-date 20040615 :change-date nil :comments nil)
      (LF-PARENT ONT::FIND)
+     (templ agent-affected-xp-templ)
      )
     )
    )

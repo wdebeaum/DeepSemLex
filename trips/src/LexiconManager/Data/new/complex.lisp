@@ -50,7 +50,7 @@
      )
 
     ((LF-PARENT ONT::ATTACH)
-     (TEMPL affected-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::with)))))
+     (TEMPL agent-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::with)))))
      (example "this protein complexed with another protein")
      )
 

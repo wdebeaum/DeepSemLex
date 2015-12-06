@@ -13,7 +13,7 @@
      )
     ((LF-PARENT ONT::correlation)
      (example "a cough indicates whether a person has a cold")
-     (TEMPL neutral-theme-xp-templ (xp (% w::cp (w::ctype (? ct w::s-that w::s-if)))))
+     (TEMPL neutral-theme-xp-templ (xp (% w::cp (w::ctype (? ct w::s-finite)))))
      )
     )
    )

@@ -12,7 +12,7 @@
      (TEMPL agent-addressee-templ) ; like thank
      )
     ((meta-data :origin cardiac :entry-date 20090121 :change-date nil :comments nil :vn ("judgement-33"))
-     (LF-PARENT ont::fighting)
+     (LF-PARENT ont::ATTACK)
      (example "the smell assualted his senses")
      (TEMPL agent-affected-xp-templ) 
      )

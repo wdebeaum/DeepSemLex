@@ -24,6 +24,7 @@
     ((lf-parent ont::undergo-action)
      (example "I kept going")
      (TEMPL affected-TEMPL)
+     (preference .97)  ;; this really should be a last resort
      (meta-data :origin bee :entry-date 20040805 :change-date nil :comments portability-followup))
     ((lf-parent ont::occurring)
      (example "The interview went well")
@@ -44,7 +45,7 @@
      (SEM (F::aspect F::unbounded) (F::time-span F::extended))
      (example "go to amazon dot com" "go by the store")
      (meta-data :origin plow :entry-date 20050315 :change-date nil :comments nil)
-     (TEMPL AGENT-goal-XP-TEMPL (xp (% w::pp (w::ptype (? pt w::to)))))
+     (TEMPL AGENT-TEMPL)
      )
     ((meta-data :origin plow :entry-date 20060113 :change-date nil :comments pqs)
      (EXAMPLE "this goes here" "the title goes in the textbox")
@@ -55,7 +56,7 @@
      (example "go to/and fix the power lines")
      (SEM (F::aspect F::unbounded) (F::time-span F::extended))
      (TEMPL AGENT-effect-SUBJCONTROL-TEMPL (xp (% W::cp (W::ctype (? ct W::s-and)))))
-     (PREFERENCE 0.92)    ;;;; use any other possible sense first
+     (PREFERENCE 0.97)    ;;;; use any other possible sense first
      )
     ;;;; for imperatives only
     ((EXAMPLE "Go find it")
@@ -63,13 +64,13 @@
      (SEM (F::aspect F::unbounded) (F::time-span F::extended))
      (TEMPL AGENT-effect-SUBJCONTROL-TEMPL (xp (% W::vp (W::vform W::base))))
      (SYNTAX (W::morph (:forms NIL)) (W::vform W::base))
-     (PREFERENCE 0.92)    ;;;; use any other possible sense first
+     (PREFERENCE 0.97)    ;;;; use any other possible sense first
      )
-    ((LF-PARENT ONT::DEPART)
+    #||((LF-PARENT ONT::DEPART)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (example "This ugly carpet goes.")
      (TEMPL AGENT-TEMPL)
-     )
+     )||#
    
    ))
 ))

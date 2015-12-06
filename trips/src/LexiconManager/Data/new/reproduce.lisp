@@ -14,11 +14,6 @@
 	     (templ agent-affected-create-templ)
 	     (meta-data :origin bee :entry-date 20040614 :change-date nil :comments portability-experiment)
 	     )	   	   
-	    #||((lf-parent ont::create)
-	     (example "reproduce a circuit")
-	     (templ agent-result-templ)
-	     (meta-data :origin bee :entry-date 20040805 :change-date nil :comments portability-experiment)
-	     )||#	   	   
-	    ))
+	    	    ))
 ))
 

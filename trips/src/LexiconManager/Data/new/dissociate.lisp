@@ -9,7 +9,7 @@
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("separate-23.1-2"))
      (LF-PARENT ONT::separation)
-     (TEMPL affected-affected-as-comp-templ (xp (% w::pp (w::ptype (? t w::from)))))
+     (TEMPL agent-affected-as-comp-templ (xp (% w::pp (w::ptype (? t w::from)))))
      )
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date nil :comments nil :vn ("separate-23.1-2"))
      (LF-PARENT ONT::separation)

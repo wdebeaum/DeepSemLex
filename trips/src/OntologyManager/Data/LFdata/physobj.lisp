@@ -1669,7 +1669,7 @@
     )
 
 (define-type ont::tool
-    :parent ont::device
+    :parent ont::EQUIPMENT
     :wordnet-sense-keys ("tool%1:06:00")
     :sem (f::phys-obj (f::object-function f::instrument))
     )
@@ -1715,7 +1715,7 @@
 ;; weapon
 (define-type ONT::weapon
     :parent ONT::device
-    :wordnet-sense-keys ("weapon%1:06:00" "arm%1:06:01" "weapon_system%1:06:00")
+    :wordnet-sense-keys ("weapon%1:06:00" "arm%1:06:01" "weapon_system%1:06:00" "warhead%1:06:00::")
     :sem (f::phys-obj (F::mobility F::non-self-moving))
     )
 
@@ -1742,7 +1742,7 @@
 
 ;; sink, bathtub, fixture
 (define-type ONT::fixture
-    :parent ONT::device
+    :parent ONT::MANUFACTURED-OBJECT
     :sem (F::Phys-obj (F::Origin F::Artifact))
     :wordnet-sense-keys ("fixture%1:06:00")
     )
@@ -1872,7 +1872,7 @@
 
 (define-type ONT::wireless
     :wordnet-sense-keys ("wireless_local_area_network%1:06:00" "WLAN%1:06:00" "wireless_fidelity%1:06:00" "WiFi%1:06:00")
-    :parent ONT::Machine
+    :parent ONT::COMPUTER-PART
     :arguments ((:OPTIONAL ONT::OF (f::Phys-obj (f::origin f::artifact)))
 		)
     )
@@ -2202,7 +2202,7 @@
     :wordnet-sense-keys ("drawer%1:06:00")
     )
 
-(define-type ont::refridgerator
+(define-type ont::refrigerator
     :parent ont::appliance
     :wordnet-sense-keys ("refrigerator%1:06:00" "icebox%1:06:00")
     )

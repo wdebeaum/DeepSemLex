@@ -13,7 +13,7 @@
      )
     ((EXAMPLE "they joined together")
      (LF-PARENT ONT::JOINING)
-     (TEMPL affected-plural-templ) 
+     (TEMPL agent-plural-templ) 
      (meta-data :origin general :entry-date 20110128 :change-date nil :comments jantzen)
      )
 

@@ -16,13 +16,13 @@
  
     ((LF-PARENT ONT::UNATTACH)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
-     (TEMPL affected-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::from)))))
+     (TEMPL agent-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::from)))))
      (example "It unbinds from the stretcher")
      )
 
     ((LF-PARENT ONT::UNATTACH)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
-     (TEMPL affected-plural-TEMPL)
+     (TEMPL agent-plural-TEMPL)
      (example "They unbind")
      )
 

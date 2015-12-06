@@ -1036,7 +1036,7 @@
 ;;; This is "no formal" restart referring to dialogue level
 ;; restart, start again, start over
 (define-type ONT::RESTART
-  :wordnet-sense-keys ("restart%2:38:00" "re-start%2:38:00")
+  :wordnet-sense-keys ("restart%2:30:00")
  :parent ONT::start
  :sem (F::SITUATION (F::Cause F::agentive) (F::Trajectory -) (F::Time-span F::atomic))
  )
@@ -1149,17 +1149,21 @@
 ;; because this is too specific and difficult to disambiguate
 ;; this will be keep, continue, go on, proceed and so forth
 (define-type ont::activity-ongoing
+  :wordnet-sense-keys ("keep%2:30:10" "preserve%2:30:00" "maintain%2:40:10" "keep%2:40:10" "save%2:40:03" "keep%2:40:09" "hold_open%2:40:00" "keep_open%2:40:00" "maintain%2:34:00" "keep%2:34:00" "sustain%2:34:00" "keep_on%2:41:00" "keep%2:41:02" "continue%2:41:00" "retain%2:41:01" "maintain%2:31:00" "keep%2:31:00" "observe%2:31:00" "hold%2:42:00" "maintain%2:42:00" "keep%2:42:00" "continue%2:42:01" "go_on%2:42:00" "proceed%2:42:00" "go_along%2:42:00" "keep%2:42:07" "persist%2:42:01" "welter%2:31:00" "sustain%2:42:01" "keep_up%2:33:00")
     :parent ont::event-of-action
     :sem (f::situation (:default (f::aspect f::dynamic) (f::cause f::phenomenal)) (:required (f::trajectory -)))
     :arguments ((:essential ont::formal (f::situation)) ;; this would be the interview which went well
 		(:essential ont::neutral) 
-		(:optional ont::agent ((? agt f::phys-obj f::abstr-obj) (f::intentional +))) ;; this is the person who keeps going
+		(:optional ont::agent ((? agt f::phys-obj f::abstr-obj))) 
 		))
 
+; merged into RESTART
+#|
 ;; resume, recommence
 (define-type ONT::resume-action
  :parent ONT::activity-ongoing
  )
+|#
 
 ;;; When something happens, there are no agents
 (define-type ONT::Happen
@@ -2134,10 +2138,9 @@
  :parent ONT::PUT
  )
 
-;; something that means something (to someone - the experiencer)
 (define-type ONT::Correlation
- :wordnet-sense-keys ("indicate%2:32:02" "argue%2:32:01" "imply%2:32:01" "entail%2:42:01" "imply%2:42:00" "mean%2:42:00" "affirm%2:31:00" "conform%2:42:06" "intend%2:32:02" "read%2:32:02:")
- :parent ONT::event-of-experience
+ :wordnet-sense-keys ("indicate%2:32:02" "argue%2:32:01" "imply%2:32:01" "entail%2:42:01" "imply%2:42:00" "mean%2:42:00" "affirm%2:31:00" "read%2:32:02:")
+ :parent ONT::event-of-state
  :sem (F::situation (F::aspect F::static) (F::trajectory -))
  :arguments ((:ESSENTIAL ONT::neutral ((? n  F::Phys-obj f::abstr-obj) (F::intentional -)))
 	     (:OPTIONAL ONT::neutral1 ((? n1 F::Phys-obj f::abstr-obj)))
@@ -2148,7 +2151,7 @@
 (define-type ONT::encodes-message
  :wordnet-sense-keys ("read%2:42:00" "go%2:42:02")
  :arguments ((:REQUIRED ONT::neutral ((? n  F::Phys-obj f::abstr-obj) (f::information f::information-content))))
- :parent ONT::correlation
+ :parent ONT::EVENT-OF-STATE
  )
 
 (define-type ONT::RELATE
@@ -2282,28 +2285,6 @@
 	     (:ESSENTIAL ONT::Result)
              (:OPTIONAL ONT::Property ((? prop F::abstr-obj)))
              )
- )
-
-(define-type ONT::cause-make-things
- :wordnet-sense-keys ("create_from_raw_material%2:36:00" "create_from_raw_stuff%2:36:00")
-  :parent ONT::cause-make
-  :arguments ((:ESSENTIAL ONT::Result ((? o1 F::Phys-obj f::abstr-obj)))
-	      (:ESSENTIAL ONT::AFFECTED-result ((? o2 F::Phys-obj f::abstr-obj))))
-  )
-
-(define-type ONT::GENE-EXPRESSION
- :wordnet-sense-keys ("gene_expression%1:19:00" "expression%1:22:00" "express%2:39:09")
- :parent ONT::cause-make-things
- )
-
-(define-type ONT::GENE-TRANSCRIPTION
- :wordnet-sense-keys ("transcription%1:22:00" "transcribe%2:30:00")
- :parent ONT::cause-make-things
- )
-
-(define-type ONT::GENE-TRANSLATION
- :wordnet-sense-keys ("translation%1:22:00" "translate%2:32:05")
- :parent ONT::cause-make-things
  )
 
 (define-type ONT::Command
@@ -2497,7 +2478,8 @@
 (define-type ont::take
     :wordnet-sense-keys ("take%2:41:04")
     :parent ont::execute
-    )
+    :arguments ((:ESSENTIAL ONT::Formal ((? t F::situation)))
+		))
 
 ;; work (on) -- do work (see also related concept ont::function)
 (define-type ONT::WORKING
@@ -2738,6 +2720,8 @@
              )
  )
 
+; merged into ACTIVITY-ONGOING
+#|
 (define-type ONT::MAINTAIN-ACTIVITY
  :wordnet-sense-keys ("keep%2:30:10" "preserve%2:30:00" "maintain%2:40:10" "keep%2:40:10" "save%2:40:03" "keep%2:40:09" "hold_open%2:40:00" "keep_open%2:40:00" "maintain%2:34:00" "keep%2:34:00" "sustain%2:34:00" "keep_on%2:41:00" "keep%2:41:02" "continue%2:41:00" "retain%2:41:01" "maintain%2:31:00" "keep%2:31:00" "observe%2:31:00" "hold%2:42:00" "maintain%2:42:00" "keep%2:42:00" "continue%2:42:01" "go_on%2:42:00" "proceed%2:42:00" "go_along%2:42:00" "keep%2:42:07" "persist%2:42:01" "welter%2:31:00" "sustain%2:42:01" "keep_up%2:33:00")
     :parent ONT::cause-effect
@@ -2746,6 +2730,7 @@
 		(:essential ont::effect ((? ef f::abstr-obj f::situation f::phys-obj)))
 		)
     )
+|#
 
 ; renamed -- maintain-activity
 ;(define-type ONT::MAINTAIN-STATE
@@ -2767,9 +2752,34 @@
 	     ;;(:ESSENTIAL ONT::Agent (F::Phys-obj (F::intentional +)))
 	     ;; for "An open switch creates a gap / FN: "it created fanatics during the Aphgan war"
 	     ;; the process creates compression
-	     (:OPTIONAL ONT::agent((? cs F::Phys-obj f::abstr-obj) (F::intentional -)))
+	     (:OPTIONAL ONT::agent((? cs F::Phys-obj f::abstr-obj) ))
 	     (:OPTIONAL ONT::result ((? res F::Phys-obj f::abstr-obj) (F::intentional -))) ;; he made a box from paper
              )
+ )
+
+(define-type ONT::cause-make-things
+ :wordnet-sense-keys ("create_from_raw_material%2:36:00" "create_from_raw_stuff%2:36:00")
+  :parent ONT::CREATE
+  :arguments ((:ESSENTIAL ONT::Result ((? o1 F::Phys-obj f::abstr-obj)))
+	      (:ESSENTIAL ONT::AFFECTED-result ((? o2 F::Phys-obj f::abstr-obj))))
+  )
+
+(define-type ONT::GENE-EXPRESSION
+ :wordnet-sense-keys ("gene_expression%1:19:00" "expression%1:22:00" "express%2:39:09")
+ :parent ONT::cause-make-things
+ :arguments ((:essential ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part))))
+ )
+
+(define-type ONT::GENE-TRANSCRIPTION
+ :wordnet-sense-keys ("transcription%1:22:00" "transcribe%2:30:00")
+ :parent ONT::cause-make-things
+ :arguments ((:essential ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part))))
+ )
+
+(define-type ONT::GENE-TRANSLATION
+ :wordnet-sense-keys ("translation%1:22:00" "translate%2:32:05")
+ :parent ONT::cause-make-things
+ :arguments ((:essential ont::affected (F::PHYS-OBJ (F::type ont::molecular-part))))
  )
 
 
@@ -2940,6 +2950,8 @@
 
 (define-type ONT::change-format
  :parent ONT::adjust
+ :arguments ((:optional ont::affected ((? ff F::PHYS-OBJ F::Abstr-obj F::Situation)  (F::type F::INFORMATION-CONTENT) ))
+	     )
  )
 
 (define-type ONT::modify
@@ -3122,6 +3134,11 @@
              )
  )
 
+(define-type ONT::ATTACK
+ :wordnet-sense-keys ("attack%2:33:00" "attack%2:32:00" "attack%2:33:02" "attack%2:29:00")
+ :parent ONT::OBJECTIVE-INFLUENCE
+ )
+
 ;; for configure, arrange X (into Y) e.g. he arranged them into groups of three
 (define-type ONT::arranging
  :wordnet-sense-keys ("set_up%2:35:00" "arrange%2:35:00" "reorient%2:30:00" "put%2:35:05" "arrangement%1:09:00" "organization%1:09:00" "organisation%1:09:00" "system%1:09:02" "put_aside%2:35:00" "address%2:32:02")
@@ -3167,6 +3184,7 @@
     :parent ONT::change-state
     :sem (F::SITUATION (:default (F::Cause F::agentive)) (:required (F::trajectory -)))
     :arguments ((:OPTIONAL ONT::Agent)
+		(:OPTIONAL ONT::Agent1)
 	     ;;; Whole, Part-1
 		(:REQUIRED ONT::affected((? thm F::phys-obj F::abstr-obj)))
 	                  ;;; Part-2
@@ -3238,8 +3256,9 @@
 (define-type ONT::BIND-INTERACT
  :parent ONT::ATTACH
  :sem (F::Situation (F::Aspect F::Dynamic) (F::Cause F::Agentive))
- :arguments ((:required ont::affected (F::PHYS-OBJ (F::type ont::molecular-part)))
-	     (:essential ont::affected1 (F::PHYS-OBJ (F::type ont::molecular-part)))
+ :arguments ((:required ont::agent (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     (:optional ont::agent1 (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     (:optional ont::affected (F::PHYS-OBJ (F::type ont::molecular-part)))
 	     )
  )
 
@@ -3565,9 +3584,9 @@
  :wordnet-sense-keys ("maintain%2:32:04" "keep%2:32:00" "take%1:04:00")
  :parent ONT::event-of-action
  :sem (F::situation)
- :arguments ((:REQUIRED ONT::Formal ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
+ :arguments ((:optional ONT::Formal ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
              (:REQUIRED ONT::Agent)
-	     (:optional ont::neutral)
+	     (:optional ont::neutral (?ttype (f::information f::information-content)))
              )
  )
 

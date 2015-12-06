@@ -26,7 +26,8 @@
      (meta-data :origin trips :entry-date nil :change-date 20073003 :comments csli-revision)
      (TEMPL PASSIVE-TEMPL)
      )
-    ;;;; .. be happywas.
+
+    ;;;; .. be happy
     ((LF-PARENT ONT::HAVE-PROPERTY)
      (LF-FORM W::be)
      (TEMPL neutral-pred-xp-templ)
@@ -40,6 +41,9 @@
      (TEMPL neutral-neutral-equal-templ)
      ;;(PREFERENCE 0.96)
      )
+
+   
+    
     ;;;; .. there is a box
     ((LF-PARENT ONT::EXISTS)
      (LF-FORM W::be)

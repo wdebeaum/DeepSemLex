@@ -21,7 +21,7 @@
    (SENSES
     ((LF-PARENT ONT::visual-display)
      (example "who is going to present the poster (to them)")
-     (TEMPL agent-affected-iobj-theme-templ)
+     (TEMPL agent-affected-xp-templ)
      (meta-data :origin calo-ontology :entry-date 20060712 :change-date 20090506 :comments caloy3)
      )
     ((LF-PARENT ONT::MOVE)

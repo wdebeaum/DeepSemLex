@@ -21,6 +21,12 @@
      (SYNTAX (W::auxname W::progr) (W::changesem +))
      (meta-data :origin trips :entry-date nil :change-date 20073003 :comments csli-revision)
      )
+      ;;  you are to arrive at 5
+    ((LF-PARENT ONT::EXPECTATION)
+     (LF-FORM W::be)
+     (TEMPL neutral-theme-subjcontrol-templ)
+     (preference .98) ;; slighly disprefered to favor passive constructions over adjectives
+     )
     ;;;; The truck was loaded.
     ((LF-PARENT ONT::PASSIVE)
      (LF-FORM W::be)

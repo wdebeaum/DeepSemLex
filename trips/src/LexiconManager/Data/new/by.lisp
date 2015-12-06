@@ -78,12 +78,12 @@
      ;; changed from ont::assoc-with (general) to more specific ont::originator
      (meta-data :origin caloy4 :entry-date 20070417 :change-date 20070517 :comments nil)
      )
-    ((LF-PARENT ONT::MANNER-REFL)
+    #||((LF-PARENT ONT::MANNER-REFL)
      (TEMPL BINARY-CONSTRAINT-S-TEMPL
 	    (xp (% W::NP (W::case (? cas W::obj -)) (w::refl +))))
      (example "the battery is in a closed path by itself" "the door closed by itself")
      (meta-data :origin beetle :entry-date 20090105 :change-date nil :comments beetle-pilots)
-     )   
+     ) ||#  
     )
    )
 ))

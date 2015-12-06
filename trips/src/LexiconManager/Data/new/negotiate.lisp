@@ -9,7 +9,7 @@
     ((LF-PARENT ONT::negotiate)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (example "they negotiated a deal")
-     (TEMPL AGENT-result-co-agent-optional-TEMPL)
+     (TEMPL AGENT-result-TEMPL)
      )
     )
    )

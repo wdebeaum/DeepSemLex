@@ -13,3 +13,15 @@
    )
 ))
 
+(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+ :words (
+  (W::bicycle
+   (SENSES
+    ((LF-PARENT ONT::bike)
+     (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
+     (TEMPL AGENT-TEMPL)
+     (example "he bicycled across town")
+     )
+    )
+   )
+))

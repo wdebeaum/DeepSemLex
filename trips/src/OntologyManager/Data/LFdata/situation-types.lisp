@@ -35,7 +35,8 @@
  :comment "an AGENT prevents some activity from occuring or proposition from becoming true"
  :arguments ((:ESSENTIAL ONT::affected ((? oc F::Phys-obj F::Abstr-obj F::Situation)))  
              (:ESSENTIAL ONT::result ((? eoc2 F::situation)))
-             (:OPTIONAL ONT::agent ((? aoc F::phys-obj F::abstr-obj) (F::intentional +)) (:implements cause))
+             (:OPTIONAL ONT::formal ((? eoc3 F::situation)))
+             (:OPTIONAL ONT::agent ((? aoc F::phys-obj F::abstr-obj)) (:implements cause))
              )
  )
 
@@ -61,10 +62,10 @@
  :wordnet-sense-keys ("put_across%2:32:00" "pass_along%2:32:00" "pass%2:32:01" "pass_on%2:32:00" "communicate%2:32:01" "intercommunicate%2:32:00" "communicate%2:32:00" "communication%1:03:00")
  :parent ONT::agent-interaction
  :comment "activity that involves transfer of information between agents"
- :sem (F::Situation (F::Cause F::agentive) (F::Trajectory -)  (F::Aspect F::bounded) (F::Time-span F::extended))
+ :sem (F::Situation (F::Cause F::agentive) (F::Trajectory -));  (F::Aspect F::bounded) (F::Time-span F::extended))
  :arguments ((:ESSENTIAL ONT::Affected ((? adr F::Phys-obj f::abstr-obj)))
 	     (:OPTIONAL ONT::Formal ((? th21 F::Abstr-obj F::Situation F::Proposition)))
-	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj) (F::information F::information-content)))
+	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj))); (F::information F::information-content)))
 	     )
  )
 
@@ -181,7 +182,7 @@
     :sem (F::Situation (F::Trajectory -))
  :arguments ((:REQUIRED ONT::Affected ((? o1 F::Situation F::Phys-obj f::abstr-obj)))
 	     (:ESSENTIAL ONT::agent ((? o2 F::Situation F::Phys-obj f::abstr-obj)))
-	     (:OPTIONAL ONT::Result ((? res F::situation F::abstra-obj)))
+	     (:OPTIONAL ONT::Result ((? res F::situation F::abstr-obj)))
 	     )
  )
 

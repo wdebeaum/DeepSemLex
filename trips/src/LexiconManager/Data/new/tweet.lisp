@@ -2,20 +2,24 @@
 ;;;; W::tweet
 ;;;;
 
-;; 20121212 GUM change added as per spreadsheet
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (
   (W::tweet
    (SENSES
-    ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090506 :comments nil :vn ("advise-37.9"))
-     (LF-PARENT ONT::nonverbal-say)
-     (TEMPL agent-addressee-associated-information-templ) ; like notify
-     (PREFERENCE 0.96)
+    ((LF-PARENT ONT::text-representation)
      )
-    ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090506 :comments nil :vn ("advise-37.9"))
+    )
+   )
+))
+
+(define-words :pos W::v 
+ :words (
+  (W::tweet
+   (SENSES
+    (
      (LF-PARENT ONT::nonverbal-say)
-     (TEMPL agent-addressee-theme-optional-templ (xp (% w::cp (w::ctype w::s-finite)))) ; like notify
-     (PREFERENCE 0.96)
+     (TEMPL agent-neutral-optional-templ) 
+     (EXAMPLE "He tweeted (a sentence)." "He tweeted about his vacation")
      )
     )
   )

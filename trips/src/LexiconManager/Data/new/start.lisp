@@ -48,7 +48,7 @@
      (lf-parent ont::startoff-begin-commence-start) ;; 20120523 GUM change new parent
      (SEM (F::Cause F::Agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))
      (example "when can you start")
-     (templ affected-templ)
+     (templ agent-templ)
      )
     (;;(LF-PARENT ONT::START)
      (lf-parent ont::startoff-begin-commence-start) ;; 20120523 GUM change new parent

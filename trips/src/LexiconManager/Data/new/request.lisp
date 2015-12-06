@@ -17,7 +17,7 @@
 ))
 |#
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :words (
   (W::REQUEST
    (wordfeats (W::morph (:forms (-vb) :nom W::request)))
@@ -25,6 +25,7 @@
     ((EXAMPLE "request something")
      (LF-PARENT ONT::REQUEST)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
+     (TEMPL AGENT-AFFECTED-XP-TEMPL)
      )
     ((EXAMPLE "request that he do something")
      (LF-PARENT ONT::REQUEST)

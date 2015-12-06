@@ -7,9 +7,9 @@
   (W::tend
    (SENSES
     ((LF-PARENT ONT::be-inclined)
-     (example "he tends to speed")
+     (example "It tends to increase.")
      (SEM (F::Aspect F::stage-level) (F::Time-span F::extended))
-     (TEMPL experiencer-theme-SUBJCONTROL-TEMPL (xp (% W::cp (W::ctype W::s-to))))
+     (TEMPL neutral-theme-SUBJCONTROL-TEMPL (xp (% W::cp (W::ctype W::s-to))))
      )
         )
    )

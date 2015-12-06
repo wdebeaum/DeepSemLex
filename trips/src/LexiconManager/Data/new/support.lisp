@@ -9,18 +9,21 @@
    (SENSES
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("admire-31.2") :wn ("support%2:31:04" "support%2:41:00" "support%2:41:01"))
      (LF-PARENT ONT::experiencer-emotion)
-     (TEMPL experiencer-action-objcontrol-templ) ; like hate,like,love
-     )
-    ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("admire-31.2") :wn ("support%2:31:04" "support%2:41:00" "support%2:41:01"))
-     (LF-PARENT ONT::experiencer-emotion)
-     (TEMPL neutral-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss
+     (TEMPL experiencer-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss
      )
     ;; the foundation supports the building
+
     (
      (LF-PARENT ONT::CORRELATION)
      (example "The result supported the hypothesis")
      (SEM (F::Aspect F::stage-level) (F::Time-span F::extended))
      (TEMPL neutral-neutral-xp-templ)
+     )
+    (
+     (LF-PARENT ONT::CORRELATION)
+     (example "The result supported that the cat ate the mouse.")
+     (SEM (F::Aspect F::stage-level) (F::Time-span F::extended))
+     (TEMPL neutral-formal-as-comp-templ (xp (% W::cp (W::ctype W::s-finite))))
      )
 
     )

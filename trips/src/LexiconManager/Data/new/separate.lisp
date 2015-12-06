@@ -13,12 +13,12 @@
      (EXAMPLE "separate the crews")
      )
     ((LF-PARENT ONT::separation)
-     (TEMPL affected-affected-as-comp-templ (xp (% w::pp (w::ptype (? t w::from)))))
+     (TEMPL agent-affected-as-comp-templ (xp (% w::pp (w::ptype (? t w::from)))))
      )
 
     ((LF-PARENT ONT::separation)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
-     (TEMPL affected-plural-TEMPL)
+     (TEMPL agent-plural-TEMPL)
      (example "They separate")
      )
 

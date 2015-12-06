@@ -74,19 +74,22 @@
      )
    
    ;;;; take notes, pictures
-    ((LF-PARENT ONT::Acquire)
+    ((LF-PARENT ONT::create)
      (SEM (F::Cause F::agentive) (F::Aspect F::unbounded) (F::time-span F::extended))
-     (PREFERENCE 0.98)
+     (TEMPL agent-affected-create-templ)
      )
+
     ;;;; take a city the preference is low, so that motion senses,
     ;;;; which are more salient for mobile objects, come up on top
     ((LF-PARENT ONT::appropriate)
      (SEM (F::Cause F::agentive) (F::Aspect F::bounded) (F::time-span F::atomic))
      (PREFERENCE 0.96)
      )
-    ((LF-PARENT ONT::SELECT)
+    ;; take the box
+    ((LF-PARENT ONT::ACQUIRE)
      (SEM (F::Cause F::agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))
-;     (preference 1.0) ;; for plow
+     (preference 1.0) ;; the default 
+     (template AGENT-AFFECTED-XP-TEMP)
      )
     ((LF-PARENT ONT::is-compatible-with)
      (SEM (F::Time-span F::extended) (f::trajectory -))
@@ -129,7 +132,7 @@
      (LF-PARENT ONT::cause-come-from)
      (example "take away the cargo" "take it away from the truck")
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL AGENT-AFFECTED-SOURCE-OPTIONAL-TEMPL (xp (% W::PP (W::ptype W::from))))
+     (TEMPL AGENT-AFFECTED-xp-TEMPL)
      )
     )
    )
@@ -145,7 +148,7 @@
      (LF-PARENT ONT::appropriate)
      (example "take the project over" "take over the project")
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL AGENT-AFFECTED-SOURCE-OPTIONAL-TEMPL (xp (% W::PP (W::ptype W::from))))
+     (TEMPL AGENT-AFFECTED-xp-TEMPL)
      )
     )
    )
@@ -160,7 +163,7 @@
      (LF-PARENT ONT::appropriate)
      (example "take the slack up" "take up the slack")
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL AGENT-AFFECTED-XP-TEMPL (xp (% W::PP (W::ptype W::from))))
+     (TEMPL AGENT-AFFECTED-XP-TEMPL )
      )
     )
    )
@@ -175,7 +178,7 @@
      ;;(LF-PARENT ONT::accept)
      (lf-parent ont::take-on) ;; 20120524 GUM change new type
      (example "take the project on" "take on the project")
-     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (SEM (F::Aspect F::bounded) )
      (TEMPL AGENT-THEME-XP-TEMPL)
      )
     )

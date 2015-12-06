@@ -21,7 +21,7 @@
 
     ((LF-PARENT ONT::UNATTACH)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
-     (TEMPL affected-plural-TEMPL)
+     (TEMPL agent-plural-TEMPL)
      (example "They detached")
      )
 

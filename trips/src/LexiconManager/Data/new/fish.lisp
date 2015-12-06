@@ -15,3 +15,16 @@
    )
 ))
 
+(define-words :pos W::v 
+ :words (
+  (w::fish
+   (wordfeats (W::morph (:forms (-vb))))
+   (SENSES
+    (
+     (LF-PARENT ONT::PHYSICAL-ACTIVITY)
+     (TEMPL agent-templ)
+     )
+    )
+   )
+))
+

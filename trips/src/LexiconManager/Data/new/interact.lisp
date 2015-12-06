@@ -36,13 +36,13 @@
     ((LF-PARENT ONT::BIND-INTERACT)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
      (example "This protein interacts with that protein.")
-     (TEMPL affected-affected-as-comp-TEMPL (xp (% W::PP (W::ptype W::with))))
+     (TEMPL agent-affected-as-comp-TEMPL (xp (% W::PP (W::ptype W::with))))
      )
 
     ((LF-PARENT ONT::BIND-INTERACT)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
      (example "This protein and that protein interact.")
-     (TEMPL AFFECTED-PLURAL-TEMPL)
+     (TEMPL AGENT-PLURAL-TEMPL)
      )
 
     )

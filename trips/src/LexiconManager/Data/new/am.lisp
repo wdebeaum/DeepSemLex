@@ -26,6 +26,13 @@
      (TEMPL PASSIVE-TEMPL)
      (meta-data :origin trips :entry-date nil :change-date 20073003 :comments csli-revision)
      )
+
+  ;;  I am to arrive at 5
+    ((LF-PARENT ONT::EXPECTATION)
+     (LF-FORM W::be)
+     (TEMPL neutral-theme-subjcontrol-templ)
+     (preference .98) ;; slighly disprefered to favor passive constructions over adjectives
+     )
     ;;;; I am hungry
     ((LF-PARENT ONT::HAVE-PROPERTY)
      (LF-FORM W::be)

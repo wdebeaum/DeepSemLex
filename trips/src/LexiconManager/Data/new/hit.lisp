@@ -30,6 +30,17 @@
 ;   )
 ;))
 
+(define-words :pos W::n 
+ :words (
+   (W::hit
+   (SENSES
+    ((LF-PARENT ONT::ESTABLISH-COMMUNICATION)  
+     (TEMPL COUNT-PRED-TEMPL)
+     )
+    )
+   )
+))
+
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
   (W::hit

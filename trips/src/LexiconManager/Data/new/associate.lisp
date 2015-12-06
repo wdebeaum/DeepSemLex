@@ -16,7 +16,7 @@
 
     ((LF-PARENT ONT::ATTACH)
      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
-     (TEMPL affected-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::with)))))
+     (TEMPL agent-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::with)))))
      (EXAMPLE "This protein associates with another protein")
      )
 

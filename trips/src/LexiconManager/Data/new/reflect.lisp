@@ -7,7 +7,7 @@
   (W::reflect
    (wordfeats (W::morph (:forms (-vb) :nom W::reflection)))
    (SENSES
-    ((LF-PARENT ONT::correlation)
+    ((LF-PARENT ONT::encodes-message)
      (example "his actions reflect his beliefs")
      (TEMPL neutral-neutral-templ)
      )

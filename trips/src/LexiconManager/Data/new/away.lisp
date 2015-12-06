@@ -7,7 +7,7 @@
   (W::AWAY
    (SENSES
     ((LF-PARENT ONT::away)
-     (TEMPL PRED-S-POST-TEMPL)
+     (TEMPL PRED-S-OR-NP-POST-TEMPL)
      )
     )
    )

@@ -2,7 +2,7 @@
 ;;;; W::develop
 ;;;;
 
-(define-words :pos W::v :templ agent-result-templ
+(define-words :pos W::v 
  :tags (:base500)
  :words (
   (W::develop

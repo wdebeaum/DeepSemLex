@@ -11,7 +11,7 @@
 	     (templ agent-neutral-xp-templ)
 	     (meta-data :origin bee :entry-date 20040614 :change-date nil :comments portability-experiment :vn ("characterize-29.2-1-1"))
 	     )	   	   	    
-	    ((lf-parent ont::correlation)
+	    ((lf-parent ont::encodes-message)
 	     (example "this diagram represents circuit 5")
 	     (templ neutral-neutral-templ)
 	     (meta-data :origin bee :entry-date 20040805 :change-date nil :comments portability-followup)

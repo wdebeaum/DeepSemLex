@@ -10,6 +10,11 @@
      (example "hide the benign objects")
      (meta-data :origin lou :entry-date 20040311 :change-date nil :comments lou-sent-entry)
      )
+    ((LF-PARENT ONT::HIDE)
+     (example "he hid from me")
+     (templ agent-templ)
+	      
+     )
     )
    )
 ))
