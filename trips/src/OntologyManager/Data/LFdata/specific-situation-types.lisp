@@ -1021,16 +1021,25 @@
     :parent ont::start
     )
 
+;; merged again ASK-QUERY-QUESTION and ENQUIRE-INQUIRE (which mainly takes the intransitive form)
+;; renamed and moved up to under COMMUNICATION
+(define-type ont::ask-question
+  :wordnet-sense-keys ("ask%2:32:02" "ask%2:32:04")
+    :parent ont::COMMUNICATION
+    )
+
+#|
 ;; 20120524 GUM change new type
 (define-type ont::ask-query-question
     :parent ont::questioning
     )
 
+
 ;; 20120524 GUM change new type
 (define-type ont::enquire-inquire
     :parent ont::questioning
     )
-
+|#
 
 ;;; This is a hack, and so I leave many features absent.
 ;;; This is "no formal" restart referring to dialogue level
@@ -1218,10 +1227,11 @@
  :parent ONT::directive
  )
 
+#|
 (define-type ONT::instruct
     :parent ONT::directive
     )
-
+|#
 
 (define-type ONT::promise
  :wordnet-sense-keys ("promise%2:32:00" "promise%2:32:01")
@@ -1651,6 +1661,15 @@
               )
  )
 
+; insincere praise
+(define-type ONT::flatter
+ :wordnet-sense-keys ("flatter%2:32:00")
+ :parent ONT::praise
+ :sem (F::Situation (F::Cause F::Agentive))
+ :arguments ((:OPTIONAL ONT::Predicate((? prd F::Phys-obj F::Abstr-obj F::situation))) 
+              )
+ )
+
 (define-type ONT::complain
  :wordnet-sense-keys ("complain%2:32:00" "kick%2:32:00" "plain%2:32:00" "sound_off%2:32:00" "quetch%2:32:00" "kvetch%2:32:00")
  :parent ONT::loaded-claim
@@ -1847,12 +1866,6 @@
     :comment "extended communication on a specific topic (FORMAL)"
     )
 
-
-(define-type ont::mention-claim
-    :wordnet-sense-keys ("leak%2:30:00" "articulate%2:32:00")
-    :parent ont::talk
-    )
-
 (define-type ONT::schmooze-talk
     :parent ont::talk
     :wordnet-sense-keys ("chat%2:32:00") 
@@ -1861,7 +1874,7 @@
 
 (define-type ONT::tell
     :parent ont::representative
-    :wordnet-sense-keys ("say%2:32:00") 
+    :wordnet-sense-keys ("state%2:32:00" "tell%2:32:00") 
     :comment "fairly generic representative act"
     )
 
@@ -1878,7 +1891,7 @@
  )
 
 (define-type ONT::teach-train
-    :parent ont::transfer-information
+    :parent ONT::COMMUNICATION
     )
 
 (define-type ONT::describe
@@ -2015,6 +2028,11 @@
 (define-type ONT::SUGGEST
  :wordnet-sense-keys ("propose%2:32:00" "suggest%2:32:00" "advise%2:32:02")
  :parent ONT::directive
+ )
+
+(define-type ONT::ADVISE
+ :wordnet-sense-keys ("advise%2:32:00")
+ :parent ONT::SUGGEST
  )
 
 (define-type ont::nominate
@@ -4211,7 +4229,7 @@
 
 
 (define-type ont::assert
-    :wordnet-sense-keys ("insist%2:32:00")
+    :wordnet-sense-keys ("assert%2:32:01")
     :comment "tell categorically"
     :parent ont::representative
     )

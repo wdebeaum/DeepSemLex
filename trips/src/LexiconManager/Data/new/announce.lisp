@@ -9,12 +9,12 @@
    (SENSES
     ((EXAMPLE "apple announced the new imac")
      (meta-data :origin calo :entry-date 20040915 :change-date 20090506 :comments caloy2)
-     (LF-PARENT ONT::convey)
+     (LF-PARENT ONT::assert)
      (example "announce it to them")
      ;; this verb doesn't participate in the alternation
      (TEMPL agent-theme-to-addressee-optional-templ) 
      )
-    ((LF-PARENT ONT::convey)
+    ((LF-PARENT ONT::assert)
      (example "microsoft announced yesterday that they will acquire yahoo")
      (meta-data :origin joshua :entry-date 20080905 :change-date 20090506 :comments nil)
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))

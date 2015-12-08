@@ -13,7 +13,7 @@
      (SEM (F::Cause F::Agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))
      )
     
-   ((LF-PARENT ONT::convey)
+   ((LF-PARENT ONT::REPEAT)
     (example "please convey my greetings to him")
      (TEMPL agent-affected-iobj-theme-templ)
      (meta-data :origin calo-ontology :entry-date 20051209 :change-date 20090506 :comments Convey)

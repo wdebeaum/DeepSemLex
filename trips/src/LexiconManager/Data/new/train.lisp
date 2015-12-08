@@ -32,7 +32,7 @@
   (w::train
    (senses
     ((EXAMPLE "Train him to do it")
-     (LF-PARENT ONT::transfer-information) ;; like teach
+     (LF-PARENT ONT::teach-train) ;; like teach
      (TEMPL AGENT-ADDRESSEE-THEME-OPTIONAL-TEMPL  (xp (% W::cp (W::ctype W::s-to))))
      (meta-data :origin task-learning :entry-date 20050825 :change-date nil :comments nil)
      )

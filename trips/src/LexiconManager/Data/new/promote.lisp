@@ -7,7 +7,7 @@
    (W::PROMOTE
     (wordfeats (W::morph (:forms (-vb) :nom w::promotion)))
     (senses 
-     ((LF-PARENT ont::convey)
+     ((LF-PARENT ont::encourage)
       (example "the flyers promote the idea")
       (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
       (TEMPL agent-affected-xp-templ)

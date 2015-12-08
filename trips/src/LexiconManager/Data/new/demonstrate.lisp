@@ -16,7 +16,7 @@
      (TEMPL agent-effect-affected-objcontrol-templ))
     
     ((EXAMPLE "demonstrate the procedure (to him)")
-     (LF-PARENT ONT::transfer-information)
+     (LF-PARENT ONT::show)
      ;; this verb doesn't participate in the alternation "demonstrate him the procedure"
      (TEMPL agent-theme-to-addressee-optional-templ) 
      (meta-data :origin "verbnet-1.5-corrected" :entry-date 20060214 :change-date 20090506 :comments nil :vn ("transfer_mesg-37.1"))

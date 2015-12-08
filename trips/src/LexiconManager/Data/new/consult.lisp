@@ -5,7 +5,7 @@
 (define-words :pos W::v :templ agent-theme-xp-templ
  :words (
   (W::consult
-    (wordfeats (W::morph (:forms (-vb) :nom w::consultation)))
+   (wordfeats (W::morph (:forms (-vb) :nom w::consultation)))
    (SENSES
     ((LF-PARENT ONT::interview)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))

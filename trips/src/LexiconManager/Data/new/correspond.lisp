@@ -8,7 +8,7 @@
 	  (w::correspond
 	   (senses
 	    ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090508 :comments nil :vn ("battle-36.4-1"))
-	     (LF-PARENT ONT::conversing)
+	     (LF-PARENT ONT::talk)
 	     (TEMPL agent-about-theme-addressee-optional-templ) ; like communicate
 	     (PREFERENCE 0.96)
 	     )

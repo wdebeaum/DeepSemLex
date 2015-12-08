@@ -18,7 +18,7 @@
  :words (
     (w::diagram
      (senses
-      ((lf-parent ont::describe)
+      ((lf-parent ont::write)
        (example "diagram this object")
        (templ agent-neutral-xp-templ)	     
        (meta-data :origin calo-ontology :entry-date 20060713 :change-date 20090506 :comments caloy3)

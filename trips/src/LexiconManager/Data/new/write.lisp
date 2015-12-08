@@ -22,12 +22,12 @@
      (PREFERENCE 0.98) ;; prefer transitive sense
      )
 
-    ((LF-PARENT ONT::SAY)
+    ((LF-PARENT ONT::NONVERBAL-SAY)
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (TEMPL AGENT-THEME-XP-TEMPL (xp (% W::cp (W::ctype W::s-finite))))
      (EXAMPLE "he wrote that he couldn't come")
      )
-    ((LF-PARENT ONT::SAY)
+    ((LF-PARENT ONT::NONVERBAL-SAY)
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (TEMPL AGENT-THEME-XP-TEMPL)
      (EXAMPLE "he wrote green")

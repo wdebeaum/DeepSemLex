@@ -1,22 +1,14 @@
 ;;;;
 ;;;; W::interview
 ;;;;
-
-(define-words :pos W::n :templ COUNT-PRED-TEMPL
- :words (
-  (W::interview
-   (SENSES
-    ((LF-PARENT ONT::interview)
-     (meta-data :origin calo-ontology :entry-date 20060713 :change-date 20070828 :comments caloy3 :wn ("interview%1:10:01"))
-     (example "he is going to a job interview")
-     )
-    )
-   )
-))
+;;;;
+;;;; W::INTERVIEW
+;;;;
 
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
   (W::interview
+   (wordfeats (W::morph (:forms (-vb) :nom w::interview)))
    (SENSES
     ((LF-PARENT ONT::interview)
      (example "interview the candidate about it")

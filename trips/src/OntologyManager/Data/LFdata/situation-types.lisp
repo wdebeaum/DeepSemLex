@@ -86,9 +86,24 @@
     :comment "speech act that expresses the speakers belief about what is true (cf. Searle)"
     )
 
+(define-type ONT::hint
+  :wordnet-sense-keys ("hint%2:32:00")
+  :parent ONT::illocution
+  )
+
+(define-type ONT::lie
+  :wordnet-sense-keys ("lie%2:32:00")
+    :parent ONT::illocution
+    )
+
+(define-type ONT::joke
+  :wordnet-sense-keys ("joke%2:32:00")
+    :parent ONT::illocution
+    )
+
 (define-type ONT::loaded-claim
     :parent ONT::representative
-    :comment "speech act that expresses the speakers belief with a particular purpose (e.g., accuse, explain)"
+    :comment "speech act that expresses the speakers belief with a particular purpose (e.g., accuse, complain)"
     )
 
 (define-type ONT::commissive
@@ -391,7 +406,7 @@
     )
 
 (define-type ONT::Questioning
- :wordnet-sense-keys ("ask%2:32:00" "inquire%2:32:01" "enquire%2:32:00")
+ :wordnet-sense-keys ("quiz%2:32:00" "interrogate%2:32:00")
  :parent ONT::directed-COMMUNICATION
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments ((:REQUIRED ONT::formal)
