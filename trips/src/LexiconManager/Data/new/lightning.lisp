@@ -6,7 +6,7 @@
  :words (
    (W::lightning 
    (SENSES
-    ((LF-PARENT ATMOSPHERIC-PHENOMENON)
+    ((LF-PARENT ONT::ATMOSPHERIC-PHENOMENON)
      (meta-data :origin calo-ontology :entry-date 20060426 :change-date nil :comments nil)
      )
     )

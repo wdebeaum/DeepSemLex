@@ -27,7 +27,7 @@
     (
      ;;(LF-PARENT ONT::QUESTIONING)
 ;     (lf-parent ont::ask-query-question) ;; 20120524 GUM change new parent
-     (LF-PARENT ASK-QUESTION)
+     (LF-PARENT ONT::ASK-QUESTION)
      )
     )
    )

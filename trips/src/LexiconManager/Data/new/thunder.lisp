@@ -6,7 +6,7 @@
  :words (
    (W::thunder
    (SENSES
-    ((LF-PARENT ATMOSPHERIC-PHENOMENON)
+    ((LF-PARENT ONT::ATMOSPHERIC-PHENOMENON)
      (meta-data :origin calo-ontology :entry-date 20060426 :change-date nil :wn ("thunder%1:11:00" "thunder%1:11:01") :comments nil)
      )
     )

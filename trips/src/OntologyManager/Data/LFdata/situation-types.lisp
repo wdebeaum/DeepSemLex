@@ -88,17 +88,17 @@
 
 (define-type ONT::hint
   :wordnet-sense-keys ("hint%2:32:00")
-  :parent ONT::illocution
+  :parent ONT::representative
   )
 
 (define-type ONT::lie
   :wordnet-sense-keys ("lie%2:32:00")
-    :parent ONT::illocution
+    :parent ONT::representative
     )
 
 (define-type ONT::joke
   :wordnet-sense-keys ("joke%2:32:00")
-    :parent ONT::illocution
+    :parent ONT::representative
     )
 
 (define-type ONT::loaded-claim

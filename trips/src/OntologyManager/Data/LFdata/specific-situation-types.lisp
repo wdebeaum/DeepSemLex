@@ -1211,12 +1211,6 @@
  :sem (F::Situation (F::Cause F::agentive))
  )
 
-;;; Inform people (about situations)
-(define-type ONT::INFORM
- :wordnet-sense-keys ("apprize%2:32:01" "apprise%2:32:00" "send_word%2:32:00" "give_notice%2:32:00" "notify%2:32:00" "advise%2:32:01" "declare%2:32:00" "prosecute%2:41:00")
- :parent ONT::STATEMENT
- )
-
 ;; swear  20120523 GUM change new type
 (define-type ont::swear
     :parent ont::exclamation
@@ -1630,6 +1624,11 @@
              )
  )
 
+(define-type ONT::blame
+ :wordnet-sense-keys ("blame%2:32:00")
+ :parent ONT::judgement
+ )
+
 (define-type ONT::forgive
  :wordnet-sense-keys ("forgive%2:32:00")
  :parent ONT::judgement
@@ -1694,7 +1693,8 @@
  )
 
 (define-type ONT::dissuade
-    :parent ONT::perlocution
+ :wordnet-sense-keys ("dissuade%2:32:00")
+ :parent ONT::perlocution
  )
 
 (define-type ONT::defame
@@ -1852,7 +1852,7 @@
  )
 
 (define-type ONT::TALK
- :wordnet-sense-keys ("posit%2:32:02" "put_forward%2:32:00" "state%2:32:01" "submit%2:32:00" "talk%2:32:00" "speak%2:32:00" "utter%2:32:00" "mouth%2:32:00" "verbalize%2:32:00" "verbalise%2:32:00")
+ :wordnet-sense-keys ("posit%2:32:02" "put_forward%2:32:00" "state%2:32:01" "submit%2:32:00" "talk%2:32:01" )
  :parent ONT::conversing
  :comment "extended communicative interaction, FORMAL is the topic of discussion"
  :sem (F::Situation (F::Cause F::agentive) (F::Time-span F::extended))
@@ -1874,7 +1874,7 @@
 
 (define-type ONT::tell
     :parent ont::representative
-    :wordnet-sense-keys ("state%2:32:00" "tell%2:32:00") 
+    :wordnet-sense-keys ("state%2:32:00" "tell%2:32:00" "inform%2:32:00") 
     :comment "fairly generic representative act"
     )
 
@@ -1884,16 +1884,6 @@
  :comment "a representative speech act that explains some situation"
  )
 
-
-(define-type ONT::TRANSFER-INFORMATION
- :wordnet-sense-keys ("explain%2:32:00" "explicate%2:32:00")
- :parent ONT::inform
- )
-
-(define-type ONT::teach-train
-    :parent ONT::COMMUNICATION
-    )
-
 (define-type ONT::describe
     :wordnet-sense-keys ("describe%2:32:00" "depict%2:32:01" "draw%2:32:00")
     :parent ont::representative
@@ -1901,7 +1891,7 @@
     )
 
 (define-type ONT::SAY
-    :wordnet-sense-keys ("note%2:32:00" "observe%2:32:00" "mention%2:32:00" "remark%2:32:00" "say%2:32:13"  "say%2:32:01")
+    :wordnet-sense-keys ("note%2:32:00" "observe%2:32:00" "mention%2:32:00" "remark%2:32:00" "say%2:32:13"  "say%2:32:01" "talk%2:32:00")
     :parent ONT::COMMUNICATION
     :comment "A single act of verbal communication, or sequence of acts by the same agent"
     :sem (F::Situation (F::Cause F::agentive))
@@ -1914,7 +1904,7 @@
 
 (define-type ont::extended-say
     :parent ont::say
-    :wordnet-sense-keys ("recount%2:32:00" "dictate%2:31:00" "narrate%2:31:01") 
+    :wordnet-sense-keys ("recount%2:32:00" "dictate%2:31:00" "narrate%2:32:00") 
     :comment "an extended series of communicative acts by an agent, following some script or structure"
     )
 
@@ -1945,7 +1935,7 @@
  )
 
 (define-type ONT::manner-say
- :wordnet-sense-keys ("whisper%2:32:00" "blab%2:32:02" "scream%2:32:01" "scream%2:32:08" "scream%2:39:00" "shout%2:32:00" "shout%2:38:08")
+ :wordnet-sense-keys ("whisper%2:32:00" "blab%2:32:02" "scream%2:32:01" "scream%2:32:08" "scream%2:39:00" "shout%2:32:00" "shout%2:32:08")
  :parent ONT::say
  :comment "saying in a particular manner of speaking"
  :arguments ((:ESSENTIAL ONT::Formal)
@@ -2044,6 +2034,11 @@
  :parent ONT::conventional-speech-act
  )
 
+(define-type ONT::declare-performative
+ :wordnet-sense-keys ("pronounce%2:32:00" "proclaim%2:32:02")
+ :parent ONT::conventional-speech-act
+ )
+
 (define-type ONT::ritual-classification
  :wordnet-sense-keys ("anoint%2:31:00" "install%2:41:00")
  :parent ONT::conventional-speech-act
@@ -2056,12 +2051,10 @@
     :parent ont::event-of-undergoing-action
     )
 
-
 ;; 20120524 GUM change new type
 (define-type ONT::take-on
  :parent ONT::accept
  )
-
 
 (define-type ONT::PRESCRIBING
  :parent ONT::giving
@@ -2077,7 +2070,7 @@
  :wordnet-sense-keys ("negociate%2:32:00" "negotiate%2:32:00" "talk_terms%2:32:00")
  :parent ONT::discuss
  :comment "extended communication with goal of reaching some agreement (RESULT)"
- :arguments ((:optional ONT::result ((? ag f::phys-obj f::abstr-obj) (f::intentional +))))
+ :arguments ((:optional ONT::result ((? ag f::phys-obj f::abstr-obj)))) ; (f::intentional +))))
  )
 
 (define-type ONT::ARGUE
@@ -2095,31 +2088,15 @@
 	      )
  )
 
-(define-type ONT::visual-display
- :wordnet-sense-keys ("expose%2:39:00" "exhibit%2:39:01" "display%2:39:00" "bring_on%2:36:01" "expose%2:35:00" "confront%2:32:03")
- :parent ONT::communication
- )
-
 (define-type ONT::show
  :wordnet-sense-keys ("show%2:39:02" "demo%2:39:00" "exhibit%2:39:00" "present%2:39:00" "demonstrate%2:39:01" "show%2:39:00")
- :parent ont::visual-display
+ :parent ont::COMMUNICATION
  :arguments ((:ESSENTIAL ONT::Agent ((? agt F::Phys-obj f::abstr-obj) (F::intentional +))))
  )
 
-;;; This is a mental action - highlighting important points
-;; no, this is for highlighting things on a display/map
-(define-type ONT::HIGHLIGHT
- :wordnet-sense-keys ("foreground%2:30:00" "highlight%2:30:00" "spotlight%2:30:01" "play_up%2:30:00")
- :parent ONT::visual-display
- :sem (F::Situation (F::Cause F::Agentive))
- )
-
-(define-type ONT::listing
- :parent ONT::visual-display
- :sem (F::Situation (F::Cause F::Agentive))
- :arguments ((:OPTIONAL ONT::Agent)
-             )
- )
+(define-type ONT::teach-train
+    :parent ONT::SHOW
+    )
 
 ;; write a book (about trucks), write your name
 (define-type ONT::write
@@ -2148,7 +2125,7 @@
 
 (define-type ONT::establish-communication
  :wordnet-sense-keys ("ring%2:32:00" "phone%2:32:00" "call_up%2:32:00" "telephone%2:32:00" "call%2:32:01" "reach%2:32:00" "get_through%2:32:00" "get_hold_of%2:32:00" "contact%2:32:00")
- :parent ONT::agent-interaction
+ :parent ONT::COMMUNICATION
  )
 
 (define-type ONT::HIDE
@@ -2311,7 +2288,7 @@
  )
 
 (define-type ont::appeal-apply-demand 
-     :wordnet-sense-keys ("turn_to%2:30:00" "play%2:42:00")
+     :wordnet-sense-keys ("turn_to%2:30:00")
      :parent ont::request
     )
 
@@ -3042,6 +3019,26 @@
  :parent ONT::adjust
  )
 
+(define-type ONT::visual-display
+ :wordnet-sense-keys ("expose%2:39:00" "exhibit%2:39:01" "display%2:39:00" "bring_on%2:36:01" "expose%2:35:00" "confront%2:32:03")
+ :parent ONT::adjust
+ )
+
+;;; This is a mental action - highlighting important points
+;; no, this is for highlighting things on a display/map
+(define-type ONT::HIGHLIGHT
+ :wordnet-sense-keys ("foreground%2:30:00" "highlight%2:30:00" "spotlight%2:30:01" "play_up%2:30:00")
+ :parent ONT::visual-display
+ :sem (F::Situation (F::Cause F::Agentive))
+ )
+
+(define-type ONT::listing
+ :parent ONT::visual-display
+ :sem (F::Situation (F::Cause F::Agentive))
+ :arguments ((:OPTIONAL ONT::Agent)
+             )
+ )
+
 (define-type ONT::language-adjust
  :wordnet-sense-keys ("reduce%2:30:08" "contract%2:30:05" "cut%2:30:08" "shorten%2:30:02" "abbreviate%2:30:01" "foreshorten%2:30:00" "abridge%2:30:00" "simplify%2:30:00")
  :parent ONT::adjust
@@ -3464,7 +3461,7 @@
 ;; 20120524 GUM change new type
 (define-type ont::cope-deal
     :wordnet-sense-keys ("dispense_with%2:41:00" "empathise%2:31:00" "cope%2:41:00")
-    :parent ont::experiencer-emotion
+    :parent ont::active-perception
     )
 
 ;; 20120521 GUM change new type
@@ -4236,7 +4233,7 @@
 
  (define-type ont::convey 
      :wordnet-sense-keys ("bring_on%2:39:00")
-     :parent ont::announce
+     :parent ont::communication
      )
 
 ;; beat

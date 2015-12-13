@@ -9,7 +9,7 @@
    (SENSES
     (;;(LF-PARENT ONT::QUESTIONING)
      ;;(lf-parent ont::ask-query-question) ;; 20120524 GUM change new parent
-     (LF-PARENT ASK-QUESTION)
+     (LF-PARENT ONT::ASK-QUESTION)
      (example "ask him the question")
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      (TEMPL agent-affected-iobj-theme-templ)
@@ -22,7 +22,7 @@
      )
     (;;(LF-PARENT ONT::QUESTIONING)
      ;;(lf-parent ont::ask-query-question) ;; 20120524 GUM change new parent
-     (LF-PARENT ASK-QUESTION)
+     (LF-PARENT ONT::ASK-QUESTION)
      (example "ask if there is enough time to go along the coast")
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      (TEMPL AGENT-THEME-XP-TEMPL (xp (% W::cp (W::ctype W::s-if))))
@@ -30,7 +30,7 @@
     ((EXAMPLE "ask (him) about it")
      ;;(LF-PARENT ONT::QUESTIONING)
      ;;(lf-parent ont::ask-query-question) ;; 20120524 GUM change new parent
-     (LF-PARENT ASK-QUESTION)
+     (LF-PARENT ONT::ASK-QUESTION)
      (example "ask him about it")
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      (TEMPL AGENT-OPTIONAL-ADDRESSEE-ASSOCIATED-INFORMATION-TEMPL)

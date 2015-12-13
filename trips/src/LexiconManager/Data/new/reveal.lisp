@@ -8,7 +8,7 @@
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090506 :comments nil :vn ("characterize-29.2-1-2"))
      ;;(LF-PARENT ONT::announce)
-     (lf-parent ont::assert)
+     (lf-parent ont::tell)
      (TEMPL agent-theme-to-addressee-optional-templ) ; like report
      (PREFERENCE 0.97)
      )

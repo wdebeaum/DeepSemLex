@@ -2,11 +2,12 @@
 ;;;; W::skype
 ;;;;
 
-(define-words :pos W::n :templ COUNT-PRED-TEMPL
+(define-words :pos W::n 
  :words (
   (W::skype
    (SENSES
     ((LF-PARENT ONT::computer-program)
+     (TEMPL nname-templ)
      (example "I use skype.")
      )
     )

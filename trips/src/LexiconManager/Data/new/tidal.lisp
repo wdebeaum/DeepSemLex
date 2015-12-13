@@ -6,7 +6,7 @@
  :words (
    ((W::tidal w::wave)
    (SENSES
-    ((LF-PARENT natural-PHENOMENON)
+    ((LF-PARENT ONT::natural-PHENOMENON)
      (meta-data :origin calo-ontology :entry-date 20060426 :change-date nil :wn ("tidal_wave%1:11:01") :comments nil)
      )
     )

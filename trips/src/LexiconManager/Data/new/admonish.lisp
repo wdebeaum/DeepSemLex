@@ -12,7 +12,7 @@
      (TEMPL agent-addressee-theme-optional-templ) ; like warn
      )
     ((meta-data :origin "verbnet-1.5" :entry-date 20051219 :change-date nil :comments nil :vn ("advise-37.9-1"))
-     (LF-PARENT ONT::command)
+     (LF-PARENT ONT::warn)
      (TEMPL agent-addressee-theme-objcontrol-req-templ (xp (% w::cp (w::ctype w::s-to)))) ; like advise,instruct
      )
     )

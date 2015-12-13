@@ -6,6 +6,7 @@
   :templ agent-theme-xp-templ
  :words (
 	  (W::apply
+	   (wordfeats (W::morph (:forms (-vb) :nom w::application)))
 	   (SENSES
 	    ((LF-PARENT ONT::USE) ;; based on WN sense 7-8
 	     (example "apply the rule [to this example]")

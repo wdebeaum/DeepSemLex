@@ -5,6 +5,7 @@
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
  (w::disagree
+    (wordfeats (W::morph (:forms (-vb) :nom w::disagreement)))
 ;;	   (wordfeats (W::morph (:forms (-vb) :past W::disagreed :ing W::disagreeing :pastpart W::disagreed)))
 	   (senses
 	    ((LF-parent ont::contest)
