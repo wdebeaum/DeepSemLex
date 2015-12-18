@@ -80,6 +80,9 @@
 	(LSUBJ (% W::NP) ont::formal)
 	(LOBJ (:parameter xp (:default (% W::NP))) ONT::RESULT)
 	))
+
+; nobody uses this
+      #|
       (INSTRUMENT-THEME-XP-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::INSTRUMENT)
@@ -91,7 +94,7 @@
 	(LSUBJ (% W::NP) ONT::INSTRUMENT)
 	(LOBJ (:parameter xp (:default (% W::NP (w::sort (? !xx W::unit-measure))))) ONT::affected)
 	))
-      
+      |#
       
       (AGENT-AFFECTED-XP-TEMPL
        (ARGUMENTS
@@ -285,15 +288,26 @@
 	(LCOMP (:parameter xp (:default (% W::PP (w::ptype w::with)))) ONT::affected1 optional)
 	))
 
+; nobody uses this
+      #|
       (AGENT-INSTRUMENT-XP-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::agent)
 	(LOBJ (:parameter xp (:default (% W::PP (w::ptype w::with)))) ONT::instrument)
 	))
-
+      |#
+      
       (THEME-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::FORMAL)
+	))
+
+      ;;  e.g., We show here that it is true
+      (AGENT-LOCATED-THEME-XP-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::AGENT)
+	(LIOBJ (% W::ADVBL) ONT::LOCATION)
+	(LOBJ (:parameter xp (:default (% W::NP))) ONT::FORMAL)
 	))
 
       ;; the subject of unaccusative verbs is not agentive and the grammar can treat it as the object, e.g. in gerunds
@@ -323,7 +337,8 @@
       (AGENT-TIME-DURATION-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::Time-duration-rel OPTIONAL)
+;	(LOBJ (% W::NP) ONT::Time-duration-rel OPTIONAL)
+	(LOBJ (% W::NP) ONT::EXTENT OPTIONAL)
 	))
 
 					; 04/13/06 ont::entity role changed to ont::formal
@@ -355,22 +370,12 @@
 	(LOBJ (:parameter xp (:default (% W::NP))) ont::extent)
 	))
 
+; nobody uses this
+#|      
       (THEME-COST-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ont::formal)
 	(LOBJ (% W::NP) ONT::Cost)
-	))
-
-      (THEME-DURATION-TEMPL
-       (ARGUMENTS
-	(LSUBJ (% W::NP) ont::formal)
-	(LOBJ (% W::NP) ONT::DURATION)
-	))
-
-      (neutral-DURATION-TEMPL
-       (ARGUMENTS
-	(LSUBJ (% W::NP) ont::formal)
-	(LOBJ (% W::NP) ONT::DURATION)
 	))
 
       (neutral-theme-COMPLEX-no-SUBJMAP-TEMPL
@@ -378,6 +383,21 @@
 	(LSUBJ (% W::NP) ONT::neutral)
 	(LOBJ (% W::NP) ONT::cost)
 	(LCOMP (% W::cp (W::ctype W::s-to)) theme)
+	))
+
+      
+      (THEME-DURATION-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ont::formal)
+	(LOBJ (% W::NP) ONT::DURATION)
+	))
+|#
+      
+      (neutral-DURATION-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ont::formal)
+;	(LOBJ (% W::NP) ONT::DURATION)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	))
 
       (neutral-AFFECTED-theme-TEMPL
@@ -428,21 +448,24 @@
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::neutral)
 	(LOBJ (% W::NP) ONT::Affected OPTIONAL)
-	(LCOMP (% W::NP) ONT::DURATION)
+;	(LCOMP (% W::NP) ONT::DURATION)
+	(LCOMP (% W::NP) ONT::EXTENT)
 	))
 
       (theme-AFFECTED-DURATION-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ont::formal)
 	(LOBJ (% W::NP) ONT::Affected OPTIONAL)
-	(LCOMP (% W::NP) ONT::DURATION)
+;	(LCOMP (% W::NP) ONT::DURATION)
+	(LCOMP (% W::NP) ONT::EXTENT)
 	))
 
       (THEME-DURATION-EXPLETIVE-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::sem ($ -)) (W::lex W::it)) NOROLE)
 	(LIOBJ (% W::NP) ont::formal OPTIONAL)
-	(LOBJ (% W::NP) ONT::DURATION)
+;	(LOBJ (% W::NP) ONT::DURATION)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (% W::cp (W::ctype W::s-to)) ont::formal)
 	))
 
@@ -450,7 +473,8 @@
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::sem ($ -)) (W::lex W::it)) NOROLE)
 	(LIOBJ (% W::NP) ONT::Affected OPTIONAL)
-	(LOBJ (% W::NP) ONT::DURATION)
+;	(LOBJ (% W::NP) ONT::DURATION)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (% W::cp (W::ctype W::s-to)) ont::formal)
 	))
       
@@ -458,7 +482,8 @@
       (AFFECTED-DURATION-COMPLEX-SUBJCONTROL-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (var ?lsubjvar) (sem ?lsubjsem) (lex ?lsubjlex)) ONT::AFFECTED)
-	(LOBJ (% W::NP) ONT::DURATION)
+;	(LOBJ (% W::NP) ONT::DURATION)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to)))
 			   (:required (W::subj (% W::np (W::sem ?lsubjsem) (W::lex ?lsubjlex) (W::var ?lsubjvar))))
 			   )
@@ -468,7 +493,8 @@
       (neutral-DURATION-COMPLEX-SUBJCONTROL-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (var ?lsubjvar) (sem ?lsubjsem) (lex ?lsubjlex)) ONT::neutral)
-	(LOBJ (% W::NP) ONT::DURATION)
+;	(LOBJ (% W::NP) ONT::DURATION)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) 
 			   (:required (W::subj (% W::np (W::sem ?lsubjsem) (W::lex ?lsubjlex) (W::var ?lsubjvar))))
 			   )
@@ -478,47 +504,54 @@
       (AGENT-COST-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::Cost)
+;	(LOBJ (% W::NP) ONT::Cost)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	))
 
       (AGENT-COST-NEUTRAL-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::Cost)
+;	(LOBJ (% W::NP) ONT::Cost)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::NP))) ont::neutral)
 	))
       
       (NEUTRAL-COST-XP-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::NEUTRAL)
-	(LOBJ (:parameter xp (:default (% W::NP))) ONT::COST)
+;	(LOBJ (:parameter xp (:default (% W::NP))) ONT::COST)
+	(LOBJ (:parameter xp (:default (% W::NP))) ONT::EXTENT)
 	))
 
       (neutral-BENEFICIARY-COST-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::NEUTRAL)
 	(LOBJ (% W::NP) ONT::BENEFICIARY)
-	(LCOMP (:parameter xp (:default (% W::NP))) ONT::COST)
+;	(LCOMP (:parameter xp (:default (% W::NP))) ONT::COST)
+	(LCOMP (:parameter xp (:default (% W::NP))) ONT::EXTENT)
 	))
 
       (AGENT-COST-theme-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::Cost)
+;	(LOBJ (% W::NP) ONT::Cost)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::NP))) ont::formal)
 	))
 
       (neutral-COST-theme-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::neutral)
-	(LOBJ (% W::NP) ONT::Cost)
+;	(LOBJ (% W::NP) ONT::Cost)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::NP))) ont::formal)
 	))
 
       (AGENT-DURATION-THEME-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::Duration)
+;	(LOBJ (% W::NP) ONT::Duration)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::NP))) ONT::FORMAL)
 	))
       #||
@@ -534,10 +567,13 @@
       (THEME-COST-EXPLETIVE-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::sem ($ -)) (W::lex W::it)) NOROLE)
-	(LOBJ (% W::NP) ONT::Cost)
+;	(LOBJ (% W::NP) ONT::Cost)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (% W::cp (W::ctype W::s-to)) ont::formal)
 	))
-      
+
+      ; nobody uses this template
+      #|
       (THEME-COST-EXPLETIVE-IOBJ-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::sem ($ -)) (W::lex W::it)) NOROLE)
@@ -545,6 +581,7 @@
 	(LOBJ (% W::NP) ONT::Cost)
 	(LCOMP (% W::cp (W::ctype W::s-to) (W::subj ?liobj)) ont::formal OPTIONAL)
 	))
+      |#
       
 					; 04/13/06 ont::entity role changed to ont::formal
 					;  (EXPLETIVE-ENTITY-TEMPL
@@ -758,7 +795,8 @@
       (AGENT-cost-GOAL-optional-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::agent)
-	(LOBJ (% W::NP) ONT::cost)
+;	(LOBJ (% W::NP) ONT::cost)
+	(LOBJ (% W::NP) ONT::EXTENT)
 	(LCOMP (:parameter xp (:default (% W::PP (W::ptype W::to)))) ONT::RESULT optional)
 	))
      
@@ -916,6 +954,26 @@
 											    (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL)
 	))
 
+;;;;;;;;;;;;;;; test
+      (AGENT-AFFECTED-FORMAL-SUBJCONTROL-OBJ-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP (W::lex ?subjlex) (W::var ?subjvar)) ONT::AGENT)
+	(LOBJ (% W::NP) ONT::AFFECTED)
+	(LCOMP (:parameter xp (:default (% W::NP (W::lf (% ?p (w::class (? x ont::EVENT-OF-CHANGE))))
+					   (W::subcat (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
+					   ))
+
+;			   (w::arg ?subjvar)
+;			   (W::argument (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
+;			   )
+
+;			   (:required (W::subj (% W::np (W::sem ?subjsem) (W::lex ?subjlex) (W::var ?subjvar))))
+			   
+					
+					) ONT::FORMAL)
+	))
+
+
  (AGENT-Affected-THEME-SUBJCONTROL-optional-TEMPL
        (ARGUMENTS
     ;;;;; (LSUBJ (% NP) AGENT)
@@ -998,6 +1056,8 @@
 	       ONT::FORMAL)
 	))
 
+; nobody uses this
+#|
       (neutral-theme-OBJCONTROL-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::neutral)
@@ -1008,6 +1068,7 @@
 						  (W::var ?dobjvar)))))
 	       ONT::FORMAL)
 	))
+|#
 
      (experiencer-theme-OBJCONTROL-TEMPL
        (ARGUMENTS
@@ -1359,7 +1420,9 @@
 	    (W::tranform ?transform) (W::class ?cclass) (W::constraint ?constraint) (W::tma ?tma) (W::subjvar 
          ?subjvar) (W::dobjvar ?dobjvar)) NOROLE)
     ))
-  
+
+; nobody uses this
+#|
   (GONNA-TEMPL
    (SYNTAX(W::morph (:forms NIL)) (W::AUX +) (W::MODAL +) (W::CHANGESEM -) (W::AGR ?agr))
    (ARGUMENTS
@@ -1374,7 +1437,8 @@
          ?subj-map) (W::tranform ?transform) (W::class ?cclass) (W::constraint ?constraint) (W::tma ?tma) (
         W::subjvar ?subjvar) (W::dobjvar ?dobjvar)) ONT::situation)
     ))
-  
+|#
+
   ;;;;;; (GOING-TO-XP-TEMPL
   ;;;;;; ;; let 'go' process as a modal (which, in a sense, it is), since the progressive aspect comes from 'be', and
   ;;;;;; ;; the semantics should come from the main clause V
@@ -2379,6 +2443,8 @@
     (SUBCAT (% W::value (W::case (? cas W::obj -))) ONT::VAL)
     ))
 
+; nobody uses this
+#|
    ;; ont::time-val is an ont::val that is f::time, e.g. 'in June' 'in the middle of the night'
    (Binary-constraint-S-or-NP-TIME-VAL-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
@@ -2386,6 +2452,7 @@
     (ARGUMENT (% (? W::x W::S W::NP)) ONT::OF)
     (SUBCAT (% (? cat w::value W::NP) (W::case (? cas W::obj -))) ONT::TIME-VAL)
     ))
+|#
 
    (Binary-constraint-S-trajectory-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
@@ -2406,8 +2473,16 @@
    (ARGUMENTS
     (ARGUMENT (% (? W::x W::S W::NP)) ONT::OF)
     (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::VAL)
-    ))
+    )) 
   
+  (binary-constraint-S-OR-NP-pred-templ
+   (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
+   (ARGUMENTS
+    (ARGUMENT (% (? W::x W::S W::NP) (w::var ?v)) ONT::OF)
+    (SUBCAT (:parameter xp (:default (% W::ADJP))
+			(:required (W::arg ?v))) ONT::VAL)
+    ))
+
   (binary-constraint-S-implicit-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)) (W::allow-deleted-comp +))
    (ARGUMENTS
@@ -2415,12 +2490,15 @@
     (SUBCAT (% W::NP (W::case (? cas W::obj -))) ONT::VAL)
     ))
   
+; nobody uses this 
+#|
   (binary-constraint-sit-val-S-decl-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
    (ARGUMENTS
     (ARGUMENT (% W::S) ONT::OF)
     (SUBCAT (% W::S (W::stype W::decl)) ONT::SIT-VAL)
     ))
+
   
   (binary-constraint-sit-val-NP-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
@@ -2428,15 +2506,19 @@
     (ARGUMENT (% W::S) ONT::OF)
     (SUBCAT (% W::NP (W::case (? cas W::obj -))) ONT::SIT-VAL)
     ))
+|#
 
   ;; for more results
    (Binary-constraint-S-obj-val-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
    (ARGUMENTS
     (ARGUMENT (% W::S) ONT::OF)
-    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::obj-VAL)
+;    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::obj-VAL)
+    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::MOTIVATION)
     ))
    
+; nobody uses this 
+#|
   ;; BEETLE -- state at terminals
   (binary-constraint-of-state-NP-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
@@ -2459,7 +2541,8 @@
     (ARGUMENT (% W::NP) ONT::VAL) 
     (SUBCAT (% W::NP) ONT::OF-STATE)
     ))
-  
+|#
+
   (binary-constraint-S-decl-templ
    (SYNTAX (W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST))
 	   (W::ALLOW-DELETED-COMP -)
@@ -2857,7 +2940,8 @@
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::OF)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION)
     ))
 
   ;; he is willing to go
@@ -2880,14 +2964,16 @@
    (SYNTAX (w::sort w::binary-constraint)  (W::ATYPE (? ATYPE w::pre W::POST)))
    (ARGUMENTS
     (ARGUMENT (% (? ag W::S)) ONT::OF)
-    (subcat (% W::ADVBL) ONT::time-VAL)
+;    (subcat (% W::ADVBL) ONT::time-VAL)
+    (subcat (% W::ADVBL) ONT::VAL)
     ))
    
    (BINARY-CONSTRAINT-ADJ-result-VAL-TEMPL
    (SYNTAX (w::sort w::binary-constraint)  (W::ATYPE (? ATYPE w::pre W::POST)))
    (ARGUMENTS
     (ARGUMENT (% (? ag W::S)) ONT::OF)
-    (subcat (% w::adjp (w::set-modifier -)) ONT::result-VAL)
+;    (subcat (% w::adjp (w::set-modifier -)) ONT::result-VAL)
+    (subcat (% w::adjp (w::set-modifier -)) ONT::VAL)
     ))
    
   ;; This is: this place is good for fishing 
@@ -2897,7 +2983,8 @@
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::OF)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION)
     ))
 
   ;; This is: this place is good for fishing 
@@ -2914,21 +3001,12 @@
    (adj-affected-stimulus-xp-templ
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::Affected)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::with)))) ONT::stimulus)
+;    (ARGUMENT (% W::NP) ONT::Affected)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::with)))) ONT::stimulus)
+    (ARGUMENT (% W::NP) ONT::OF)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::with)))) ONT::VAL)
     ))
 
-  ;; This is: this drug is good for cancer
-  ;; using this template will require a subcat to be present
-  ;; For "the place is good" use central-adj-templ in addition to this
-  (adj-Purpose-implicit-xp-templ
-   (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
-   (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::OF)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose-implicit)
-    ))
-  
-  
   ;; This template is for "I am afraid fo dogs"
   ;; Note that the complement is required. You need a "central-adj-templ" to go with this to have adjectives w/o complements
   ;; This is needed, however, for all ajectives which can have multiple complement mappings
@@ -2936,9 +3014,21 @@
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::of)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::of)))) ONT::Stimulus)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::of)))) ONT::Stimulus)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::of)))) ONT::VAL)
     ))
 
+;; This is: this drug is good for cancer
+  ;; using this template will require a subcat to be present
+  ;; For "the place is good" use central-adj-templ in addition to this
+  (adj-Purpose-implicit-xp-templ
+   (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
+   (ARGUMENTS
+    (ARGUMENT (% W::NP) ONT::OF)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose-implicit)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION)
+    ))
+  
   
   ;; This template is for "I am happy for her" Note that the
   ;; complement is required. You need a "central-adj-templ" to go with
@@ -2959,7 +3049,8 @@
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::of)
-    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::Content)
+;    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::Content)
+    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::FORMAL)
     ))
   
   
@@ -2967,7 +3058,8 @@
   (adj-content-templ
    (SYNTAX (W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::CONTENT)
+;    (ARGUMENT (% W::NP) ONT::CONTENT)
+    (ARGUMENT (% W::NP) ONT::FORMAL)
     ))
 
   
@@ -2982,17 +3074,19 @@
    (SYNTAX (W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS    
     (ARGUMENT (% W::NP (W::lex W::it)) NOROLE)
-    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::Content)
+;    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::Content)
+    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::FORMAL)
     ))
 
   
-  ;; This template is for "I happy that she does it"
+  ;; This template is for "To do this is hard for her"
   ;; Note that the complement is required. You need a "central-adj-templ" to go with this to have adjectives w/o complements
   ;; This is needed, however, for all ajectives which can have multiple complement mappings
   (adj-content-affected-xp-templ
    (SYNTAX (W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::Content)
+;    (ARGUMENT (% W::NP) ONT::Content)
+    (ARGUMENT (% W::NP) ONT::FORMAL)
     (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Affected)
     ))
   
@@ -3000,8 +3094,9 @@
   (adj-content-affected-optional-xp-templ
    (SYNTAX (W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::Content)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Affected)
+;    (ARGUMENT (% W::NP) ONT::Content)
+    (ARGUMENT (% W::NP) ONT::FORMAL)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Affected OPTIONAL)
     ))
 
   ;; This template is for "It's hard for him to see her"
@@ -3020,7 +3115,8 @@
     (subcat2 (:parameter xp2 
 			 (:default (% W::CP (W::ctype W::s-to)))  
 			 (:required (W::subj (% W::np (W::sem ?subcatsem) (W::lex ?subcatlex) (W::var ?subcatvar)))))
-	     ONT::Content)
+;	     ONT::Content)
+	     ONT::FORMAL)
     ))
   
 
@@ -3160,7 +3256,8 @@
    (SYNTAX (W::SORT W::PRED) (W::ARG ?arg) (W::ATYPE W::central) (w::allow-deleted-comp +))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::AFFECTED)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::of)))) ONT::content)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::of)))) ONT::content)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::of)))) ONT::FORMAL)
     ))
 
 ;; the task is easy to perform/ the car is easy to fix

@@ -81,13 +81,16 @@
     (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::finite)))) ONT::assoc-with)
     ))
 
+; nobody uses this
+  #|
   ;; book by an author
    (COUNT-PRED-SUBCAT-ORIGINATOR-OPTIONAL-TEMPL
    (SYNTAX (W::AGR (? a W::3s W::3p)) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT W::PRED) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
     (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::by)))) ONT::originator optional)
     ))
-   
+  |#
+  
   ;;;;;
   ;;;;; Count nouns with plural form only, e.g. supplies
   ;;;;;
@@ -355,6 +358,8 @@
      ONT::affected)
     ))
 
+; nobody uses this
+#|
  (OTHER-RELN-addressee-TEMPL
    (SYNTAX (W::AGR w::3s) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::OTHER-RELN) (w::allow-deleted-comp +) (W::MASS W::COUNT))
@@ -362,6 +367,7 @@
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of))) (:required(W::sort (? !sort W::unit-measure)))) 
      ONT::addressee)
     ))
+|#
 
 (OTHER-RELN-attribute-TEMPL
    (SYNTAX (W::AGR w::3s) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
@@ -399,6 +405,8 @@
      ONT::agent1)
     ))
 
+; nobody uses this
+#|
 (OTHER-RELN-spatial-loc-TEMPL
    (SYNTAX (W::AGR w::3s) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::OTHER-RELN) (w::allow-deleted-comp +) (W::MASS W::COUNT))
@@ -406,7 +414,10 @@
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of))) (:required(W::sort (? !sort W::unit-measure)))) 
      ONT::agent)
     ))
+|#
 
+; nobody uses this
+#|
   (OTHER-RELN-associated-info-count-TEMPL
    (SYNTAX (w::agr w::3s) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::OTHER-RELN) (w::allow-deleted-comp +) (W::MASS W::COUNT))
@@ -414,7 +425,10 @@
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of))) (:required(W::sort (? !sort W::unit-measure)))) 
      ONT::associated-information)
     ))
+|#
 
+; nobody uses this
+#|
    (OTHER-RELN-associated-info-mass-TEMPL
    (SYNTAX (w::agr w::3s) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::OTHER-RELN) (w::allow-deleted-comp +) (W::MASS W::MASS))
@@ -422,6 +436,7 @@
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of))) (:required(W::sort (? !sort W::unit-measure)))) 
      ONT::associated-information)
     ))
+|#
 
   ;; for nominalizations where the ont::of role is the ont::agent of the verb
   (OTHER-RELN-cause-TEMPL
@@ -465,7 +480,8 @@
    (SYNTAX(W::AGR (? a W::3s W::3p)) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::PRED) (w::allow-deleted-comp +) (W::MASS W::MASS))
    (ARGUMENTS
-    (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-to) (W::subj ?lsubj)))) ONT::EFFECT)
+;    (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-to) (W::subj ?lsubj)))) ONT::EFFECT)
+    (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-to) (W::subj ?lsubj)))) ONT::FORMAL)
     ))
 
    (SUBCAT-inf-TEMPL
@@ -489,7 +505,8 @@
    (SYNTAX(W::AGR (? a W::3s W::3p)) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::PRED) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
-    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::purpose optional)
+;    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::purpose optional)
+    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION optional)
     ))
 
   ;; get approval (for the purchase)
@@ -497,7 +514,8 @@
    (SYNTAX (W::AGR W::3s) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
       W::OTHER-RELN) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
-    (SUBCAT (:parameter xp (:default (% W::PP (W::ptype (? pt w::for W::of)) (W::sort (? !sort W::unit-measure))))) ONT::EFFECT)
+;    (SUBCAT (:parameter xp (:default (% W::PP (W::ptype (? pt w::for W::of)) (W::sort (? !sort W::unit-measure))))) ONT::EFFECT)
+    (SUBCAT (:parameter xp (:default (% W::PP (W::ptype (? pt w::for W::of)) (W::sort (? !sort W::unit-measure))))) ONT::FORMAL)
     ))
 
 (OTHER-RELN-goal-TEMPL
@@ -549,7 +567,8 @@
  (other-reln-cost-templ
    (SYNTAX(W::sort W::other-reln)  (W::CASE (? cas W::sub W::obj)) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
-    (SUBCAT (:parameter xp (:default (% W::PP (W::ptype w::of)))) ONT::cost)
+;    (SUBCAT (:parameter xp (:default (% W::PP (W::ptype w::of)))) ONT::cost)
+    (SUBCAT (:parameter xp (:default (% W::PP (W::ptype w::of)))) ONT::EXTENT)
     ))
 
   ;;  ratio
@@ -607,6 +626,8 @@
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of)))) ONT::of)
     ))
 
+; nobody uses this
+#|
     ;;;;; Relational nouns tagged with generalized-part-of-reln, but where the "of" subcat may map to an event
   ;; e.g. the end of the meeting
   (GEN-PART-OF-RELN-ACTION-TEMPL
@@ -624,6 +645,7 @@
    (ARGUMENTS
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of)))) ONT::interval)
     ))
+|#
 
   ;;;;; Relational nouns which are derived nominals, e.g. driver
   (DRV-NOM-RELN-TEMPL
