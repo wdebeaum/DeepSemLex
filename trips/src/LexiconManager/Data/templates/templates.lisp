@@ -960,18 +960,16 @@
 	(LSUBJ (% W::NP (W::lex ?subjlex) (W::var ?subjvar)) ONT::AGENT)
 	(LOBJ (% W::NP) ONT::AFFECTED)
 	(LCOMP (:parameter xp (:default (% W::NP (W::lf (% ?p (w::class (? x ont::EVENT-OF-CHANGE))))
-					   (W::subcat (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
-					   ))
-
+					   ))					
+					) ONT::FORMAL)
+	))
 ;			   (w::arg ?subjvar)
 ;			   (W::argument (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
 ;			   )
 
 ;			   (:required (W::subj (% W::np (W::sem ?subjsem) (W::lex ?subjlex) (W::var ?subjvar))))
 			   
-					
-					) ONT::FORMAL)
-	))
+;			   (W::subcat (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
 
 
  (AGENT-Affected-THEME-SUBJCONTROL-optional-TEMPL
@@ -2514,7 +2512,7 @@
    (ARGUMENTS
     (ARGUMENT (% W::S) ONT::OF)
 ;    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::obj-VAL)
-    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::MOTIVATION)
+    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::REASON)
     ))
    
 ; nobody uses this 
@@ -2941,7 +2939,7 @@
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::OF)
 ;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::REASON)
     ))
 
   ;; he is willing to go
@@ -2984,7 +2982,7 @@
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::OF)
 ;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::REASON)
     ))
 
   ;; This is: this place is good for fishing 
@@ -3026,7 +3024,7 @@
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::OF)
 ;    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::Purpose-implicit)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::REASON)
     ))
   
   

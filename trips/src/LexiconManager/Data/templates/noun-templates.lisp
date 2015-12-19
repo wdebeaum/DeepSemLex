@@ -506,7 +506,7 @@
       W::PRED) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
 ;    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::purpose optional)
-    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::MOTIVATION optional)
+    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::REASON optional)
     ))
 
   ;; get approval (for the purchase)
