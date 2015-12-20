@@ -24,8 +24,8 @@
  :sem (F::Situation (F::Cause (? cz F::Force f::agentive)) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::agent ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
 	     (:optional ont::affected)
-	     (:essential ont::result ((? res F::SITUATION F::ABSTR-OBJ)))
-	     (:optional ont::formal) ;; here for now while we decide the FORMAL/RESULT issue
+	     (:essential ont::result ((? res1 F::SITUATION F::ABSTR-OBJ)))
+	     (:optional ont::formal ((? res2 F::SITUATION F::ABSTR-OBJ))) ;; here for now while we decide the FORMAL/RESULT issue
 	     )
  )
 
@@ -66,6 +66,7 @@
  :arguments ((:ESSENTIAL ONT::Affected ((? adr F::Phys-obj f::abstr-obj)))
 	     (:OPTIONAL ONT::Formal ((? th21 F::Abstr-obj F::Situation F::Proposition)))
 	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj))); (F::information F::information-content)))
+	     (:optional ont::norole)
 	     )
  )
 
@@ -135,7 +136,7 @@
 (define-type ONT::agreement
  :parent ONT::agent-interaction
  :arguments ((:ESSENTIAL ONT::Formal)
-             (:OPTIONAL ONT::Associated-information)
+;             (:OPTIONAL ONT::Associated-information)
 	     )
  )
 
@@ -248,7 +249,8 @@
  :sem (F::Situation (:required (F::Trajectory -)))
  :arguments ((:ESSENTIAL ONT::Neutral ((? atp F::phys-obj F::abstr-obj F::situation)))
              (:ESSENTIAL ONT::Formal ((? th3 F::Phys-obj F::Abstr-obj F::situation)))
-	     (:optional ont::predicate)
+;	     (:optional ont::predicate)
+	     (:optional ont::norole)
              )
  )
 
@@ -297,7 +299,8 @@
              ;;; Invention
 	     ;; ONT::result is our name for VN product
 	     (:optional ONT::affected-Result)
-             (:OPTIONAL ONT::Purpose)
+;             (:OPTIONAL ONT::Purpose)
+             (:OPTIONAL ONT::REASON)
 	     )
  )
 
@@ -310,7 +313,7 @@
              ;;; Evidence
              (:OPTIONAL ONT::Source)
              ;;; Ground/ Loc-Perc
-             (:OPTIONAL ONT::Place)
+;             (:OPTIONAL ONT::Place)
              )
  )
 
@@ -342,7 +345,7 @@
  :arguments (             ;;; Evidence
              (:OPTIONAL ONT::Source)
              ;;; State
-             (:OPTIONAL ONT::Stative)
+;             (:OPTIONAL ONT::Stative)
 	     ;; why does this have both agent and cognizer roles (see above)?
              (:ESSENTIAL ONT::agent () (:implements cognizer))
              )
@@ -443,7 +446,7 @@
  ;;; you can talk about anything -- people, vehicles, situations, etc.
  ;;; (?type (information F_Information-content)))
  :arguments ((:ESSENTIAL ONT::formal)
-             (:OPTIONAL ONT::associated-information)
+;             (:OPTIONAL ONT::associated-information)
 	     (:optional ont::effect ((? ef F::Situation f::abstr-obj)))
              )
  )
@@ -471,7 +474,7 @@
 	     (:OPTIONAL ONT::neutral1)  ;; backwards compat
              (:OPTIONAL ONT::Formal)
              ;;; Means
-             (:OPTIONAL ONT::action)
+;             (:OPTIONAL ONT::action)
              )
  )
 
@@ -490,7 +493,7 @@
              ;;; Affliction
              (:OPTIONAL ONT::Formal)
              ;;; Treatment
-             (:OPTIONAL ONT::INSTRUMENT (F::phys-obj (F::intentional -)))
+;             (:OPTIONAL ONT::INSTRUMENT (F::phys-obj (F::intentional -)))
              )
  )
 
@@ -532,7 +535,8 @@
 ;;; Even if we do not know the path, it is implied in the verb
 (define-type ONT::Path-shape
  :parent ont::motion
- :arguments ((:ESSENTIAL ONT::Path)
+ :arguments (
+;	     (:ESSENTIAL ONT::Path)
              )
  )
 
@@ -551,20 +555,22 @@
 (define-type ONT::directed-motion
  :parent ont::motion
  :arguments ((:ESSENTIAL ONT::agent)
-             (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
+;             (:ESSENTIAL ONT::Addressee ((? adr F::Phys-obj f::abstr-obj) (F::intentional +)))
              )
  )
 
 
 (define-type ONT::Arriving
  :parent ont::motion
- :arguments ((:ESSENTIAL ONT::To-loc)
+ :arguments (
+;	     (:ESSENTIAL ONT::To-loc)
              )
  )
 
 (define-type ONT::Departing
  :parent ont::motion
- :arguments ((:ESSENTIAL ONT::From-loc)
+ :arguments (
+;	     (:ESSENTIAL ONT::From-loc)
 	     (:optional ont::neutral)
              )
  )
@@ -593,7 +599,8 @@
 (define-type ONT::Transportation
  :parent ont::motion
  :sem (F::Situation (F::Cause F::Agentive))
- :arguments ((:ESSENTIAL ONT::Instrument (F::phys-obj (F::object-function F::vehicle) (F::intentional -)))
+ :arguments (
+;	     (:ESSENTIAL ONT::Instrument (F::phys-obj (F::object-function F::vehicle) (F::intentional -)))
              )
  )
 
@@ -612,7 +619,7 @@
  :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Intentional +)))
              ;;; Phenomenon
              (:ESSENTIAL ONT::neutral ((? tt F::phys-obj F::situation)))
-	     (:ESSENTIAL ONT::action ((? act F::situation))) ;; He saw him leave - present treatment
+;	     (:ESSENTIAL ONT::action ((? act F::situation))) ;; He saw him leave - present treatment
 	      (:optional ONT::formal)
              )
  )
@@ -624,7 +631,9 @@
 (define-type ONT::Expensiveness
  :parent ONT::event-of-state
  :sem (F::Situation (F::Cause -) (F::trajectory -))
- :arguments ((:ESSENTIAL ONT::Cost ((? cst f::phys-obj f::abstr-obj))) ; too restrictive (f::abstr-obj (f::scale f::money-scale)))
+ :arguments (
+;	     (:ESSENTIAL ONT::Cost ((? cst f::phys-obj f::abstr-obj))) ; too restrictive (f::abstr-obj (f::scale f::money-scale)))
+	     (:ESSENTIAL ONT::EXTENT ((? cst f::phys-obj f::abstr-obj))) ; too restrictive (f::abstr-obj (f::scale f::money-scale)))
 	     ;;(:optional ont::effect (f::situation))
 	     (:REQUIRED ONT::FORMAL ((? th8 F::Phys-obj F::Abstr-obj F::situation)))
              )
@@ -647,7 +656,7 @@
 	     ;; form substance is also too strong.
              (:REQUIRED ONT::Affected (F::Phys-obj (F::mobility F::movable) (F::form F::substance) (f::object-function f::comestible)))
 	     ;; This is eat with a spoon/fork etc.
-             (:OPTIONAL ONT::Instrument (F::Phys-obj (F::mobility F::movable) (F::intentional -) (f::form f::solid-object) (f::information -)))
+;             (:OPTIONAL ONT::Instrument (F::Phys-obj (F::mobility F::movable) (F::intentional -) (f::form f::solid-object) (f::information -)))
 	     ;;; Myrosia added accompaniment to account for frequent usages of "take/eat it with food/milk etc
 	     (:OPTIONAL ONT::Assoc-with (F::Phys-obj (F::Form F::substance) (F::mobility F::movable)))
              )
@@ -656,7 +665,8 @@
 (define-type ONT::AUX
  :parent ONT::SITUATION-ROOT
  :arguments ((:REQUIRED ONT::Formal)
-             (:ESSENTIAL ONT::Situation (F::Situation))
+;             (:ESSENTIAL ONT::Situation (F::Situation))
+	      (:optional ont::norole)
              )
  )
 
@@ -714,7 +724,8 @@
 (define-type ONT::PROGRESSIVE
  :parent ONT::AUX
  :sem (F::Situation (F::Aspect F::static) (F::Time-span F::extended))
- :arguments ((:ESSENTIAL ONT::Situation (F::Situation (F::Aspect (? avar F::Dynamic F::Stage-Level))))
+ :arguments (
+;	     (:ESSENTIAL ONT::Situation (F::Situation (F::Aspect (? avar F::Dynamic F::Stage-Level))))
              )
  )
 
@@ -737,7 +748,8 @@
 (define-type ONT::PERFECTIVE
  :parent ONT::AUX
  :sem (F::Situation (F::Aspect F::static) (F::Time-span F::extended))
- :arguments ((:ESSENTIAL ONT::Situation (F::Situation (F::Aspect (? avar F::Dynamic F::Stage-Level))))
+ :arguments (
+;	     (:ESSENTIAL ONT::Situation (F::Situation (F::Aspect (? avar F::Dynamic F::Stage-Level))))
              )
  )
 
@@ -761,7 +773,7 @@
  :arguments ((:REQUIRED ONT::neutral ((? oc1 F::Phys-obj F::Abstr-obj F::Situation)))
 	     ;; this is still here until we decide what to do with the formal-pred mappings for be
 	     (:optional ONT::formal ((? oc1 F::Phys-obj F::Abstr-obj F::Situation)))
-             (:ESSENTIAL ONT::PROPERTY ((? oc2 F::abstr-obj))) ;; only properties (preds) -- for event nouns use ont::have-experience or ont::participating
+;             (:ESSENTIAL ONT::PROPERTY ((? oc2 F::abstr-obj))) ;; only properties (preds) -- for event nouns use ont::have-experience or ont::participating
              )
  )
 
@@ -865,7 +877,8 @@
 
 (define-type ont::intentionally-act
  :parent ont::event-of-action
- :arguments ((:REQUIRED ont::action (F::Situation (F::Cause F::Agentive)))
+ :arguments (
+;	     (:REQUIRED ont::action (F::Situation (F::Cause F::Agentive)))
              (:REQUIRED ONT::agent ((? ag F::phys-obj f::abstr-obj) (F::intentional +)))
              )
  )
@@ -932,7 +945,8 @@
 (define-type ONT::releasing
  :wordnet-sense-keys ("free%2:41:00" "liberate%2:41:02" "release%2:41:00" "unloose%2:41:00" "unloosen%2:41:00" "loose%2:41:00" "discharge%2:41:01" "exempt%2:41:00" "let_go%2:35:00")
  :parent ONT::control-manage
- :arguments ((:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
+ :arguments (
+;	     (:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
 	     (:REQUIRED ONT::affected ((? obj F::PHYS-OBJ F::ABSTR-OBJ)))
 	     ;;(:OPTIONAL ONT::Cause ((? cs F::PHYS-OBJ F::ABSTR-OBJ)))
              (:REQUIRED ONT::agent ((? ag f::abstr-obj F::phys-obj) (F::intentional +)) (:implements cause))
@@ -980,7 +994,8 @@
 
 (define-type ont::miss
     :parent ONT::acting
-    :arguments ((:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
+    :arguments (
+;		(:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
 		(:REQUIRED ONT::affected)
 		)
  )
@@ -988,7 +1003,8 @@
 (define-type ONT::succeed
  :wordnet-sense-keys ("hold_one's_own%2:42:00" "succeed%2:41:00" "excel%2:42:00")
  :parent ONT::acting
- :arguments ((:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
+ :arguments (
+;	     (:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
 	     (:REQUIRED ONT::effect (F::Situation))
 	     (:OPTIONAL ONT::agent)
 	     ;;(:REQUIRED ONT::agent ((? ag f::abstr-obj F::phys-obj) (F::intentional +)) (:implements cause))

@@ -49,29 +49,46 @@
   (W::give
    (wordfeats (W::morph (:forms (-vb) :past W::gave :pastpart W::given)))
    (SENSES
+
     ((lf-parent ont::giving)
-     (templ agent-affected-recipient-alternation-templ)
+;     (templ agent-affected-recipient-alternation-templ)
+     (TEMPL AGENT-RECIPIENT-affected-TEMPL (xp (% W::NP (W::lf (% ?p (w::class (? !x ont::EVENT-OF-CHANGE)))))))
      (example "give him a gift/a job")
      ;; restructured this to allow non-movable things to be given
      (meta-data :origin calo :entry-date unknown :change-date 20040505 :comments calo-y1variants)
     )
+   
     ((LF-PARENT ONT::giving)
      (example "give a gift to him")
-     (TEMPL agent-affected-goal-optional-templ) ; like grant,offer
+;     (TEMPL agent-affected-goal-optional-templ) ; like grant,offer
+     (TEMPL AGENT-AFFECTED-AR-TO-TEMPL)
      )
     
+    #|
     (
      (LF-PARENT ONT::cause-effect) ;; GUM change new parent 20121027
      (TEMPL agent-affected-effect-templ);; GUM change new template 20121027
      (EXAMPLE "aspirin gives me headaches")
      (meta-data :origin medadvisor :entry-date 20011227 :change-date nil :comments nil)
      )
+
     (
      (LF-PARENT ONT::cause-effect)
      (TEMPL agent-affected-effect-subjobjcontrol-templ)
      (EXAMPLE "he gave me a beating")
      (meta-data :origin medadvisor :entry-date 20011227 :change-date nil :comments nil)
      )
+    |#
+    
+    (
+     (LF-PARENT ONT::cause-effect)
+     (TEMPL AGENT-AFFECTED-FORMAL-SUBJCONTROL-OBJ-TEMPL)
+;     (TEMPL Agent-EFFECT-SUBJCONTROL-TEMPL (xp (% w::VP (w::vform w::ing))))
+     (EXAMPLE "he gave me a beating")
+     (meta-data :origin medadvisor :entry-date 20011227 :change-date nil :comments nil)
+     )
+
+    
     )
    )
 ))

@@ -40,7 +40,9 @@
 (define-type ont::commerce
   :parent ont::acquire
   :sem (F::SITUATION (F::Cause F::Agentive) (F::Trajectory -) (F::Aspect F::Dynamic))
- :arguments ((:optional ont::cost (f::abstr-obj (f::scale f::money-scale)) (:implements money))
+  :arguments (
+;	      (:optional ont::cost (f::abstr-obj (f::scale f::money-scale)) (:implements money))
+	      (:optional ont::EXTENT (f::abstr-obj (f::scale f::money-scale)) (:implements money))
 	     (:REQUIRED ONT::affected ((? th11 F::Phys-obj F::Abstr-obj F::situation)) (:implements goods))
 	     (:optional ont::neutral (f::abstr-obj (f::scale f::money-scale)) (:implements money))
 	     (:optional ont::result ((? rcp f::phys-obj f::abstr-obj) (f::intentional +)))
@@ -102,12 +104,11 @@
  :wordnet-sense-keys ("give%2:40:00" "offer%1:10:01" "offering%1:10:01" "gift%2:40:00" "give%2:40:03" "allow%2:41:01" "fall%2:40:12" "send_in%2:41:00" "giving%1:04:00" "gift%1:21:00")
  :parent ONT::RELINQUISH
  :sem (F::SITUATION (f::cause f::agentive) (F::iobj F::recipient))
- :arguments ((:REQUIRED ONT::affected ((? tc  F::Phys-obj f::abstr-obj)))
-	     (:REQUIRED ONT::affected-result ((? tc  F::Phys-obj f::abstr-obj)))
-	     (:REQUIRED ONT::RESULT ((? tc  F::Phys-obj f::abstr-obj)))
+ :arguments ((:REQUIRED ONT::affected ((? tc1  F::Phys-obj f::abstr-obj) ))
+	     (:REQUIRED ONT::affected-result ((? tc2  F::Phys-obj f::abstr-obj)))
+	     (:optional ONT::RESULT ((? tc3  F::Phys-obj f::abstr-obj)))
              )
  )
-
 
 (define-type ONT::donate
  :wordnet-sense-keys ("donate%2:40:00")
@@ -126,7 +127,8 @@
  :parent ONT::giving
  :sem (F::Situation (F::Trajectory -)(F::Aspect F::dynamic))
  :arguments ((:OPTIONAL ONT::Source  ((? atp F::phys-obj F::abstr-obj) (F::object-function f::currency)))  ;; charge it to/take it from my card/account
-             (:OPTIONAL ONT::Cost (f::abstr-obj (F::scale F::money-scale)) (:implements money))
+;             (:OPTIONAL ONT::Cost (f::abstr-obj (F::scale F::money-scale)) (:implements money))
+             (:OPTIONAL ONT::EXTENT (f::abstr-obj (F::scale F::money-scale)) (:implements money))
 	     (:optional ont::neutral ) ;; the thing that was paid for
              )
  )
@@ -224,7 +226,9 @@
  :wordnet-sense-keys ("book%2:41:01" "hold%2:41:00" "reserve%2:41:00" "booking%1:04:00" "reservation%1:04:01")
   :parent ont::acquire
   :sem (F::SITUATION (F::Cause F::Agentive) (F::Trajectory -) (F::Aspect F::Dynamic))
- :arguments ((:optional ont::cost (f::abstr-obj (f::scale f::money-scale)) (:implements money))
+  :arguments (
+;	      (:optional ont::cost (f::abstr-obj (f::scale f::money-scale)) (:implements money))
+	      (:optional ont::EXTENT (f::abstr-obj (f::scale f::money-scale)) (:implements money))
 	     (:REQUIRED ONT::affected((? th16 F::Phys-obj F::Abstr-obj f::situation)))
 	     )
   )
@@ -235,7 +239,8 @@
  :sem (F::SITUATION (F::CONTAINER -) (F::Locative -) (F::trajectory +))
  :arguments ((:OPTIONAL ONT::agent (F::Phys-obj (:required (f::origin (? org f::human f::non-human-animal)))
 					       (:default (F::Mobility F::Self-Moving))))
-             (:OPTIONAL ONT::purpose (F::Situation (F::Cause F::Agentive) (F::Aspect F::Dynamic)))
+;             (:OPTIONAL ONT::purpose (F::Situation (F::Cause F::Agentive) (F::Aspect F::Dynamic)))
+	     (:OPTIONAL ONT::REASON (F::Situation (F::Cause F::Agentive) (F::Aspect F::Dynamic)))
              )
  )
 
@@ -473,7 +478,7 @@
  :sem (F::Situation)
  :arguments ((:REQUIRED ONT::agent (F::phys-obj (F::origin F::living)))
              (:OPTIONAL ONT::affected (F::phys-obj (F::form F::substance))) ;; e.g. an excretion
-	     (:OPTIONAL ONT::property (f::abstr-obj)) ;; he woke up happy
+;	     (:OPTIONAL ONT::property (f::abstr-obj)) ;; he woke up happy
              )
  )
 
@@ -499,7 +504,8 @@
  :wordnet-sense-keys ("bring%2:38:00" "convey%2:38:00" "take%2:38:10" "bring%2:35:02" "port%2:38:06")
  :parent ONT::TRANSPORTATION
  :sem (F::SITUATION (F::Cause F::Agentive) (F::Trajectory +))
- :arguments ((:ESSENTIAL ONT::Instrument (F::Phys-obj (F::Mobility F::Movable) (F::intentional -)))
+ :arguments (
+;	     (:ESSENTIAL ONT::Instrument (F::Phys-obj (F::Mobility F::Movable) (F::intentional -)))
              )
  )
 
@@ -526,8 +532,9 @@
  :wordnet-sense-keys ("turn%2:38:00" "rotate%2:38:01")
  :parent ONT::event-of-causation
  :sem (F::situation (F::Aspect F::dynamic))
- :arguments ((:ESSENTIAL ONT::Instrument (F::Phys-obj (F::object-Function F::Vehicle) (F::Container +) (F::Mobility
-                             F::movable) (F::intentional -)))
+ :arguments (
+;	     (:ESSENTIAL ONT::Instrument (F::Phys-obj (F::object-Function F::Vehicle) (F::Container +) (F::Mobility
+;                             F::movable) (F::intentional -)))
              )
  )
 
@@ -864,7 +871,9 @@
 (define-type ONT::atmospheric-event
  :wordnet-sense-keys ("brighten%2:43:00" "storm%2:43:01" "boom%2:43:00" "blow%2:43:00")
  :parent ONT::natural-event
- :arguments ((:essential ont::agent))
+ :arguments ((:essential ont::agent)
+	     (:optional ont::norole)
+	     )
  )
 
 ;; rain, snow, sleet, hail
@@ -958,7 +967,7 @@
 						  ))
 		(:optional ONT::Result (F::Phys-obj (f::form f::object) (f::origin f::artifact)))
 		(:optional ONT::agent)
-		(:optional ont::instrument (f::phys-obj))
+;		(:optional ont::instrument (f::phys-obj))
 		)
     )
 
@@ -1075,7 +1084,7 @@
   :parent ONT::activity
   :sem (F::Situation (:required (F::Aspect F::Dynamic))(:default (F::Cause F::Force)))
   :arguments ((:ESSENTIAL ONT::agent (f::phys-obj  (:required (f::origin (? org f::human f::non-human-animal)))))
-	      (:OPTIONAL ONT::Co-Agent)
+;	      (:OPTIONAL ONT::Co-Agent)
 	      (:optional ont::affected)
              )
  )
@@ -1620,7 +1629,8 @@
 (define-type ONT::impress
  :wordnet-sense-keys ("affect%2:37:00" "impress%2:37:01" "move%2:37:00" "strike%2:37:00")
  :parent ONT::judgement
- :arguments ((:required ONT::cause)
+ :arguments (
+;	     (:required ONT::cause)
              )
  )
 
@@ -1656,7 +1666,8 @@
  :wordnet-sense-keys ("praise%2:32:00")
  :parent ONT::loaded-claim
  :sem (F::Situation (F::Cause F::Agentive))
- :arguments ((:OPTIONAL ONT::Predicate((? prd F::Phys-obj F::Abstr-obj F::situation))) ;; praise it as exceptional
+ :arguments (
+;	     (:OPTIONAL ONT::Predicate((? prd F::Phys-obj F::Abstr-obj F::situation))) ;; praise it as exceptional
               )
  )
 
@@ -1665,7 +1676,8 @@
  :wordnet-sense-keys ("flatter%2:32:00")
  :parent ONT::praise
  :sem (F::Situation (F::Cause F::Agentive))
- :arguments ((:OPTIONAL ONT::Predicate((? prd F::Phys-obj F::Abstr-obj F::situation))) 
+ :arguments (
+;	     (:OPTIONAL ONT::Predicate((? prd F::Phys-obj F::Abstr-obj F::situation))) 
               )
  )
 
@@ -1825,14 +1837,15 @@
              (:OPTIONAL ONT::Neutral (F::phys-obj))
 	     (:OPTIONAL ONT::neutral1)  ;; thing known
              ;;; Ground/ Loc-Perc
-             (:OPTIONAL ONT::Place)
-	     (:optional ONT::PREDICATE ((? agt F::Phys-obj f::abstr-obj f::situation)))
+;             (:OPTIONAL ONT::Place)
+;	     (:optional ONT::PREDICATE ((? agt F::Phys-obj f::abstr-obj f::situation)))
              )
  )
 
 (define-type ONT::NOT-FAMILIAR
  :parent ONT::SALIENCE
- :arguments ((:optional ONT::PREDICATE ((? agt F::Phys-obj f::abstr-obj f::situation)))
+ :arguments (
+;	     (:optional ONT::PREDICATE ((? agt F::Phys-obj f::abstr-obj f::situation)))
 	     )
  )
 
@@ -1922,7 +1935,7 @@
  :parent ONT::EVENT-OF-ACTION
  :sem (F::Situation)
  :arguments ((:REQUIRED ONT::Formal (?s (F::information F::Information-content)))
-	     (:essential ont::instrument)
+;	     (:essential ont::instrument)
              )
  )
 
@@ -2011,7 +2024,7 @@
 
 (define-type ONT::Confirm
  :wordnet-sense-keys ("shew%2:31:00" "show%2:31:00" "establish%2:31:00" "demonstrate%2:31:00" "prove%2:31:00" "confirm%2:32:00" "reassert%2:32:00" "base%2:31:00")
- :parent ONT::agreement
+ :parent ONT::response
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
@@ -2224,7 +2237,7 @@
  :wordnet-sense-keys ("keep%2:35:10" "stay_fresh%2:42:00" "keep%2:42:03" "keep%2:40:00" "hold_on%2:40:00" "cling%2:37:00" "lay_aside%2:40:00")
   :parent ONT::located-move-state
   :arguments ((:REQUIRED ONT::affected ((? obj F::PHYS-OBJ F::ABSTR-OBJ)))
-	      (:OPTIONAL ONT::cause)
+;	      (:OPTIONAL ONT::cause)
 	      (:OPTIONAL ONT::agent (F::phys-obj (F::intentional +)) (:implements cause))
 	      )
  )
@@ -2278,7 +2291,7 @@
  :parent ONT::CAUSE-effect
  :arguments ((:ESSENTIAL ONT::Effect (f::situation))
 	     (:ESSENTIAL ONT::Result)
-             (:OPTIONAL ONT::Property ((? prop F::abstr-obj)))
+;             (:OPTIONAL ONT::Property ((? prop F::abstr-obj)))
              )
  )
 
@@ -2433,7 +2446,8 @@
              ;;; use a book as a hammer; use force as a catalyst
              (:OPTIONAL ONT::Formal1 ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
              ;;; use a book to do something
-             (:OPTIONAL ONT::Purpose (F::Situation))
+;             (:OPTIONAL ONT::Purpose (F::Situation))
+             (:OPTIONAL ONT::REASON (F::Situation))
 	     ;; _the car_ uses petrol to run; _the battery_ uses a chemical reaction to maintain voltage
 	     (:optional ONT::Affected ((? obj f::abstr-obj f::phys-obj)))
              )
@@ -2502,7 +2516,9 @@
  :wordnet-sense-keys ("cost%2:42:00" "be%2:42:09")
  :parent ONT::EXPENSIVENESS
  :sem (F::SITUATION (F::Aspect F::Indiv-level))
- :arguments ((:REQUIRED ONT::Cost (F::Abstr-obj))
+ :arguments (
+;	     (:REQUIRED ONT::Cost (F::Abstr-obj))
+	     (:REQUIRED ONT::EXTENT (F::Abstr-obj))
 	     (:OPTIONAL ONT::beneficiary (f::phys-obj))
 		)
  )
@@ -2511,7 +2527,9 @@
     :wordnet-sense-keys ("save%2:40:02")
  :parent ONT::EXPENSIVENESS
  :sem (F::SITUATION (F::Aspect F::Indiv-level))
- :arguments ((:REQUIRED ONT::Cost (F::Abstr-obj))
+ :arguments (
+;	     (:REQUIRED ONT::Cost (F::Abstr-obj))
+	     (:REQUIRED ONT::EXTENT (F::Abstr-obj))
 	     (:OPTIONAL ONT::beneficiary (f::phys-obj))
 		)
  )
@@ -2557,7 +2575,8 @@
  :wordnet-sense-keys ("offload%2:35:00" "unlade%2:35:00" "unload%2:35:00" "drop%2:35:00" "drop_off%2:35:00" "set_down%2:35:00" "put_down%2:35:01" "unload%2:35:02" "discharge%2:35:06")
  :parent ONT::EMPTYING
  :sem (F::Situation (F::Aspect F::Dynamic) (F::Cause F::Agentive) (F::Trajectory -))
- :arguments ((:ESSENTIAL ONT::From-Loc (F::Phys-obj (F::Container +)))
+ :arguments (
+;	     (:ESSENTIAL ONT::From-Loc (F::Phys-obj (F::Container +)))
              )
  )
 
@@ -2689,7 +2708,8 @@
  :parent ONT::event-of-state
  :sem (F::Situation (f::cause -) (f::trajectory -))
  :arguments ((:REQUIRED ONT::formal ((? ttp F::Situation F::phys-obj) (F::Aspect (? asp f::dynamic f::stage-level)))) 
-             (:REQUIRED ONT::Duration  (F::abstr-obj (F::scale F::duration-scale)))
+;             (:REQUIRED ONT::Duration  (F::abstr-obj (F::scale F::duration-scale)))
+             (:REQUIRED ONT::EXTENT  (F::abstr-obj (F::scale F::duration-scale)))
              ;;; it will take the truck 5 minutes [to arrive]
              (:OPTIONAL ONT::neutral (f::phys-obj))
              )
@@ -2710,7 +2730,8 @@
  :parent ONT::take-time
  :sem (F::Situation (F::Cause -) (F::Trajectory -))
  :arguments ((:REQUIRED ONT::Formal)
-             (:REQUIRED ONT::duration (F::abstr-obj (F::scale F::duration-scale)))
+;             (:REQUIRED ONT::duration (F::abstr-obj (F::scale F::duration-scale)))
+             (:REQUIRED ONT::EXTENT (F::abstr-obj (F::scale F::duration-scale)))
 	     (:optional ont::agent ((? atp f::abstr-obj f::phys-obj) (f::intentional +)) (:implements ONT::affected))
              )
  )
@@ -2762,19 +2783,25 @@
 (define-type ONT::GENE-EXPRESSION
  :wordnet-sense-keys ("gene_expression%1:19:00" "expression%1:22:00" "express%2:39:09")
  :parent ONT::cause-make-things
- :arguments ((:essential ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part))))
+ :arguments ((:optional ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     (:optional ont::affected (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     )
  )
 
 (define-type ONT::GENE-TRANSCRIPTION
  :wordnet-sense-keys ("transcription%1:22:00" "transcribe%2:30:00")
  :parent ONT::cause-make-things
- :arguments ((:essential ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part))))
+ :arguments ((:optional ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     (:optional ont::affected (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     )
  )
 
 (define-type ONT::GENE-TRANSLATION
  :wordnet-sense-keys ("translation%1:22:00" "translate%2:32:05")
  :parent ONT::cause-make-things
- :arguments ((:essential ont::affected (F::PHYS-OBJ (F::type ont::molecular-part))))
+ :arguments ((:optional ont::affected-result (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     (:optional ont::affected (F::PHYS-OBJ (F::type ont::molecular-part)))
+	     )
  )
 
 
@@ -3100,7 +3127,7 @@
  :arguments ((:REQUIRED ONT::Agent ((? agt F::Phys-obj F::abstr-obj) (f::intentional +)))
              (:REQUIRED ONT::affected)
 	     (:OPTIONAL ONT::Result (f::abstr-obj)) ;; why is the abstr-obj?
-	     (:OPTIONAL ONT::instrument (F::phys-obj (F::intentional -) (F::form F::solid-object)))
+;	     (:OPTIONAL ONT::instrument (F::phys-obj (F::intentional -) (F::form F::solid-object)))
              )
  )
 
@@ -3162,7 +3189,7 @@
  :arguments ((:REQUIRED ONT::Agent  ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
              (:REQUIRED ONT::Formal ((? thm F::phys-obj f::abstr-obj f::situation)))
 	     (:OPTIONAL ONT::Result ((? res F::phys-obj f::abstr-obj)))
-	     (:OPTIONAL ONT::Content ((? ct F::phys-obj f::abstr-obj f::situation f::time))) ;; sort by time, price, size, color, etc.
+;	     (:OPTIONAL ONT::Content ((? ct F::phys-obj f::abstr-obj f::situation f::time))) ;; sort by time, price, size, color, etc.
              )
  )
 
@@ -3206,9 +3233,9 @@
 		(:OPTIONAL ONT::affected1 (F::Phys-obj))
 		(:OPTIONAL ONT::source (F::Phys-obj))
              ;;; Part-2
-		(:OPTIONAL ONT::Co-result (F::Phys-obj))
+;		(:OPTIONAL ONT::Co-result (F::Phys-obj))
 		;;(:OPTIONAL ONT::Criterion)
-		(:OPTIONAL ONT::Instrument) ;; separate A from B with a knife
+;		(:OPTIONAL ONT::Instrument) ;; separate A from B with a knife
 		)
     )
 
@@ -3218,7 +3245,7 @@
  :sem (F::Situation (F::aspect F::dynamic) (F::cause F::agentive))
  :arguments ((:REQUIRED ONT::formal)
              (:ESSENTIAL ONT::agent)
-             (:OPTIONAL ONT::instrument (F::phys-obj (F::intentional -) (F::form F::solid-object)))
+;             (:OPTIONAL ONT::instrument (F::phys-obj (F::intentional -) (F::form F::solid-object)))
              )
  )
 
@@ -3242,7 +3269,7 @@
              ;;; Whole
              (:ESSENTIAL ONT::Result (F::Phys-obj))
              ;;; My definition - anything that joins
-             (:OPTIONAL ONT::Instrument (F::phys-obj (F::intentional -)))
+;             (:OPTIONAL ONT::Instrument (F::phys-obj (F::intentional -)))
              ;;; if there is a spatial component, the location of a join
              (:OPTIONAL ONT::location (F::phys-obj (F::intentional -)))
              )
@@ -3437,7 +3464,8 @@
 (define-type ONT::manipulate
  :wordnet-sense-keys ("operate%2:35:00" "control%2:35:00")
  :parent ONT::control-manage
- :arguments ((:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
+ :arguments (
+;	     (:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
 	     (:REQUIRED ONT::Formal ((? obj f::situation F::PHYS-OBJ F::ABSTR-OBJ)))
 	     (:OPTIONAL ONT::agent ((? cs f::abstr-obj f::phys-obj)))
              ;;(:REQUIRED ONT::agent ((? agt f::abstr-obj F::phys-obj) (F::intentional +)) (:implements cause))
@@ -3561,7 +3589,9 @@
  :wordnet-sense-keys ()
  :parent ONT::event-of-causation
  :sem (F::situation (F::trajectory -))
- :arguments ((:essential ont::cost (F::Phys-obj (F::origin F::human)))
+ :arguments (
+;	     (:essential ont::cost (F::Phys-obj (F::origin F::human)))
+	     (:essential ont::EXTENT (F::Phys-obj (F::origin F::human)))
 	     (:optional ont::formal)
              )
  )
@@ -3587,7 +3617,8 @@
  :sem (F::SITUATION (F::Aspect F::Unbounded) (F::Cause F::Force) (F::Time-span F::Extended))
  :arguments ((:OPTIONAL ONT::Agent (F::Phys-obj (F::Mobility F::Movable)))
 ;             (:OPTIONAL ONT::time-duration-rel (F::time (F::time-function f::time-unit)))
-	     (:OPTIONAL ONT::time-duration-rel (F::abstr-obj (F::scale f::duration-scale)))
+;	     (:OPTIONAL ONT::time-duration-rel (F::abstr-obj (F::scale f::duration-scale)))
+	     (:OPTIONAL ONT::EXTENT (F::abstr-obj (F::scale f::duration-scale)))
              ;;; wait for john
              (:OPTIONAL ONT::Formal (F::phys-obj))
              (:OPTIONAL ONT::effect (F::situation))
@@ -3698,7 +3729,7 @@
     :arguments (
 		;;(:optional ONT::Agent ((? ag F::Phys-obj f::abstr-obj) (F::intentional +)))
 		(:optional ONT::agent ((? cs f::situation f::phys-obj ))) ; (F::situation (F::cause f::force)))
-		(:optional ONT::Instrument (F::Phys-obj (F::intentional -)))
+;		(:optional ONT::Instrument (F::Phys-obj (F::intentional -)))
 		)
     )
 
@@ -3708,7 +3739,7 @@
     :parent ont::change-state-action
     :arguments (
 		(:required ONT::affected ((? th27 f::situation F::Abstr-obj)))
-		(:optional ONT::cause)
+;		(:optional ONT::cause)
 		)
     )
 
@@ -3718,7 +3749,7 @@
  :parent ONT::Change-state-action
  :sem (F::Situation (F::Cause F::Agentive) (F::Trajectory -))
  :arguments ((:REQUIRED ONT::Agent  ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
-             (:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
+;             (:OPTIONAL ONT::Instrument (F::Phys-obj (F::intentional -)))
              )
  )
 
@@ -3755,17 +3786,17 @@
  ;;; Agent, agents, Agent-1
  :arguments ((:ESSENTIAL ONT::Agent)
              ;;; Agent-2
-             (:OPTIONAL ONT::Co-Agent)
+;             (:OPTIONAL ONT::Co-Agent)
              ;;; Formal, Formal-old, Formals, Place in switching places
              (:ESSENTIAL ONT::affected ((? ftt f::situation f::abstr-obj f::phys-obj)))
              ;;; Formal-new
              (:ESSENTIAL ONT::affected1 ((? ft f::situation f::abstr-obj f::phys-obj)))
              ;;; Place
-             (:OPTIONAL ONT::Place)
+;             (:OPTIONAL ONT::Place)
              ;;; Place-1
-             (:OPTIONAL ONT::From-loc)
+;             (:OPTIONAL ONT::From-loc)
              ;;; Place-2
-             (:OPTIONAL ONT::To-loc)
+;             (:OPTIONAL ONT::To-loc)
              )
  )
 
@@ -3871,9 +3902,9 @@
     :sem (f::situation (f::cause f::agentive) (f::trajectory -))
     :arguments (
 		(:essential ont::agent (f::phys-obj (f::intentional +)))
-		(:optional ont::instrument (f::phys-obj (f::intentional -) (f::Origin f::artifact) (f::form f::Object)))
+;		(:optional ont::instrument (f::phys-obj (f::intentional -) (f::Origin f::artifact) (f::form f::Object)))
 		(:required ont::neutral (f::phys-obj)) ;; the item measured
-		(:required ont::property (f::abstr-obj (f::measure-function f::term))) ;; width, height, etc.
+;		(:required ont::property (f::abstr-obj (f::measure-function f::term))) ;; width, height, etc.
 		(:essential ont::extent (f::abstr-obj (f::scale f::any-scale))) ;; the value of the measure, e.g. 5 lbs
 		))
 
@@ -3899,7 +3930,7 @@
     ((:optional ont::agent (f::phys-obj (f::intentional +))) ;; this would be a teacher
      (:optional ont::affected (f::phys-obj (f::intentional +))) ;; this would be a student
      (:required ont::formal ((? ftt f::situation f::abstr-obj))) ;; this would be study subject
-     (:optional ont::associated-information) ;; today we learned about birds
+;     (:optional ont::associated-information) ;; today we learned about birds
      (:optional ont::source ((? fts f::phys-obj f::situation))) ;; I learned this from a book/from hard experience
      ))
 

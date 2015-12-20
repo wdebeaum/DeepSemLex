@@ -37,7 +37,7 @@
   :sem (F::Situation (F::Intentional -) (F::information F::mental-construct) (F::container -))
   :arguments (;;(:optional ont::arg0)  ;; abstract role for robust processing
 	      ;;(:optional ont::arg1)   ;; abstract role for robust processing
-	      (:optional ont::norole)
+;	      (:optional ont::norole)
 	      )
   )
 
@@ -103,7 +103,9 @@
      :sem (F::Situation (F::aspect f::static))
      :comment "Events describing a state of affairs holding"
      :arguments ((:essential ONT::neutral)
-		 (:essential ONT::formal ((? neu F::situation F::Abstr-obj)))))
+		 (:essential ONT::formal ((? neu F::situation F::Abstr-obj)))
+		 (:optional ont::norole)
+		 ))
 
 (define-type ONT::event-of-experience
    :parent ONT::event-of-state

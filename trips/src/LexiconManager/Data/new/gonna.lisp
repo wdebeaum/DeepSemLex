@@ -8,7 +8,8 @@
    (wordfeats (W::morph (:forms NIL)) (W::vform W::ing))
    (SENSES
     ((LF-PARENT ONT::GOING-TO)
-     (TEMPL GONNA-TEMPL)
+;     (TEMPL GONNA-TEMPL)
+     (TEMPL AUX-MODAL-TEMPL)
 ;     (PREFERENCE 1.03) why is this boosted?
      )
     )

@@ -77,6 +77,7 @@
 
 (define-words :pos W::v :templ AGENT-AFFECTED-XP-TEMPL
  :words (
+#|
   ((W::go w::through)
    (wordfeats (W::morph (:forms (-vb) :3s W::goes :past W::went :pastpart W::gone)))
    (SENSES
@@ -85,6 +86,7 @@
      (TEMPL affected-neutral-OPTIONAL-TEMPL)
      (meta-data :origin bee :entry-date 20040805 :change-date nil :comments portability-followup))
     ))
+|#
   ((W::go w::for)
    (wordfeats (W::morph (:forms (-vb) :3s W::goes :past W::went :pastpart W::gone)))
    (SENSES

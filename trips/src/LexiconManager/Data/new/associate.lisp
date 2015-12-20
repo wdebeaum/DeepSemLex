@@ -5,7 +5,7 @@
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
   (W::associate
-    (wordfeats (W::morph (:forms (-vb) :nom w::association :nomobjpreps (w::between))))
+    (wordfeats (W::morph (:forms (-vb) :nom w::association :nomobjpreps (w::between w::with))))
    (SENSES
     ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("amalgamate-22.2-2"))
      (EXAMPLE "associate this voice note with site three")

@@ -6,7 +6,7 @@
  :words (
   (W::AGREEMENT
    (SENSES
-    ((LF-PARENT ONT::agreement) (TEMPL COUNT-PRED-TEMPL)
+    ((LF-PARENT ONT::accept-agree) (TEMPL COUNT-PRED-TEMPL)
      (example "they reached an agreement")
      (META-DATA :ORIGIN CALO :ENTRY-DATE 20040204 :CHANGE-DATE 20090511 :wn ("agreement%1:26:01")
       :COMMENTS HTML-PURCHASING-CORPUS))

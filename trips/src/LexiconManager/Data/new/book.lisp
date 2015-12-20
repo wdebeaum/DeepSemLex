@@ -8,7 +8,8 @@
   (W::BOOK
    (SENSES
     ((LF-PARENT ONT::book)
-     (templ count-pred-subcat-originator-optional-templ)
+;     (templ count-pred-subcat-originator-optional-templ)
+     (TEMPL COUNT-PRED-TEMPL)
      (example "a book by hemingway")
      (meta-data :origin calo :entry-date 20040716 :change-date 20070517 :wn ("book%1:06:00" "book%1:10:00") :comments y2)
      )

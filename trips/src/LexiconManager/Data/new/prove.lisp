@@ -22,6 +22,12 @@
      (example "I proved it to be broken")
      (TEMPL agent-effect-affected-objcontrol-templ)
     )
+
+    ((LF-PARENT ONT::confirm)
+     (example "we prove in this paper that it works")
+     (preference .98)
+     (TEMPL agent-located-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite))))
+ )
     (
      (LF-PARENT ONT::correlation)
      (SEM (F::Aspect F::stage-level) (F::Time-span F::extended))

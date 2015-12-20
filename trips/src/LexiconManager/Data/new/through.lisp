@@ -30,6 +30,11 @@
      (EXAMPLE "through this method")
      )
 
+    ((LF-PARENT ONT::COMPLETELY)
+     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     (EXAMPLE "I looked through the files")
+     )
+
    )
    )))
 

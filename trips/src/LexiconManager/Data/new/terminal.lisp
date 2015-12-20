@@ -6,7 +6,7 @@
  :words (
   (W::terminal
    (SENSES
-    ((LF-PARENT ONT::religious-facility)
+    ((LF-PARENT ONT::transportation-facility)
      (meta-data :origin calo-ontology :entry-date 20060609 :change-date nil :wn ("terminal%1:06:00") :comments plow-req)
      (EXAMPLE "going to the bus terminal")
      )

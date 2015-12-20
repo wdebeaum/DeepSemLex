@@ -46,11 +46,17 @@
      (TEMPL agent-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite))))
     )
     ((LF-PARENT ONT::confirm)
+     (example "We show in this paper that it works")
+     (preference .98)
+     (TEMPL agent-located-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite))))
+     )
+    
+    ((LF-PARENT ONT::confirm)
      (example "I showed it to be broken")
      (TEMPL agent-effect-affected-objcontrol-templ)
     )
     ((LF-PARENT ONT::correlation)
-     (example "this results show that the gene activates the protein")
+     (example "these results show that the gene activates the protein")
      (TEMPL neutral-formal-as-comp-templ (xp (% W::cp (W::ctype W::s-finite))))
     )
 

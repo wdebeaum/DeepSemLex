@@ -18,7 +18,7 @@
      )
     ((meta-data :origin ptb :entry-date 20100501 :change-date nil :comments nil)
      (EXAMPLE "he is unfamiliar with it")
-     (LF-PARENT ONT::familiarity-val)
+     (LF-PARENT ONT::unfamiliarity-val)
      (templ adj-affected-stimulus-xp-templ  (xp (% w::pp (w::ptype w::with))))
      )
     )

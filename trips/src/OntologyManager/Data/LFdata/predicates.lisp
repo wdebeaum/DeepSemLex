@@ -51,6 +51,7 @@
  :parent ONT::SITUATION-OBJECT-MODIFIER
  :arguments ((:ESSENTIAL ONT::OF (F::situation))
              (:OPTIONAL ONT::VAL)
+	     (:optional ont::norole)	     
              )
  )
 
@@ -178,7 +179,8 @@
 	     ;; purposes don't have to be dynamic -- e.g. to store something, to remember, etc.
 	     (:REQUIRED ONT::VAL (F::Situation))
 	     ;; a separate role because it will be lower priority
-	     (:required ont::obj-val (f::abstr-obj)) ;; needed for non-situation ont::vals -- e.g., hit return for more results
+;	     (:required ont::obj-val (f::abstr-obj)) ;; needed for non-situation ont::vals -- e.g., hit return for more results
+	     (:required ont::REASON (f::abstr-obj)) ;; needed for non-situation ont::vals -- e.g., hit return for more results
              )
  )
 
@@ -311,6 +313,8 @@
 ;; the battery is in a closed path by itself
 ;; we are assuming that "by itself" modifies "is" because it's too complicated to figure out sensible rules to make it modify the subject NP
 ;; See emails with subject "what to do about "by itself"" from December 2008
+;;
+;; 2015/12: This is not "by itself" anymore.  "by itself" has moved to EXCLUSIVE
 (define-type ONT::manner-refl
  :parent ONT::SITUATION-MODIFIER
  :arguments ((:ESSENTIAL ONT::OF (F::situation))
@@ -461,3 +465,9 @@
  :arguments ((:essential  ONT::VAL ((? roleval F::PHYS-OBJ F::ABSTR-OBJ)
 			  ))
 	     ))
+ 
+(define-type ONT::COMPLETELY
+  :parent ONT::PREDICATE
+  :arguments ((:ESSENTIAL ONT::OF (F::SITUATION))
+	      )
+  )

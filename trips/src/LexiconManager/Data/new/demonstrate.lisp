@@ -11,6 +11,12 @@
      (LF-PARENT ONT::confirm)
      (TEMPL agent-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite)))) ; like confirm
      )
+
+    ((LF-PARENT ONT::confirm)
+     (example "we demonstrate in this paper that it works")
+     (preference .98)
+     (TEMPL agent-located-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite))))
+     )
     ((LF-PARENT ONT::confirm)
      (example "I demonstrated it to be broken")
      (TEMPL agent-effect-affected-objcontrol-templ))

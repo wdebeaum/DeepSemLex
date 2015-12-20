@@ -505,7 +505,7 @@
              (:ESSENTIAL ONT::VAL (F::Phys-obj (F::form (? ff F::object f::solid f::liquid f::gas))))
 	     ;; this is for "the voltage at terminals"
 	     ;; BEETLE
-	     (:ESSENTIAL ONT::OF-STATE (F::Abstr-obj))
+;	     (:ESSENTIAL ONT::OF-STATE (F::Abstr-obj))
              )
  )
 
@@ -728,7 +728,7 @@
  :arguments ((:ESSENTIAL ONT::VAL (F::time (F::time-scale F::interval)
 			 (F::time-function (? funcn F::month-name F::year-name F::day-period))))
 
-	     (:ESSENTIAL ONT::SIT-VAL (F::situation))
+;	     (:ESSENTIAL ONT::SIT-VAL (F::situation))
 	     ;;(:ESSENTIAL ONT::VAL (F::time ((? vl F::abstr-obj f::time) (F::scale f::duration-scale))) ;; five minutes/days/hours
 	     ;; now used shared (f::scale f::duration feature on the ont::val instead of ont::time-val
 ;	     (:optional ont::time-val (f::time)) ;; in June, in 1990
@@ -784,7 +784,7 @@
 (define-type ONT::time-clock-rel
  :parent ONT::temporal-location
  :arguments ((:ESSENTIAL ONT::VAL (F::time (F::time-function (? fn F::clock-time F::day-point))))
-	     (:ESSENTIAL ONT::SIT-VAL (F::situation))
+;	     (:ESSENTIAL ONT::SIT-VAL (F::situation))
              )
  )
 
@@ -810,8 +810,8 @@
  :arguments ((:ESSENTIAL ONT::OF (F::Situation (F::Aspect F::bounded) (F::Time-span F::extended)))
 ;             (:ESSENTIAL ONT::VAL (F::time (F::time-function f::time-unit)))
 	     (:ESSENTIAL ONT::VAL (F::abstr-obj (F::scale f::duration-scale)))
-	     (:optional ont::result-val (f::abstr-obj)) ; until recently / ready
-	     (:optional ont::time-val  (f::abstr-obj (f::scale f::time-measure-scale)))
+;	     (:optional ont::result-val (f::abstr-obj)) ; until recently / ready
+;	     (:optional ont::time-val  (f::abstr-obj (f::scale f::time-measure-scale)))
              )
  )
 
@@ -891,9 +891,9 @@
  :arguments ((:OPTIONAL ONT::OF ((? lof f::situation F::time)))
 	     ;; this is because we may have things "the end of an event". In reality, there should be a coercion rule, but we are not doing it yet
 	     ;; middle of the meeting
-	     (:OPTIONAL ONT::ACTION (F::situation (f::aspect f::unbounded)))
+;	     (:OPTIONAL ONT::ACTION (F::situation (f::aspect f::unbounded)))
 	     ;; middle of the year
-	     (:OPTIONAL ONT::INTERVAL (F::time))
+;	     (:OPTIONAL ONT::INTERVAL (F::time))
              )
  )
 

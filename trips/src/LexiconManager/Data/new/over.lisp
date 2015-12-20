@@ -36,6 +36,12 @@
      (SYNTAX (W::ALLOW-DELETED-COMP +) (w::degree-adv +))
      (meta-data :origin calo :entry-date 20040112 :change-date nil :comments calo-y1v1)
      )
+
+    ((LF-PARENT ONT::COMPLETELY)
+     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     (EXAMPLE "I looked over the files")
+     )
+
     )
    )
 ))

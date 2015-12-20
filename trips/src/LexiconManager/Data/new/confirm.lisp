@@ -26,6 +26,13 @@
      (SEM (F::Aspect F::stage-level) (F::Time-span F::extended))
      (TEMPL neutral-formal-as-comp-templ (xp (% W::cp (W::ctype W::s-finite))))
      )
+
+    ((LF-PARENT ONT::confirm)
+     (example "we confirm in this paper that it works")
+     (preference .98)
+     (TEMPL agent-located-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite))))
+     )
+    
     (
      (LF-PARENT ONT::CORRELATION)
      (example "The result confirmed the hypothesis")

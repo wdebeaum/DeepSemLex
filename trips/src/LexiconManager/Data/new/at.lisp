@@ -66,12 +66,16 @@
     ((LF-PARENT ONT::AT-LOC)
      (TEMPL BINARY-CONSTRAINT-S-OR-NP-TEMPL)
      )
+
+    #|
     ((LF-PARENT ONT::spatial-LOC)
      (TEMPL BINARY-CONSTRAINT-OF-STATE-NP-TEMPL)
      (meta-data :origin beetle2 :entry-date 20082002 :change-date nil :comments pilot1)
      (example "state at terminal")
      (preference 0.98) ;; don't choose if other options are available
-     )	      
+     )
+    |#
+    
     ((lf-parent ont::rate-rel)
      (templ binary-constraint-s-or-np-templ)
      (example "move forward at one meter per second" "find a hotel at 10 dollars a day")

@@ -8,7 +8,7 @@
 ;;; declares all features as arbibtary vars to override default - features
 (define-type ONT::FACT
  :parent ONT::ABSTRACT-OBJECT-nontemporal
- :arguments ((:optional ONT::Associated-information)
+ :arguments ((:optional ONT::formal)
 	     )
  )
 
@@ -61,9 +61,12 @@
  :arguments ((:REQUIRED ONT::OF)
 	     (:optional ONT::NEUTRAL1  ((? pvt F::Phys-obj f::abstr-obj)))
              (:optional ONT::NEUTRAL ((? pvt F::Phys-obj f::abstr-obj)))
-	     (:optional ont::Purpose (f::situation (f::aspect f::dynamic)))
+;	     (:optional ont::Purpose (f::situation (f::aspect f::dynamic)))
 	     (:optional ONT::Affected ((? aff f::phys-obj f::abstr-obj f::situation)))
-	     (:optional ONT::Purpose-implicit ((? pi f::phys-obj f::abstr-obj f::situation)))
+;	     (:optional ONT::Purpose-implicit ((? pi f::phys-obj f::abstr-obj f::situation)))
+	     (:optional ONT::REASON ((? pi f::phys-obj f::abstr-obj f::situation)))
+	     (:OPTIONAL ONT::VAL)
+	     (:optional ont::norole)
              )
  )
 
@@ -361,7 +364,9 @@
 ;; Myrosia 2004/04/27
 (define-type ont::openness-val
     :parent ont::configuration-property-val
-    :arguments ((:optional ONT::Purpose))
+    :arguments (
+;		(:optional ONT::Purpose))
+		(:optional ONT::REASON))
     )
 
 ;;; This is for speed values - fast, slow, etc. Use LF_Rate for notions
@@ -437,7 +442,8 @@
 (define-type ont::animal-property-val
     :parent ont::body-related-property-val
     :arguments ((:optional ont::neutral (f::phys-obj (f::origin (? og f::human f::non-human-animal))))
-                (:optional ont::content ((? cont f::abstr-obj f::situation)))
+;                (:optional ont::content ((? cont f::abstr-obj f::situation)))
+                (:optional ont::formal ((? cont f::abstr-obj f::situation)))
                 )
     )
 
@@ -445,11 +451,6 @@
 (define-type ONT::body-property-val
  :parent ONT::animal-PROPERTY-VAL
  )
-
-;; aware (of x)
-(define-type ont::awareness-val
-  :parent ont::body-property-val
-  )
 
 ;; digestive, immune,
 (define-type ONT::body-system-val
@@ -474,13 +475,18 @@
 		;; the action or situation that creates the emotion
 		;; I am happy/afraid that she came yesterday
 		;; This is a specific situation, while a stimulus should be more generic
-		(:optional ont::content ((? cont f::abstr-obj f::situation)))
+;		(:optional ont::content ((? cont f::abstr-obj f::situation)))
 		)
     )
 
+;; aware (of x)
+(define-type ont::awareness-val
+  :parent ont::psychological-property-val
+  )
+
 ;; happy, sad, gloomy...
 (define-type ONT::emotional-property-val
-    :parent ONT::psychological-property-val
+  :parent ONT::psychological-property-val
  )
 
 ;; smart, (un)intelligent
@@ -1223,7 +1229,7 @@
  :sem (F::abstr-obj (:required (f::scale f::linear-scale))(:default (F::gradability +)))
  :arguments ((:REQUIRED ONT::neutral ((? th f::situation f::phys-obj f::abstr-obj)))
              (:ESSENTIAL ONT::neutral1 ((? cth f::situation f::phys-obj f::abstr-obj)))
-	     (:OPTIONAL ONT::PROPERTY)
+;	     (:OPTIONAL ONT::PROPERTY)
              )
  )
 
@@ -1243,7 +1249,8 @@
  :parent ONT::process-val
  :arguments (
 	     (:essential ONT::Affected) ;; him, the storm
-	     (:essential ont::content ((? ct f::phys-obj f::abstr-obj f::situation))) ;; the action (these can also be stative)
+;	     (:essential ont::content ((? ct f::phys-obj f::abstr-obj f::situation))) ;; the action (these can also be stative)
+	     (:essential ont::FORMAL ((? ct f::phys-obj f::abstr-obj f::situation))) ;; the action (these can also be stative)
              )
  )
 
@@ -1253,7 +1260,7 @@
  :sem (F::abstr-obj (:required)(:default (F::gradability +)))
  :arguments ((:REQUIRED ONT::neutral)
              (:ESSENTIAL ONT::neutral1)
-	     (:OPTIONAL ONT::PROPERTY)
+;	     (:OPTIONAL ONT::PROPERTY)
              )
  )
 
@@ -1277,7 +1284,7 @@
  :parent  ONT::can-be-done-val
  :arguments ((:optional ONT::val ((? tp F::phys-obj F::situation)))
 	     ;; available in 4 MW capacity
-	     (:optional ont::property (f::abstr-obj))
+;	     (:optional ont::property (f::abstr-obj))
              )
  )
 
@@ -1914,7 +1921,8 @@
 (define-type ONT::information-function-object
  :parent ONT::FUNCTION-OBJECT
  :sem (F::Abstr-obj (F::information F::information-content) (F::intentional -) (F::container +))
-  :arguments ((:optional ONT::Associated-information)
+ :arguments (
+;	     (:optional ONT::Associated-information)
 	     )
  )
 
@@ -2015,7 +2023,7 @@
  :parent ONT::EVENT-TYPE
  :sem (F::Situation (F::aspect F::dynamic))
  :arguments ((:OPTIONAL ONT::OF)
-	     (:optional ont::content)
+;	     (:optional ont::content)
              )
  )
 
@@ -2177,21 +2185,23 @@
  :wordnet-sense-keys ("cognition%1:03:00" "knowledge%1:03:00" "noesis%1:03:00" "grounds%1:10:00" "reason%1:10:00")
  :parent ONT::mental-construction
 ;; :sem (F::Abstr-obj (F::container +))
- :arguments ((:OPTIONAL ONT::OF (f::situation (f::information f::mental-construct) (f::cause f::mental)))
+ :arguments ((:OPTIONAL ONT::OF) ;(f::situation (f::information f::mental-construct) (f::cause f::mental)))
              )
  )
 
 (define-type ONT::FEELING
     :wordnet-sense-keys ("feeling%1:03:00" "bother%1:09:00" "worry%1:09:00" "sorrow%1:09:00")
     :parent ONT::mental-construction
-    :arguments ((:OPTIONAL ONT::OF (f::situation (f::information f::mental-construct) (f::cause f::mental)))
+    :arguments ((:OPTIONAL ONT::OF) ;(f::situation (f::information f::mental-construct) (f::cause f::mental)))
 		))
 
 ;; reason, motivation
 (define-type ONT::motive
  :parent ONT::mental-object
- :arguments ((:optional ONT::Associated-information)
-	     (:optional ont::purpose) ;; reason for something
+ :arguments (
+;	     (:optional ONT::Associated-information)
+;	     (:optional ont::purpose) ;; reason for something
+;	     (:optional ont::REASON) ;; reason for something
 	     )
  )
 
@@ -2566,7 +2576,7 @@
  :wordnet-sense-keys ("control%1:04:00" "restriction%1:09:00" "limitation%1:09:00")
  :parent ONT::SITUATION
  :arguments ((:OPTIONAL ONT::OF)
-	     (:optional ont::associated-information)
+;	     (:optional ont::associated-information)
              )
  )
 
@@ -3500,7 +3510,7 @@
 :wordnet-sense-keys ("willing%3:00:00" "incapable%3:00:00")
  ; Antonym: ONT::disinclined (W::unwilling w::disinclined w::involuntary)
   :arguments ((:required ONT::OF ((? lof f::phys-obj f::abstr-obj) (f::intentional +)))
-	      (:optional ont::action (f::situation))
+;	      (:optional ont::action (f::situation))
              )
  )
 
@@ -3511,7 +3521,7 @@
 :wordnet-sense-keys ("unwilling%3:00:00" "unwilling%3:00:00:involuntary:01")
  ; Antonym: ONT::inclined (W::willing w::inclined w::voluntary)
   :arguments ((:required ONT::OF ((? lof f::phys-obj f::abstr-obj) (f::intentional +)))
-	      (:optional ont::action (f::situation))
+;	      (:optional ont::action (f::situation))
              )
  )
 

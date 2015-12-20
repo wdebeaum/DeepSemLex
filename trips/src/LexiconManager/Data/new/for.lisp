@@ -78,12 +78,19 @@
      (example "He runs for his health")
      (TEMPL BINARY-CONSTRAINT-S-TEMPL)
      )
+    #|
      ((LF-PARENT ONT::PURPOSE)
      (example "Hit return for more results")
      (meta-data :origin plot :entry-date 20081120 :change-date nil :comments chcs-tests)
      (TEMPL BINARY-CONSTRAINT-S-obj-val-TEMPL)
      (preference .97)
      )
+    |#
+    
+     ((LF-PARENT ONT::PURPOSE)
+     (TEMPL binary-constraint-PRED-templ)
+     )
+
     ((LF-PARENT ONT::PURPOSE)
      (example "she is happy for him to come; switch X has to be open for bulb A to light")
      (TEMPL adv-double-subcat-control-templ)

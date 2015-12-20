@@ -17,12 +17,14 @@
      (TEMPL BINARY-CONSTRAINT-NP-TEMPL (xp (% W::NP (W::agr W::3p))))
      (meta-data :origin plow :entry-date 20060526 :change-date nil :comments pq0405)
      )
+     #|
      ((LF-PARENT ONT::SPATIAL-LOC)
       (TEMPL BINARY-CONSTRAINT-OF-STATE-NP-TEMPL)
       (meta-data :origin beetle2 :entry-date 20082002 :change-date nil :comments pilot1)
       (example "voltage between terminals")
       (preference 0.96) ;; don't choose if other options are available
       )
+     |#
      ((LF-PARENT ONT::time-clock-rel)
       (meta-data :origin ralf :entry-date 20040709 :change-date nil :comments nil)
       (example "between 4 and 5 pm")

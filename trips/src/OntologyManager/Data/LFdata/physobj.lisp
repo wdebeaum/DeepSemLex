@@ -80,7 +80,6 @@
     )
 
 (define-type ONT::MOLECULAR-SITE
-    :wordnet-sense-keys ("site%1:15:02" "position%1:10:01" "position%1:15:00" "location%1:03:00")
     :parent ONT::MOLECULAR-PART
     )
 
@@ -644,6 +643,7 @@
 		      (F::Object-Function F::Occupation)
 		      (F::Container -) (F::intentional +) (F::information -))
     :arguments ((:OPTIONAL ONT::OF ((? lof F::Phys-obj f::abstr-obj)))
+		(:optional ont::norole)  ;; here for "driver", "fixer": see note in DRV-NOM-RELN-TEMPL 
 		)
     )
 
@@ -1164,9 +1164,9 @@
 		      (f::Container +)
 		      (F::spatial-abstraction (? sa F::line F::strip)) (F::trajectory +))
     :arguments ((:OPTIONAL ONT::OF (F::Phys-obj))
-		(:OPTIONAL ONT::from-loc (F::Phys-obj))
-		(:OPTIONAL ONT::to-loc (F::Phys-obj))
-		(:OPTIONAL ONT::via (F::Phys-obj))
+;		(:OPTIONAL ONT::from-loc (F::Phys-obj))
+;		(:OPTIONAL ONT::to-loc (F::Phys-obj))
+;		(:OPTIONAL ONT::via (F::Phys-obj))
 		)
     )
 
@@ -1323,7 +1323,8 @@
 ;; items in this class "stand for" something, and have ont::of arguments
 (define-type ont::direct-representation
     :parent ONT::info-holder
-    :arguments ((:optional ONT::Associated-information)
+    :arguments (
+;		(:optional ONT::Associated-information)
 		)
     )
 
@@ -1331,7 +1332,8 @@
 (define-type ont::annotation
     :parent ONT::info-holder
     :wordnet-sense-keys ("comment%1:10:01" "commentary%1:10:00")
-    :arguments ((:optional ONT::Associated-information)
+    :arguments (
+;		(:optional ONT::Associated-information)
 		)
     )
 
@@ -1339,7 +1341,8 @@
 (define-type ont::document
     :parent ONT::info-holder
     :wordnet-sense-keys ("document%1:06:00" "document%1:21:00")
-    :arguments ((:optional ONT::Associated-information)
+    :arguments (
+;		(:optional ONT::Associated-information)
 		)
     )
 
@@ -1429,7 +1432,7 @@
     :parent ONT::info-medium
     :wordnet-sense-keys ("publication%1:10:00")
     :arguments ((:OPTIONAL ONT::OF (?o (F::information F::information-content)))
-		(:optional ont::originator (?org (f::intentional +))) ;; a book/paper/article by an author
+;		(:optional ont::originator (?org (f::intentional +))) ;; a book/paper/article by an author
 		)
     )
 
@@ -1668,12 +1671,6 @@
     :sem (F::Phys-obj (F::Origin F::Artifact))
     )
 
-(define-type ont::tool
-    :parent ont::EQUIPMENT
-    :wordnet-sense-keys ("tool%1:06:00")
-    :sem (f::phys-obj (f::object-function f::instrument))
-    )
-
 (define-type ont::appliance
     :wordnet-sense-keys ("appliance%1:06:00")
     :parent ont::device
@@ -1758,6 +1755,12 @@
     :parent ONT::MANUFACTURED-OBJECT
     :wordnet-sense-keys ("equipment%1:06:00")
     :sem (F::Phys-obj (F::Origin F::Artifact))
+    )
+
+(define-type ont::tool
+    :parent ont::EQUIPMENT
+    :wordnet-sense-keys ("tool%1:06:00")
+    :sem (f::phys-obj (f::object-function f::instrument))
     )
 
 (define-type ONT::machine
