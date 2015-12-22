@@ -195,7 +195,7 @@
   )
 
 (define-type ONT::Appropriate
- :wordnet-sense-keys ("take%2:32:09" "claim%2:32:03" "take_up%2:38:03" "strike%2:38:08" "take%2:38:00" "assume%2:38:00" "occupy%2:41:04" "take%2:41:00" "fill%2:41:00" "get_hold_of%2:35:00" "take%2:35:00" "catch%2:35:00" "grab%2:35:00" "take_hold_of%2:35:01" "snatch%2:35:02")
+ :wordnet-sense-keys ("take%2:32:09" "claim%2:32:03" "take_up%2:38:03" "strike%2:38:08" "take%2:38:00" "assume%2:38:00" "occupy%2:41:04" "take%2:41:00" "fill%2:41:00" "get_hold_of%2:35:00" "take%2:35:00" "catch%2:35:00" "grab%2:35:00" "take_hold_of%2:35:01" "snatch%2:35:02" "take%2:40:15")
  :parent ONT::acquire-by-action
  :sem (F::SITUATION (F::Cause F::Agentive) (F::Trajectory -) (F::Aspect F::Dynamic))
  :arguments ((:REQUIRED ONT::AGENT ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
@@ -1568,16 +1568,10 @@
 		(:essential ont::extent (f::abstr-obj (f::measure-function f::term)))
 		))
 
-
-(define-type ONT::accept
- :wordnet-sense-keys ("take_on%2:40:00" "take%2:40:07" "admit%2:40:00" "accept%2:40:03" "accept%2:40:12" "take%2:40:15" "take%2:31:09" "submit%2:31:12")
- :parent ONT::response
- )
-
 ;; 20120523 GUM change new type
 (define-type ONT::accept-agree
- :wordnet-sense-keys ("grudge%2:37:00" "agree%2:32:00" "agree%2:32:04")
- :parent ONT::accept
+ :wordnet-sense-keys ("grudge%2:37:00" "agree%2:32:00" "agree%2:32:04" "accept%2:32:00" "consent%2:32:00" "go_for%2:32:00" "affirm%2:32:01")
+ :parent ONT::response
  )
 
 (define-type ONT::contest
@@ -1748,12 +1742,6 @@
 (define-type ONT::congratulate
  :wordnet-sense-keys ("compliment%2:32:00" "congratulate%2:32:00")
  :parent ONT::conventional-speech-act
- )
-
-;; agree to, commit to, consent to
-(define-type ONT::consent
- :wordnet-sense-keys ("accept%2:32:00" "consent%2:32:00" "go_for%2:32:00" "affirm%2:32:01")
- :parent ONT::response
  )
 
 ;; honor, respect, prize, treasure, value
@@ -2023,7 +2011,7 @@
  )
 
 (define-type ONT::Confirm
- :wordnet-sense-keys ("shew%2:31:00" "show%2:31:00" "establish%2:31:00" "demonstrate%2:31:00" "prove%2:31:00" "confirm%2:32:00" "reassert%2:32:00" "base%2:31:00")
+ :wordnet-sense-keys ("confirm%2:32:00")
  :parent ONT::response
  :sem (F::Situation (F::Cause F::Agentive))
  )
@@ -2059,15 +2047,17 @@
 
 
 (define-type ont::incur-inherit-receive
-    :wordnet-sense-keys ("get%2:39:14" "inherit%2:40:02")
+    :wordnet-sense-keys ("get%2:39:14" "inherit%2:40:02" "take%2:31:09")
     :arguments ((:REQUIRED ONT::affected1))
     :parent ont::event-of-undergoing-action
     )
 
+#|
 ;; 20120524 GUM change new type
 (define-type ONT::take-on
  :parent ONT::accept
  )
+|#
 
 (define-type ONT::PRESCRIBING
  :parent ONT::giving
@@ -2102,7 +2092,7 @@
  )
 
 (define-type ONT::show
- :wordnet-sense-keys ("show%2:39:02" "demo%2:39:00" "exhibit%2:39:00" "present%2:39:00" "demonstrate%2:39:01" "show%2:39:00")
+ :wordnet-sense-keys ("show%2:39:02" "demo%2:39:00" "exhibit%2:39:00" "present%2:39:00" "demonstrate%2:39:01" "show%2:39:00" "prove%2:31:00")
  :parent ont::COMMUNICATION
  :arguments ((:ESSENTIAL ONT::Agent ((? agt F::Phys-obj f::abstr-obj) (F::intentional +))))
  )
@@ -2110,31 +2100,6 @@
 (define-type ONT::teach-train
     :parent ONT::SHOW
     )
-
-;; write a book (about trucks), write your name
-(define-type ONT::write
- :wordnet-sense-keys ("create_verbally%2:36:00" "complete%2:32:00")
- :parent ONT::COMMUNICATION
- :arguments ((:optional ont::affected-result ((? tt F::phys-obj F::abstr-obj) (F::information (? inf f::data F::information-content))))
-
-	     ))
-
-
-;; 20120523 GUM change new type
-(define-type ont::author-write-burn-print_reprint_type_retype_mistype
-    :parent ont::write
-    )
-
-#|
-;; type the letter
-(define-type ONT::type
- :wordnet-sense-keys ("type%2:32:00" "typewrite%2:32:00")
- :parent ONT::print
- :arguments ((:ESSENTIAL ONT::FORMAL ((? tt F::phys-obj F::abstr-obj) (F::information
-                                                                 (? inf f::data F::information-content))))
-             )
- )
-|#
 
 (define-type ONT::establish-communication
  :wordnet-sense-keys ("ring%2:32:00" "phone%2:32:00" "call_up%2:32:00" "telephone%2:32:00" "call%2:32:01" "reach%2:32:00" "get_through%2:32:00" "get_hold_of%2:32:00" "contact%2:32:00")
@@ -2804,6 +2769,30 @@
 	     )
  )
 
+;; write a book (about trucks), write your name
+(define-type ONT::write
+ :wordnet-sense-keys ("create_verbally%2:36:00" "complete%2:32:00")
+ :parent ONT::CREATE
+ :arguments ((:optional ont::affected-result ((? tt F::phys-obj F::abstr-obj) (F::information (? inf f::data F::information-content))))
+
+	     ))
+
+
+;; 20120523 GUM change new type
+(define-type ont::author-write-burn-print_reprint_type_retype_mistype
+    :parent ont::write
+    )
+
+#|
+;; type the letter
+(define-type ONT::type
+ :wordnet-sense-keys ("type%2:32:00" "typewrite%2:32:00")
+ :parent ONT::print
+ :arguments ((:ESSENTIAL ONT::FORMAL ((? tt F::phys-obj F::abstr-obj) (F::information
+                                                                 (? inf f::data F::information-content))))
+             )
+ )
+|#
 
 ;; host, sponsor
 (define-type ONT::HOST
@@ -2908,6 +2897,7 @@
              )
  )
 
+#|
 ;; debug a computer (program)
 (define-type ONT::debug
  :parent ONT::revise
@@ -2915,6 +2905,7 @@
  :arguments ((:REQUIRED ONT::Agent (F::Phys-obj (F::origin F::human)))
                    )
  )
+|#
 
 (define-type ONT::adjust
  :parent ONT::TRANSFORMATION
@@ -3648,7 +3639,8 @@
 
 ;; stretch  20120524 GUM change new type
 (define-type ONT::admit
- :parent ont::enroll
+  :wordnet-sense-keys ("accept%2:40:03")
+  :parent ont::enroll
  )
 
 
@@ -4262,10 +4254,12 @@
     :parent ont::representative
     )
 
+#|
  (define-type ont::convey 
      :wordnet-sense-keys ("bring_on%2:39:00")
      :parent ont::communication
      )
+|#
 
 ;; beat
 (define-type ont::rhythmic-motion

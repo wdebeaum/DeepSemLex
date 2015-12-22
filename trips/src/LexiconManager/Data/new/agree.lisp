@@ -33,7 +33,7 @@
 	     (TEMPL AGENT-theme-XP-TEMPL)
 	     (meta-data :origin bee :entry-date 20040607 :change-date 20090508 :comments portability-expt) 
 	     )
-	    ((LF-parent ont::consent)
+	    ((LF-parent ont::promise)
 	     (Example "He agreed to the arrangements")
 	     (TEMPL AGENT-THEME-XP-TEMPL(xp (% W::PP (W::ptype W::to))))
 	     (meta-data :origin calo-ontology :entry-date 20060125 :change-date nil :comments meeting-understanding) 

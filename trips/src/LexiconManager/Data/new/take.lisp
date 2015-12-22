@@ -176,7 +176,8 @@
    (SENSES
     ((meta-data :origin particle-verbs :entry-date 20100201)
      ;;(LF-PARENT ONT::accept)
-     (lf-parent ont::take-on) ;; 20120524 GUM change new type
+     ;(lf-parent ont::take-on) ;; 20120524 GUM change new type
+     (LF-PARENT ONT::APPROPRIATE)
      (example "take the project on" "take on the project")
      (SEM (F::Aspect F::bounded) )
      (TEMPL AGENT-THEME-XP-TEMPL)

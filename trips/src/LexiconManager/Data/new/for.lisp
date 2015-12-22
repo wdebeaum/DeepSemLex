@@ -87,10 +87,6 @@
      )
     |#
     
-     ((LF-PARENT ONT::PURPOSE)
-     (TEMPL binary-constraint-PRED-templ)
-     )
-
     ((LF-PARENT ONT::PURPOSE)
      (example "she is happy for him to come; switch X has to be open for bulb A to light")
      (TEMPL adv-double-subcat-control-templ)

@@ -439,6 +439,7 @@
   )
 |#
 
+#|
 (define-type ONT::Statement
  :wordnet-sense-keys ("tell%2:32:04" "say%2:32:00" "state%2:32:00" "speak%2:32:01" "talk%2:32:01" "inform%2:32:00")
  :parent ONT::COMMUNICATION
@@ -455,6 +456,7 @@
  :wordnet-sense-keys ("present%2:32:00" "represent%2:32:11" "lay_out%2:32:00")
  :parent ONT::statement
  )
+|#
 
 (define-type ONT::offer
  :parent ONT::commissive

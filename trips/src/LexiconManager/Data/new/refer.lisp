@@ -8,7 +8,7 @@
   (wordfeats (W::morph (:forms (-vb) :past W::referred :ing W::referring :nom referral)))
    (SENSES
      ((meta-data :origin calo :entry-date 20031230 :change-date 20090506 :comments html-purchasing-corpus)
-      (LF-PARENT ONT::convey)
+      (LF-PARENT ONT::scrutiny)
       (SEM (F::Cause F::Agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))
       (TEMPL AGENT-associated-information-TEMPL (xp (% W::pp (W::ptype W::to))))
       )

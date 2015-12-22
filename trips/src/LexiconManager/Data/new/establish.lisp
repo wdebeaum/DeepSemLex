@@ -8,13 +8,13 @@
      (wordfeats (W::morph (:forms (-vb) :nom w::establishment)))
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090506 :comments nil :vn ("indicate-76-1-1"))
-     (LF-PARENT ONT::confirm)
+     (LF-PARENT ONT::show)
      (example "establish the likelihood of the story")
      (TEMPL agent-neutral-xp-templ) ; like reveal,prove
      (PREFERENCE 0.96)
      )
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090506 :comments nil :vn ("indicate-76-1-1"))
-     (LF-PARENT ONT::confirm)
+     (LF-PARENT ONT::show)
      (example "establish that...")
      (TEMPL agent-theme-xp-templ (xp (% w::cp (w::ctype w::s-finite)))) ; like reveal,prove
      )
