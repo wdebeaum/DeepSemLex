@@ -59,7 +59,7 @@
     ((LF-PARENT ONT::temporal-location)
      (meta-data :origin calo :entry-date 20040809 :change-date nil :comments caloy2)
      (example "when hungry I like steak" "I like steak when hungry" "The man, when hungry, likes steak")
-     (TEMPL binary-constraint-s-or-np-TEMPL (xp (% w::ADJP )))
+     (TEMPL binary-constraint-s-or-np-pred-TEMPL)
      )
     )
    )

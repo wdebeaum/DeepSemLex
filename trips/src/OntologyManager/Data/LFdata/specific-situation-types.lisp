@@ -1584,6 +1584,7 @@
     )
 
 (define-type ont::object ;; 20120524 GUM change new type
+    :wordnet-sense-keys ("object%2:42:00")
     :parent ont::contest
     )
 
@@ -2318,7 +2319,7 @@
 ;; this needs to be able to have stative ont::effect, as in 'let him know'
 ;; also need to have phys & abstr objects as in "are pets allowed"
 (define-type ONT::Allow
- :wordnet-sense-keys ("include%2:41:03" "let_in%2:41:00" "admit%2:41:00" "let%2:41:00" "allow%2:41:00" "permit%2:41:00" "decertify%2:41:00" "give%2:40:11" "indulge%2:41:01" "indulge%2:34:00" "indulge%2:34:12" "indulge%2:41:00")
+ :wordnet-sense-keys ("include%2:41:03" "let_in%2:41:00" "admit%2:41:00" "let%2:41:00" "allow%2:41:00" "permit%2:41:00" "decertify%2:41:00" "give%2:40:11" "indulge%2:41:01" "indulge%2:34:00" "indulge%2:34:12" "indulge%2:41:00" "condone%2:32:00")
   :parent ONT::CAUSE-EFFECT
  ;; approval for the purchase (sit); budget (abstr); that machine (phys-obj)
   :arguments ((:Required ONT::affected ((? aff F::phys-obj f::abstr-obj f::situation)))

@@ -21,7 +21,7 @@
   (W::record
    (SENSES
     ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("transcribe-25.4") :wn ("record%2:32:01"))
-     (EXAMPLE "record a voice note")
+     (EXAMPLE "record the proceedings")
      (LF-PARENT ONT::RECORD)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      )
