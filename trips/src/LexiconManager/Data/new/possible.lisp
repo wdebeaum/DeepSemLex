@@ -15,7 +15,7 @@
     ((meta-data :origin trips :entry-date 20060824 :change-date 20090821 :comments nil :wn ("possible%3:00:00"))
      (EXAMPLE "it's possible to change it")
      (LF-PARENT ONT::POSSIBLE)
-     (TEMPL adj-expletive-content-xp-templ (XP (% W::CP (W::CTYPE W::s-to))))
+     (TEMPL adj-to-inf-templ)
      )
     )
    )

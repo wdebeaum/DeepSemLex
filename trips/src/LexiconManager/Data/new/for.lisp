@@ -76,7 +76,8 @@
    (SENSES
     ((LF-PARENT ONT::PURPOSE)
      (example "He runs for his health")
-     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+;     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     (TEMPL BINARY-CONSTRAINT-S-OR-NP-TEMPL)
      )
     #|
      ((LF-PARENT ONT::PURPOSE)

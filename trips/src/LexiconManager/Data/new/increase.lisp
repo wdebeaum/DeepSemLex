@@ -5,7 +5,8 @@
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
 	      :words (
 		      (w::increase
-		       (wordfeats (W::morph (:forms (-vb) :nom w::increase :nomobjpreps (w::in))))
+		       (wordfeats (W::morph (:forms (-vb) :nom w::increase :nomobjpreps (w::in w::of))))
+		       ; the increase in temperature; the increase of bees
 		       (senses
 			((meta-data :origin calo :entry-date 20040112 :change-date 20090504 :comments calo-y1script)
 			 (LF-PARENT ONT::increase)

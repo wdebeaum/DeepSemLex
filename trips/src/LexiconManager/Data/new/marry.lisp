@@ -5,7 +5,7 @@
 (define-words :pos W::v 
  :words (
   (W::marry
-   (wordfeats (W::morph (:forms (-vb) :nom w::marriage :nomobjpreps (w::between w::to))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::marriage :nomobjpreps (w::between w::to w::of))))
    (SENSES
     ((LF-PARENT ONT::MARRY)
      (TEMPL AGENT-CO-AGENT-XP-TEMPL (xp (% W::NP (W::agr (? a W::1s W::2s W::3s)))))

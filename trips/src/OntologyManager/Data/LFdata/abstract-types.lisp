@@ -59,8 +59,8 @@
  ;; purpose-implicit is something related to the action that would be a purpose, but which requires coercion
  ;; for example, this drug is good for leukemia = this drug is useful for treating leukemia, the treatment as purpose is implicit
  :arguments ((:REQUIRED ONT::OF)
-	     (:optional ONT::NEUTRAL1  ((? pvt F::Phys-obj f::abstr-obj)))
-             (:optional ONT::NEUTRAL ((? pvt F::Phys-obj f::abstr-obj)))
+	     (:optional ONT::NEUTRAL1  ((? pvt F::Phys-obj f::abstr-obj f::situation)))
+             (:optional ONT::NEUTRAL ((? pvt F::Phys-obj f::abstr-obj f::situation)))
 ;	     (:optional ont::Purpose (f::situation (f::aspect f::dynamic)))
 	     (:optional ONT::Affected ((? aff f::phys-obj f::abstr-obj f::situation)))
 ;	     (:optional ONT::Purpose-implicit ((? pi f::phys-obj f::abstr-obj f::situation)))

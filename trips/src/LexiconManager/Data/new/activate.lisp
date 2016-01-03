@@ -12,6 +12,13 @@
      (templ agent-affected-xp-templ)
      (SEM (F::Aspect F::bounded) (F::time-span F::atomic))
      )
+
+    ((EXAMPLE "The army activates") 
+     (LF-PARENT ont::start)
+     (templ affected-templ)
+     (SEM (F::Aspect F::bounded) (F::time-span F::atomic))
+     )
+
     )
    )
 ))

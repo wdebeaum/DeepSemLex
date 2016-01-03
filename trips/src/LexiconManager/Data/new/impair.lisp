@@ -5,6 +5,7 @@
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
   (W::impair
+    (wordfeats (W::morph (:forms (-vb) :nom w::impairment)))
    (SENSES
     ((meta-data :origin "verbnet-2.0-corrected" :entry-date 20060315 :change-date 20090512 :comments nil :vn ("amuse-31.1"))
      (LF-PARENT ONT::evoke-confusion)
@@ -16,7 +17,8 @@
      (SEM (F::Cause F::Agentive) (F::Aspect F::unbounded) (F::Time-span F::extended))
      (example "he impaired the process")
      )||#
-    ((LF-PARENT ont::break-object)
+    (;(LF-PARENT ont::break-object)
+     (LF-PARENT ont::hindering)
      (meta-data :origin calo-ontology :entry-date 20051209 :change-date nil :comments Impair)
      ;;(SEM (F::Cause F::Phenomenal) (F::Aspect F::bounded) (F::Time-span F::atomic))
      (TEMPL agent-affected-xp-templ)

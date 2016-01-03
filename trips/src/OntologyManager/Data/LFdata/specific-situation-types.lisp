@@ -11,11 +11,11 @@
 (define-type ONT::position
  :parent ONT::event-of-state
  :sem (F::Situation (F::Trajectory -))
- :arguments ((:optional ONT::NEUTRAL1  ((? pvt F::Phys-obj f::abstr-obj)))
+ :arguments ((:optional ONT::NEUTRAL1  ((? pvt1 F::Phys-obj f::abstr-obj)))
              (:optional ONT::NEUTRAL ((? pvt F::Phys-obj f::abstr-obj)))
 	     (:optional ont::agent ((? agt F::Phys-obj) (F::intentional +)))
 	     (:optional ont::affected ((? aff F::Phys-obj f::abstr-obj)))
-             (:optional ont::affected1 ((? aff F::Phys-obj f::abstr-obj)))
+             (:optional ont::affected1 ((? aff1 F::Phys-obj f::abstr-obj)))
 	     )
  )
 
@@ -23,7 +23,7 @@
     :parent ont::event-of-causation
     :arguments ((:optional ont::agent ((? agt F::Phys-obj) (F::intentional +)))
 	     (:optional ont::affected ((? aff F::Phys-obj f::abstr-obj)))
-             (:optional ont::affected1 ((? aff F::Phys-obj f::abstr-obj)))
+             (:optional ont::affected1 ((? aff1 F::Phys-obj f::abstr-obj)))
 	     )
  )
 
@@ -511,7 +511,7 @@
 
 (define-type ONT::DRIVE
  :wordnet-sense-keys ("drive%2:38:01")
- :parent ONT::MOTION
+ :parent ONT::TRANSPORT
  :sem (F::situation (F::Aspect F::dynamic))
  :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Mobility F::land-movable))
              )
@@ -525,7 +525,7 @@
 
 ;; bike, cycle
 (define-type ont::bike
-  :parent ont::drive
+  :parent ont::transport
   )
 
 (define-type ONT::ROTATE
@@ -3590,8 +3590,12 @@
 
  ;; 20120523 GUM change new type
 (define-type ont::rely-depend
-    :parent ont::position
-    )
+  :parent ont::EVENT-OF-STATE
+  :arguments (
+	      (:optional ONT::NEUTRAL1)
+	      (:optional ONT::NEUTRAL)
+	      )
+  )
 
 (define-type ONT::confuse
  :wordnet-sense-keys ("put_off%2:37:02" "disconcert%2:37:02" "flurry%2:37:00" "confuse%2:37:00" "confound%2:31:01" "confuse%2:31:02" "mix_up%2:36:00" "confuse%2:36:00" "jumble%2:36:00" "confuse%2:31:01" "blur%2:31:00" "obscure%2:31:00" "obnubilate%2:31:00" "disorganise%2:41:00")

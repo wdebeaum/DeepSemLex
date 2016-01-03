@@ -235,7 +235,7 @@
 (define-type ONT::ACCOMPANIMENT
  :parent ONT::PREDICATE
  :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic)))
-             (:REQUIRED ONT::VAL (F::Phys-obj (F::origin F::human) (F::intentional +)))
+             (:REQUIRED ONT::VAL (F::Phys-obj (F::origin F::living) (F::intentional +)))
              )
  )
 

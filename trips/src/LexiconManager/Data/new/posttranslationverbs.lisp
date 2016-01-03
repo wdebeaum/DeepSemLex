@@ -5,14 +5,14 @@
 (define-words :pos W::V :templ agent-affected-loc-optional-templ
  :words (
   (W::phosphorilate
-   (wordfeats (W::morph (:forms (-vb) :nom w::phosphorilation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::phosphorilation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::phosphorylation)
      (templ agent-affected-loc-optional-templ))  ;; subcat for location to improve attachment decisions
     ))
 
   (W::ribosylate
-   (wordfeats (W::morph (:forms (-vb) :nom w::ribosylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::ribosylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::ribosylation)
      (templ agent-affected-loc-optional-templ))  ;; subcat for location to improve attachment decisions
@@ -59,7 +59,7 @@
 
   (W::farnesylate
   ;; child of isoprenylate?
-   (wordfeats (W::morph (:forms (-vb) :nom w::farnesylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::farnesylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::farnesylation)
      (templ agent-affected-loc-optional-templ))
@@ -115,7 +115,7 @@
 
   (W::acetylate
     ;; Child of acylate
-   (wordfeats (W::morph (:forms (-vb) :nom w::acetylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::acetylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::ACETYLATION)
      (templ agent-affected-loc-optional-templ))
@@ -143,7 +143,7 @@
 
   (W::methylate
     ;; Child of alkylate
-   (wordfeats (W::morph (:forms (-vb) :nom w::methylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::methylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::METHYLATION)
      (templ agent-affected-loc-optional-templ))
@@ -201,7 +201,7 @@
     ))
 
   (W::glycosylate
-   (wordfeats (W::morph (:forms (-vb) :nom w::glycosylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::glycosylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::glycosylation)
      (templ agent-affected-loc-optional-templ))
@@ -221,7 +221,7 @@
     ))
 
   (W::hydroxylate
-   (wordfeats (W::morph (:forms (-vb) :nom w::hydroxylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::hydroxylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::hydroxylation)
      (templ agent-affected-loc-optional-templ))
@@ -247,7 +247,7 @@
 
   (W::phosphorylate
   ;; child of phosphate ester (O-linked) or phosphoramidate (N-linked) formation
-   (wordfeats (W::morph (:forms (-vb) :nom w::phosphorylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::phosphorylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::phosphorylation)
      (templ agent-affected-loc-optional-templ))  ;; subcat for location to improve attachment decisions
@@ -329,21 +329,21 @@
     ))
 
   (W::sumoylate
-   (wordfeats (W::morph (:forms (-vb) :nom w::sumoylation :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::sumoylation :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::sumoylation)
      (templ agent-affected-loc-optional-templ))
     ))
 
   (W::ubiquitinate
-   (wordfeats (W::morph (:forms (-vb) :nom w::ubiquitination :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::ubiquitination :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::ubiquitination)
      (templ agent-affected-loc-optional-templ))  ;; subcat for location to improve attachment decisions
     ))
 
   (W::ubiquinate
-   (wordfeats (W::morph (:forms (-vb) :nom w::ubiquination :nomobjpreps (w::on))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::ubiquination :nomobjpreps (w::on w::of))))
    (SENSES
     ((LF-PARENT ONT::ubiquitination)
      (templ agent-affected-loc-optional-templ))  ;; subcat for location to improve attachment decisions

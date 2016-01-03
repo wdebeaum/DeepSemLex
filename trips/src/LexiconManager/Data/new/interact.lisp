@@ -5,7 +5,7 @@
 (define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
  :words (
   (W::interact
-   (wordfeats (W::morph (:forms (-vb) :nom W::interaction :nomsubjpreps (w::of w::between) :nomobjpreps (w::between))))
+   (wordfeats (W::morph (:forms (-vb) :nom W::interaction :nomsubjpreps (w::of w::between) :nomobjpreps (w::with))))
    (SENSES
     ((LF-PARENT ONT::CAUSE-INTERACT)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))

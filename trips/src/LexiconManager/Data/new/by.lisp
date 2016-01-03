@@ -27,12 +27,14 @@
 ;     (EXAMPLE "go by the coast")
 ;     )
   
-    ((LF-PARENT ONT::MANNER)
+    (;(LF-PARENT ONT::MANNER)
+     (LF-PARENT ONT::BY-MEANS-OF)
      (TEMPL BINARY-CONSTRAINT-S-TEMPL
 	    (xp (% W::NP (W::case (? cas W::obj -)) (w::gerund -) (w::refl -))))  ;; no gerund as we have BY-MEANS-OF sense
      (EXAMPLE "we can go by car/by air; he communicated by phone")
      )
-    ((LF-PARENT ONT::MANNER)
+    (;(LF-PARENT ONT::MANNER)
+     (LF-PARENT ONT::BY-MEANS-OF)
      (TEMPL BINARY-CONSTRAINT-PRED-TEMPL
 	    (xp (% W::NP (W::case (? cas W::obj -)) (w::gerund -) (w::refl -))))
      (EXAMPLE "it is accessible by helicopter")
@@ -104,6 +106,7 @@
     )
    )
 ))
+
 
 (define-words :pos W::PREP :boost-word t :templ NO-FEATURES-TEMPL
  :tags (:base500)

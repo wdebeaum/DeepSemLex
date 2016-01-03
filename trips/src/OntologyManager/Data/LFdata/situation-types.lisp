@@ -23,8 +23,8 @@
  :comment "an AGENT causes some event to occur or proposition to become true"
  :sem (F::Situation (F::Cause (? cz F::Force f::agentive)) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::agent ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
-	     (:optional ont::affected)
-	     (:essential ont::result ((? res1 F::SITUATION F::ABSTR-OBJ)))
+	     (:optional ont::affected ((? aff F::SITUATION F::ABSTR-OBJ)))
+	     (:optional ont::result ((? res1 F::SITUATION F::ABSTR-OBJ)))
 	     (:optional ont::formal ((? res2 F::SITUATION F::ABSTR-OBJ))) ;; here for now while we decide the FORMAL/RESULT issue
 	     )
  )
@@ -501,10 +501,11 @@
 
 
 (define-type ONT::Cause-to-Move
- :wordnet-sense-keys ("reflect%2:39:00" "drive%2:35:01")
+ :wordnet-sense-keys ("reflect%2:39:00" "drive%2:35:01" "drive%2:41:02")
  :parent ont::motion
  :sem (F::Situation (F::Cause F::Force) (f::trajectory +))
  :arguments ((:ESSENTIAL ONT::agent)
+	     (:ESSENTIAL ONT::affected ((? ttype f::phys-obj f::abstr-obj)))
              )
  )
 
@@ -602,6 +603,7 @@
  :parent ont::motion
  :sem (F::Situation (F::Cause F::Agentive))
  :arguments (
+	     (:OPTIONAL ONT::affected ((? ttype f::phys-obj f::abstr-obj)))
 ;	     (:ESSENTIAL ONT::Instrument (F::phys-obj (F::object-function F::vehicle) (F::intentional -)))
              )
  )
@@ -935,7 +937,7 @@
  )
 
 (define-type ont::control-manage
- :wordnet-sense-keys ("control%2:41:00" "command%2:41:00" "discharge%2:33:01" "direct%2:41:00" "drive%2:41:02")
+ :wordnet-sense-keys ("control%2:41:00" "command%2:41:00" "discharge%2:33:01" "direct%2:41:00" )
  :parent ont::event-of-causation
  :arguments ((:REQUIRED ont::affected ((? th9 f::situation F::PHYS-OBJ F::ABSTR-OBJ)))
 ;	     (:REQUIRED ONT::agent ((? ag f::abstr-obj F::phys-obj) (F::intentional +)) (:implements cause))

@@ -18,7 +18,7 @@
  :words (
 ;      :COMMENTS HTML-PURCHASING-CORPUS))))
   (W::TRANSITION
-   (wordfeats (W::morph (:forms (-vb) :nom w::transition :nomobjpreps (w::from))))
+   (wordfeats (W::morph (:forms (-vb) :nom w::transition :nomobjpreps (w::from w::of))))
    (SENSES
     ((LF-PARENT ONT::event-of-change) 
      (TEMPL AGENT-affected-RESULT-TEMPL (xp (% w::pp (w::ptype (? tt w::to w::into)))))

@@ -21,7 +21,12 @@
    (SENSES    
     ((LF-PARENT ONT::due-to)
      (TEMPL binary-constraint-s-or-NP-templ)
-     (Example "measuring voltage indicates where state changes due to a damaged bulb")
+     (Example "changes due to a damaged bulb")
+     (meta-data :origin beetle :entry-date 20081111 :change-date nil :comments nil)
+     )
+    ((LF-PARENT ONT::due-to)
+     (TEMPL BINARY-CONSTRAINT-PRED-TEMPL)
+     (Example "The car is brown due to rust")
      (meta-data :origin beetle :entry-date 20081111 :change-date nil :comments nil)
      )
     ))
