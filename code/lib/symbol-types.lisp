@@ -29,6 +29,7 @@
     changesem
     comparative	; + superl
     comp-op	; - less
+    compar-op
     conj
     contraction
     diectic
@@ -42,6 +43,7 @@
     functn	; acceptability-val compare-val linear-scale
     gap
     generated
+    ground-oblig
     implicit-arg
     indef-only
     lex		; us you
