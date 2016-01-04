@@ -213,7 +213,6 @@
     	(LCOMP (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) (W::var ?dobjvar))))
 	       ont::formal)
 	))
-
      
       (AFFECTED-EFFECT-XP-TEMPL
        (ARGUMENTS
@@ -606,6 +605,13 @@
 	(LOBJ (:parameter xp2 (:default (% W::CP (w::ctype w::s-finite)))) ONT::NEUTRAL)
 	))
 
+      ; it was/has been demonstrated that...
+      (EXPLETIVE-FORMAL-TEMPL
+       (ARGUMENTS
+	(LSUBJ (:parameter xp1 (:default (% W::NP)) (:required(W::sem ($ -)))) NOROLE)
+	(LOBJ (:parameter xp2 (:default (% W::CP (w::ctype w::s-finite)))) ONT::FORMAL)
+	))
+
       ;; used only for "there is ..." constructions. 
       (THERE-theme-TEMPL  
        (ARGUMENTS
@@ -613,7 +619,6 @@
 	(LOBJ (:parameter xp (:default (% W::NP (w::agr (? a w::1s w::1p w::2s w::2p w::3s w::3p -)))))
 	      ONT::NEUTRAL)
 	))
-      
       
       ;; it rained
       (EXPLETIVE-TEMPL
@@ -950,27 +955,22 @@
 	(LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::AGENT)
     ;;;;; (LCOMP (:parameter xp (:default (% cp (ctype s-to))) (:required (subj ?lsubj))) THEME)
 	(LOBJ (% W::NP) ONT::affected)
-	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
-											    (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL)
+	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) 
+			   (:required (W::subj (% W::np (W::sem ?lsubjsem) 
+						  (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL)
 	))
 
-;;;;;;;;;;;;;;; test
+; He gave her a kiss (give as a light verb)
       (AGENT-AFFECTED-FORMAL-SUBJCONTROL-OBJ-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::lex ?subjlex) (W::var ?subjvar)) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::AFFECTED)
-	(LCOMP (:parameter xp (:default (% W::NP (W::lf (% ?p (w::class (? x ont::EVENT-OF-CHANGE))))
-					   ))					
-					) ONT::FORMAL)
+	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::AFFECTED)
+	(LCOMP (:parameter xp (:default (% W::NP (W::lf (% ?p (w::class (? x ont::EVENT-OF-CHANGE))))))
+			    (:required  (w::SUBJ (% W::NP (w::var ?subjvar)))
+				       (w::DOBJ (% W::NP (w::var ?dobjvar))))
+					  
+	       ) ONT::FORMAL)
 	))
-;			   (w::arg ?subjvar)
-;			   (W::argument (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
-;			   )
-
-;			   (:required (W::subj (% W::np (W::sem ?subjsem) (W::lex ?subjlex) (W::var ?subjvar))))
-			   
-;			   (W::subcat (% W::NP (W::sem ?subjsem) (W::var ?subjvar) (W::lex ?subjlex)))
-
 
  (AGENT-Affected-THEME-SUBJCONTROL-optional-TEMPL
        (ARGUMENTS
@@ -978,8 +978,7 @@
 	(LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar)) ONT::AGENT)
     ;;;;; (LCOMP (:parameter xp (:default (% cp (ctype s-to))) (:required (subj ?lsubj))) THEME)
 	(LOBJ (% W::NP) ONT::affected)
-	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required(W::subj (% W::np (W::sem ?lsubjsem) 
-											    (W::lex ?lsubjlex) (W::var ?lsubjvar))))) ONT::FORMAL optional)
+	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to))) (:required (ont::agent ?lsubjvar))) ONT::FORMAL optional)
 	))
       
       ;; he had a book reviewed
@@ -2403,6 +2402,13 @@
  ;   (ARGUMENT (% W::CARDINALITY) ONT::OF)
     (ARGUMENT (% W::NUMBER) ONT::OF)
     ))
+
+   ;; exactly five
+     (NUMBER-OPERATOR-POST-TEMPL
+        (SYNTAX(W::SORT W::OPERATOR) (W::ATYPE W::POST) (W::MASS W::COUNT))
+          (ARGUMENTS
+	   (ARGUMENT (% W::NUMBER) ONT::OF)
+	   ))
   
   ;;;;; operators that can modifier both quanitifers (e.g., almost all) and numbers
   (QUAN-OPERATOR-TEMPL
@@ -2462,7 +2468,8 @@
   (binary-constraint-PRED-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
    (ARGUMENTS
-    (ARGUMENT (% W::PRED (W::arg ?subjvar)) ONT::OF)
+;    (ARGUMENT (% W::PRED (W::arg ?subjvar)) ONT::OF)
+    (ARGUMENT (% W::PRED) ONT::OF)
     (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -)) (w::gerund -)))) ONT::VAL)
     ))
   
@@ -2504,19 +2511,7 @@
     (ARGUMENT (% W::S) ONT::OF)
     (SUBCAT (% W::NP (W::case (? cas W::obj -))) ONT::SIT-VAL)
     ))
-|#
-
-  ;; for more results
-   (Binary-constraint-S-obj-val-templ
-   (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
-   (ARGUMENTS
-    (ARGUMENT (% W::S) ONT::OF)
-;    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::obj-VAL)
-    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::REASON)
-    ))
    
-; nobody uses this 
-#|
   ;; BEETLE -- state at terminals
   (binary-constraint-of-state-NP-templ
    (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
@@ -2539,7 +2534,17 @@
     (ARGUMENT (% W::NP) ONT::VAL) 
     (SUBCAT (% W::NP) ONT::OF-STATE)
     ))
+
+  ;; for more results
+   (Binary-constraint-S-obj-val-templ
+   (SYNTAX(W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST)))
+   (ARGUMENTS
+    (ARGUMENT (% W::S) ONT::OF)
+;    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::obj-VAL)
+    (SUBCAT (:parameter xp (:default (% W::NP (W::case (? cas W::obj -))))) ONT::REASON)
+    ))
 |#
+
 
   (binary-constraint-S-decl-templ
    (SYNTAX (W::SORT W::BINARY-CONSTRAINT) (W::ATYPE (? ATYPE W::PRE W::POST))
@@ -3073,8 +3078,19 @@
    (ARGUMENTS    
     (ARGUMENT (% W::NP (W::lex W::it)) NOROLE)
 ;    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::Content)
-    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::FORMAL)
+    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::OF)
     ))
+
+   ;; e.g., Frogs are difficult to cook
+   (adj-to-inf-templ
+   (SYNTAX (W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
+   (ARGUMENTS    
+    (ARGUMENT (% W::NP  (W::sem ?dobjsem) (W::lex ?dobjlex) (W::var ?dobjvar)) NOROLE)
+;    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-that)))) ONT::Content)
+    (subcat (:parameter xp (:default (% W::CP (W::ctype W::s-to)))
+			(:required (W::dobj (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) (W::var ?dobjvar)))))
+	    ONT::OF))
+    )
 
   
   ;; This template is for "To do this is hard for her"
@@ -3509,6 +3525,12 @@
     (SYNTAX (W::agr W::3s) (W::name +) (W::nname +) (W::generated -))
     (ARGUMENTS
      ))
+  
+  (compar-than-templ 
+   (SYNTAX (w::compar-op +) (w::ground-oblig -))
+   (arguments
+    (subcat (% w::PP (w::ptype w::than)) ont::ground)))
+
   
   (fp-templ
     ;;(syntax (w::skip +))      ;; grammar already inserts this when the FP is treated as a PAUSE

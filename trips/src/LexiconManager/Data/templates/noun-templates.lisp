@@ -500,6 +500,8 @@
     (SUBCAT (:parameter xp (:default (% W::cp (W::ctype W::s-finite) (W::subj ?lsubj)))) ONT::formal optional)
     ))
 
+; nobody uses this
+#|
   ;; reason for the appointment
    (count-subcat-purpose-templ
    (SYNTAX(W::AGR (? a W::3s W::3p)) (W::MORPH (:FORMS (-S-3P))) (W::CASE (? cas W::sub W::obj)) (W::SORT 
@@ -508,6 +510,7 @@
 ;    (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::purpose optional)
     (SUBCAT (:parameter xp (:default (% W::pp (W::ptype W::for)))) ONT::REASON optional)
     ))
+|#
 
   ;; get approval (for the purchase)
   (OTHER-RELN-EFFECT-TEMPL
