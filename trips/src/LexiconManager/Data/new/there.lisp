@@ -19,22 +19,16 @@
  :words (
   (W::THERE
    (SENSES
-    ((LF-PARENT ONT::there)
-     (SYNTAX (W::IMPRO-CLASS ONT::relative-location)
+    ((LF-PARENT ONT::pos-wrt-speaker-reln)
+     (SYNTAX (W::IMPRO-CLASS ONT::place)
      ))
-    #||((LF-PARENT ONT::TO-LOC)
-     (example "move it to there")
-     (SYNTAX (W::IMPRO-CLASS ONT::LOCATION))
-     (TEMPL ppword-adv-templ (xp (% W::s)))
-     )
-    )||#
     ))
   ))
 
 (define-words :pos W::n :templ PPWORD-N-TEMPL
  :tags (:base500)
  :words (
-  ;; what's an example of this? 
+  ;; put it in there
   (W::THERE
    (SENSES
     ((LF-PARENT ONT::LOCATION)

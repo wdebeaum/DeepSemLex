@@ -234,7 +234,7 @@
   )
 
 (define-type ONT::MOVE
- :wordnet-sense-keys ("make%2:38:05" "take%2:38:05" "travel%2:38:00" "go%2:38:00" "move%2:38:03"  "move%2:38:01" "locomote%2:38:00" "ascend%2:38:10" "be_active%2:29:00" "draw%2:35:13" "go%2:42:06" "jaunt%2:38:00" "move%2:38:00" "move%2:38:02" "move_out%2:41:00" "wreathe%2:38:00" "mobilize%2:30:00" "go%2:33:00")
+  :wordnet-sense-keys ("make%2:38:05" "take%2:38:05" "travel%2:38:00" "go%2:38:00" "move%2:38:03"  "move%2:38:01" "locomote%2:38:00" "ascend%2:38:10" "be_active%2:29:00" "draw%2:35:13" "go%2:42:06" "jaunt%2:38:00" "move%2:38:00" "move%2:38:02" "move_out%2:41:00" "wreathe%2:38:00" "mobilize%2:30:00" "go%2:33:00" "transport%1:04:01" "relocation%1:04:00")
  :parent ont::motion
  :sem (F::SITUATION (F::CONTAINER -) (F::Locative -) (F::trajectory +))
  :arguments ((:OPTIONAL ONT::agent (F::Phys-obj (:required (f::origin (? org f::human f::non-human-animal)))
@@ -901,7 +901,7 @@
 
 ;; top level for change: states, situations, objects
 (define-type ont::change
- :wordnet-sense-keys ("change%1:07:00" "variety%1:07:01" "change%1:06:01" "change%2:30:00")
+ :wordnet-sense-keys ("change%1:07:00" "variety%1:07:01" "change%1:06:01" "change%2:30:00" "change%1:04:00")
   :parent ont::event-of-causation
   :sem (F::Situation (F::Cause F::force))
   :arguments (
@@ -915,7 +915,7 @@
 ;;; Additional class for state changes
 ;; for example for verbs where it doesn't make sense to separate object-change and situation-change senses
 (define-type ONT::change-state
- :wordnet-sense-keys ("change%1:24:00" "modification%1:11:00" "alteration%1:11:00" "change%1:11:00" "change%1:04:00" "overload%2:35:01")
+ :wordnet-sense-keys ("change%1:24:00" "modification%1:11:00" "alteration%1:11:00" "change%1:11:00" "overload%2:35:01")
   :parent ONT::change
   :arguments ((:REQUIRED ONT::affected ((? oc F::Phys-obj F::Abstr-obj f::situation)) (:implements affected))
 	      ;;(:OPTIONAL ONT::agent ((? ag f::abstr-obj F::phys-obj)(F::intentional +)) (:implements cause))
@@ -1019,6 +1019,7 @@
 
 ;; 20120524 GUM change new type
 (define-type ont::cause-produce-reproduce
+  :wordnet-sense-keys ("yield%2:40:02" "produce%2:36:03" "cause%2:36:00" "induce%2:32:00" )
     :parent ont::cause-effect
     :arguments ((:ESSENTIAL ONT::affected-result ((? agt F::phys-obj f::abstr-obj f::situation)))
 		)
@@ -2252,6 +2253,7 @@
              )
  )
 
+#|
 (define-type ONT::cause-make
  :wordnet-sense-keys ("induce%2:32:00" "stimulate%2:32:01" "cause%2:32:00" "have%2:32:00" "get%2:32:00" "make%2:32:00")
  :parent ONT::CAUSE-effect
@@ -2260,6 +2262,7 @@
 ;             (:OPTIONAL ONT::Property ((? prop F::abstr-obj)))
              )
  )
+|#
 
 (define-type ONT::Command
  :wordnet-sense-keys ("command%2:32:00" "require%2:32:00" "arraign%2:41:00")
@@ -2630,12 +2633,6 @@
              )
  )
 
-(define-type ONT::remove-parts
- :parent ONT::come-from
- :arguments ((:OPTIONAL ONT::Agent)
-             )
- )
-
 (define-type ONT::empty
  :wordnet-sense-keys ("empty%2:30:01")
  :parent ONT::event-of-causation
@@ -2652,6 +2649,25 @@
              (:REQUIRED ONT::Source)
 	     (:OPTIONAL ONT::affected)
 	     )
+ )
+
+; note that REMOVE-FROM is used for extracting INHIBIT events and REMOVE-PARTS is used for extracting BINDEXPT events
+(define-type ONT::remove-parts
+  :wordnet-sense-keys ("purify%2:30:00" "filter%2:35:00")
+  :parent ONT::event-of-causation   
+  :comment "the part remaining is the good part"
+  :arguments ((:OPTIONAL ONT::Agent)
+	      (:OPTIONAL ONT::AFFECTED1)
+	      )
+ )
+
+(define-type ONT::parts-removed
+  :wordnet-sense-keys ("precipitate%2:30:00")
+  :parent ONT::come-from
+  :comment "the part removed is the good part"
+  :arguments ((:OPTIONAL ONT::Agent)
+	      (:OPTIONAL ONT::AFFECTED1)
+	      )
  )
 
 (define-type ONT::take-in

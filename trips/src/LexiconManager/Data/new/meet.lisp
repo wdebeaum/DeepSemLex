@@ -48,7 +48,7 @@
      )
     ((EXAMPLE "it doesn't meet your specifications")
      (LF-PARENT ONT::is-compatible-with)
-     (SEM (F::Time-span F::atomic))
+;     (SEM (F::Time-span F::atomic))
      (TEMPL neutral-neutral-xp-templ)
      (meta-data :origin calo :entry-date 20031206 :change-date nil :comments calo-y1script)
      )

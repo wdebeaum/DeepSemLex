@@ -118,10 +118,6 @@
  :parent ONT::PREDICATE
  )
 
-(define-type ONT::exclusive
- :parent ONT::PREDICATE
- )
-
 (define-type ONT::TOPIC-SIGNAL
  :parent ONT::PREDICATE
  )
@@ -316,17 +312,25 @@
 ;;
 ;; 2015/12: This is not "by itself" anymore.  "by itself" has moved to EXCLUSIVE
 (define-type ONT::manner-refl
- :parent ONT::SITUATION-MODIFIER
+ :parent ONT::MANNER
  :arguments ((:ESSENTIAL ONT::OF (F::situation))
              (:REQUIRED ONT::val (f::phys-obj))				 
              )
  )
 
 (define-type ONT::manner-undo
- :parent ONT::SITUATION-MODIFIER
+ :parent ONT::MANNER
  :arguments ((:ESSENTIAL ONT::OF (F::situation))
              (:REQUIRED ONT::val (f::phys-obj))				 
              )
+ )
+
+(define-type ONT::exclusive   ; alone, myself
+ :parent ONT::MANNER
+ )
+
+(define-type ONT::inclusive  ; co-, together
+ :parent ONT::MANNER
  )
 
 ;; in that event

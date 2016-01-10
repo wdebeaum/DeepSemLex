@@ -43,6 +43,21 @@
    )
 ))
 
+(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+ :words (
+  ((w::give w::rise)
+   (wordfeats (W::morph (:forms (-vb) :past W::gave)))
+   (senses
+    (
+     (lf-parent ont::cause-produce-reproduce) 
+     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (TEMPL agent-affected-create-templ (xp (% W::PP (W::ptype W::to))))
+     (example "The spark gave rise to a fire")
+     )
+    )
+   )
+))
+
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :tags (:base500)
  :words (

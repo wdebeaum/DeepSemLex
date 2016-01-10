@@ -49,8 +49,8 @@
      )
     ;;  this is the goal sense, prefers events of change
     ((LF-PARENT ONT::TO-LOC)
-     (example "go to the building")
-     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     (example "go to the building" "the relocation to the building")
+     (TEMPL BINARY-CONSTRAINT-S-OR-NP-TEMPL)
      )
    #|| ;; a generalized sense of to
     ((LF-PARENT ONT::TO)

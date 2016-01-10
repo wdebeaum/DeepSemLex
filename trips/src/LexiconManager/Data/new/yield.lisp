@@ -10,7 +10,12 @@
      (LF-PARENT ONT::surrender)
       (templ agent-affected-goal-optional-templ (xp (% W::pp (W::ptype W::to))))
      ;;(TEMPL agent-affected-goal-optional-templ) ; like grant,offer
+      )
+    (
+     (LF-PARENT ONT::cause-produce-reproduce)
+     (TEMPL agent-affected-create-templ)
      )
+
     )
    )
 ))

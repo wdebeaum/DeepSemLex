@@ -2,6 +2,7 @@
 ;;;; W::bound
 ;;;;
 
+
 (define-words :pos W::V :templ agent-theme-xp-templ
  :words (
   (W::bound
@@ -18,3 +19,27 @@
    )
 ))
 
+#|
+(define-words :pos W::v
+  :tags (:base500)
+  :words (
+   (W::bound
+    (wordfeats (W::VFORM W::PASSIVE) (W::MORPH (:forms NIL)))
+    (SENSES
+     
+     ((LF-PARENT ONT::ATTACH)
+      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
+      (TEMPL agent-affected-as-comp-TEMPL (xp (% W::pp (W::ptype (? xxx W::to W::with)))))
+      (example "It is bound to the stretcher")
+      )
+
+     ((LF-PARENT ONT::ATTACH)
+      (SEM (F::Aspect F::Bounded) (F::Time-span F::Atomic))
+      (TEMPL agent-plural-TEMPL)
+      (example "They are bound together")
+      )
+
+     )
+    ))
+  )
+|#

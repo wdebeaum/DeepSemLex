@@ -7,15 +7,10 @@
  :words (
   (W::HERE
    (SENSES
-    ((LF-PARENT ONT::here)
-     (SYNTAX (W::IMPRO-CLASS ONT::relative-location)
+    ((LF-PARENT ONT::pos-wrt-speaker-reln)
+     (SYNTAX (W::IMPRO-CLASS ONT::place)
      ))
-    #||((LF-PARENT ONT::TO-LOC)
-     (SYNTAX (W::IMPRO-CLASS ONT::LOCATION))
-     (example "move it to here")
-     (preference .97) ;; prefer spatial-loc sense for be
-     )||#
-    )
+     )
    )
 ))
 

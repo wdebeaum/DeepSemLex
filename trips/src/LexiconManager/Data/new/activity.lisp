@@ -34,5 +34,10 @@
      (SENSES
       ((LF-PARENT ONT::ACTING)  
         (TEMPL agent-affected-xp-templ)
-       )))))
+	)
+      ((LF-PARENT ONT::ACTING)  
+        (TEMPL agent-templ)
+	)
+
+      ))))
 

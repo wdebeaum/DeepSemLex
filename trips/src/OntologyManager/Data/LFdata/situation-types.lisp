@@ -17,15 +17,16 @@
 |#
 
 (define-type ONT::cause-effect
-    :wordnet-sense-keys ( "cause%2:36:00" "do%2:36:02" "make%2:36:08" 
+    :wordnet-sense-keys ( "cause%2:32:00" "do%2:36:02" "make%2:36:08"
 					  "receive%2:35:00" "drive%2:35:00" "get%2:30:02" "get%2:30:00")
  :parent ONT::acting
  :comment "an AGENT causes some event to occur or proposition to become true"
  :sem (F::Situation (F::Cause (? cz F::Force f::agentive)) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::agent ((? oc F::Phys-obj F::Abstr-obj F::Situation)))
-	     (:optional ont::affected ((? aff F::SITUATION F::ABSTR-OBJ)))
+	     (:optional ont::affected ((? aff F::SITUATION F::ABSTR-OBJ F::Phys-obj)))
 	     (:optional ont::result ((? res1 F::SITUATION F::ABSTR-OBJ)))
 	     (:optional ont::formal ((? res2 F::SITUATION F::ABSTR-OBJ))) ;; here for now while we decide the FORMAL/RESULT issue
+	     (:optional ONT::NOROLE)
 	     )
  )
 
