@@ -5,6 +5,7 @@
     :parent ont::event-of-action
     :comment "abstract event of doing something: behave, activity, ..."
     :arguments ((:required ont::agent  ((? cz F::Phys-obj f::abstr-obj f::situation)))
+		(:optional ONT::NOROLE)
 		))
 
 #|
@@ -26,7 +27,6 @@
 	     (:optional ont::affected ((? aff F::SITUATION F::ABSTR-OBJ F::Phys-obj)))
 	     (:optional ont::result ((? res1 F::SITUATION F::ABSTR-OBJ)))
 	     (:optional ont::formal ((? res2 F::SITUATION F::ABSTR-OBJ))) ;; here for now while we decide the FORMAL/RESULT issue
-	     (:optional ONT::NOROLE)
 	     )
  )
 
@@ -134,12 +134,14 @@
     :comment "activities describe the act performed by saying something but beyond the speaker's control (cf. Austin)"
     )
 
+#|
 (define-type ONT::agreement
  :parent ONT::agent-interaction
  :arguments ((:ESSENTIAL ONT::Formal)
 ;             (:OPTIONAL ONT::Associated-information)
 	     )
  )
+|#
 
 ;; here we don't require the formal to be a movable physical object
 ;; so we can say e.g. "put the title in the text box" and "put the city here"

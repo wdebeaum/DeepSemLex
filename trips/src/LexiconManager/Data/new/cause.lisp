@@ -10,15 +10,14 @@
    (SENSES
     ((EXAMPLE "Aspirin causes headaches")
      (lf-parent ont::cause-produce-reproduce) ;;  20120524 GUM change new parent
-     (TEMPL agent-effect-xp-templ)
+     (TEMPL agent-affected-xp-templ)
      )
     ;; LF-GUM spreadsheet instructions say delete this sense, but then surface form has no representation.
     ;; changing parent instead to ont::cause-effect
     ((EXAMPLE "A caused B to hire C")
      (meta-data :origin csli-ts :entry-date 20070320 :change-date nil :comments nil :wn nil)
      (lf-parent ont::cause-effect) ;;  20121028 GUM change new parent
-;     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL)
-     (TEMPL agent-theme-OBJCONTROL-TEMPL)
+     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL)
      )
     )
    )

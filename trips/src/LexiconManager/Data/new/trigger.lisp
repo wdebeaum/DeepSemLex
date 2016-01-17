@@ -2,9 +2,10 @@
 ;;;; W::trigger
 ;;;;
 
-(define-words :pos W::v :templ AGENT-THEME-XP-TEMPL
+(define-words :pos W::v 
  :words (
   (W::trigger
+   (wordfeats (W::morph (:forms (-vb) :nom w::trigger)))
    (SENSES
     ((LF-PARENT ont::start)
 ;     (templ agent-affected-xp-templ)
@@ -12,9 +13,8 @@
 ;    (SEM (F::Aspect F::bounded) (F::time-span F::atomic))
      )
     ((LF-PARENT ont::start)
-     (TEMPL agent-effect-xp-templ)
-     )
-    
+     (TEMPL agent-affected-xp-templ)
+     )    
     )
    )
 ))

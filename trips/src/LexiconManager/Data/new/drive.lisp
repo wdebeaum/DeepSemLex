@@ -52,23 +52,32 @@
     ((meta-data :origin mobius :entry-date 20070728 :change-date nil :comments engines)
      (LF-PARENT ONT::cause-to-move)
      (templ agent-affected-xp-templ)
+     (example "The wind drove the boat to the sandbar" "This protein drives the other protein to the nucleus")
      )
 
     (
      (LF-PARENT ONT::cause-effect) 
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (TEMPL agent-affected-effect-objcontrol-pred-templ)  
+;     (TEMPL agent-affected-effect-objcontrol-pred-templ)
+     (TEMPL AGENT-formal-Objcontrol-adj-TEMPL)
      (meta-data :origin medadvisor :entry-date 20011126)
      (example "it drove him crazy")
      )
-
+    
     (;(LF-PARENT ONT::control-manage)
      (LF-PARENT ONT::cause-effect)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
-     (TEMPL agent-affected-xp-templ)
+     (TEMPL agent-affected-xp-templ (xp (% W::NP (W::lf (% ?p (w::class (? x ont::EVENT-OF-CHANGE)))))))
      (example "the principle drives the execution")
      )
 
+    (
+     (LF-PARENT ONT::cause-effect)
+     (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
+     (TEMPL agent-EFFECT-AFFECTED-OBJCONTROL-TEMPL)
+     (example "It drives him to scream")
+     )
+    
     )
    )
 ))

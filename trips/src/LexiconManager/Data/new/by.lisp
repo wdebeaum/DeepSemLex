@@ -107,6 +107,32 @@
    )
 ))
 
+(define-words :pos W::ADV
+ :words (
+  ((W::By W::MEANS W::OF)
+   (SENSES
+    (
+     (LF-PARENT ONT::BY-MEANS-OF)
+     (TEMPL BINARY-CONSTRAINT-S-TEMPL
+	    (xp (% W::NP (W::case (? cas W::obj -)) (w::gerund -) (w::refl -))))  ;; no gerund as we have BY-MEANS-OF sense
+     (EXAMPLE "we can go by car/by air; he communicated by phone")
+     )
+    (
+     (LF-PARENT ONT::BY-MEANS-OF)
+     (TEMPL BINARY-CONSTRAINT-PRED-TEMPL
+	    (xp (% W::NP (W::case (? cas W::obj -)) (w::gerund -) (w::refl -))))
+     (EXAMPLE "it is accessible by helicopter")
+     )
+
+    ((LF-PARENT ONT::BY-MEANS-OF)
+     (TEMPL BINARY-CONSTRAINT-S-subjcontrol-TEMPL)
+     (EXAMPLE "he killed it by immersing it in water")
+     )
+
+    )
+   )
+))
+
 
 (define-words :pos W::PREP :boost-word t :templ NO-FEATURES-TEMPL
  :tags (:base500)

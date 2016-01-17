@@ -26,3 +26,35 @@
 )
 ))
 
+(define-words :pos W::n :templ COUNT-PRED-TEMPL
+ :words (
+  (W::terminal
+   (SENSES
+    ((LF-PARENT ONT::TERMINUS)
+     (meta-data :origin BOB :entry-date 20150109 :change-date nil)
+     )
+    )
+   )
+))
+
+(define-words :pos W::n :templ COUNT-PRED-TEMPL
+ :words (
+  ((w::N W::PUNC-MINUS W::terminal)
+   (SENSES
+    ((LF-PARENT ONT::TERMINUS)
+     (meta-data :origin BOB :entry-date 20150109 :change-date nil)
+     )
+    )
+   )
+))
+
+(define-words :pos W::n :templ COUNT-PRED-TEMPL
+ :words (
+  ((w::C W::PUNC-MINUS W::terminal)
+   (SENSES
+    ((LF-PARENT ONT::TERMINUS)
+     (meta-data :origin BOB :entry-date 20150109 :change-date nil)
+     )
+    )
+   )
+))

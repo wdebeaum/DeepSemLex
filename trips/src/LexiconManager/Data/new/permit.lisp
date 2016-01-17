@@ -14,7 +14,7 @@
      )
     ((example "the advances permitted greater flexibility")
      (sem (f::aspect f::dynamic))
-     (templ agent-effect-xp-templ)
+     (templ agent-affected-xp-templ)
      (meta-data :origin step :entry-date 20080626 :change-date nil :comments nil)
      (LF-PARENT ONT::allow)
      )

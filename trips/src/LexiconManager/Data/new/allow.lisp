@@ -12,8 +12,8 @@
      )
     ((meta-data :origin plow :entry-date 20060414 :change-date nil :comments nil :vn ("allow-64"))
      (LF-PARENT ONT::ALLOW)
-     (TEMPL agent-effect-xp-templ)
-     (example "smoking is not allowed")
+     (TEMPL agent-affected-xp-templ)
+     (example "Cockroaches are not allowed")
      )
      (;;(LF-PARENT ONT::ACCOMMODATE)
       (lf-parent ont::accommodate-allow) ;; 20120524 GUM change new parent

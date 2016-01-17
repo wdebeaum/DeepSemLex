@@ -15,3 +15,19 @@
    )
 ))
 
+(define-words :pos W::v 
+ :words (
+  ((W::result W::in)
+   (SENSES
+    ((EXAMPLE "The stimulation results in the activation")
+     (lf-parent ont::cause-produce-reproduce) 
+     (TEMPL agent-affected-xp-templ)
+     )
+
+    ((EXAMPLE "The stimulation results in the cat jumping")
+     (lf-parent ont::cause-effect) 
+     (TEMPL agent-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% W::CP (W::ctype W::s-from-ing) (w::vform w::ing))))
+     )
+    )
+   )
+))

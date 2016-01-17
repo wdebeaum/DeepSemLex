@@ -513,15 +513,17 @@
  :wordnet-sense-keys ("drive%2:38:01")
  :parent ONT::TRANSPORT
  :sem (F::situation (F::Aspect F::dynamic))
- :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Mobility F::land-movable))
+ :arguments ((:ESSENTIAL ONT::agent (F::Phys-obj (F::Mobility F::land-movable) (F::intentional +))
              )
 	     ))
 
+#|
 ;; wheel (as a verb); need a new name
 (define-type ONT::wheel-drive
  :parent ONT::drive
  :sem (F::situation (F::Aspect F::dynamic))
  )
+|#
 
 ;; bike, cycle
 (define-type ont::bike
