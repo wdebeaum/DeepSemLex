@@ -14,9 +14,15 @@
      (templ agent-affected-xp-templ)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      )
+    ((EXAMPLE "they are playing")
+     (meta-data :origin boudreaux :entry-date 20060424 :change-date 20111004 :comments asma)
+     (LF-PARENT ONT::play)
+     (templ agent-templ)
+     (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
+     
     )
-   )
-))
+    )
+   )))
 
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (

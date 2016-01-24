@@ -27,14 +27,15 @@
  :words (
   (W::RIGHT
    (SENSES
+    ;; This first sense seems redundant with the second
     ((meta-data :origin trips :entry-date 20060824 :change-date nil :comments nil :wn ("right%3:00:02"))
-     (LF-PARENT ONT::evaluation-VAL)
-     (example "that's right")
-     (templ adj-co-theme-templ)
+     (LF-PARENT ONT::correctness-VAL)
+     (example "that's right/the right choice")
+     (templ central-adj-templ)
      )
     ((meta-data :origin trips :entry-date 20060824 :change-date nil :comments nil :wn ("right%5:00:00:appropriate:00"))
-     (EXAMPLE "that's right for him")
-     (LF-PARENT ONT::EVALUATION-VAL)
+     (EXAMPLE "that's right for him ")
+     (LF-PARENT ONT::correctness-VAL)
      (TEMPL ADJ-CO-THEME-TEMPL (XP (% W::PP (W::PTYPE W::For))))
      (SYNTAX (W::allow-deleted-comp -))
      )
@@ -42,7 +43,7 @@
    )
 ))
 
-(define-words :pos W::adj 
+#||(define-words :pos W::adj 
   :templ CENTRAL-ADJ-TEMPL
  :tags (:base500)
  :words (
@@ -53,7 +54,7 @@
 	     (meta-data :origin bee :entry-date 20040408 :change-date 20090731 :wn ("right%3:00:00") :comments test-s)
 	     )
 	    ))	  
-))
+))||#
 
 (define-words :pos W::ADV
  :tags (:base500)

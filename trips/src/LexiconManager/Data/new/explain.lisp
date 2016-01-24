@@ -2,7 +2,7 @@
 ;;;; W::explain
 ;;;;
 
-(define-words :pos W::v :templ AGENT-neutral-XP-TEMPL
+(define-words :pos W::v 
  :words (
   (W::explain
     (wordfeats (W::morph (:forms (-vb) :nom w::explanation)))
@@ -11,7 +11,22 @@
      (example "he explained the book")
      (meta-data :origin calo :entry-date 20041103 :change-date 20090506 :comments caloy2)
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
+     (TEMPL AGENT-NEUTRAL-XP-TEMPL (xp (% W::NP (W::sort (? !s W::wh-desc)))))
      )
+    ((LF-PARENT ONT::explain)
+     (example "He explained that the cat caught the mouse.")
+     (meta-data :origin calo :entry-date 20041103 :change-date 20090506 :comments caloy2)
+     (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
+     (TEMPL AGENT-FORMAL-XP-TEMPL (xp (% W::cp (W::ctype W::s-finite))))
+     )
+
+    ((LF-PARENT ONT::explain)
+     (example "He explained how the cat caught the mouse.")
+     (meta-data :origin calo :entry-date 20041103 :change-date 20090506 :comments caloy2)
+     (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
+     (TEMPL AGENT-THEME-XP-TEMPL (xp (% W::NP (W::sort W::wh-desc))))
+     )
+
     )
    )
 ))

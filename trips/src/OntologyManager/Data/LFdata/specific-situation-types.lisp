@@ -2017,6 +2017,8 @@
 (define-type ONT::Confirm
  :wordnet-sense-keys ("confirm%2:32:00")
  :parent ONT::response
+  :arguments ((:optional ont::location ((? cg2 f::abstr-obj F::Phys-obj)
+	      )))
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
@@ -4124,6 +4126,7 @@
 ;             )
 ; )
 
+#|
 ;; so that
 (define-type ONT::so-that
  :parent ONT::predicate
@@ -4131,7 +4134,7 @@
 	     (:OPTIONAL ONT::VAL)
              )
  )
-
+|#
 
 ;; whereby
 ;; 20120502 :origin jr :comment gloss-variant

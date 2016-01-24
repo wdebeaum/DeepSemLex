@@ -59,7 +59,8 @@
  ;; purpose-implicit is something related to the action that would be a purpose, but which requires coercion
  ;; for example, this drug is good for leukemia = this drug is useful for treating leukemia, the treatment as purpose is implicit
  :arguments ((:REQUIRED ONT::OF)
-	     (:optional ONT::NEUTRAL1  ((? pvt F::Phys-obj f::abstr-obj f::situation)))
+	     (:optional ONT::FORMAL  (f::situation))
+	     (:optional ONT::NEUTRAL1)
              (:optional ONT::NEUTRAL ((? pvt F::Phys-obj f::abstr-obj f::situation)))
 ;	     (:optional ont::Purpose (f::situation (f::aspect f::dynamic)))
 	     (:optional ONT::Affected ((? aff f::phys-obj f::abstr-obj f::situation)))
@@ -471,11 +472,8 @@
 		(:optional ont::stimulus ((? stm f::phys-obj f::situation f::abstr-obj)))
 		;; the object that is involved in a situation, but which is not a stimulus directly
 		;; for example, I am afraid for her, for the project
-		(:optional ont::formal ((? thm f::phys-obj f::abstr-obj)))
-		;; the action or situation that creates the emotion
-		;; I am happy/afraid that she came yesterday
-		;; This is a specific situation, while a stimulus should be more generic
-;		(:optional ont::content ((? cont f::abstr-obj f::situation)))
+		;;(:optional ont::formal (f::situation f::phys-obj f::abstr-obj)))
+	
 		)
     )
 
@@ -2186,6 +2184,7 @@
  :parent ONT::mental-construction
 ;; :sem (F::Abstr-obj (F::container +))
  :arguments ((:OPTIONAL ONT::OF) ;(f::situation (f::information f::mental-construct) (f::cause f::mental)))
+	     (:optional ont::FORMAL (f::situation))
              )
  )
 
@@ -3277,7 +3276,14 @@
 (define-type ONT::primary
  :parent ONT::IMPORTANCE-VAL
  ; Words: (W::IMPORTANT W::MAIN W::MAJOR W::NECESSARY W::CENTRAL W::SERIOUS W::SIGNIFICANT W::ESSENTIAL W::PRIMARY W::SENIOR W::CRITICAL W::VITAL W::CRUCIAL W::INDISPENSABLE)
-:wordnet-sense-keys ("dangerous%5:00:00" "important%3:00:00" "significant%3:00:00" "significant%3:00:00" "important%3:00:00" "senior%3:00:00" "necessary%3:00:00" "essential%3:00:00" "essential%3:00:00" "necessary%3:00:00" "critical%3:00:03" "cardinal%5:00:00" "chief(a)%5:00:02" "all-important(a)%5:00:00" "crucial%3:00:00" "critical%5:00:00" "critical%5:00:00" "essential%5:00:00" "vital%5:00:00" "basal%5:00:00" "indispensable%3:00:00" "major(ip)%5:00:00")
+:wordnet-sense-keys ("dangerous%5:00:00" "important%3:00:00" "significant%3:00:00" "significant%3:00:00" "important%3:00:00" "senior%3:00:00" "cardinal%5:00:00" "chief(a)%5:00:02" "all-important(a)%5:00:00" "basal%5:00:00" "major(ip)%5:00:00")
+ ; Antonym: ONT::SECONDARY (W::SECONDARY W::MINOR W::JUNIOR W::UNNECESSARY W::UNIMPORTANT W::INSIGNIFICANT)
+ )
+
+(define-type ONT::necessary
+ :parent ONT::primary
+ ; Words: (W::IMPORTANT W::MAIN W::MAJOR W::NECESSARY W::CENTRAL W::SERIOUS W::SIGNIFICANT W::ESSENTIAL W::PRIMARY W::SENIOR W::CRITICAL W::VITAL W::CRUCIAL W::INDISPENSABLE)
+:wordnet-sense-keys ("necessary%3:00:00" "essential%3:00:00" "critical%3:00:03" "crucial%3:00:00" "critical%5:00:00" "essential%5:00:00" "vital%5:00:00" "indispensable%3:00:00" "major(ip)%5:00:00")
  ; Antonym: ONT::SECONDARY (W::SECONDARY W::MINOR W::JUNIOR W::UNNECESSARY W::UNIMPORTANT W::INSIGNIFICANT)
  )
 

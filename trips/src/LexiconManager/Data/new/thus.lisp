@@ -13,6 +13,10 @@
     ((LF-PARENT ONT::therefore)
      (TEMPL pred-s-vp-templ)
      )
+    ((LF-PARENT ONT::therefore)
+     (TEMPL Binary-constraint-S-subjcontrol-templ)
+     )
+
     )
    )
 ))

@@ -24,7 +24,7 @@
      )
 
     ((LF-PARENT ONT::BY-MEANS-OF)
-     (TEMPL BINARY-CONSTRAINT-S-SUBCONTROL-TEMPL)
+     (TEMPL BINARY-CONSTRAINT-S-SUBJCONTROL-TEMPL)
      (EXAMPLE "via activating this")
      )
     )

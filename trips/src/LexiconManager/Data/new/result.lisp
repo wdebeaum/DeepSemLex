@@ -17,17 +17,23 @@
 
 (define-words :pos W::v 
  :words (
-  ((W::result W::in)
+  (W::result
    (SENSES
     ((EXAMPLE "The stimulation results in the activation")
      (lf-parent ont::cause-produce-reproduce) 
-     (TEMPL agent-affected-xp-templ)
+     (TEMPL AGENT-AFFECTED-as-comp-TEMPL (xp (% W::pp (W::ptype W::in))))
      )
 
-    ((EXAMPLE "The stimulation results in the cat jumping")
-     (lf-parent ont::cause-effect) 
-     (TEMPL agent-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% W::CP (W::ctype W::s-from-ing) (w::vform w::ing))))
+    ((EXAMPLE "Side effects may result.")
+     (lf-parent ont::cause-produce-reproduce) 
+     (TEMPL AFFECTED-TEMPL)
      )
+
+    ((EXAMPLE "The stimulation results from the activation")
+     (lf-parent ont::cause-produce-reproduce) 
+     (TEMPL AFFECTED-AGENT-as-comp-TEMPL (xp (% W::pp (W::ptype W::from))))
+     )
+
     )
    )
 ))

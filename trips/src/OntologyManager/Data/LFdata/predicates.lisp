@@ -165,7 +165,8 @@
 
 ;; therefore, thus
 (define-type ONT::therefore
- :parent ONT::reason
+; :parent ONT::reason
+ :parent ONT::situation-modifier
  )
 
 (define-type ONT::PURPOSE
@@ -231,6 +232,13 @@
 (define-type ONT::ACCOMPANIMENT
  :parent ONT::PREDICATE
  :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic)))
+             (:REQUIRED ONT::VAL (F::Phys-obj (F::origin F::living) (F::intentional +)))
+             )
+ )
+
+(define-type ONT::resulting-object
+ :parent ONT::PREDICATE
+ :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic) (f::type ont::change)))
              (:REQUIRED ONT::VAL (F::Phys-obj (F::origin F::living) (F::intentional +)))
              )
  )

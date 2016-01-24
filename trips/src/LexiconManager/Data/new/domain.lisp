@@ -2,6 +2,7 @@
 ;;;; W::domain
 ;;;;
 
+#|
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (
   (W::domain
@@ -13,6 +14,7 @@
     )
    )
 ))
+|#
 
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (

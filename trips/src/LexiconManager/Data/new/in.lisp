@@ -188,7 +188,8 @@
  :words (
   ((W::in W::order W::that)
    (SENSES
-    ((LF-PARENT ONT::so-that)
+    (;(LF-PARENT ONT::so-that)
+     (LF-PARENT ONT::purpose)
      (TEMPL binary-constraint-s-decl-templ)
      (meta-data :origin beetle2 :entry-date 20070609 :change-date nil :comments sentential-conjunction-cleanup)     
      )
