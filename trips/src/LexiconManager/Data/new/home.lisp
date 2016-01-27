@@ -29,6 +29,7 @@
    )
 ))
 
+#||
 (define-words :pos W::ADV
  :tags (:base500)
  :words (
@@ -41,5 +42,17 @@
      )
     )
    )
-))
+))||#
 
+(define-words :pos W::adv :templ PPWORD-ADV-TEMPL
+ :tags (:base500)
+ :words (
+  (W::home
+   (wordfeats (W::ATYPE (? atype W::pre-vp W::post w::pre-vp)))
+   (SENSES
+    ((LF-PARENT ONT::to-loc)
+     (SYNTAX (W::IMPRO-CLASS ONT::relative-location)
+     ))
+     )
+   )
+))

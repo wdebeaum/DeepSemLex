@@ -36,7 +36,7 @@
   )
 
 (define-type ONT::FUNCTION-OBJECT
- :parent ONT::ABSTRACT-OBJECT-property
+ :parent ONT::domain-property
  :sem (F::Abstr-obj)
  )
 
@@ -48,7 +48,7 @@
  )
 
 (define-type ONT::property-val
- :parent ONT::ABSTRACT-OBJECT-property
+ :parent ONT::domain-property
  :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (f::intentional -))
 		    (:default (F::GRADABILITY +) (f::scale -) (f::intensity -) (f::orientation -)))
  ;; The 3 optional roles correspond to different "for" and "to" arguments
@@ -109,24 +109,21 @@
 ;; the relation type for comparatives
 ;; more, better
 (define-type ONT::More-val
-  :parent ONT::abstract-object-property
-  :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (F::INTENTIONAL -))
-		      (:default (F::GRADABILITY +) (F::scale F::other-scale)))
-  :arguments ((:REQUIRED ONT::FIGURE)
-	      (:REQUIRED ONT::GROUND)))
-
+    :parent ONT::domain-property
+    :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (F::INTENTIONAL -))
+		       (:default (F::GRADABILITY +) (F::scale F::other-scale)))
+    )
 ;; less, worse
 (define-type ONT::less-val
-  :parent ONT::abstract-object-property
-  :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (F::INTENTIONAL -))
-		      (:default (F::GRADABILITY +) (F::scale F::other-scale)))
-  :arguments ((:REQUIRED ONT::FIGURE)
-	      (:REQUIRED ONT::GROUND)))
+    :parent ONT::domain-property
+    :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (F::INTENTIONAL -))
+		       (:default (F::GRADABILITY +) (F::scale F::other-scale)))
+    )
 
 ;; and for superlatives
 ;; best, most
 (define-type ONT::MAX-val
-  :parent ONT::abstract-object-property
+  :parent ONT::domain-property
   :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (F::INTENTIONAL -))
 		      (:default (F::GRADABILITY +) (F::scale F::other-scale)))
   :arguments ((:REQUIRED ONT::FIGURE)
@@ -134,11 +131,10 @@
 
 ;; worst, least
 (define-type ONT::MIN-val
-  :parent ONT::abstract-object-property
+  :parent ONT::domain-property
   :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (F::INTENTIONAL -))
 		      (:default (F::GRADABILITY +) (F::scale F::other-scale)))
-  :arguments ((:REQUIRED ONT::FIGURE)
-	      (:REQUIRED ONT::GROUND)))
+  )
 
 ;; for adjective scale values to be translated properly to the akrl, the intensity values (hi, med, lo) need to be defined in the ontology
 (define-type ONT::hi
@@ -164,7 +160,7 @@
 
 (define-type ont::group-object
  :wordnet-sense-keys ("mathematical_group%1:09:00" "group%1:09:00" "chemical_group%1:27:00" "radical%1:27:00" "group%1:27:00" "group%1:03:00" "grouping%1:03:00")
-  :parent ont::abstract-object
+  :parent ont::abstract-object-nontemporal
 ;  :sem (F::Abstr-obj (f::group +)) ; group feature not defined for abstract objects
   :arguments ((:OPTIONAL ONT::of)
               )
@@ -1164,11 +1160,8 @@
 ;;; a future data
 (define-type ONT::relation
  :wordnet-sense-keys ("relation%1:03:00" "amount%2:42:03" "bear_on%2:42:00")
- :parent ONT::ABSTRACT-OBJECT-property
+ :parent ONT::domain-property
  :sem (F::abstr-obj (:required)(:default (F::gradability +) (f::intensity ont::hi)))
- :arguments ((:REQUIRED ONT::NEUTRAL1)
-             (:ESSENTIAL ONT::NEUTRAL)
-	                  )
  )
 
 ;; own: his own truck
@@ -1330,7 +1323,7 @@
     :sem (f::abstr-obj (f::gradability -))
     :arguments ((:REQUIRED ONT::Of (f::abstr-obj (F::measure-function f::term)))))
 
-
+#|
 ;;; Function terms have one or more arguments and have a value
 (define-type ONT::abstract-function
  :parent ONT::ABSTRACT-OBJECT
@@ -1339,16 +1332,19 @@
  :arguments ((:ESSENTIAL ONT::val (F::abstr-obj (:default (F::measure-function F::value))))
              )
  )
+|#
 
 (define-type ONT::Mathematical-term
-    :parent ONT::abstract-function
+    :parent ONT::abstract-object-nontemporal
     :sem (f::abstr-obj (:required (f::gradability -)) (:default (f::information f::data)) )
-    :arguments ((:ESSENTIAL ONT::Of (f::abstr-obj (F::measure-function f::term)))))
+    :arguments ((:ESSENTIAL ONT::Of (f::abstr-obj (F::measure-function f::term)))
+		(:ESSENTIAL ONT::val (F::abstr-obj (:default (F::measure-function F::value))))))
 
 
 ;;; A domain is a single-valued function
 (define-type ONT::DOMAIN
- :parent ONT::ABSTRACT-FUNCTION
+ :parent ONT::ABSTRACT-object
+ :comment "Nouns that name domain/scales, and can serve as relational nouns (e.g., the COLOR of the box)"
  :arguments ((:REQUIRED ONT::OF)
 	     (:optional ont::val)
              )
@@ -1421,7 +1417,7 @@
 
 (define-type ONT::MEASURE-UNIT
  :wordnet-sense-keys ("unit_of_measurement%1:23:00" "unit%1:23:00")
- :parent ONT::ABSTRACT-OBJECT-nontemporal
+ :parent ONT::unit
  :sem (F::abstr-obj (F::measure-function F::value) (F::CONTAINER -) (F::INFORMATION -)
        (F::INTENTIONAL -))
  ;;; We define an argument here because we want to express selectional restrictions on what this unit can measure
@@ -1491,6 +1487,13 @@
     :arguments ((:essential ont::of (f::phys-obj (f::form f::substance))))
     )
 
+(define-type ont::energy-unit
+ :wordnet-sense-keys ("energy_unit%1:23:00")
+    :parent ont::formal-unit
+    ;; Right now items like electricity are tagged as substance, so for now we assume that power units measure them
+    :arguments ((:essential ont::of (f::phys-obj (f::form f::substance))))
+    )
+
 ;; lumen
 (define-type ont::luminosity-unit
  :wordnet-sense-keys ("light_unit%1:23:00" "luminous_flux_unit%1:23:00")
@@ -1543,7 +1546,8 @@
 
 ;; dozen, hundred, thousand...
 (define-type ONT::NUMBER-UNIT
- :parent ONT::ABSTRACT-OBJECT-nontemporal
+ :parent ONT::measure-unit
+ :comment "words that name measurement units in scales: foot, mile, ..."
  :sem (F::Abstr-obj (F::information F::data))
  :arguments ((:ESSENTIAL ONT::OF))
  )
@@ -1924,12 +1928,16 @@
 	     )
  )
 
+(define-type ONT::composition
+  :comment "composition, e.g., result of event-of-creation"
+ :parent ONT::information-function-object
+ )
+
 ;; information
 (define-type ONT::information
  :wordnet-sense-keys ("information%1:10:00" "info%1:10:00")
  :parent ONT::information-function-object
  )
-
 
 ;; create an ont::communication-object
 ;; subject, topic
@@ -2054,7 +2062,7 @@
 
 (define-type ONT::attribute
  :wordnet-sense-keys ("dimension%1:09:00" "attribute%1:09:00" "property%1:09:00" "property%1:07:00" "holding%1:21:00" "belongings%1:21:00" "property%1:21:00" "attribute%1:03:00")
- :parent ont::abstract-object-property
+ :parent ont::abstract-object-nontemporal
  :arguments ((:OPTIONAL ONT::of ((? lo f::phys-obj f::abstr-obj)))
              )
  )
@@ -2184,6 +2192,7 @@
  :parent ONT::mental-construction
 ;; :sem (F::Abstr-obj (F::container +))
  :arguments ((:OPTIONAL ONT::OF) ;(f::situation (f::information f::mental-construct) (f::cause f::mental)))
+	     (:optional ont::VAL)
 	     (:optional ont::FORMAL (f::situation))
              )
  )
@@ -2496,7 +2505,7 @@
 ;; for account, grant, credit card
 ;; can we find a way to distinguish between bill (put it on my bill) and grant (put it on my grant)?
 (define-type ONT::ACCOUNT
- :parent ONT::ABSTRACT-OBJECT
+ :parent ONT::ABSTRACT-OBJECT-nontemporal
  :sem (F::Abstr-obj (F::Measure-function F::term)  (f::object-function f::currency) (f::scale f::money-scale))
   :arguments (
  ;; accounts can belong to individuals, organizations or projects
@@ -2537,7 +2546,7 @@
  :parent ONT::requirements
  )
 
-
+#|
 (define-type ONT::sense
 ;; :parent ONT::ANY-SEM
     :parent ont::abstract-function
@@ -2545,6 +2554,7 @@
 ;; :sem (F::proposition (F::information F::information-content))
 
  )
+|#
 
 ;;; (health) care, treatment
 (define-type ONT::treatment
@@ -2580,7 +2590,7 @@
  )
 
 (define-type ONT::NAME
- :parent ONT::ABSTRACT-OBJECT
+ :parent ONT::IDENTIFICATION
  :sem (F::Abstr-obj (F::information F::information-content))
  :arguments ((:ESSENTIAL ONT::of )
              )
@@ -2658,16 +2668,18 @@
              )
  )
 
+#|
 ;;; LF type for movie, theater
 (define-type ONT::ENTERTAINMENT
  :parent ONT::ABSTRACT-OBJECT
  :sem (F::ABSTR-OBJ (F::CONTAINER -) (F::INFORMATION f::information-content) (F::INTENTIONAL -))
  )
+|#
 
 ;; song, rhapsody
 (define-type ONT::music
  :wordnet-sense-keys ("music%1:10:00")
- :parent ONT::entertainment
+ :parent ONT::composition
  )
 ;; For epa and bee
 
@@ -3630,7 +3642,7 @@
  ; <
 
 (define-type ont::scale
-  :parent ont::abstract-object-nontemporal
+  :parent ont::abstract-object
   )
 
 (define-type ont::any-scale
@@ -3706,7 +3718,7 @@
   )
 
 (define-type ont::other-scale
-  :parent ont::any-scale
+  :parent ont::scale
   )
 
 (define-type ont::phosphorilated

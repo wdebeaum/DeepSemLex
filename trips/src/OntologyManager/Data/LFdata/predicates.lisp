@@ -3,9 +3,10 @@
 ;;; All these are predicates with arguments
 (define-type ONT::predicate
   :parent ONT::abstract-object
+  :comment "predications that require a subcat to form a modifier, typically adverbials (e.g., on, as well as"
   :sem (F::ABSTR-OBJ (:default (F::GRADABILITY +) (F::scale -) (f::intensity -) (f::orientation -)  (F::CONTAINER -) (f::intentional -)))
   :arguments ((:ESSENTIAL ONT::OF)
-	      (:OPTIONAL ONT::VAL)
+	      (:ESSENTIAL ONT::VAL)
 	      )
   )
 
@@ -26,7 +27,7 @@
 (define-type ONT::grade-modifier
  :parent ONT::MODIFIER
  :arguments ((:REQUIRED ONT::OF (F::abstr-obj (F::gradability +)))
-	     (:ESSENTIAL ONT::VAL (F::abstr-obj (f::scale f::any-scale)))
+	     (:ESSENTIAL ONT::VAL (F::abstr-obj (f::scale f::scale)))
              )
  )
 
@@ -255,7 +256,7 @@
 (define-type ONT::SCALE-RELATION
  :parent ONT::PREDICATE
  :arguments ((:ESSENTIAL ONT::OF ((? s F::Phys-obj F::abstr-obj F::situation)))
-             (:REQUIRED ONT::VAL (F::abstr-obj (f::scale f::any-scale)))
+             (:REQUIRED ONT::VAL (F::abstr-obj (f::scale f::scale)))
              )
  )
 
@@ -267,13 +268,18 @@
  :parent ONT::scale-relation
  )
 
+;; used in "he is nine years old"   --  he has value on scale AGE-SCALE of 9 years
+(define-type ONT::has-value-on-scale
+ :parent ONT::scale-relation
+ )
+
 
 ;; 5 (feet) by 10 (feet)
 (define-type ONT::dimension
  :parent ONT::PREDICATE
  :arguments ((:ESSENTIAL ONT::OF ((? s F::Phys-obj F::situation)))
-             (:REQUIRED ONT::VAL (F::abstr-obj (f::scale f::any-scale)))
-	     (:OPTIONAL ONT::VAL2 (F::abstr-obj (f::scale f::any-scale)))
+             (:REQUIRED ONT::VAL (F::abstr-obj (f::scale f::scale)))
+	     (:OPTIONAL ONT::VAL2 (F::abstr-obj (f::scale f::scale)))
              )
  )
 

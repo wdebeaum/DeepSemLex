@@ -131,15 +131,26 @@
     :sem (F::abstr-obj)
    )
 
-(define-type ont::mental-construction
+
+(define-type ont::unit
     :parent ont::abstract-object
+    :comment "names of units in various scales/domains"
+    :sem (F::abstr-obj)
+   )
+
+(define-type ont::mental-construction
+    :parent ont::abstract-object-nontemporal
     :comment "constructions of the mind: plans, goals, beliefs, ..."
     :sem (F::abstr-obj (f::information f::mental-construct))
    )
 
-(define-type ont::abstract-object-property
+(define-type ont::domain-property
     :parent ont::abstract-object
-    :sem (F::abstr-obj)
+    :comment "these are modifiers that characterize an object/event with respect to a scale/domain (in ONT::DOMAIN)"
+    :sem (F::abstr-obj (F::gradability +))
+    :arguments ((:REQUIRED ONT::FIGURE)
+		(:ESSENTIAL ONT::GROUND)
+		(:ESSENTIAL ONT::SCALE))
    )
 
 (define-type ONT::Part

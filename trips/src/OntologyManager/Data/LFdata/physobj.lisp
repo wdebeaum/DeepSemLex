@@ -968,11 +968,13 @@
     :parent ont::transportation-facility
     )
 
+#|
 (define-type ont::structure
     :parent ONT::facility
     :wordnet-sense-keys ("structure%1:06:00" "construction%1:06:00")
     :sem (F::Phys-obj (F::object-function F::Building) (f::container +))
     )
+|#
 
 ;; house, apartment -- general types of places where people live
 (define-type ONT::lodging
@@ -1997,7 +1999,7 @@
 
 ;; These are all sorts of device parts (possibly computer components)
 (define-type ONT::DEVICE-COMPONENT
-    :parent ONT::Part
+    :parent ONT::manufactured-object
     :wordnet-sense-keys ("component%1:06:00" "constituent%1:06:00" "element%1:06:00")
     :sem (f::Phys-obj (:required (f::origin f::artifact) (f::form f::object))
 		      (:default (f::intentional -) (f::container -) (f::mobility f::non-self-moving) (f::information -))

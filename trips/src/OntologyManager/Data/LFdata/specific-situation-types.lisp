@@ -2903,7 +2903,7 @@
  :sem (F::SITUATION (F::Aspect F::Dynamic))
  :arguments ((:REQUIRED ONT::Formal)
              (:OPTIONAL ONT::Agent)
-             (:OPTIONAL ONT::RESULT (f::abstr-obj (f::scale f::any-scale)))
+             (:OPTIONAL ONT::RESULT (f::abstr-obj (f::scale f::scale)))
              )
  )
 
@@ -3922,7 +3922,7 @@
 ;		(:optional ont::instrument (f::phys-obj (f::intentional -) (f::Origin f::artifact) (f::form f::Object)))
 		(:required ont::neutral (f::phys-obj)) ;; the item measured
 ;		(:required ont::property (f::abstr-obj (f::measure-function f::term))) ;; width, height, etc.
-		(:essential ont::extent (f::abstr-obj (f::scale f::any-scale))) ;; the value of the measure, e.g. 5 lbs
+		(:essential ont::extent (f::abstr-obj (f::scale f::scale))) ;; the value of the measure, e.g. 5 lbs
 		))
 
 (define-type ont::weigh
@@ -4163,7 +4163,7 @@
 
 ;; infancy, childhood, adulthood
 (define-type ONT::lifecycle-stage
- :parent ONT::abstract-object
+ :parent ONT::domain-property
  :arguments ((:OPTIONAL ONT::of (F::phys-obj (F::origin F::living)))
              )
  )

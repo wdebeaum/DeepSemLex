@@ -7,7 +7,7 @@
   (W::HABITAT
    (SENSES
     ((meta-data :origin boudreaux :entry-date 20031024)
-     (LF-PARENT ONT::structure)
+     (LF-PARENT ONT::setting)
      )
     )
    )
