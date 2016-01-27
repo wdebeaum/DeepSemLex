@@ -108,7 +108,13 @@
 	(LCOMP (:parameter xp (:default (% W::pp (W::ptype W::with)))) ONT::AFFECTED)
 	))
 
-      (AFFECTED-affected-TEMPL
+       (AFFECTED-AGENT-as-comp-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::AFFECTED)
+	(LCOMP (:parameter xp (:default (% W::pp (W::ptype W::with)))) ONT::AGENT)
+	))
+
+       (AFFECTED-affected-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (w::sort (? !xx W::unit-measure))) ONT::affected)
 	(LOBJ (:parameter xp (:default (% W::NP  (w::sort (? !xx W::unit-measure))))) ONT::AFFECTED1)
@@ -213,7 +219,15 @@
     	(LCOMP (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) (W::var ?dobjvar))))
 	       ont::formal)
 	))
-     
+
+      (AGENT-formal-Objcontrol-adj-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::AGENT)
+	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar) (w::sort (? !xx W::unit-measure))) ONT::NOROLE)
+    	(LCOMP (% W::ADJP (W::filled -) (W::gap ?gap) (w::arg ?dobjvar) (W::argument (% W::np (W::sem ?dobjsem) (W::lex ?dobjlex) (W::var ?dobjvar))))
+	       ont::formal)
+	))
+      
       (AFFECTED-EFFECT-XP-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP (w::sort (? !xx W::unit-measure))) ONT::AFFECTED)
@@ -623,7 +637,7 @@
       ;; it rained
       (EXPLETIVE-TEMPL
        (ARGUMENTS
-	(LSUBJ (% W::NP (w::expletive +) (W::sem ($ -))) NOROLE)
+	(LSUBJ (% W::NP (w::expletive +) (W::sem ($ -)) (W::lex W::it)) NOROLE)
 	))
       
       (THEME-ALONG-TEMPL
@@ -790,6 +804,14 @@
 	       ont::location optional)
 	))
 
+      (AFFECTED-loc-optional-TEMPL
+       (ARGUMENTS
+	(LSUBJ (% W::NP) ONT::affected)
+	(LCOMP (:parameter xp (:default (% W::ADVBL (W::lf (% ?p (w::class ont::position-reln)))))
+			   )
+	       ont::location optional)
+	))
+      
       (AGENT-neutral-GOAL-optional-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::agent)
@@ -834,7 +856,9 @@
 	(LSUBJ (% W::NP (W::var ?subjvar) (W::lex ?lsubjlex)) ONT::neutral)
     ;;;;;(argument ?lsubj)
     ;;;;; the arg of the pred will be the subject of the verb
-	(LOBJ (:parameter xp (:default (% W::PRED (W::arg ?subjvar))) (:required (W::filled -) (W::argument ?lsubj) 
+	(LOBJ (:parameter xp (:default (% W::PRED (W::arg ?subjvar))) (:required (W::filled -)
+					;(W::argument ?lsubj)
+					 (W::argument (% W::np (W::sem ?lsubjsem) (W::lex ?lsubjlex) (W::var ?lsubjvar)))
 										(W::gap ?gap))) ONT::FORMAL)
 	))
 
@@ -992,11 +1016,14 @@
 						  (W::var ?dobjvar)))))
 	       ONT::result)
 	))
+
+; so that we don't have to change all the word entries to agent-theme-OBJCONTROL-TEMPL
 ;; the leader banned him from trying
       (agent-EFFECT-AFFECTED-OBJCONTROL-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::agent)
-	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::AFFECTED)
+;	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::AFFECTED)
+	(LOBJ (% W::NP (W::lex ?dobjlex) (W::var ?dobjvar)) ONT::NOROLE)
 	(LCOMP (:parameter xp (:default (% W::cp (W::ctype W::s-to)))
 			   (:required (W::subj (% W::np (W::sem ?dobjsem)
 						  (W::lex ?dobjlex)
@@ -1098,14 +1125,14 @@
 
       (Agent-theme-complex-subjcontrol-TEMPL
        (ARGUMENTS
-	(LSUBJ (% W::NP  (w::var ?subjvar)(w::lex ?dobjlex) (w::sem ?dobjsem))  ONT::agent)
+	(LSUBJ (% W::NP  (w::var ?subjvar)(w::lex ?subjlex) (w::sem ?subjsem))  ONT::agent)
 	(LCOMP (% W::PRED (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?subjsem) (W::lex ?subjlex) 
 								      (W::var ?subjvar)))) ont::formal)
 	))
 
       (neutral-theme-complex-subjcontrol-TEMPL
        (ARGUMENTS
-	(LSUBJ (% W::NP  (w::var ?subjvar)(w::lex ?dobjlex) (w::sem ?dobjsem))  ONT::neutral)
+	(LSUBJ (% W::NP  (w::var ?subjvar)(w::lex ?subjlex) (w::sem ?subjsem))  ONT::neutral)
 	(LCOMP (% W::ADJP (W::filled -) (W::gap ?gap) (W::argument (% W::np (W::sem ?subjsem) (W::lex ?subjlex) 
 								      (W::var ?subjvar)))) ont::formal)
 	))
@@ -2917,9 +2944,9 @@
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::neutral)
-    (subcat (:parameter xp (:default (% W::pp (W::ptype (? pt W::to w::for))))) ONT::neutral1 optional)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype (? pt W::to w::for))))) ONT::neutral1 optional)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype (? pt W::to w::for))))) ONT::neutral1)
     ))
-
   
   (adj-CO-THEME-post-subcat-templ
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
@@ -3040,7 +3067,8 @@
   (adj-theme-xp-templ
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::of)
+;    (ARGUMENT (% W::NP) ONT::of)
+    (ARGUMENT (% W::NP) ONT::NEUTRAL)
     (subcat (:parameter xp (:default (% W::pp (W::ptype W::for)))) ont::formal)
     ))
   
