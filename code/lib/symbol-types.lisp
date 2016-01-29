@@ -127,7 +127,7 @@
 
 (common-lisp::deftype sem-role ()
   ;; this list found by grepping templates and OM files (see get-ont-sem-roles.sh)
-  '(common-lisp::member action addressee affected affected1 affected-result affected-result1 affected-create affected-create1 agent agent1 along arg0 arg1 assoc-with associated-information beneficiary cause co-agent co-result co-theme cognizer content contents cost criterion donor duration effect effect-implicit entity experiencer extent figure formal formal1 from-loc goal goal-reln goods ground instrument interval location manner material money neutral neutral1 neutral2 norole obj-val of of-state of1 of2 originator path place position-reln predicate property purpose purpose-implicit reason result result-val sit-val situation source source-reln spatial-loc stative stimulus theme time-duration-rel time-val to-loc val val2 value via scale
+  '(common-lisp::member action addressee affected affected1 affected-result affected-result1 affected-create affected-create1 agent agent1 along arg0 arg1 assoc-with associated-information beneficiary cause co-agent co-result co-theme cognizer content contents cost criterion donor duration effect effect-implicit entity experiencer extent figure formal formal1 from-loc goal goal-reln goods ground instrument interval location manner material money neutral neutral1 neutral2 norole obj-val of of-state of1 of2 originator path place position-reln predicate property purpose purpose-implicit reason result result-val scale sit-val situation source source-reln spatial-loc stative stimulus theme time-duration-rel time-val to-loc val val2 value via scale
     ;; some extras output by src/Systems/gloss/test.lisp
     co-theme patient partner means method
     ))
