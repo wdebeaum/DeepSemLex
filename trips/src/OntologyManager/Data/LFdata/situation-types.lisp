@@ -68,7 +68,7 @@
 	     (:OPTIONAL ONT::Formal ((? th21 F::Abstr-obj F::Situation F::Proposition)))
 	     (:OPTIONAL ONT::NEUTRAL ((? n1 F::Phys-obj f::abstr-obj))); (F::information F::information-content)))
 	     (:optional ont::norole)
-	     (:optional ONT::LOCATION)
+	     (:optional ont::location ((? cg2 f::abstr-obj F::Phys-obj)))
 	     )
  )
 

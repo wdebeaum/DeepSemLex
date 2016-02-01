@@ -2918,12 +2918,20 @@
  :parent ONT::PHYSICAL-SYMPTOM-VAL
   )
 
-
+;;;;;
 (define-type ONT::pos-emotional-val
   :parent ONT::emotional-val
  )
 
 (define-type ONT::neg-emotional-val
+  :parent ONT::emotional-val
+ )
+
+(define-type ONT::neutral-emotional-val
+  :parent ONT::emotional-val
+ )
+
+(define-type ONT::surprised
   :parent ONT::emotional-val
  )
 
@@ -2947,6 +2955,7 @@
   :parent ONT::neg-emotional-val
  )
 
+;;;;;
 (define-type ONT::EUPHORIC
  :parent ONT::pos-intense-emotional-val
  ; Words: (W::HAPPY W::EUPHORIC)
@@ -2954,6 +2963,17 @@
  ; Antonym: ONT::UNHAPPY (W::UNHAPPY W::MISERABLE)
  )
 
+(define-type ONT::excited
+ :parent ONT::pos-intense-emotional-val
+ :wordnet-sense-keys ("excited%3:00:00" "excited%3:00:00:wild:02" "enthusiastic%3:00:00")
+ )
+
+(define-type ONT::desirous
+ :parent ONT::pos-intense-emotional-val
+ :wordnet-sense-keys ("desirous%3:00:00")
+ )
+
+;;;;;
 (define-type ONT::GRATEFUL
  :parent ONT::pos-soft-emotional-val
  ; Words: (W::GLAD W::GRATEFUL W::CHEERFUL W::THANKFUL)
@@ -2961,26 +2981,78 @@
  ; Antonym: ONT::UNGRATEFUL (W::SAD W::MELANCHOLY W::UNGRATEFUL)
  )
 
-#|
-(define-type ONT::UNGRATEFUL
- :parent ONT::negative-emotional-val
- ; Words: (W::SAD W::MELANCHOLY W::UNGRATEFUL)
- :wordnet-sense-keys ("ungrateful%3:00:00")
- ; Antonym: ONT::GRATEFUL (W::GLAD W::GRATEFUL W::CHEERFUL W::THANKFUL)
+(define-type ONT::amused
+ :parent ONT::pos-soft-emotional-val
+ :wordnet-sense-keys ("amused%3:00:00:pleased:00")
  )
-|#
+
+(define-type ONT::calm
+ :parent ONT::pos-soft-emotional-val
+ :wordnet-sense-keys ("calm%3:00:00:composed:00")
+ )
+
+(define-type ONT::PLEASANT
+ :parent ONT::pos-soft-emotional-val
+ :wordnet-sense-keys ("pleasant%3:00:00")
+ )
+
+;;;;;
+(define-type ONT::afraid
+ :parent ONT::neg-intense-emotional-val
+ :wordnet-sense-keys ("afraid%3:00:00")
+ )
+
+(define-type ONT::angry
+ :parent ONT::neg-intense-emotional-val
+ :wordnet-sense-keys ("afraid%3:00:00")
+ )
+
+(define-type ONT::agitated
+ :parent ONT::neg-intense-emotional-val
+ :wordnet-sense-keys ("agitated%3:00:00")
+ )
+
+(define-type ONT::envious
+ :parent ONT::neg-intense-emotional-val
+ :wordnet-sense-keys ("envious%3:00:00:desirous:00")
+ )
+
+(define-type ONT::disgusted
+ :parent ONT::neg-intense-emotional-val
+ :wordnet-sense-keys ("disgusted%3:00:00:displeased:00")
+ )
+
+;;;;;
+(define-type ONT::uneasy
+ :parent ONT::neg-soft-emotional-val
+ :wordnet-sense-keys ("anxious%3:00:00:troubled:00" "uneasy%3:00:00")
+ )
+
+(define-type ONT::unpleasant
+ :parent ONT::neg-soft-emotional-val
+ :wordnet-sense-keys ("grumpy%3:00:00:ill-natured:00" "disagreeable%3:00:00:ill-natured:00" "unpleasant%3:00:00")
+ )
 
 (define-type ONT::UNHAPPY
- :parent ONT::neg-intense-emotional-val
+ :parent ONT::neg-soft-emotional-val
  ; Words: (W::UNHAPPY W::MISERABLE)
- :wordnet-sense-keys  ("dysphoric%3:00:00" "unhappy%3:00:00" "miserable%5:00:00" "melancholy%5:00:00" "sad%3:00:00")
+ :wordnet-sense-keys  ("dysphoric%3:00:00" "unhappy%3:00:00" "miserable%5:00:00" "melancholy%5:00:00" "sad%3:00:00" "gloomy%3:00:00:dejected:00")
  ; Antonym: ONT::EUPHORIC (W::HAPPY W::EUPHORIC)
  )
 
 (define-type ONT::sorry
  :parent ONT::neg-soft-emotional-val
  ; Words: (W::sorry)
+ :wordnet-sense-keys ("sorry%3:00:02")
  )
+
+(define-type ONT::bored
+ :parent ONT::neg-soft-emotional-val
+ :wordnet-sense-keys ("bored%3:00:00:tired:00" "bored%3:00:00:uninterested:00")
+ )
+
+
+
 
 (define-type ONT::smart
  :parent ONT::INTELLIGENCE-VAL

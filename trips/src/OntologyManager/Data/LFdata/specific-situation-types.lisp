@@ -1877,6 +1877,12 @@
     :comment "informal extended conversing "
     )
 
+(define-type ont::assert
+    :wordnet-sense-keys ("assert%2:32:01")
+    :comment "tell categorically"
+    :parent ont::representative
+    )
+
 (define-type ONT::tell
     :parent ont::representative
     :wordnet-sense-keys ("state%2:32:00" "tell%2:32:00" "inform%2:32:00") 
@@ -2016,9 +2022,7 @@
 
 (define-type ONT::Confirm
  :wordnet-sense-keys ("confirm%2:32:00")
- :parent ONT::response
-  :arguments ((:optional ont::location ((? cg2 f::abstr-obj F::Phys-obj)
-	      )))
+ :parent ONT::assert
  :sem (F::Situation (F::Cause F::Agentive))
  )
 
@@ -4274,11 +4278,6 @@
   )
 
 
-(define-type ont::assert
-    :wordnet-sense-keys ("assert%2:32:01")
-    :comment "tell categorically"
-    :parent ont::representative
-    )
 
 #|
  (define-type ont::convey 
