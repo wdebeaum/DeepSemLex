@@ -479,7 +479,7 @@
   )
 
 ;; happy, sad, gloomy...
-(define-type ONT::emotional-property-val
+(define-type ONT::emotional-val
   :parent ONT::psychological-property-val
  )
 
@@ -1546,7 +1546,7 @@
 
 ;; dozen, hundred, thousand...
 (define-type ONT::NUMBER-UNIT
- :parent ONT::measure-unit
+ :parent ONT::unit
  :comment "words that name measurement units in scales: foot, mile, ..."
  :sem (F::Abstr-obj (F::information F::data))
  :arguments ((:ESSENTIAL ONT::OF))
@@ -2332,8 +2332,8 @@
 
 ;; favorite
 (define-type ONT::favorite
- :wordnet-sense-keys ("favorite%1:09:00" "favourite%1:09:00")
- :parent ONT::comparison
+ :wordnet-sense-keys ("favorite%1:09:00" "favourite%3:00:00:popular:00" "favourite%3:00:00:loved:00")
+ :parent ONT::relation
   )
 
 ;; system, agent
@@ -2918,36 +2918,67 @@
  :parent ONT::PHYSICAL-SYMPTOM-VAL
   )
 
+
+(define-type ONT::pos-emotional-val
+  :parent ONT::emotional-val
+ )
+
+(define-type ONT::neg-emotional-val
+  :parent ONT::emotional-val
+ )
+
+;; ecstatic
+(define-type ONT::pos-intense-emotional-val
+  :parent ONT::pos-emotional-val
+ )
+
+;; glad
+(define-type ONT::pos-soft-emotional-val
+  :parent ONT::pos-emotional-val
+ )
+
+;; angry
+(define-type ONT::neg-intense-emotional-val
+  :parent ONT::neg-emotional-val
+ )
+
+;; sad
+(define-type ONT::neg-soft-emotional-val
+  :parent ONT::neg-emotional-val
+ )
+
 (define-type ONT::EUPHORIC
- :parent ONT::EMOTIONAL-PROPERTY-VAL
+ :parent ONT::pos-intense-emotional-val
  ; Words: (W::HAPPY W::EUPHORIC)
- :wordnet-sense-keys ("euphoric%3:00:00" "happy%3:00:00")
+ :wordnet-sense-keys ("euphoric%3:00:00" "happy%3:00:00" "beaming%5:00:00" "cheerful%3:00:00")
  ; Antonym: ONT::UNHAPPY (W::UNHAPPY W::MISERABLE)
  )
 
 (define-type ONT::GRATEFUL
- :parent ONT::EMOTIONAL-PROPERTY-VAL
+ :parent ONT::pos-soft-emotional-val
  ; Words: (W::GLAD W::GRATEFUL W::CHEERFUL W::THANKFUL)
- :wordnet-sense-keys  ("grateful%3:00:00" "beaming%5:00:00" "cheerful%3:00:00" "glad%3:00:00" "glad%5:00:00")
+ :wordnet-sense-keys  ("grateful%3:00:00" "glad%3:00:00" "glad%5:00:00")
  ; Antonym: ONT::UNGRATEFUL (W::SAD W::MELANCHOLY W::UNGRATEFUL)
  )
 
+#|
 (define-type ONT::UNGRATEFUL
- :parent ONT::EMOTIONAL-PROPERTY-VAL
+ :parent ONT::negative-emotional-val
  ; Words: (W::SAD W::MELANCHOLY W::UNGRATEFUL)
- :wordnet-sense-keys ("ungrateful%3:00:00" "ungrateful%3:00:00" "melancholy%5:00:00" "sad%3:00:00" "sad%3:00:00")
+ :wordnet-sense-keys ("ungrateful%3:00:00")
  ; Antonym: ONT::GRATEFUL (W::GLAD W::GRATEFUL W::CHEERFUL W::THANKFUL)
  )
+|#
 
 (define-type ONT::UNHAPPY
- :parent ONT::EMOTIONAL-PROPERTY-VAL
+ :parent ONT::neg-intense-emotional-val
  ; Words: (W::UNHAPPY W::MISERABLE)
- :wordnet-sense-keys  ("dysphoric%3:00:00" "unhappy%3:00:00" "unhappy%3:00:00" "miserable%5:00:00")
+ :wordnet-sense-keys  ("dysphoric%3:00:00" "unhappy%3:00:00" "miserable%5:00:00" "melancholy%5:00:00" "sad%3:00:00")
  ; Antonym: ONT::EUPHORIC (W::HAPPY W::EUPHORIC)
  )
 
 (define-type ONT::sorry
- :parent ONT::EMOTIONAL-PROPERTY-VAL
+ :parent ONT::neg-soft-emotional-val
  ; Words: (W::sorry)
  )
 
