@@ -18,7 +18,7 @@
 (define-words :pos W::v 
  :words (
    (W::signal
-    (wordfeats (W::morph (:forms (-vb) :nom w::signal :nomsubjpreps (w::of))))
+    (wordfeats (W::morph (:forms (-vb) :nom w::signal :nomsubjpreps (w::by w::of) :nomobjpreps ())))
     (SENSES
      ((LF-PARENT ONT::communication)
       (templ agent-affected-xp-templ)
