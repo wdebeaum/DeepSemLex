@@ -9,6 +9,7 @@
    (SENSES
     ((meta-data :origin trips :entry-date 20060824 :change-date nil :comments nil :wn ("specific%3:00:00"))
      (LF-PARENT ONT::SPECIFICITY-VAL)
+     (TEMPL central-adj-optional-xp-TEMPL (XP (% W::PP (W::Ptype W::to))))
      )
     )
    )

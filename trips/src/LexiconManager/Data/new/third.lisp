@@ -13,3 +13,14 @@
    )
 ))
 
+(define-words :pos W::ADV
+ :tags (:base500)
+ :words (
+  (W::THIRD
+   (SENSES
+    ((LF-PARENT ONT::SEQUENCE-POSITION)
+     (TEMPL PRED-S-TEMPL)
+     )
+    )
+   )
+))

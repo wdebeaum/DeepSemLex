@@ -5,6 +5,7 @@
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :words (
    (W::fail
+   (wordfeats (W::morph (:forms (-vb) :nom w::failure)))
    (SENSES
     ((lf-parent ont::fail)
      (SEM (F::Cause F::Agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))

@@ -16,3 +16,16 @@
  )
 ))
 
+(define-words :pos W::n 
+ :words (
+(w::crop
+ (senses
+  (
+   (LF-PARENT ONT::plant)
+   (TEMPL COUNT-PRED-TEMPL)
+   (example "winter crop")
+   )
+  )
+ )
+))
+

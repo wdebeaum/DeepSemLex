@@ -8,7 +8,7 @@
   (w::together
    (SENSES
     ((LF-PARENT ONT::INCLUSIVE)
-     (TEMPL pred-s-post-TEMPL)
+     (TEMPL pred-s-vp-TEMPL)
      (example "put them together")
      (meta-data :origin calo :entry-date 20041122 :change-date nil :comments caloy2)
      )

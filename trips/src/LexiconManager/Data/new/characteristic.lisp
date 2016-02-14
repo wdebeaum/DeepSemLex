@@ -14,3 +14,15 @@
    )
 ))
 
+(define-words :pos W::adj
+ :words (
+   (W::characteristic
+   (SENSES
+    (
+     (LF-PARENT ont::common)
+     (TEMPL central-adj-optional-xp-templ (xp (% W::PP (W::ptype W::of))))
+     (example "footprints characteristic of the penguin")
+      )
+    )
+   )
+))

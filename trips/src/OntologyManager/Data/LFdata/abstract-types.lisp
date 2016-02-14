@@ -1782,7 +1782,7 @@
 
 ;; beginning, end, threshhold
 (define-type ONT::BOUND
-     :wordnet-sense-keys ("extremity%1:15:00")
+     :wordnet-sense-keys ("extremity%1:15:00" "extreme%1:07:00" "extreme%1:15:00")
      :parent ONT::ORDERED-DOMAIN
      :arguments ((:REQUIRED ONT::OF ((? fot F::phys-obj F::abstr-obj f::situation)))
 		 (:ESSENTIAL ONT::VAL)

@@ -20,3 +20,15 @@
    )
 ))
 
+(define-words :pos W::conj 
+ :words (
+  ((W::ALONG W::WITH)
+   (wordfeats (W::conj +) (W::seq +))
+   (SENSES
+    ((LF W::AND)
+     (non-hierarchy-lf t) (TEMPL SUBCAT-ANY-TEMPL)
+;     (syntax (w::status w::definite-plural))
+     )
+    )
+   )
+))

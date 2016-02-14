@@ -2,6 +2,7 @@
 ;;;; W::decline
 ;;;;
 
+
 (define-words :pos W::n :templ COUNT-PRED-TEMPL
  :words (
 ;   )
@@ -16,15 +17,12 @@
    )
 ))
 
+
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :words (
   (W::decline
+   (wordfeats (W::morph (:forms (-vb) :nom w::decline :nomobjpreps (w::of w::in))))
    (SENSES
-    ((LF-PARENT ONT::reject)
-     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
-     (EXAMPLE "decline the cookie")
-     (meta-data :origin task-learning :entry-date 20050825 :change-date 20090508 :comments nil)
-     )
     ((lf-parent ONT::decrease)
      (templ affected-templ)
      (example "the market declined")
@@ -34,3 +32,15 @@
    )
 ))
 
+(define-words :pos W::v :templ AGENT-affected-XP-TEMPL
+ :words (
+  (W::decline
+   (SENSES
+    ((LF-PARENT ONT::reject)
+     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (EXAMPLE "decline the cookie")
+     (meta-data :origin task-learning :entry-date 20050825 :change-date 20090508 :comments nil)
+     )
+    )
+   )
+))

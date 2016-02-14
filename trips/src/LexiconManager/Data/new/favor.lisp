@@ -15,6 +15,11 @@
 ;     (LF-PARENT ONT::experiencer-emotion)
 ;     (TEMPL agent-neutral-xp-templ) ; like admire,adore,appreciate,despise,detest,dislike,loathe,miss
 ;     )
+    (
+     (LF-PARENT ONT::cause-stimulate)
+     (TEMPL agent-affected-xp-templ) 
+     )
+
     )
    )
 ))

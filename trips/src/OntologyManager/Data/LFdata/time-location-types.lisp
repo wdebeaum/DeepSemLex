@@ -848,6 +848,7 @@
  :arguments ((:OPTIONAL ONT::OF (F::time (f::time-function f::time-frame) (f::time-scale f::interval) (f::scale f::duration-scale)))
              ;;; a time of two hours
              (:OPTIONAL ONT::VAL (F::Abstr-obj))
+	     (:OPTIONAL ONT::EXTENT (F::Abstr-obj (f::time-scale f::interval) (f::scale f::duration-scale)))
              )
  )
 

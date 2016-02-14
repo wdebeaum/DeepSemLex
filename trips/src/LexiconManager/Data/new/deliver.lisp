@@ -15,6 +15,11 @@
     #||((LF-PARENT ONT::deliver)
      (example "deliver the oranges to boston")
      )||#
+    ((LF-PARENT ONT::CAUSE-EFFECT)
+     (example "deliver a blow")
+     (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
+     (TEMPL agent-affected-xp-TEMPL)
+     )
     )
    )
 ))
