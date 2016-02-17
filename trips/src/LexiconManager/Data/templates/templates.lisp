@@ -1410,7 +1410,7 @@
    (SYNTAX(W::AUX +) (W::modal +) (W::ellipsis +) (W::morph (:forms NIL)) (W::AGR ?agr))
    (ARGUMENTS
     ;;;;;; (LSUBJ (% NP) THEME) ;; map subject to theme of aux
-    (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar) (W::case ?lsubjcase) (W::agr ?lsubjagr)) ont::formal
+    (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar) (W::case ?lsubjcase) (W::agr ?lsubjagr)) ont::neutral
     )
     ;;;;;; (LCOMP (% VP- (vform base) (subj ?vpsubj) (roles ?croles)
     ;;;;;;	 (constraint ?constraint) (tma ?tma) (class ?cclass) (tranform ?transform)
@@ -1681,7 +1681,7 @@
   (AGENT-EFFECT-XP-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::AGENT)
-    (LOBJ (:parameter xp (:default (% W::NP))) ONT::FORMAL)
+    (LOBJ (:parameter xp (:default (% W::NP))) ONT::RESULT)
     ))
   
    ;;;;; swift 24/01/02 use this to replace AGENT-BENEFICIARY-THEME-XP-TEMPL for warn, inform
