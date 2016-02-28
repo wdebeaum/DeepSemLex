@@ -1223,6 +1223,13 @@
  :sem (F::Situation (F::Cause F::agentive))
  )
 
+(define-type ONT::progress
+ :wordnet-sense-keys ("go%2:30:02" "progress%2:30:00"  "progress%2:38:00"  "progress%2:30:01")
+ :parent ONT::SITUATION-CHANGE
+ :comment "A situation continues to develop"
+ :sem (F::Situation (F::Cause F::agentive))
+ )
+
 ;; swear  20120523 GUM change new type
 (define-type ont::swear
     :parent ont::exclamation
