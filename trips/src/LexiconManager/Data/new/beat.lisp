@@ -5,7 +5,7 @@
 (define-words :pos W::v :templ agent-theme-xp-templ
  :words (
   (w::beat
-   (wordfeats (W::morph (:forms (-vb) :past W::beat :pastpart W::beaten :ing W::beating :nom w::beat)))
+   (wordfeats (W::morph (:forms (-vb) :past W::beat :pastpart W::beaten :ing W::beating :nom w::beating)))
    (SENSES
     ((meta-data :origin chf :entry-date 20070809 :change-date nil :comments nil)
      (LF-PARENT ont::rhythmic-motion)

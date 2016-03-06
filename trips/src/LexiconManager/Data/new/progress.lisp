@@ -8,7 +8,7 @@
    (wordfeats (W::morph (:forms (-vb) :nom W::progression)))
    (SENSES
     ((EXAMPLE "The disease progressed")
-     (LF-PARENT ONT::situation-change)
+     (LF-PARENT ONT::progress)
      (TEMPL affected-templ)
      )
     )

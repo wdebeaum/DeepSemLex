@@ -21,12 +21,12 @@
      (LF-PARENT ONT::unhappy)
      (TEMPL ADJ-THEME-XP-TEMPL (xp (% W::PP (w::ptype (? pt w::for w::about)))))
      )
-    ((meta-data :origin leam :entry-date 20070214 :change-date 20090731 :comments nil :wn ("sad%3:00:00"))
+    #||((meta-data :origin leam :entry-date 20070214 :change-date 20090731 :comments nil :wn ("sad%3:00:00"))
      (example "I am happy that she does that")
      (LF-PARENT ONT::unhappy)
      (TEMPL ADJ-OF-CONTENT-XP-TEMPL)
      )
-    )
-   )
+    ||#
+   ))
 ))
 

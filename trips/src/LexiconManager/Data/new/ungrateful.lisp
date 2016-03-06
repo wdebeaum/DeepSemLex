@@ -17,11 +17,11 @@
      (LF-PARENT ONT::emotional-val)
      (templ central-adj-content-templ)
      )
-    ((meta-data :origin cardiac :entry-date 20080414 :change-date 20090731 :comments nil :wn ("happy%3:00:00"))
+    #||((meta-data :origin cardiac :entry-date 20080414 :change-date 20090731 :comments nil :wn ("happy%3:00:00"))
      (example "I am ungrateful that she does that")
      (LF-PARENT ONT::emotional-val)
      (TEMPL ADJ-OF-CONTENT-XP-TEMPL)
-     )    
+     )  ||#  
     )
    )
 ))

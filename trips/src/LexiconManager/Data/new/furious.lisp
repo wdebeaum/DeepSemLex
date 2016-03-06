@@ -17,11 +17,11 @@
      (LF-PARENT ONT::angry)
      (TEMPL ADJ-THEME-XP-TEMPL (xp (% W::PP (w::ptype (? pt w::at w::about)))))
      )
-    ((meta-data :origin cardiac :entry-date 20080508 :change-date nil :comments LM-vocab)
+    #||((meta-data :origin cardiac :entry-date 20080508 :change-date nil :comments LM-vocab)
      (example "I am angry that she does that")
      (LF-PARENT ONT::angry)
      (TEMPL ADJ-OF-CONTENT-XP-TEMPL)
-     )    
+     ) ||#   
     )
    )
 ))

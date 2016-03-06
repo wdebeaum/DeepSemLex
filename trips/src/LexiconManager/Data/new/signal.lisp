@@ -21,7 +21,7 @@
     (wordfeats (W::morph (:forms (-vb) :past w::signaled :ing w::signaling :nomsubjpreps (w::by w::of) :nomobjpreps (w::nil))))
 ;    (wordfeats (W::morph (:forms (-vb) :nom w::signaling :nomsubjpreps (w::by w::of) )))
     (SENSES
-     ((LF-PARENT ONT::communication)
+     ((LF-PARENT ONT::nonverbal-say)
       (templ agent-affected-xp-templ)
      )
     )

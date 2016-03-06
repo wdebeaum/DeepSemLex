@@ -675,6 +675,7 @@
  :arguments ((:REQUIRED ONT::Formal)
 ;             (:ESSENTIAL ONT::Situation (F::Situation))
 	      (:optional ont::norole)
+	     (:optional ont::neutral)
              )
  )
 

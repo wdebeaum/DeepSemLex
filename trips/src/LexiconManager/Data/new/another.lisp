@@ -2,7 +2,7 @@
 ;;;; w::another
 ;;;;
 
-(define-words :pos W::pro :boost-word t :templ PRONOUN-TEMPL
+#||(define-words :pos W::pro :boost-word t :templ PRONOUN-TEMPL
  :tags (:base500)
  :words (
  (w::another
@@ -14,7 +14,7 @@
     )
    )
   )
-))
+))||#
 
 (define-words :pos W::quan :boost-word t
  :tags (:base500)
@@ -22,7 +22,7 @@
   (W::another
    (wordfeats (W::status W::indefinite) (W::MASS W::COUNT) (W::negatable +))
    (SENSES
-    ((LF W::more)
+    ((LF W::other)
      (non-hierarchy-lf t)(TEMPL quan-sing-count-TEMPL)
      (SYNTAX (W::agr W::3s))
      )

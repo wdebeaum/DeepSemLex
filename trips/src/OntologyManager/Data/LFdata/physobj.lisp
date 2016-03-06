@@ -1044,29 +1044,29 @@
 		)
     )
 
-;; roof
 (define-type ont::structure-external-component
+    :comment "parts of exterior of buildings: e.g., roof, window"
     :parent ONT::structural-component
     :wordnet-sense-keys ("roof%1:06:00")
     :arguments ((:OPTIONAL ONT::OF (F::Phys-obj))
 		)
     )
 
-;; chair, desk, table
 (define-type ont::furnishings
+    :comment "e.g.,  chair, desk, table"
     :parent ONT::manufactured-object
     :wordnet-sense-keys ("furniture%1:06:00" "piece_of_furniture%1:06:00" "article_of_furniture%1:06:00")
     :sem (F::Phys-obj (:required (F::Form F::solid-object)) (:default (F::Object-Function F::furniture)))
     )
 
-;; for CAET -- drawer
 (define-type ont::furnishings-component
+    :comment "parts typically of furnishings: e.g., drawer"
     :parent ont::furnishings
     :wordnet-sense-keys ("drawer%1:06:00")
     )
 
-;; pillow, blanket
 (define-type ont::bedding
+    :comment "objects related to bedding: pillow, blanket"
     :parent ONT::furnishings
     :wordnet-sense-keys ("bedclothes%1:06:00" "bed_clothing%1:06:00" "pillow%1:06:00")
     :sem (F::Phys-obj (F::Form F::solid-object) (F::Object-Function F::furniture))
@@ -1095,26 +1095,29 @@
     :parent ONT::location
     )
 
-;; places that occupy space
 (define-type ONT::loc-as-area
+    :comment " places that occupy space"
     :parent ONT::location-by-description
     )
 
-;; place related to a trajectory by a goal
-;; destination
 (define-type ONT::loc-def-by-goal
+    :comment " place related to a trajectory by a goal: destination"
     :parent ONT::loc-as-area
     )
 
-;; place defined by the intersection of two lines
-;; intersection
 (define-type ONT::loc-def-by-intersection
+    :comment " place defined by the intersection of two lines/areas"
     :parent ONT::loc-as-area
     )
 
-;; places defined by their function
-;; lot, plot, reguion, scene, section, site, territory, zone
+
 (define-type ONT::area-def-by-use
+    :comment "places defined by their function: e.g.,  lot, plot, region, scene, section, site, territory, zone"
+    :parent ONT::loc-as-area
+    )
+
+(define-type ONT::loc-defined-by-contrast
+    :comment "Objects that are subparts of larger surface but delineated by a contrasting property: e.g., spot, patch"
     :parent ONT::loc-as-area
     )
 

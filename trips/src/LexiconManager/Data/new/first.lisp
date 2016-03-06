@@ -14,18 +14,7 @@
     ((LF-PARENT ONT::SEQUENCE-POSITION)
      (TEMPL DISC-TEMPL)
      (example "first open the browser window")
-     )
-    
-    )
-   )
-
-  ((W::FIRST W::time)
-   (SENSES
-    ((LF-PARENT ONT::EVENT)
-     (TEMPL count-subcat-that-optional-templ)
-     )
-   
-   ))
+     )))
 
   ((W::FIRST w::of w::all)
    (SENSES
@@ -33,6 +22,7 @@
      (meta-data :origin caet :entry-date 20130523 :change-date nil :comments icmi)
      (TEMPL PRED-S-TEMPL)
      )
+    
     ((LF-PARENT ONT::SEQUENCE-POSITION)
      (meta-data :origin caet :entry-date 20130523 :change-date nil :comments icmi)
      (TEMPL DISC-TEMPL)

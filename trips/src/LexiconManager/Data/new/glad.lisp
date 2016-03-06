@@ -22,11 +22,11 @@
      (LF-PARENT ONT::GRATEFUL)
      (TEMPL ADJ-THEME-XP-TEMPL (xp (% W::PP (w::ptype w::for))))
      )
-  ((meta-data :origin chf :entry-date 20070809 :change-date 20090731 :comments nil :wn ("happy%3:00:00"))
+ #|| ((meta-data :origin chf :entry-date 20070809 :change-date 20090731 :comments nil :wn ("happy%3:00:00"))
      (example "I am glad that she does that")
      (LF-PARENT ONT::GRATEFUL)
      (TEMPL ADJ-OF-CONTENT-XP-TEMPL)
-     )    
+     ) ||#   
     )
    )
 ))

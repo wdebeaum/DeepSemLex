@@ -1160,17 +1160,17 @@
 ;;; a future data
 (define-type ONT::relation
  :wordnet-sense-keys ("relation%1:03:00" "amount%2:42:03" "bear_on%2:42:00")
- :parent ONT::domain-property
- :sem (F::abstr-obj (:required)(:default (F::gradability +) (f::intensity ont::hi)))
+ :parent ONT::abstract-object
+ :arguments ((:REQUIRED ONT::FIGURE)
+	     (:REQUIRED ONT::GROUND)) 
+ :sem (F::abstr-obj (:required)
+		    (:default (f::intensity ont::hi)))
  )
 
 ;; own: his own truck
 (define-type ONT::own
   :parent ONT::relation
-  :arguments ((:REQUIRED ONT::FIGURE) ;; possessive NP
-	      (:REQUIRED ONT::GROUND) ;; possessed
-	      (:required ont::of)
-	      ))
+  )
 
 (define-type ONT::SIMILARITY-val
  :parent ONT::RELATION
@@ -1185,20 +1185,12 @@
 ;; using roles :of and :val b.c. the :formal :formal1 roles are going to be replaced real soon now
 (define-type ont::exemplifies
   :parent ont::similarity-val
-  :arguments ((:ESSENTIAL ONT::OF)
-	      (:ESSENTIAL ONT::VAL)
-	      )
-  )
+    )
 
 
 (define-type ONT::IDENTITY-val
  :parent ONT::similarity-val
- :arguments ((:REQUIRED ONT::neutral)
-             (:ESSENTIAL ONT::neutral1)
-	     (:ESSENTIAL ONT::of)
-	     (:ESSENTIAL ONT::formal)
-             )
- )
+  )
 
 
 #||;;; ownership, property, etc.
@@ -3549,10 +3541,15 @@
 
 (define-type ONT::SAME
  :parent ONT::IDENTITY-VAL
- ; Words: (W::IDENTICAL W::SAME)
-:wordnet-sense-keys ("same%3:00:02" "identical%5:00:00" "same%3:00:02")
+ :wordnet-sense-keys ("same%3:00:02" "identical%5:00:00" "same%3:00:02")
  ; Antonym: NIL (W::OTHER)
  )
+
+(define-type ONT::other
+ :parent ONT::IDENTITY-VAL
+ :wordnet-sense-keys ("other%3:00:00" "another%3:00:00")
+ )
+
 
 (define-type ONT::near
  :parent ONT::DISTANCE-VAL
