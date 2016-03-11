@@ -1427,7 +1427,7 @@
   (AUX-NOCOMP-TEMPL
    (SYNTAX(W::AUX +) (W::modal -) (W::ellipsis +) (W::morph (:forms NIL)) (W::AGR ?agr))
    (ARGUMENTS
-    (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar) (W::case ?lsubjcase) (W::agr ?lsubjagr)) ont::formal)
+    (LSUBJ (% W::NP (W::lex ?lsubjlex) (W::var ?lsubjvar) (W::case ?lsubjcase) (W::agr ?lsubjagr)) ont::neutral)
     (LCOMP (% W::VP- (W::vform W::base) (W::auxname (? an W::PASSIVE W::PROGR W::PERF)) (W::subj (% W::NP (
            W::sem ?lsubjsem) (W::lex ?lsubjlex) (W::var ?lsubjvar) (W::case ?lsubjcase) (W::agr ?lsubjagr 
           ))) (W::roles ?croles) (W::subj-map ?subj-map) (W::tranform ?transform) (W::class ?cclass) (
@@ -1508,7 +1508,8 @@
 (neutral-LOCATION-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::neutral)
-    (LCOMP  (:parameter xp (:default (% W::PP (w::ptype (? ptp w::on w::in w::under w::into w::at))))) ONT::location)
+    (LCOMP  (:parameter xp (:default  (SUBCAT  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln) ont::val))))))) ONT::location)
+			       ;;(% W::PP (w::ptype (? ptp w::on w::in w::under w::into w::at))))) ONT::location)
     ))
   
 (neutral-neutral-xp-location-templ
