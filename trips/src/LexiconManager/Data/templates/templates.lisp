@@ -1508,7 +1508,7 @@
 (neutral-LOCATION-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::neutral)
-    (LCOMP  (:parameter xp (:default  (SUBCAT  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln) ont::val))))))) ONT::location)
+    (LCOMP  (:parameter xp (:default  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln) ont::val)))))) ONT::location)
 			       ;;(% W::PP (w::ptype (? ptp w::on w::in w::under w::into w::at))))) ONT::location)
     ))
   
