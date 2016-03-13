@@ -29,7 +29,7 @@
      (TEMPL experiencer-templ)
      (preference .96)
      )
-    ((LF-PARENT ONT::coming-to-believe)
+    ((LF-PARENT ONT::determine)
      (example "he guessed the answer")
      (TEMPL agent-theme-xp-templ)
      (meta-data :origin calo-ontology :entry-date 20060426 :change-date nil :comments nil)

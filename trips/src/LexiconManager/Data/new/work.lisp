@@ -38,7 +38,7 @@
  :words (
   ((W::work (W::out))
    (SENSES
-    ((LF-PARENT ONT::coming-to-believe)
+    ((LF-PARENT ONT::determine)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (TEMPL agent-theme-xp-templ (xp (% W::cp (W::ctype W::s-finite))))
      (example "he worked out that he already knew the answer")

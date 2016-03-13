@@ -2,18 +2,20 @@
 ;;;; W::OTHER
 ;;;;
 
-#||(define-words :pos W::n :templ COUNT-PRED-TEMPL
- :tags (:base500)
- :words (
-  (W::OTHER
-   (SENSES
-    ((meta-data :origin monroe :entry-date 20031219 :change-date nil :comments s14)
-     (LF-PARENT ONT::referential-sem)
-     (preference .97) ;; prefer adjectival sense
-     )
-    )
-   )
-))||#
+
+;; this is not quite right yet -- but is needed for sentences like "are there any others"
+;;   all the other cases of "other" treat it as an adjective as it should
+(define-words :pos W::n :templ COUNT-PRED-TEMPL
+	      :words (
+		      (W::OTHERS
+		       (wordfeats (W::agr W::3P))
+		       (SENSES
+			((meta-data :origin monroe :entry-date 20031219 :change-date nil :comments s14)
+			 (LF-PARENT ONT::other)
+			 )
+			)
+		       )
+		      ))
 
 (define-words :pos W::adj :templ CENTRAL-ADJ-TEMPL
  :tags (:base500)

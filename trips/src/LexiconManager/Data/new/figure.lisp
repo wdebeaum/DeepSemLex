@@ -20,7 +20,7 @@
   ((W::figure (W::out))
    (SENSES
     ;;;; I figured out that...
-    ((LF-PARENT ONT::coming-to-believe)
+    ((LF-PARENT ONT::determine)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (TEMPL agent-theme-xp-templ (xp (% W::cp (W::ctype W::s-finite))))
      (meta-data :origin bee :entry-date 20040609 :change-date nil :comments portability-expt)

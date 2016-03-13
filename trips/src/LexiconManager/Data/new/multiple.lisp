@@ -2,7 +2,7 @@
 ;;;; W::multiple
 ;;;;
 
-(define-words :pos W::adj :templ CENTRAL-ADJ-TEMPL
+(define-words :pos W::adj :templ CENTRAL-ADJ-plur-TEMPL
  :words (
   (W::multiple
    (wordfeats (W::morph (:FORMS (-LY))))

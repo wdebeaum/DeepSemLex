@@ -8,7 +8,7 @@
  :words (
 	  (w::learn
 	   (senses
-	    ((lf-parent ont::coming-to-believe)
+	    ((lf-parent ont::determine)
 	     (Example "I learned that voltage is a difference in charge")
 	     (templ agent-theme-xp-templ (xp (% w::cp (w::ctype w::s-that))))
 	     (meta-data :origin bee :entry-date 20040608 :change-date nil :comments portability-experiment)

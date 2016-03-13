@@ -6,7 +6,7 @@
  :tags (:base500)
  :words (
   (w::grow
-   (wordfeats (W::morph (:forms (-vb) :ing W::growing :past W::grew :pastpart w::grown)))
+   (wordfeats (W::morph (:forms (-vb) :ing W::growing :past W::grew :pastpart w::grown :nom growth)))
    (senses
     ((meta-data :origin calo-ontology :entry-date 20060214 :change-date nil :comments nil)
      (lf-parent ont::become)

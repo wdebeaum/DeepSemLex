@@ -43,6 +43,7 @@
 
 (define-type ONT::CAUSE-Interact
  :wordnet-sense-keys ("interact%2:41:00" "collide%2:35:01")
+ :comment "an AGENT causes some interaction with another agent"
  :parent ONT::CAUSE-EFFECT
  :sem (F::Situation (F::Trajectory -))
  :arguments (
@@ -273,7 +274,7 @@
 ;; infer, figure out, work out, guess, ascertain
 ;; cognizer reasoning results in a conclusion
 ;; compare related type ont::becoming-aware which relies more on straight perception
-(define-type ONT::Coming-to-Believe
+(define-type ONT::DETERMINE ;ONT::Coming-to-Believe
  :wordnet-sense-keys ("reason%2:31:01" "reason_out%2:31:00" "conclude%2:31:00" "ascertain%2:32:00" "ascertain%2:32:01" "discover%2:31:01")
  :parent ONT::cogitation
  :arguments ((:ESSENTIAL ONT::Agent  ((? agt F::Phys-obj f::abstr-obj) (F::intentional +)))
@@ -672,10 +673,9 @@
 
 (define-type ONT::AUX
  :parent ONT::SITUATION-ROOT
- :arguments ((:REQUIRED ONT::Formal)
+ :arguments ((:REQUIRED ONT::NEUTRAL) ;ONT::Formal)
 ;             (:ESSENTIAL ONT::Situation (F::Situation))
 	      (:optional ont::norole)
-	     (:optional ont::neutral)
              )
  )
 
@@ -943,10 +943,12 @@
 
 (define-type ont::control-manage
  :wordnet-sense-keys ("control%2:41:00" "command%2:41:00" "discharge%2:33:01" "direct%2:41:00" )
+ :comment "an agent controls another object, typically by some manipulation (physical, adding a substance,...)"
  :parent ont::event-of-causation
  :arguments ((:REQUIRED ont::affected ((? th9 f::situation F::PHYS-OBJ F::ABSTR-OBJ)))
 ;	     (:REQUIRED ONT::agent ((? ag f::abstr-obj F::phys-obj) (F::intentional +)) (:implements cause))
 	     (:REQUIRED ONT::agent ((? ag f::abstr-obj F::phys-obj)) (:implements cause))
+	     (:OPTIONAL ont::formal ((? x f::situation F::PHYS-OBJ F::ABSTR-OBJ)))
              )
  )
 
@@ -1027,8 +1029,15 @@
     :wordnet-sense-keys ("tend%2:42:01")
     :parent ont::event-of-state
     :arguments (
-		(:REQUIRED ONT::effect (F::Situation))
-		(:REQUIRED ONT::Formal ((? obj F::PHYS-OBJ F::ABSTR-OBJ) (f::intentional -)))
+		(:REQUIRED ONT::Formal ((? obj F::SITUATION F::ABSTR-OBJ) (f::intentional -)))
+		)
+    )
+
+(define-type ONT::direct-at
+    :wordnet-sense-keys ("target%2:33:00")
+    :parent ont::event-of-state
+    :arguments (
+		(:OPTIONAL ONT::NEUTRAL1)
 		)
     )
 

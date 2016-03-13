@@ -25,7 +25,10 @@
      (TEMPL PRED-S-POST-TEMPL)
      (example "Eat more.")
      )
+    ((LF-PARENT ONT::MORE-VAL)
+     (TEMPL COMPAR-THAN-templ)
+     )
     )
    )
-))
+  ))
 

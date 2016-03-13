@@ -9,7 +9,7 @@
    (SENSES
     ((LF-PARENT ONT::CAUSE-INTERACT)
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
-     (example "aspirin interacts with celebrex")
+     (example "They interacted with the police")
      (TEMPL AGENT-WITH-CO-AGENT-XP-TEMPL (xp (% W::PP (W::ptype W::with))))
      )
 
@@ -17,13 +17,6 @@
      (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
      (example "This and that interact.")
      (TEMPL AGENT-PLURAL-TEMPL)
-     )
-
-    ; intentional agents
-     ((LF-PARENT ONT::CAUSE-INTERACT)
-     (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
-     (example "George interacted with Mike.")
-     (TEMPL AGENT-WITH-CO-AGENT-XP-TEMPL (xp (% W::PP (W::ptype W::with))))
      )
 
     ((LF-PARENT ONT::CAUSE-INTERACT)

@@ -4315,9 +4315,9 @@
 (define-type ONT::habitual
  :parent ONT::aux
  :sem (F::Situation (F::Trajectory -))
- :arguments ((:ESSENTIAL ONT::Effect (F::situation))
-             (:OPTIONAL ONT::agent ((? ag F::phys-obj F::abstr-obj) (F::intentional +)))
-	     (:OPTIONAL ONT::formal ((? th33 F::phys-obj F::abstr-obj f::situation)))
+ :arguments (;(:ESSENTIAL ONT::Effect (F::situation))
+             (:REQUIRED ONT::agent ((? ag F::phys-obj F::abstr-obj))) ; (F::intentional +)))
+	     (:ESSENTIAL ONT::formal (F::situation)) ;((? th33 F::phys-obj F::abstr-obj f::situation)))
              )
  )
 

@@ -7,11 +7,11 @@
  :words (
   (W::INTO
    (SENSES
-    ;; this sense requires trajectory +
-    #||((LF-PARENT ONT::to-loc)
-     (example "move it into the triangle") 
+    
+    ((LF-PARENT ONT::resulting-object)
+     (example "fold it into a heart") 
      (TEMPL BINARY-CONSTRAINT-S-TEMPL)
-     )||#
+     )
     ((LF-PARENT ONT::goal-as-containment)
      (example "build it into the triangle")
      (meta-data :origin fruitcarts :entry-date 20050427 :change-date nil :comments fruitcart-11-4)

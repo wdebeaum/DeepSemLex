@@ -1119,6 +1119,7 @@
 (define-type ONT::loc-defined-by-contrast
     :comment "Objects that are subparts of larger surface but delineated by a contrasting property: e.g., spot, patch"
     :parent ONT::loc-as-area
+    :wordnet-sense-keys ("spot%1:07:00" "spot%1:07:01" "spot%1:10:02")
     )
 
 (define-type ONT::loc-wrt-ground-as-spatial-obj
@@ -2007,6 +2008,7 @@
     :sem (f::Phys-obj (:required (f::origin f::artifact) (f::form f::object))
 		      (:default (f::intentional -) (f::container -) (f::mobility f::non-self-moving) (f::information -))
 		      )
+    :arguments ((:essential ONT::OF))
     )
 
 ;; shades, curtains, blinds

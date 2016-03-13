@@ -9,7 +9,7 @@
 	  (w::learnt
 	   (wordfeats (W::morph (:forms NIL)) (W::vform (? vfrm w::past W::pastpart)))
 	   (senses
-	    ((lf-parent ont::coming-to-believe)
+	    ((lf-parent ont::determine)
 	     (Example "I learnt that voltage is a difference in charge")
 	     (templ agent-theme-xp-templ (xp (% w::cp (w::ctype w::s-that))))
 	     (meta-data :origin lam :entry-date 20050421 :change-date nil :comments lam-initial)

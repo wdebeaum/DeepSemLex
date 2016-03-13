@@ -23,7 +23,11 @@
    (SENSES
     ((lf-parent ont::TRANSPORT)
      (EXAMPLE "protein targeting")
-     (TEMPL agent-affected-xp-templ)
+     (TEMPL agent-affected-GOAL-templ)
+     )
+    ((lf-parent ont::DIRECT-AT)
+     (EXAMPLE "This book targets teenagers")
+     (TEMPL neutral-neutral-xp-templ)
      )
     )
    )

@@ -7,11 +7,10 @@
   (W::spot
    (SENSES
     ((meta-data :origin medadvisor :entry-date 20060803 :change-date 20071024 :comments nil)
-     (LF-PARENT ONT::loc-as-area)
+     (LF-PARENT  ONT::loc-defined-by-contrast)
      )
     )
-   )
-))
+   )))
 
 (define-words :pos W::V 
  :words (

@@ -7,7 +7,7 @@
   (w::conclude
      (wordfeats (W::morph (:forms (-vb) :nom w::conclusion)))
    (SENSES
-    ((LF-PARENT ONT::coming-to-believe)
+    ((LF-PARENT ONT::determine)
      (SEM (F::Aspect F::bounded) (F::Time-span F::atomic))
      (TEMPL agent-theme-xp-templ (xp (% W::cp (W::ctype W::s-finite))))
      (example "we concluded that weaker conditions might promote sharing better")

@@ -3462,19 +3462,21 @@
  )
 
 (define-type ONT::activity-val
- :parent ONT::process-val
+    :comment "predicates relating to whether something is acting as intended for some process"
+  :parent ONT::process-val
  )
 
 (define-type ONT::active
  :parent ONT::activity-VAL
+ :comment "operating as intended wrt some process"
  ; Words: (W::ACTIVE W::BUSY)
-:wordnet-sense-keys ("busy%3:00:00" "active%3:00:03" "active%3:00:06" "busy%5:00:01")
+ :wordnet-sense-keys ("busy%3:00:00" "active%3:00:03" "active%3:00:06" "busy%5:00:01")
  ; Antonym: ONT::INACTIVE (W::PASSIVE W::IDLE)
  )
 
 (define-type ONT::INACTIVE
  :parent ONT::activity-VAL
- ; Words: (W::PASSIVE W::IDLE)
+ :comment "not operating as intended wrt some process"
 :wordnet-sense-keys ("passive%3:00:01" "idle%3:00:00")
  ; Antonym: ONT::active (W::ACTIVE W::BUSY)
  )

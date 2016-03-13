@@ -8,7 +8,7 @@
    (wordfeats (W::VFORM W::PASSIVE) (W::AGR ?agr) (W::MORPH (:forms NIL)))
    (SENSES
     ((LF-PARENT ONT::EXISTS)
-     (TEMPL THEME-TEMPL)
+     (TEMPL NEUTRAL-TEMPL)
      )
     )
    )

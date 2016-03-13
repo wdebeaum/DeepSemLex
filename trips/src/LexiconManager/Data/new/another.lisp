@@ -2,6 +2,10 @@
 ;;;; w::another
 ;;;;
 
+
+;;NB::  there are no entries for ANOTHER now -- it is handled in the grammar
+
+
 #||(define-words :pos W::pro :boost-word t :templ PRONOUN-TEMPL
  :tags (:base500)
  :words (
@@ -14,7 +18,7 @@
     )
    )
   )
-))||#
+))
 
 (define-words :pos W::quan :boost-word t
  :tags (:base500)
@@ -28,5 +32,4 @@
      )
     )
    )
-))
-
+))||#
