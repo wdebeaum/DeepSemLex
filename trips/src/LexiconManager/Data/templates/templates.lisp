@@ -1321,7 +1321,7 @@
       (AGENT-GOAL-affected-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
-	(LOBJ (% W::NP) ONT::affected)
+	(LOBJ (% W::NP) ONT::result)
 	(LCOMP (:parameter xp (:default (% W::pp (W::ptype W::with)))) ONT::affected OPTIONAL)
 	))
       
