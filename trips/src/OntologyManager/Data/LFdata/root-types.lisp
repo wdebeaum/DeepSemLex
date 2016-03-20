@@ -147,7 +147,7 @@
 (define-type ont::domain-property
     :parent ont::abstract-object
     :comment "these are modifiers that characterize an object/event with respect to a scale/domain (in ONT::DOMAIN)"
-    :sem (F::abstr-obj (F::gradability +))
+    :sem (F::abstr-obj )
     :arguments ((:REQUIRED ONT::FIGURE)
 		(:ESSENTIAL ONT::GROUND)
 		(:ESSENTIAL ONT::SCALE))

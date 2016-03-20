@@ -16,3 +16,14 @@
 	   )
 	  )
  ))
+
+
+(define-words :pos W::PREP :boost-word t :templ NO-FEATURES-TEMPL
+ :words (
+  (W::UPON
+   (SENSES
+    ((LF (W::UPON))
+     (non-hierarchy-lf t))
+    )
+   )
+))

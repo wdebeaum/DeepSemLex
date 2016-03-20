@@ -50,7 +50,7 @@
 (define-type ONT::property-val
  :parent ONT::domain-property
  :sem (F::ABSTR-OBJ (:required (F::CONTAINER -) (F::INFORMATION -) (f::intentional -))
-		    (:default (F::GRADABILITY +) (f::scale -) (f::intensity -) (f::orientation -)))
+		    (:default (f::scale -) (f::intensity -) (f::orientation -)))
  ;; The 3 optional roles correspond to different "for" and "to" arguments
  ;; purpose is an explicit purpose, which has to be an action supported or affected by the property
  ;; For example, this drug is useful in treating leukemia

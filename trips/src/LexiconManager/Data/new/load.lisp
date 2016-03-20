@@ -31,21 +31,25 @@
    ;; however we treat other spatial prepositions as mods (adverbials) and preserve the meanings
    (SENSES
     ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("spray-9.7-2"))
-     (LF-PARENT ONT::move)
+;     (LF-PARENT ONT::move)
+     (LF-PARENT ONT::FILL-CONTAINER)
      (example "load the oj into the tanker")
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (TEMPL agent-affected-goal-optional-templ (xp (% W::PP (W::ptype (? t W::into W::in)))))
      )
+#|    
     ((meta-data :origin trips :entry-date 20060414 :change-date nil :comments nil :vn ("spray-9.7-2"))
      (LF-PARENT ONT::Fill-container)
      (SEM (F::Aspect F::bounded) (F::Time-span F::extended))
      (example "load the truck with oj")
      (TEMPL AGENT-GOAL-affected-TEMPL (xp (% W::PP (W::ptype (? t W::with)))))
      )
+|#
     )
    )
 ))
 
+#|
 (define-words :pos W::v :templ AGENT-affected-XP-TEMPL
  :words (
   ((W::load (W::up))
@@ -62,4 +66,5 @@
     )
    )
 ))
+|#
 

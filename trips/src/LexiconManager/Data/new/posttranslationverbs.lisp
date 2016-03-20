@@ -2,6 +2,8 @@
 ;;;; W::phosphorilate and other post translational modifications
 ;;;;
 
+; note: there are two separate define-words in here (when changing templates, need to change both)
+
 (define-words :pos W::V :templ agent-affected-loc-optional-templ
  :words (
   (W::phosphorilate
@@ -421,7 +423,7 @@
 
 
 
-(define-words :pos W::V :templ affected-loc-optional-templ
+(define-words :pos W::V :templ agent-affected-loc-optional-templ
  :words (
   (W::phosphorilate
    (wordfeats (W::morph (:forms (-vb) :nom w::phosphorilation :nomobjpreps (w::on w::of))))

@@ -403,6 +403,7 @@
 ; relates a trajectory/event to its end/goal
 (define-type ont::goal-reln
  :parent ont::path
+ :arguments ((:ESSENTIAL ONT::OF ((? of F::Situation) (F::trajectory +))))
  )
 
 ; trajectory ends at the ground

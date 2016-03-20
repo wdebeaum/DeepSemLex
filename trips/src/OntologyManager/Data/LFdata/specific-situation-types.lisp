@@ -1543,6 +1543,17 @@
              )
  )
 
+(define-type ONT::SUFFICIENCY
+ :wordnet-sense-keys ("suffice%2:42:00")
+ :parent ONT::event-of-state
+ :sem (F::SITUATION (F::Aspect F::static) (F::Time-span F::extended) (F::Cause -) (F::Trajectory -))
+ ;;; basically any - restriction comes from somewhere else
+ :arguments ((:REQUIRED ONT::Formal ((? o F::Phys-obj F::abstr-obj F::situation)))
+	     (:optional ont::neutral) 
+	     
+             )
+ )
+
 ;; lack
 (define-type ONT::lacking
  :wordnet-sense-keys ("lack%2:42:00" "miss%2:42:00" "lack%1:26:00" "deficiency%1:26:00" "want%1:26:01")
