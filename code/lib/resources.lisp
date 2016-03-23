@@ -49,7 +49,8 @@
 	            (setf first-version nil)
 		    )
 		  (when versioned-names
-		    `(let ((new-pkg (defpackage ,(car versioned-names)
+		    `(let ((new-pkg (def-or-update-package
+				      ,(car versioned-names)
 				      (:use)
 				      (:nicknames ,@(cdr versioned-names)))))
 			(setf (gethash new-pkg *resource-versions*)

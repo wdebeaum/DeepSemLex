@@ -49,19 +49,35 @@
 					     "messages"
 					     )))
 
-(defpackage :lexiconmanager
+;;; Define packages used in data files (including those normally defined
+;;; elsewhere, because DSL might be running standalone).
+
+;; The Lisp spec says the consequences of calling defpackage on a preexisting
+;; package with a different definition are undefined. This is a safer version
+;; of defpackage that just adds to the :use list in that case.
+(defmacro def-or-update-package (defined-package-name &body options)
+  `(let ((old-package (find-package ',defined-package-name)))
+     (cond
+       (old-package
+	 (use-package ',(cdr (assoc :use options)) old-package)
+	 old-package)
+       (t ; new package
+	 (defpackage ,defined-package-name ,@options))
+       )))
+
+(def-or-update-package :lexiconmanager
   (:use :dsl)
   (:nicknames :lxm)
   )
 
-(defpackage :ontologymanager
+(def-or-update-package :ontologymanager
   (:use :dsl)
   (:nicknames :om)
   )
 
-(defpackage :w (:use))
-(defpackage :f (:use)) ; should go away at some point...
-;(defpackage :ont) ; see resources.lisp
+(def-or-update-package :w (:use))
+(def-or-update-package :f (:use)) ; should go away at some point...
+;(def-or-update-package :ont) ; see resources.lisp
 (defpackage :lexicon-data
   (:use)
   (:nicknames :ld)
