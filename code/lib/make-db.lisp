@@ -166,6 +166,8 @@
 
 (defun add-suffix-to-word (w s)
     (declare (type word w) (type string s))
+  (when (string= s "") ; no suffix, just return the original word
+    (return-from add-suffix-to-word w))
   (let* ((non-particle-words (cons (first-word w) (remaining-words w)))
          (morphed-npw (util::add-suffix non-particle-words s)))
     (make-instance 'word

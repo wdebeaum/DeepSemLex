@@ -520,6 +520,7 @@
     ;; TODO move this to a separate function in make-db.lisp
     ;; FIXME add implicit base form if *current-word* is set
     ;; maybe instead of :add-maps above, :add-non-base-maps or :add-regular-morph-maps...
+    ;; not sure that's really necessary; at least in the TRIPS lexicon, all words with w::morph != nil also have :forms, and all :forms have a non-suffixed form
     ,@(mapcar
 	(lambda (form)
 	  (if (consp form)
