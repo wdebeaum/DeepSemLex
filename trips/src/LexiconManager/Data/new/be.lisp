@@ -34,22 +34,20 @@
      (preference .98) ;; slighly disprefered to favor passive constructions over adjectives
      )
     ;;;; .. be the best
-    ;;;; I set a lower preference to prefer EXISTS readings for sentences like "It is there" JFA 3/03
-    (;;(LF-PARENT ONT::IN-RELATION)
+    (
      (lf-parent ont::be) ;; 20120524 GUM change new parent
      (LF-FORM W::be)
      (TEMPL neutral-neutral-equal-templ)
-     ;;(PREFERENCE 0.96)
      )
 
-   
-    
-    ;;;; .. there is a box
+       ;;;; .. there is a box
     ((LF-PARENT ONT::EXISTS)
      (LF-FORM W::be)
      (TEMPL THERE-theme-TEMPL)
      (preference .98)
      )
+
+
     )
    )
 ))

@@ -45,6 +45,13 @@
      (LF-FORM W::be)
      (TEMPL neutral-neutral-equal-templ)
      )
+
+     (  ;; the fact was he's happy
+     (lf-parent ont::be) 
+     (LF-FORM W::be)
+     (TEMPL propositional-equal-templ)
+     )
+
    ;;;; .. there is a box
     ((LF-PARENT ONT::EXISTS)
      (LF-FORM W::be)
