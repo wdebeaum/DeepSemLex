@@ -1849,7 +1849,7 @@ fi
 
 
 
-ac_verbnet_search_list='/usr/local/share/verbnet/verbnet-3.2'
+ac_verbnet_search_list='/usr/local/share/verbnet/verbnet-3.2b /usr/local/share/verbnet/verbnet-3.2'
 
 # Check whether --with-verbnet was given.
 if test "${with_verbnet+set}" = set; then :

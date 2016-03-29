@@ -21,7 +21,7 @@ AC_ARG_WITH(ontonotes,
 			   [locate OntoNotes dir]))
 AC_SUBST(ONTONOTES)
 
-ac_verbnet_search_list='/usr/local/share/verbnet/verbnet-3.2'
+ac_verbnet_search_list='/usr/local/share/verbnet/verbnet-3.2b /usr/local/share/verbnet/verbnet-3.2'
 AC_ARG_WITH(verbnet,
 	    AC_HELP_STRING([--with-verbnet],
 			   [locate VerbNet dir]))
