@@ -229,7 +229,7 @@
   <xsl:when test="local-name(preceding-sibling::node()[1])='PREP'">
    <xsl:text>(lcomp </xsl:text>
    <xsl:choose>
-    <xsl:when test="not(preceding-sibling::PREP/@value)">
+    <xsl:when test="not(preceding-sibling::PREP[1]/@value)">
      <xsl:text>PP</xsl:text>
      <!-- TODO SELRESTRS? -->
     </xsl:when>
