@@ -49,7 +49,7 @@
  <xsl:call-template name="nl-indent" />
  <xsl:text>(sense (word </xsl:text>
  <xsl:choose>
-  <xsl:when test="contains(@name, '_')">
+  <xsl:when test="contains(@name, '_') or contains(@name, ' ')">
    <xsl:text>(</xsl:text>
    <xsl:value-of select="replace(@name,'_',' ')"/>
    <!-- FIXME detect prepositions and make them particles? -->
