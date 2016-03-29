@@ -110,7 +110,11 @@
     '(common-lisp::member abstract animal animate body_part comestible communication concrete currency dest dest_conf dest_dir dir elongated force garment human int_control loc location machine nonrigid organization path plural pointy refl region scalar solid sound spatial src state substance time vehicle))
 
   (common-lisp::deftype sem-role ()
-    '(common-lisp::member Agent Asset Attribute Beneficiary Cause Co-Agent Co-Patient Co-Theme Destination Experiencer Extent Goal Initial_Location Instrument Location Material Patient Pivot Predicate Product Recipient Result Source Stimulus Theme Time Topic Trajectory Value Scale))
+    ;; VN 3.2
+    ;'(common-lisp::member Agent Asset Attribute Beneficiary Cause Co-Agent Co-Patient Co-Theme Destination Experiencer Extent Goal Initial_Location Instrument Location Material Patient Pivot Predicate Product Recipient Result Source Stimulus Theme Time Topic Trajectory Value Scale)
+    ;; VN 3.2b
+    '(common-lisp::member Actor Agent Asset Attribute Beneficiary Cause Co-Agent Co-Patient Co-Theme Context Destination Experiencer Extent Goal Initial_Location Instrument Location Manner Material Path Patient Pivot Predicate Product Recipient Reflexive Result Source Stimulus Theme Time Topic Trajectory Value)
+    )
 
 (common-lisp::in-package :dsl)
 

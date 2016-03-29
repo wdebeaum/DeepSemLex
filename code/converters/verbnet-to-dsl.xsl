@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-<!-- verbnet-to-dsl.xsl - convert VerbNet 3.2 XML files to DeepSemLex Lisp data files -->
+<!-- verbnet-to-dsl.xsl - convert VerbNet 3.2b XML files to DeepSemLex Lisp data files -->
 
 <xsl:output method="text" />
 
@@ -31,7 +31,7 @@
 
 <xsl:template match="/VNCLASS">
  <xsl:text>;;; AUTOMATICALLY GENERATED
-(provenance VerbNet (version "3.2") (filename "</xsl:text>
+(provenance VerbNet (version "3.2b") (filename "</xsl:text>
  <xsl:value-of select="@ID" />
  <xsl:text>.xml"))
 (pos V)</xsl:text>
@@ -227,7 +227,7 @@
    <xsl:text>(lsubj NP </xsl:text>
   </xsl:when>
   <xsl:when test="local-name(preceding-sibling::node()[1])='PREP'">
-   <xsl:text>(comp </xsl:text>
+   <xsl:text>(lcomp </xsl:text>
    <xsl:choose>
     <xsl:when test="not(preceding-sibling::PREP/@value)">
      <xsl:text>PP</xsl:text>

@@ -352,7 +352,7 @@
   )
 
 (defresource (VN VerbNet)
-  ( :version "3.2" :base-dir (data-subdir "VerbNet;*")
+  ( :version "3.2b" :base-dir (data-subdir "VerbNet;*")
     :get-files-for-symbol (lambda (rv sym)
       (let* ((name (string-downcase (symbol-name sym)))
 	     (probed (probe-file (make-pathname :defaults (base-dir rv)
