@@ -72,7 +72,7 @@
 <ul>
  <li><code>(lsubj NP ONT::agent)</code> ; a required subject that is a noun phrase and fills the agent role
  <li><code>(liobj NP ONT::recipient optional)</code> ; an optional indirect object that is a noun phrase and fills the recipient role
- <li><code>(comp (PP (or to into)) ONT::to-loc)</code> ; a required complement that is a prepositional phrase with preposition "to" or "into", that fills the to-loc role
+ <li><code>(lcomp (PP (or to into)) ONT::to-loc)</code> ; a required complement that is a prepositional phrase with preposition "to" or "into", that fills the to-loc role
 </ul>
 
 <p>A role-restr-map (part of a sem-frame) looks like this: <code>(<var>sem-role(s)</var> <var>restriction</var> [optional])</code>. Multiple semantic role symbols can be specified as a list. The <code><var>restriction</var></code> should be some kind of (semantic) concept or <code>AND</code>/<code>OR</code> formula of concepts. The symbol <code>t</code> may be used to indicate a lack of restriction (think of it as the "top" concept type). Examples:</p>
@@ -150,8 +150,8 @@
    <li>Senses:
     <ul>
      <li>Group senses under distinct <code>(:* <var>ONT</var> <var>W</var>)</code> names (subsenses can have different templates, features, examples...).
-     <li>Meta-data.
-     <li>Alternatives to LF-PARENT: <code>lf</code>, <code>lf-form</code>, <code>non-hierarchy-lf</code>.
+     <li>More meta-data, particularly <code>:wn</code>, which is tricky because it often uses sense keys for the wrong word,
+     <li>Alternatives to <code>lf-parent</code>: <code>lf</code>, <code>lf-form</code>, <code>non-hierarchy-lf</code>.
      <li>Misc. other stuff: <code>preference</code>, <code>prototypical-word</code>.
     </ul>
   </ul>

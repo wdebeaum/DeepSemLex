@@ -287,8 +287,9 @@
 		    (let* ((parent (second (assoc 'ld::lf-parent sense-spec)))
 		           (sense-templ (cdr (assoc 'ld::templ sense-spec)))
 			   (sem-feats (cdr (assoc 'ld::sem sense-spec)))
+			   (meta-data (cdr (assoc 'ld::meta-data sense-spec)))
 			   (examples (mapcar #'second (remove-if-not (lambda (f) (eq 'ld::example (car f))) sense-spec)))
-			   ;; TODO lf, lf-form, syntax (which includes morph), preference, non-hierarchy-lf, meta-data, prototypical-word
+			   ;; TODO lf, lf-form, syntax (which includes morph), preference, non-hierarchy-lf, prototypical-word
 			   (effective-templ
 			     (cond
 			       (sense-templ (convert-templ-call sense-templ))
@@ -314,6 +315,18 @@
 				    *current-morph*)
 			        ,effective-templ)
 			      *current-provenance*)))
+			,@(when meta-data
+			  (destructuring-bind (&key vn &allow-other-keys)
+			      ; TODO more meta-data fields
+			      ; in particular :wn, but it's tricky because it
+			      ; often refers to a sense of the wrong word
+			      meta-data
+			    (when vn
+			      `((ld::overlap
+				 ,@(mapcar (lambda (str)
+					     (intern (string-upcase str) :vn))
+					   vn)
+				 )))))
 			,@(mapcar
 			    (lambda (ex)
 			      `(ld::example (ld::text ,ex)))
