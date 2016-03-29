@@ -514,6 +514,8 @@
 	       ONT::FORMAL)
 	))
 
+
+
       (AGENT-COST-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::AGENT)
@@ -843,6 +845,13 @@
 	(LSUBJ (% W::NP (W::var ?subjvar)) ONT::AFFECTED)
 	(LOBJ (:parameter xp (:default  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln)))))))
 	      ONT::result)
+	))
+
+      ;; e.g., the fact is he left.
+      (propositional-equal-templ
+       (ARGUMENTS
+      	(LSUBJ (% W::NP (W::agr ?agr) (sem ?sem) (w::gerund -) (w::subcat-map ont::formal)) ONT::neutral)
+	(LOBJ (% W::CP) ONT::neutral1)
 	))
 
       (neutral-neutral-equal-templ
