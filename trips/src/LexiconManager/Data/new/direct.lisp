@@ -8,7 +8,7 @@
   (w::direct
    (wordfeats (W::morph (:forms (-vb) :nom w::direction)))
    (senses
-    ((meta-data :ori2gin coordops :entry-date 20070511 :change-date nil :comments nil :vn ("judgement-33"))
+    ((meta-data :origin coordops :entry-date 20070511 :change-date nil :comments nil :vn ("judgement-33"))
      (LF-PARENT ont::guiding)
      (example "team alpha will direct the activity")
      (TEMPL agent-affected-xp-templ)

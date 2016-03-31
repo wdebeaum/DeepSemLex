@@ -4105,7 +4105,7 @@
     :wordnet-sense-keys ("attend%2:42:00" "participate%2:41:00")
     :parent ont::event-of-causation ;; 20120529 GUM change new parent + args
     :arguments ((:REQUIRED ONT::agent (F::phys-obj (F::intentional +)))
-		(:REQUIRED ONT::neutral ((? xx F::situation F::abstract-object)
+		(:REQUIRED ONT::neutral ((? xx F::situation F::abstr-obj)
 					 )
 			   ))
     )

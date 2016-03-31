@@ -1162,7 +1162,8 @@
  :wordnet-sense-keys ("relation%1:03:00" "amount%2:42:03" "bear_on%2:42:00")
  :parent ONT::abstract-object
  :arguments ((:REQUIRED ONT::FIGURE)
-	     (:REQUIRED ONT::GROUND)) 
+	     (:REQUIRED ONT::GROUND)
+	     (:optional ont::neutral))  ;; some relations based on verbs use this
  :sem (F::abstr-obj (:required)
 		    (:default (f::intensity ont::hi)))
  )

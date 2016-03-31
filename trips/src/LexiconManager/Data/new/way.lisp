@@ -32,7 +32,7 @@
  :words (
   ((W::WAY w::POINT)
    (SENSES
-    ((meta-data :origin lou2 :entry-date 20061108 ::change-date nil :comments demo)
+    ((meta-data :origin lou2 :entry-date 20061108 :change-date nil :comments demo)
      (LF-PARENT ONT::LOCATION)
      )
     )

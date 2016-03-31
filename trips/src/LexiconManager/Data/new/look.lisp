@@ -37,7 +37,7 @@
    (LF-PARENT ONT::look-up)
    (SEM (F::Aspect F::unbounded) (F::Time-span F::extended))
    (TEMPL agent-theme-xp-templ)
-   (meta-data :origin c alo :entry-date 20050323 :change-date nil :comments caloy2)
+   (meta-data :origin calo :entry-date 20050323 :change-date nil :comments caloy2)
    )
   )
  )

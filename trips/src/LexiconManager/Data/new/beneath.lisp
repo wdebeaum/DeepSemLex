@@ -12,7 +12,7 @@
      (TEMPL BINARY-CONSTRAINT-S-OR-NP-TEMPL)
      (SYNTAX (W::ALLOW-DELETED-COMP +))
      (EXAMPLE "A list of related topics appears beneath the category you clicked")
-     (meta-data :origin task-learning :entry-date 20050825 :change-date nil :coments nil)
+     (meta-data :origin task-learning :entry-date 20050825 :change-date nil :comments nil)
      )
     )
    )

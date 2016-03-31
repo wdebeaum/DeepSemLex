@@ -23,7 +23,7 @@
      (LF-PARENT ONT::SELF-LOCOMOTE)
      (TEMPL AGENT-TEMPL)
      )
-     ((meta-data :origin chf :entry-date 20070904 :change-date nil :comments nil :vn nil :wn nil)
+     ((meta-data :origin chf :entry-date 20070904 :change-date nil :comments nil)
      (LF-PARENT ONT::WALKING)
      (example "walk the dog")
      (TEMPL AGENT-affected-XP-TEMPL)

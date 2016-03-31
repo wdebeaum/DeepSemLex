@@ -14,7 +14,7 @@
      )
     ((LF-Parent ont::use)
      (example "a battery uses a chemical reaction to maintain voltage" "the engine uses gasoline")
-     (meta-data :origin (beetle2 mobius) :entry-date 20080218 :change-date nil :connemts pilot1)
+     (meta-data :origin (beetle2 mobius) :entry-date 20080218 :change-date nil :comments pilot1)
      (TEMPL agent-affected-xp-templ)
      )
     )

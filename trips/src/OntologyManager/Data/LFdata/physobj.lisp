@@ -36,40 +36,51 @@
     :parent ONT::MOLECULAR-PART
     )
 
-(define-type ONT::protein
-    :wordnet-sense-keys ("protein%1:27:00")
-    :parent ONT::molecule
-    )
-
 (define-type ONT::terminus
     :parent ONT::MOLECULAR-PART
     )
 
 (define-type ONT::residue
-    :parent ONT::molecule
+;    :parent ONT::MOLECULE
+    :parent ONT::MOLECULAR-PART
     )
 
 ;; DRUM
 (define-type ONT::BIOLOGICAL-ROLE
-    :parent ONT::MOLECULE
+;    :parent ONT::MOLECULE
+    :parent ONT::MOLECULAR-PART
+    )
+
+(define-type ONT::gene-protein
+    :parent ONT::MOLECULAR-PART
+    )
+
+(define-type ONT::gene
+    :wordnet-sense-keys ("gene%1:08:00")
+;    :parent ONT::MOLECULAR-PART
+    :parent ONT::gene-protein
+    )
+
+(define-type ONT::protein
+    :wordnet-sense-keys ("protein%1:27:00")
+;    :parent ONT::MOLECULE
+    :parent ONT::gene-protein
     )
 
 ;; DRUM
 (define-type ONT::protein-family
-    :parent ONT::molecule
+;    :parent ONT::MOLECULE
+    :parent ONT::gene-protein
     )
 
 ;; DRUM
 (define-type ONT::macromolecular-complex
     :wordnet-sense-keys ("complex%1:27:00")
-    :parent ONT::molecule
+;    :parent ONT::MOLECULE
+    :parent ONT::MOLECULAR-PART
     :arguments ((:required ONT::CONTENTS (F::Phys-obj (f::type ont::molecular-part))))
     )
 
-(define-type ONT::gene
-    :wordnet-sense-keys ("gene%1:08:00")
-    :parent ONT::MOLECULAR-PART
-    )
 
 (define-type ONT::PROMOTER
     :parent ONT::MOLECULAR-PART

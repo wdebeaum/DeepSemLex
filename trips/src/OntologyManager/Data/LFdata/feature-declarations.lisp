@@ -114,6 +114,7 @@
           )
     )
 
+#||  REMOVING AS I DON'T THINK THIS IS USED ANY MORE -- AND IT CAUSES TROUBLE FOR GLOSS JFA 3/16
 (define-feature-arguments
  :feature (f::Locative f::located)
  :arguments(
@@ -123,7 +124,7 @@
 	    ;; 2005/08/06 further relaxed to spatial object or representation to cover "on the map"
 	    (ONT::spatial-loc (f::Phys-obj (F::object-function (? of f::spatial-object f::representation))))
 	    )
- )
+ )||#
  
 
 ;;;swier added gradability for adjectives
