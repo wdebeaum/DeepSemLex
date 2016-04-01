@@ -4,22 +4,20 @@
 # (or ":pos 'adj". Other POSes are currently unimplemented.)
 
 export TRIPS_BASE=../../../..
-export CONFIGDIR=$TRIPS_BASE/src/config
-export LISP=`grep -P -o -e '(?<=^LISP = ).*' $CONFIGDIR/lisp/defs.mk`
-export RUBY=`grep -P -o -e '(?<=^RUBY  = ).*' $CONFIGDIR/ruby/defs.mk`
-export PERL=`grep -P -o -e '(?<=^PERL  = ).*' $CONFIGDIR/perl/defs.mk`
+. ../lisp-env.sh
+mk2env $CONFIGDIR/ruby/defs.mk
+mk2env $CONFIGDIR/perl/defs.mk
 
 # Note: can't use uniq to remove duplicate lines, because their length may
 # exceed LINE_MAX, and uniq on Mac OS X truncates such lines.
-grep -P -o -e '\(DEFINE-CONCEPT .*\)(?=\)$)' \
+$PERL -n -e 'print "$&\n" while (/\(DEFINE-CONCEPT .*\)(?=\)$)/g);' \
 | sort \
 | $PERL -n -e 'print unless ($_ eq $prev); $prev = $_;' \
 | $LISP \
-  --noinform \
-  --noprint \
-  --disable-debugger \
-  --load gloss-output-to-dsl.lisp \
-  --eval "(run $@)" \
+  $BATCH \
+  $LOAD gloss-output-to-dsl.lisp \
+  $EVAL "(run $@)" \
+  $QUIT \
 | $RUBY gloss-output-to-dsl.rb
 
 # TODO

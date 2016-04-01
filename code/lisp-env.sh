@@ -4,8 +4,13 @@
 
 CONFIGDIR="$TRIPS_BASE/src/config"
 
+# get environment from a defs.mk file
+mk2env() {
+  `awk 'BEGIN { print "export" } /^([A-Z_]+) = ([^[:space:]]+)$/ { print " " $1 "=" $3 }' <$1`
+}
+
 # get environment from lisp/defs.mk
-`awk 'BEGIN { print "export" } /^([A-Z_]+) = ([^[:space:]]+)$/ { print " " $1 "=" $3 }' <$CONFIGDIR/lisp/defs.mk`
+mk2env $CONFIGDIR/lisp/defs.mk
 
 # someday I'd like these to be in lisp/defs.mk, but that day hasn't come yet
 BATCH=--batch
