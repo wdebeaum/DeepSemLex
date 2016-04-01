@@ -50,7 +50,7 @@
 	  	      (find-package :lexicon-data))
 	    (require-concept concept-name)))
 	(dolist (r (,direction i))
-	  (when (eq label (label r))
+	  (when (eq ,label (label r))
 	    (add-step-to-output ,input i ,expr (,result r) ,output)))))))
 
 (defun repetition-helper (output next)
@@ -103,6 +103,8 @@
        <label - backwards
        ->label - forwards, getting the relations themselves
        <-label - backwards, getting relations
+       (> pkg::label), (< pkg::label), (-> pkg::label), (<- pkg::label)
+         - as above but for relations whose labels are not keywords
        slot-name - get the slot value for each concept (note that this does not
 	 flatten list-valued slots like a function would; if you want that,
 	 follow it with #'identity)
@@ -143,8 +145,7 @@
 	       (when val
 		 (add-seed-to-output val output)
 		 )))
-	   ;; relations
-	   ;; FIXME not all relation labels are keywords anymore
+	   ;; relations (see listp case for packaged relation labels)
 	   ((string= "->" (subseq name 0 2))
 	     (let ((label (intern (subseq name 2) :keyword)))
 	       (eval-relation-step expr input out label identity output)))
@@ -174,6 +175,11 @@
 	       (add-step-to-output input i expr o output))))))
      ((listp expr)
        (case (car expr)
+	 ;; relations (see above for keyword relation labels)
+	 (-> (eval-relation-step expr input out (second expr) identity output))
+	 (<- (eval-relation-step expr input in  (second expr) identity output))
+	 (>  (eval-relation-step expr input out (second expr) target output))
+	 (<  (eval-relation-step expr input in  (second expr) source output))
          ((function lambda)
 	   ;; just like functionp, except we have to eval it first
 	   ;; the step label is still expr, though
