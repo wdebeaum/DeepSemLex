@@ -3,8 +3,55 @@
 $: << ENV['TRIPS_BASE'] + '/etc/WordNetSQL'
 require 'word_net_sql'
 
-$pos2ss_type = Hash[*%w{noun n verb v adj a adv r}]
 $pos2trips = Hash[*%w{noun n verb v adj adj adv adv}]
+# list from lexnames(5WN) manpage
+$lexnames = %w{
+adj.all
+adj.pert
+adv.all
+noun.Tops
+noun.act
+noun.animal
+noun.artifact
+noun.attribute
+noun.body
+noun.cognition
+noun.communication
+noun.event
+noun.feeling
+noun.food
+noun.group
+noun.location
+noun.motive
+noun.object
+noun.person
+noun.phenomenon
+noun.plant
+noun.possession
+noun.process
+noun.quantity
+noun.relation
+noun.shape
+noun.state
+noun.substance
+noun.time
+verb.body
+verb.change
+verb.cognition
+verb.communication
+verb.competition
+verb.consumption
+verb.contact
+verb.creation
+verb.emotion
+verb.motion
+verb.perception
+verb.possession
+verb.social
+verb.stative
+verb.weather
+adj.ppl
+};
 
 def write_pointer(out, pointer_name, target_synset_offset, target_ss_type, target_word_number)
   begin
@@ -50,9 +97,9 @@ def write_pointer(out, pointer_name, target_synset_offset, target_ss_type, targe
   end
 end
 
-def write_dsl_for_ss_type(out, ss_type)
-  WordNetSQL.db.execute("SELECT synset_offset, gloss FROM synsets WHERE ss_type=?;", ss_type) { |ss_row|
-    synset_offset, gloss = *ss_row
+def write_dsl_for_lex_filenum(out, lex_filenum)
+  WordNetSQL.db.execute("SELECT ss_type, synset_offset, gloss FROM synsets WHERE lex_filenum=?;", lex_filenum) { |ss_row|
+    ss_type, synset_offset, gloss = *ss_row
     begin
       out.puts("(concept WN::%s%08d" % [ss_type, synset_offset])
       # TODO separate examples and definitions, add tags, provenance?
@@ -88,13 +135,13 @@ EOP
   }
 end
 
-%w{noun verb adj adv}.each { |pos|
-  File.open("data.#{pos}.lisp", "w") { |out|
+$lexnames.each_with_index { |lex_filename, lex_filenum|
+  pos = lex_filename.sub(/\..*/,'')
+  File.open("#{lex_filename}.lisp", "w") { |out|
     out.puts ";;;; AUTOMATICALLY GENERATED"
-    out.puts %Q{(provenance WordNet (version "3.0") (filename "data.#{pos}"))}
+    out.puts %Q{(provenance WordNet (version "3.0") (filename "#{lex_filename}"))}
     out.puts "(pos #{$pos2trips[pos]})"
-    write_dsl_for_ss_type(out, $pos2ss_type[pos])
-    write_dsl_for_ss_type(out, 's') if (pos == 'adj')
+    write_dsl_for_lex_filenum(out, lex_filenum)
   }
 }
 
