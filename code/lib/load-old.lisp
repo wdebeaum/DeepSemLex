@@ -57,6 +57,17 @@
       (t 'ld::t)
       )))
 
+(defun convert-sense-key (sk-str)
+  "Convert a WordNet sense key string as it appears in the Lisp TRIPS ontology
+   to a symbol compatible with other resources."
+  (intern
+    (case (count #\: sk-str :start (position #\% sk-str))
+      (2 (concatenate 'string sk-str "::"))
+      (4 sk-str)
+      (t (error "Bogus sense key in TRIPS ontology: ~s" sk-str))
+      )
+    :WN))
+
 (defmacro ld::define-type (type &key parent sem arguments coercions wordnet-sense-keys comment definitions entailments)
   ;; TODO include comment, definitions, entailments
   `(ld::concept ,type
@@ -64,7 +75,7 @@
     ,@(when parent
       `((ld::inherit ,parent)))
     ,@(when wordnet-sense-keys
-      `((ld::overlap ,@(mapcar (lambda (sk-str) (intern sk-str :WN)) wordnet-sense-keys))))
+      `((ld::overlap ,@(mapcar #'convert-sense-key wordnet-sense-keys))))
     ,@(when sem
       (list (convert-old-sem sem :part-p t)))
     ,@(when arguments
