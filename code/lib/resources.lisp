@@ -197,6 +197,8 @@
   "Look for named concepts whose provenance has the given filename, and delete
    them and any anonymous concepts or non-concepts (relations, input-texts)
    connected to them with the same provenance, if it's their only provenance."
+  (when *load-verbose*
+    (format t "~&; evicting file ~s~%" file))
   (let* (
          ;; get all named concepts with *some* parts from file
          (named-concepts-from-file
@@ -245,6 +247,8 @@
 	       (remove-morphed-sense-from-db *db* c))
 	     ;; if it's named, mark it as no longer loaded
 	     (unless (anonymous-concept-p c)
+	       (when *load-print*
+		 (format t "~&;; evicted concept ~s~%" (name c)))
 	       (remhash (name c) *loaded-concept-names*))
 	     ;; minimize it
 	     (minimize-concept c)
