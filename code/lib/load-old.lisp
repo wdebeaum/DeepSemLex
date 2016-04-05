@@ -214,7 +214,7 @@
 ;; AFFECTED-COST-COMPLEX-SUBJCONTROL-TEMPL
 ;; ...
 (defmacro ld::define-templates ((&rest templ-specs))
-  `(progn
+  `(with-clean-load-context
     (ld::provenance TRIPS)
     ,@(mapcar
       (lambda (templ-spec)
@@ -255,7 +255,7 @@
 (defmacro ld::define-words (&key pos templ boost-word tags words)
   (when templ
     (setf templ (list (util::convert-to-package templ :ONT))))
-  `(progn
+  `(with-clean-load-context
     (ld::pos ,(util::convert-to-package pos :ld))
     (ld::provenance TRIPS
       ,@(mapcar (lambda (tag) `(ld::provenance ,tag)) tags))

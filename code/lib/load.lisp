@@ -14,6 +14,13 @@
 
 (defvar *unknown-templates* nil)
 
+(defmacro with-clean-load-context (&body body)
+  `(let (*concept-stack*
+         *current-word*
+	 *current-pos*
+	 *current-morph*)
+    ,@body))
+
 (defun load-dsl-file (filename &key provenance-name)
   (let (
         ;; reset lexical context
@@ -85,10 +92,7 @@
   "Convert symbols representing concepts in a concept formula like (w::and
    (w::or VN::foo WN::bar) FN::baz (concept PB::glarch ...)). Only recurses on
    ands and ors. Also wrap all of x in a let resetting certain lexical context."
-  `(let (*concept-stack*
-         *current-word*
-	 *current-pos*
-	 *current-morph*)
+  `(with-clean-load-context
     ,(cond
       ((and (consp x) (member (util::convert-to-package (car x) :dsl) '(and or)))
 	(cons (car x) (mapcar #'concept-formula (cdr x))))
@@ -254,11 +258,7 @@
       ,@(operator-cond (operator form body)
 	    ((eq 'w::or operator)
 	      `(add-relation (current-concept) :inherit
-		   (let (*concept-stack*
-			 *current-word*
-			 *current-pos*
-			 *current-morph*)
-		     ,form)))
+		   (with-clean-load-context ,form)))
 	    ((eq 'provenance operator)
 	       `(pushnew ,form (provenance (current-concept))
 	                 :test #'provenance-equalp))
