@@ -374,7 +374,7 @@
       (neutral-formal-optional-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::NEUTRAL)
-	(LOBJ (:parameter xp (:default (% W::NP))) ont::formal)
+	(LOBJ (:parameter xp (:default (% W::NP))) ont::formal optional)
 	))
 
       (neutral-extent-xp-TEMPL
@@ -1517,7 +1517,7 @@
 (neutral-LOCATION-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::neutral)
-    (LCOMP  (:parameter xp (:default  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln) ont::val)))))) ONT::location)
+    (LCOMP  (:parameter xp (:default  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln))))))) ONT::location)
 			       ;;(% W::PP (w::ptype (? ptp w::on w::in w::under w::into w::at))))) ONT::location)
     ))
   
@@ -2598,7 +2598,7 @@
 	 )
      (ARGUMENTS
       (ARGUMENT (% W::S) ONT::OF)
-      (SUBCAT  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln) ont::val)))) ONT::VAL)
+      (SUBCAT  (% W::ADVBL (W::lf (% ?p (w::class (? x ont::position-reln))))) ONT::VAL)
       ))
 
 (binary-constraint-S-decl-gap-templ
@@ -2958,7 +2958,15 @@
     (subcat (:parameter xp (:default (% W::pp (W::ptype (? pt W::to w::for))))) ONT::ground)
     ))
   
-  (adj-CO-THEME-post-subcat-templ
+  (adj-neutral-neutral-templ
+   (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
+   (ARGUMENTS
+    (ARGUMENT (% W::NP) ONT::neutral)
+;    (subcat (:parameter xp (:default (% W::pp (W::ptype (? pt W::to w::for))))) ONT::neutral1 optional)
+    (subcat (:parameter xp (:default (% W::pp (W::ptype (? pt W::to w::for))))) ONT::neutral1)
+    ))
+
+(adj-CO-THEME-post-subcat-templ
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::central) (W::ARG ?arg) (W::ALLOW-DELETED-COMP -))
    (ARGUMENTS
     (ARGUMENT (% W::NP) ONT::neutral)
