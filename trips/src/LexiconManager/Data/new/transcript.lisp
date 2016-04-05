@@ -10,6 +10,11 @@
      (LF-PARENT ONT::text-representation)
      (example "make a transcript of the proceedings")
      )
+
+    (
+     (LF-PARENT ONT::RNA)
+     )
+    
     )
    )
 ))

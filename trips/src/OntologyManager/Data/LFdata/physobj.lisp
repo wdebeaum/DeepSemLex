@@ -81,6 +81,15 @@
     :arguments ((:required ONT::CONTENTS (F::Phys-obj (f::type ont::molecular-part))))
     )
 
+(define-type ONT::RNA
+    :wordnet-sense-keys ("rna%1:27:00")
+    :parent ONT::MOLECULAR-PART
+    )
+
+(define-type ONT::mRNA
+    :wordnet-sense-keys ("mrna%1:27:00")
+    :parent ONT::RNA
+    )
 
 (define-type ONT::PROMOTER
     :parent ONT::MOLECULAR-PART
@@ -1743,7 +1752,7 @@
 ;; gun
 (define-type ONT::firearm
     :parent ONT::weapon
-    :wordnet-sense-keys ("gun%1:06:00:00")
+    :wordnet-sense-keys ("gun%1:06:00")
     :sem (f::phys-obj (F::mobility F::non-self-moving))
     )
 
