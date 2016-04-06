@@ -154,11 +154,12 @@
   "Get the 'morphed' word that is actually the base form (assuming there is one)."
     (declare (type morph m))
   (let ((required-feats
-          (case (pos m)
-            (N '((agr |3S|)))
-            (V '((vform base)))
-            (otherwise '((form none)))
-	    )))
+	  `((pos ,(pos m)) 
+	    ,(case (pos m)
+	      (N '(agr |3S|))
+	      (V '(vform base))
+	      (otherwise '(form none))
+	      ))))
     (morphed
       (find-if
         (lambda (mm)
