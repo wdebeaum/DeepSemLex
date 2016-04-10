@@ -11,12 +11,7 @@
      (example "the construction paralyzed traffic")
      (TEMPL agent-affected-xp-templ) 				   
      )
-    ((meta-data :origin ptb :entry-date 20100701 :change-date nil :comments nil)
-     (LF-PARENT ONT::prevent)
-     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% w::cp (w::ctype w::s-from-ing))))
-     (example "It paralyzed congress from acting on the budget")
-     )
-    )
+    
    )
-))
+)))
 

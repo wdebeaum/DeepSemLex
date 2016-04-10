@@ -35,7 +35,7 @@
      )
     ((meta-data :origin "gloss-training" :entry-date 20100217 :change-date nil :comments nil)
      (LF-PARENT ONT::hindering)
-     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% w::cp (w::ctype w::s-from-ing))))
+     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% w::cp (w::ctype w::s-from-ing) (w::ptype w::from))))
      (example "It keeps him from doing something")
      )
     )

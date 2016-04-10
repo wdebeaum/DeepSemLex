@@ -2388,7 +2388,7 @@
 (define-type ONT::Linguistic-object
  :wordnet-sense-keys ("language_unit%1:10:00" "linguistic_unit%1:10:00")
  :parent ONT::mental-construction
- :sem (F::Abstr-obj (F::information F::data))
+; :sem (F::Abstr-obj (F::information F::data))
  )
 
 ;; digit
@@ -2425,7 +2425,7 @@
 ;; letters of the alphabet
 (define-type ONT::letter-symbol
  :parent ONT::linguistic-object
- :sem (F::Abstr-obj (F::information F::data))
+; :sem (F::Abstr-obj (F::information F::data))
  )
 
 ;; alpha, beta, ...

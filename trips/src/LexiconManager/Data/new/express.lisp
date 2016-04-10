@@ -25,7 +25,7 @@
           
      ((meta-data :origin BOB :entry-date 20141212 :change-date nil :comments nil)
       (LF-PARENT ONT::GENE-EXPRESSION) 
-      (example "the gene express the protein")
+      (example "the gene expresses the protein")
       (SEM (F::Cause F::Agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))
       (TEMPL agent-affected-create-templ)
       )

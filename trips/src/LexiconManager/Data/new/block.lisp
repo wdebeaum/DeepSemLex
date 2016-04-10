@@ -15,7 +15,7 @@
      )
     ((meta-data :origin "gloss-training" :entry-date 20100217 :change-date nil :comments nil)
      (LF-PARENT ONT::hindering)
-     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% w::cp (w::ctype w::s-from-ing))))
+     (TEMPL AGENT-EFFECT-AFFECTED-OBJCONTROL-TEMPL (xp (% w::cp (w::ctype w::s-from-ing) (w::ptype w::from))))
      (example "It blocks him from doing something")
      )
     )
@@ -29,7 +29,7 @@
    (SENSES
     ((meta-data :origin fruitcarts :entry-date 20050225 :change-date nil :wn ("box%1:06:00") :comments nil)
      ;(LF-PARENT ONT::small-container)
-     (lf-parent ont::manufactured-object)
+     (lf-parent ont::block)
      (example "paint the block")
      )
    ))

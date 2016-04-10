@@ -24,7 +24,7 @@
 (define-type ONT::organism
     :wordnet-sense-keys ("organism%1:03:00" "being%1:03:00")
     :parent ONT::natural-object
-    :sem (F::Phys-obj (F::origin F::living) (:default (F::object-function -)))
+    :sem (F::Phys-obj (F::origin F::living))
     )
 
 (define-type ONT::MOLECULAR-PART
@@ -190,7 +190,7 @@
 
 (define-type ONT::GEOGRAPHIC-REGION
     :parent ONT::specific-loc
-    :sem (F::Phys-obj (:default (f::origin f::natural)) (F::form F::geographical-object) (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)))
+    :sem (F::Phys-obj (F::form F::geographical-object) (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)))
     )
 
 ;;;;Typo? was relative-locatopn
@@ -513,6 +513,11 @@
     :wordnet-sense-keys ("instrumentation%1:06:00" "instrumentality%1:06:00" "device%1:06:00" "artifact%1:03:00" "artefact%1:03:00")
     :parent ONT::PHYS-OBJECT
     :sem (F::Phys-obj (:required (F::origin F::artifact))(:default (F::Form F::solid-object)))
+    )
+
+(define-type ONT::BLOCK
+    :parent ONT::manufactured-object
+    :wordnet-sense-keys ("block%1:06:00")
     )
 
 ;; automaton
