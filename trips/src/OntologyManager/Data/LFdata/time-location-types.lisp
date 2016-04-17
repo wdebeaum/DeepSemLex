@@ -406,11 +406,26 @@
  :arguments ((:ESSENTIAL ONT::OF ((? of F::Situation) (F::trajectory +))))
  )
 
+(define-type ONT::resulting-object
+ :parent ONT::goal-reln
+ :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic) (f::type ont::change)))
+             (:REQUIRED ONT::VAL (F::Phys-obj ))
+             )
+ )
+
+(define-type ONT::resulting-state
+ :parent ONT::goal-reln
+ :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic) (f::type ont::change)))
+             (:REQUIRED ONT::VAL ((? t F::Abstr-obj F::situation)))
+             )
+ )
+
 ; trajectory ends at the ground
 ; to
 (define-type ont::to
  :parent ont::goal-reln
  )
+
 
 ; trajectory ends on the ground
 ; onto
@@ -421,8 +436,11 @@
 ; trajectory ends in the ground
 ; into
 (define-type ont::goal-as-containment
- :parent ont::goal-reln
- )
+    :parent ONT::goal-reln
+    :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic) (f::type ont::motion)))
+		(:REQUIRED ONT::VAL (F::Phys-obj  (F::container +)
+			   )))
+    )
 
 ; relates a trajectory/evet to its beginning/source
 (define-type ont::source-reln
@@ -544,9 +562,10 @@
  )
 
 (define-type ONT::to-loc
+    :comment "the generic goal role: might be a physical object (as possessor) or a resulting state"
  :parent ONT::goal-reln
  :arguments ((:ESSENTIAL ONT::OF (F::situation (f::type ont::event-of-change)))
-	     (:ESSENTIAL ONT::VAL (F::Phys-obj (f::spatial-abstraction (? sa f::spatial-point))))
+	     (:ESSENTIAL ONT::VAL ((? t F::Phys-obj F::abstr-obj)))
 	     )
  )
 

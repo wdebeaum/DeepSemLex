@@ -1163,7 +1163,8 @@
  :parent ONT::abstract-object
  :arguments ((:REQUIRED ONT::FIGURE)
 	     (:REQUIRED ONT::GROUND)
-	     (:optional ont::neutral))  ;; some relations based on verbs use this
+	     (:optional ont::neutral)
+	     (:optional ont::neutral1))  ;; some relations based on verbs use this
  :sem (F::abstr-obj (:required)
 		    (:default (f::intensity ont::hi)))
  )
@@ -1179,6 +1180,7 @@
 	     (:ESSENTIAL ONT::neutral1)
 	     (:ESSENTIAL ONT::of)
 	     (:optional ont::formal)
+	     (:optional ont::val) ;; for backwards compat
 	                  )
  )
 

@@ -190,7 +190,9 @@
 
 (define-type ONT::GEOGRAPHIC-REGION
     :parent ONT::specific-loc
-    :sem (F::Phys-obj (F::form F::geographical-object) (F::spatial-abstraction (? sa F::spatial-point F::spatial-region)))
+    :sem (F::Phys-obj (F::form F::geographical-object)
+;		      (F::spatial-abstraction (? sa F::spatial-point F::spatial-region))  ; It would seem we should have a restriction on spatial-abstraction, but its child ONT::ROUTE wants F::line F::strip and in general we want F::spatial-point F::spatial-region.  That covers all possibilities.
+		      )
     )
 
 ;;;;Typo? was relative-locatopn

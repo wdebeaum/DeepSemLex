@@ -10,7 +10,7 @@
      ((EXAMPLE "I give up")
       (LF-PARENT ONT::STOP)
       (SEM (F::Cause F::Agentive) (F::Aspect F::bounded) (F::Time-span F::atomic))
-      (templ affected-templ)
+      (templ agent-templ)
       (meta-data :origin beetle2-onr2 :entry-date 20071204 :change-date nil :comments nil)
       )
      ((LF-PARENT ONT::STOP)

@@ -16,7 +16,7 @@
     ((LF-PARENT ONT::FROM)
      (TEMPL BINARY-CONSTRAINT-S-TEMPL)
      (meta-data :origin gloss :entry-date 20100520 :change-date nil :comments nil)
-     (example "I see the building to my right" "to go from a waking to a sleeping state")
+     (example  "to go from a waking to a sleeping state")
      (preference .97) ;; prefer from-loc if applicable
      )
     ;; for nontrajectory nouns

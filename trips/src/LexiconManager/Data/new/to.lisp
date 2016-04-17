@@ -52,6 +52,16 @@
      (example "go to the building" "the relocation to the building")
      (TEMPL BINARY-CONSTRAINT-S-OR-NP-TEMPL)
      )
+
+    ((LF-PARENT ONT::RESULTING-OBJECT)
+     (example "change to a toad")
+     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     )
+
+    ((LF-PARENT ONT::RESULTING-STATE)
+     (example "change to a waking state")
+     (TEMPL BINARY-CONSTRAINT-S-TEMPL)
+     )
    #|| ;; a generalized sense of to
     ((LF-PARENT ONT::TO)
      (TEMPL BINARY-CONSTRAINT-S-TEMPL)

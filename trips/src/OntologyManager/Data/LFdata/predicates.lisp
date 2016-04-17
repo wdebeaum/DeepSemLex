@@ -237,13 +237,6 @@
              )
  )
 
-(define-type ONT::resulting-object
- :parent ONT::PREDICATE
- :arguments ((:ESSENTIAL ONT::OF (F::Situation (f::aspect f::dynamic) (f::type ont::change)))
-             (:REQUIRED ONT::VAL (F::Phys-obj (F::origin F::living) (F::intentional +)))
-             )
- )
-
 ;; for 'without' adverbials
 (define-type ONT::without
  :parent ONT::PREDICATE
