@@ -28,7 +28,7 @@
    (wordfeats (W::morph (:forms (-vb) :nom w::rating)))
    (SENSES
     ((LF-PARENT ONT::ordering)
-     (TEMPL agent-theme-xp-templ)
+     (TEMPL agent-neutral-xp-templ)
      (example "how is this model rated?")
      (meta-data :origin calo :entry-date 20041122 :change-date 20090501 :comments caloy2)
      )

@@ -1482,7 +1482,7 @@
 
 ;; soothe, calm down, relax, settle down
 (define-type ONT::subduing
-    :wordnet-sense-keys ("curb%2:30:01" "conquer%2:30:00" "subdue%2:30:01" "inhibit%2:30:00" "stamp_down%2:30:00" "suppress%2:30:00" "pacify%2:37:00" "lenify%2:37:00" "conciliate%2:37:00" "assuage%2:37:00" "appease%2:37:00" "mollify%2:37:00" "placate%2:37:00" "gentle%2:37:00" "gruntle%2:37:00" "comfort%2:37:01" "keep_down%2:29:00")
+    :wordnet-sense-keys ("curb%2:30:01" "inhibit%2:30:00" "pacify%2:37:00" "lenify%2:37:00" "conciliate%2:37:00" "assuage%2:37:00" "appease%2:37:00" "mollify%2:37:00" "placate%2:37:00" "gentle%2:37:00" "gruntle%2:37:00" "comfort%2:37:01" "keep_down%2:41:00")
     :parent ONT::evoke-emotion
  )
 
@@ -3996,7 +3996,7 @@
 
 ;; FN
 (define-type ont::hindering
- :wordnet-sense-keys ("hold_back%2:41:00" "keep_back%2:41:00" "keep%2:41:00" "restrain%2:41:01" "keep%2:41:01" "throttle%2:30:01" "confine%2:30:00" "bound%2:30:00" "limit%2:30:01" "trammel%2:30:00" "restrain%2:30:00" "restrict%2:30:00" "forbid%2:41:03" "preclude%2:41:00" "foreclose%2:41:00" "forestall%2:41:01" "handicap%2:33:00" "hinder%2:33:00" "hamper%2:33:00"  "barricade%1:06:00" "obstruction%1:06:00" "crush%2:41:00" "disrupt%2:30:01")
+ :wordnet-sense-keys ("hold_back%2:41:00" "keep_back%2:41:00" "keep%2:41:00" "restrain%2:41:01" "keep%2:41:01" "throttle%2:30:01" "confine%2:30:00" "bound%2:30:00" "limit%2:30:01" "trammel%2:30:00" "restrain%2:30:00" "restrict%2:30:00" "forbid%2:41:03" "preclude%2:41:00" "foreclose%2:41:00" "forestall%2:41:01" "handicap%2:33:00" "hinder%2:33:00" "hamper%2:33:00"  "barricade%1:06:00" "obstruction%1:06:00" "crush%2:41:00" "disrupt%2:30:01" "suppress%2:30:00")
     :parent ont::inhibit-effect
     )
 
