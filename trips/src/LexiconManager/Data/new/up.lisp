@@ -69,8 +69,10 @@
      (TEMPL BINARY-CONSTRAINT-S-TEMPL)
      )
     ((LF-PARENT ONT::DIRECTION)
-     (TEMPL PRED-S-POST-TEMPL)
+     (example "pan the camera UP")
+     (TEMPL PARTICLE-TEMPL)
      )
+    
     ((LF-PARENT ONT::SCALE-RELATION)
      (TEMPL BINARY-CONSTRAINT-S-OR-NP-TEMPL)
      (example "his weight / the temperature is up (X)")

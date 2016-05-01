@@ -865,7 +865,7 @@
  )
 
 (define-type ONT::IN-RELATION
- :wordnet-sense-keys ("diverge%2:42:00" "dominate%2:42:00" "go_by%2:32:00" "differ%2:42:00" "exceed%2:42:01" "follow%2:42:00")
+ :wordnet-sense-keys ("diverge%2:42:00" "dominate%2:42:00" "go_by%2:32:00" "exceed%2:42:01" "follow%2:42:00")
  :parent ONT::OBJECT-COMPARE
  :sem (F::situation (F::Aspect F::static) (F::Time-span F::extended))
  )

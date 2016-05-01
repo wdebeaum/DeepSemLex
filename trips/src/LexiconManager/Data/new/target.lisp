@@ -26,7 +26,7 @@
      (TEMPL agent-affected-GOAL-templ)
      )
     ((lf-parent ont::DIRECT-AT)
-     (EXAMPLE "This book targets teenagers")
+     (EXAMPLE "This book targets teenagers.  The pickpocket targeted the tourist.")
      (TEMPL neutral-neutral-xp-templ)
      )
     )

@@ -7,7 +7,7 @@
   (W::MIDDLE
    (SENSES
     ((meta-data :origin trips :entry-date 20060803 :change-date nil :comments nil)
-     (LF-PARENT ONT::pos-midway)
+     (LF-PARENT ONT::center)
      (example "the middle of the road")
 ;     (TEMPL PART-OF-RELN-TEMPL)
      (TEMPL GEN-PART-OF-RELN-TEMPL)

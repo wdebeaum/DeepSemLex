@@ -438,7 +438,8 @@
 
 (define-type ont::animal-property-val
     :parent ont::body-related-property-val
-    :arguments ((:optional ont::neutral (f::phys-obj (f::origin (? og f::human f::non-human-animal))))
+    :arguments ((:optional ont::neutral (f::phys-obj (f::origin (? og f::non-living))))
+		(:optional ont::experiencer (f::phys-obj (f::origin (? og2 f::human f::non-human-animal))))
 ;                (:optional ont::content ((? cont f::abstr-obj f::situation)))
                 (:optional ont::formal ((? cont f::abstr-obj f::situation)))
                 )
@@ -499,7 +500,12 @@
  )
 
 (define-type ont::spatial
- :parent ont::property-val
+ :parent ont::abstract-object
+ :arguments ((:OPTIONAL ONT::OF ((? of F::Phys-obj F::Situation f::abstr-obj)))
+	     (:OPTIONAL ONT::val ((? val F::Phys-obj F::Situation f::abstr-obj)))
+	     (:OPTIONAL ONT::FIGURE)
+	     (:OPTIONAL ONT::GROUND)	     
+             )
  )
 
 ;; circular, direct

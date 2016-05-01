@@ -7,7 +7,8 @@
  (W::aim
    (SENSES
     ((meta-data :origin "verbnet-2.0" :entry-date 20060315 :change-date 20090511 :comments nil :vn ("wish-62"))
-     (LF-PARENT ONT::intention)
+;     (LF-PARENT ONT::intention)
+     (LF-PARENT ONT::direct-at)
      (TEMPL neutral-theme-xp-templ (xp (% w::cp (w::ctype w::s-to)))) ; like intend
      (PREFERENCE 0.96)
      )

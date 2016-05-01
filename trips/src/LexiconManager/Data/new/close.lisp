@@ -28,7 +28,8 @@
    (SENSES
     ;; 06/02/2010 reinstating this sense for PTB tests at jfa's request. It had been commented out because it interfered with interpretations for PLOW, e.g. a restaurant close to a hotel, which had the ADV sense similar to near.
     ((EXAMPLE "They are close/ the church is close to the house" "The session losses left municipal dollar bonds close to where they were before the 190.58-point drop ")
-     (LF-PARENT ONT::DISTANCE-VAL)
+;     (LF-PARENT ONT::DISTANCE-VAL)
+     (LF-PARENT ONT::near)
     (TEMPL ADJ-CO-THEME-TEMPL (XP (% W::PP (W::Ptype W::to))))
     )
     ((meta-data :origin trips :entry-date 20060824 :change-date 20090731 :comments nil :wn ("close%3:00:05"))
