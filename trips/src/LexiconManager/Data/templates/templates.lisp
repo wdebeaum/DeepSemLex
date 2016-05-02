@@ -656,17 +656,19 @@
       
       (GO-FROM-TO-TEMPL
        (ARGUMENTS
-	(LSUBJ (% W::NP) ONT::affected)
+	(LSUBJ (% W::NP) ONT::agent)
 	(LOBJ (:parameter xp1 (:default (% W::NP))) ONT::source OPTIONAL)
 	(LCOMP (:parameter xp2 (:default (% W::PP (W::ptype W::to)))) ont::result OPTIONAL)
 	))
 
+      #|  ; nobody uses this
       (GO-TO-FROM-TEMPL
        (ARGUMENTS
 	(LSUBJ (% W::NP) ONT::affected)
 	(LOBJ (:parameter xp1 (:default (% W::PP (W::ptype w::in)))) ont::result OPTIONAL)
 	(LCOMP (:parameter xp2 (:default (% W::PP (W::ptype W::from)))) ONT::source OPTIONAL)
 	))
+      |#
       
       (LOCATION-THEME-TEMPL
        (ARGUMENTS
@@ -2392,6 +2394,12 @@
     (ARGUMENT (% W::ADJP) ONT::OF)
     ))
 
+   (ADJ-OPERATOR-PREFIX-TEMPL
+    (SYNTAX(W::SORT W::OPERATOR) (W::ATYPE W::PRE) (W::PREFIX +))
+    (ARGUMENTS
+     (ARGUMENT (% W::ADJP) ONT::OF)
+     ))
+
   ;; e.g. much can only modify comparative adjectives
   ;; much better, but not much red
   (COMPARATIVE-ADJ-adv-OPERATOR-TEMPL
@@ -2781,6 +2789,12 @@
    (ARGUMENTS
     (ARGUMENT (% W::S) ONT::OF)
     ))
+
+   (V-PREFIX-templ
+      (SYNTAX (W::SORT W::PRED) (W::ATYPE W::PRE-VP) (W::prefix +))
+      (ARGUMENTS
+         (ARGUMENT (% W::S) ONT::OF)
+    ))
   
   (ELSE-templ
    (SYNTAX(W::SORT W::ELSE) (W::ATYPE -))
@@ -2801,6 +2815,16 @@
    (ARGUMENTS
     (ARGUMENT (% W::S) ONT::OF)
     ))
+
+;;;;;  PARTICLES
+  (PARTICLE-templ
+   (SYNTAX (W::SORT W::PRED) (W::ATYPE W::POST) (W::PARTICLE +))
+   (ARGUMENTS
+    (ARGUMENT (% W::S) ONT::OF)
+    )
+   )
+
+
 
  (PRED-S-OR-NP-POST-templ
    (SYNTAX(W::SORT W::PRED) (W::ATYPE W::POST))
@@ -3209,6 +3233,13 @@
     (ARGUMENT (% W::NP) ONT::OF)
     ))
 
+   (prefix-adj-templ
+    (SYNTAX(W::COMP-OP W::MORE) (W::SORT W::PRED) (W::ATYPE W::central) (W::SUBCAT -) 
+	   (w::PREFIX +) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
+    (ARGUMENTS
+     (ARGUMENT (% W::NP) ONT::OF)
+     ))
+
    (pre-adj-templ
    (SYNTAX(W::COMP-OP W::MORE) (W::SORT W::PRED) (W::ATYPE W::pre) (W::SUBCAT -) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
@@ -3231,7 +3262,8 @@
     (ARGUMENT (% W::NP) ont::of)
     ))
 
-  ;; a sad movie/ the movie is sad
+   ;; a sad movie/ the movie is sad
+   ;; more than just information content (e.g., a sad night)
    (central-adj-content-templ
    (SYNTAX(W::COMP-OP W::MORE) (W::SORT W::PRED) (W::ATYPE W::central) (W::SUBCAT -) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS

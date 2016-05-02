@@ -327,7 +327,7 @@
       W::OTHER-RELN) (w::allow-deleted-comp +) (W::MASS W::COUNT))
    (ARGUMENTS
     (SUBCAT (:parameter xp (:default (% W::PP (W::ptype W::of))) (:required (W::sort (? !sort W::unit-measure)))) 
-     ont::formal)
+     ont::of)
     ))
 
   (OTHER-RELN-result-TEMPL
