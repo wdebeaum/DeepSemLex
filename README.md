@@ -30,7 +30,7 @@ Note that the `trips/src/config/lisp/defsystem/defsystem-3.6i/` directory contai
 
 The rest of the repository is licensed using the [GPL 2+](http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) (see `gpl-2.0.txt`):
 
-DeepSemLex - TRIPS deep semantic lexicon lisp library
+DeepSemLex - TRIPS deep semantic lexicon lisp library  
 Copyright (C) 2016  Institute for Human & Machine Cognition
 
 This program is free software; you can redistribute it and/or
