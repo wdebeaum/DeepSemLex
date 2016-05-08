@@ -41,6 +41,13 @@
      (TEMPL neutral-neutral-equal-templ)
      ;(PREFERENCE 0.96)
      )
+
+    (  ;; the fact is he's happy
+     (LF-PARENT ont::proposition-equal)
+     (LF-FORM w::BE)
+     (TEMPL propositional-equal-templ)
+     )
+
     ;;;; There has been an accident.
     ((LF-PARENT ONT::EXISTS)
      (LF-FORM W::be)

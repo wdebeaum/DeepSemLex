@@ -48,7 +48,7 @@
      )
 
      (  ;; the fact is he's happy
-     (lf-parent ont::be) 
+     (lf-parent ont::proposition-equal) 
      (LF-FORM W::be)
      (TEMPL propositional-equal-templ)
      )
