@@ -3230,7 +3230,7 @@
   (central-adj-templ
    (SYNTAX(W::COMP-OP W::MORE) (W::SORT W::PRED) (W::ATYPE W::central) (W::SUBCAT -) (W::ARG ?arg) (W::ALLOW-DELETED-COMP +))
    (ARGUMENTS
-    (ARGUMENT (% W::NP) ONT::OF)
+    (ARGUMENT (% W::NP) ONT::FIGURE)
     ))
 
    (prefix-adj-templ
@@ -3539,7 +3539,7 @@
   
   (pronoun-wh-templ
    (SYNTAX(W::MASS W::count) (W::status W::WH) (W::case (? case W::sub W::obj -)) (W::PRO W::INDEF) 
-     (W::agr W::3s))
+     (W::agr (? a W::3s W::3p)))
    (ARGUMENTS
     ))
   
