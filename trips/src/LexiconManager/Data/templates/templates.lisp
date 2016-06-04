@@ -408,7 +408,7 @@
       
       (neutral-DURATION-TEMPL
        (ARGUMENTS
-	(LSUBJ (% W::NP) ont::formal)
+	(LSUBJ (% W::NP) ont::neutral)
 ;	(LOBJ (% W::NP) ONT::DURATION)
 	(LOBJ (% W::NP) ONT::EXTENT)
 	))
@@ -1821,13 +1821,7 @@
 		(W::lex ?dobjlex) (W::var ?dobjvar))))) ONT::formal optional)
     ))
   
-  (AGENT-THEME-RESULT-OPTIONAL-TEMPL
-   (ARGUMENTS
-    (LSUBJ (% W::NP) ONT::AGENT)
-    (LOBJ (% W::NP) ONT::FORMAL)
-    (LCOMP (:parameter xp (:default (% W::PP (w::ptype w::into)))) ONT::RESULT OPTIONAL)
-    ))
-
+  
 (AGENT-AFFECTED-RESULT-OPTIONAL-TEMPL
    (ARGUMENTS
     (LSUBJ (% W::NP) ONT::AGENT)
