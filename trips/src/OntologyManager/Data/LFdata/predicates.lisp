@@ -7,6 +7,9 @@
   :sem (F::ABSTR-OBJ (:default (F::GRADABILITY +) (F::scale -) (f::intensity -) (f::orientation -)  (F::CONTAINER -) (f::intentional -)))
   :arguments ((:ESSENTIAL ONT::OF)
 	      (:ESSENTIAL ONT::VAL)
+	      (:ESSENTIAL ONT::FIGURE)
+	      (:ESSENTIAL ONT::GROUND)
+	      
 	      )
   )
 
@@ -345,6 +348,8 @@
  :parent ONT::SITUATION-MODIFIER
  :arguments ((:ESSENTIAL ONT::OF (F::Situation))
              (:REQUIRED ONT::val (F::situation))
+	     (:ESSENTIAL ONT::FIGURE (F::Situation))
+             (:REQUIRED ONT::GROUND (F::situation))
              )
  )
 
