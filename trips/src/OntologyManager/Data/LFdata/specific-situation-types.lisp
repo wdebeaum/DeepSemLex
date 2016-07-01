@@ -4530,7 +4530,7 @@
 ;; angina
 (define-type ont::angina
  :wordnet-sense-keys ("angina%1:26:00")
- :parent ont::medical-condition
+ :parent ont::disease
  )
 
 (define-type ONT::arthritis
