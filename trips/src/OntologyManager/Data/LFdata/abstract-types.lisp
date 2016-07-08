@@ -1766,31 +1766,31 @@
 
 ;; length
 (define-type ONT::length
- :sem (F::Abstr-obj (F::Scale Ont::length))
+;; :sem (F::Abstr-obj (F::Scale Ont::length))
  :parent ONT::linear-d
  )
 
 ;; width
 (define-type ONT::width
- :sem (F::Abstr-obj (F::Scale Ont::width))
+;; :sem (F::Abstr-obj (F::Scale Ont::width))
  :parent ONT::linear-d
  )
 
 ;; height
 (define-type ONT::height-scale
- :sem (F::Abstr-obj (F::Scale Ont::height-scale))
+;; :sem (F::Abstr-obj (F::Scale Ont::height-scale))
  :parent ONT::linear-d
  )
 
 ;; depth
 (define-type ONT::depth
- :sem (F::Abstr-obj (F::Scale Ont::depth))
+;; :sem (F::Abstr-obj (F::Scale Ont::depth))
  :parent ONT::linear-d
  )
 
 ;; thickness
 (define-type ONT::thickness
- :sem (F::Abstr-obj (F::Scale Ont::thickness))
+;; :sem (F::Abstr-obj (F::Scale Ont::thickness))
  :parent ONT::linear-d
  )
 
@@ -1800,7 +1800,7 @@
 (define-type ONT::DISTANCE
  :parent ONT::linear-d
  ;; need this sem specification to get "a short/long distance"
- :sem (f::abstr-obj (F::Scale Ont::distance))
+;; :sem (f::abstr-obj (F::Scale Ont::distance))
  :arguments ((:REQUIRED ONT::neutral (F::phys-obj))
              (:OPTIONAL ONT::neutral1 (F::phys-obj))
 	     (:OPTIONAL ONT::FIGURE (F::phys-obj))
