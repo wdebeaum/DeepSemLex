@@ -3964,6 +3964,8 @@
 
 (define-type ont::scale
   :parent ont::abstract-object
+  :arguments ((:ESSENTIAL ONT::figure)
+		)
   )
 
 (define-type ont::any-scale
