@@ -117,6 +117,8 @@
 		  )
 	      )))
     ;; FIXME what about other features?
+    (when (util::is-variable-name syn-cat)
+      (setf syn-cat t))
     (cond
       ((null head-words)
         syn-cat)
