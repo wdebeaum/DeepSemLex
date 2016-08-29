@@ -2450,13 +2450,12 @@
    (ARGUMENTS
     (ARGUMENT (% (? W::argcat W::ADVBL W::ADJP)  (w::set-modifier -) (W::sort ?sort)) ONT::FIGURE)
     ))
-
-;  this is unused and (% ?argcat) is broken for DSL
-;  (OPERATOR-TEMPL
-;   (SYNTAX(W::SORT W::OPERATOR) (W::ATYPE W::PRE))
-;   (ARGUMENTS
-;    (ARGUMENT (% ?argcat) ONT::FIGURE)
-;    ))
+  
+  (OPERATOR-TEMPL
+   (SYNTAX(W::SORT W::OPERATOR) (W::ATYPE W::PRE))
+   (ARGUMENTS
+    (ARGUMENT (% ?argcat) ONT::FIGURE)
+    ))
 
   ;; exactly five
   (NUMBER-OPERATOR-TEMPL
@@ -3591,7 +3590,7 @@
     (argument (:parameter xp (:default (% (? W::argcat W::S W::NP W::VP) (w::lex ?arglex)))) ONT::FIGURE)
     ;;;;; Myrosia uncommented. Because the subcat is implicit, and we only need it to provide a selectional restriction
     ;;;;; Why do we have such a general subcat for these PP Adverbs? JFA 12/02
-;    (subcat (% ?sc) ONT::GROUND)
+    (subcat (% ?sc) ONT::GROUND)
     ))
 
   
@@ -3601,7 +3600,7 @@
     (argument (% W::S) ONT::FIGURE)
         ;;; Subcat of PP words is implicit, and we need it to provide a selectional restriction, but it won't be matched with anything syntactically,
     ;;; hence is a very general category
-;    (subcat (% ?sc) ONT::GROUND)
+    (subcat (% ?sc) ONT::GROUND)
     ))
 
   (ppword-question-adv-pred-templ
@@ -3612,14 +3611,14 @@
     (argument (% (? argcat W::S W::NP) (w::lex ?arglex)) ONT::FIGURE)
            ;;; Subcat of PP words is implicit, and we need it to provide a selectional restriction, but it won't be matched with anything syntactically,
     ;;; hence is a very general category
-;    (subcat (% ?sc) ONT::GROUND)
+    (subcat (% ?sc) ONT::GROUND)
     ))
 
   (ppword-question-adv-how-templ
    (SYNTAX (W::sing-lf-only +) (W::wh W::q) (W::sort W::pp-word) (W::atype (? atype W::pre)))
    (ARGUMENTS
     (argument (% (? argcat W::ADJP W::ADVBL)  (w::set-modifier -) (w::lex ?arglex)) ONT::FIGURE)
-;    (subcat (% ?sc) ONT::GROUND)
+    (subcat (% ?sc) ONT::GROUND)
     ))
   
   (ppword-n-templ
