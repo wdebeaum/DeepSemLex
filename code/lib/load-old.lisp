@@ -287,9 +287,14 @@
 	      ,@(when morph
 		`((ld::morph
 		  (ld::forms
-		    ,@(let ((forms (second (member :forms morph))))
-		        (unless (or (null forms) (eq 'ld::nil forms))
-			  forms))
+		    ,@(let* ((have-forms (member :forms morph))
+		             (forms (second have-forms))
+			     (null-forms (or (null forms) (eq 'ld::nil forms))))
+		        (cond
+			  ((not have-forms) nil) ; default regular forms
+			  (null-forms (list '-none)) ; just the base form
+			  (t forms) ; specified forms
+			  ))
 		    ,@(loop for tail = morph then (cddr tail)
 		            for key = (car tail)
 			    for val = (cadr tail)
