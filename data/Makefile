@@ -24,7 +24,7 @@ $(RESOURCE_SUBDIRS) TRIPS:
 TRIPS/COMPLETE: TRIPS/trips-ont-dsl.xml
 	touch $@
 
-TRIPS/trips-ont-dsl.lisp: ../code/converters/trips-ont-to-dsl.sh ../code/converters/trips-ont-to-dsl.lisp
+TRIPS/trips-ont-dsl.lisp: ../code/converters/trips-ont-to-dsl.sh ../code/converters/trips-ont-to-dsl.lisp | TRIPS
 	cd ../code/converters ; ./trips-ont-to-dsl.sh >../../data/$@
 
 TRIPS/trips-ont-dsl.xml: TRIPS/trips-ont-dsl.lisp ../code/converters/dsl-to-xml.sh ../code/converters/dsl-to-xml.lisp $(wildcard $(TRIPS_BASE)/src/OntologyManager/Data/LFdata/*.lisp)
