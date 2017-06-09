@@ -913,7 +913,7 @@
       (propositional-equal-templ
        (ARGUMENTS
       	(LSUBJ (% W::NP (W::agr ?agr) (sem ?sem) (w::gerund -) (w::subcat-map ont::formal)) ONT::neutral)
-	(LOBJ (% W::CP) ONT::neutral1)
+	(LOBJ (% W::CP (w::ctype w::s-that)) ONT::neutral1)
 	))
 
       (neutral-neutral-equal-templ
@@ -972,19 +972,21 @@
 	(LOBJ (% W::PRED) ONT::FORMAL)
 	))
       
-        (THEME-PLURAL-TEMPL
+      (THEME-PLURAL-TEMPL
+       (syntax (w::agr (? a W::1p W::2p W::3p)))
        (ARGUMENTS
-
 	(LSUBJ (% W::NP (W::agr (? a W::1p W::2p W::3p))) ONT::FORMAL)
 	))
 
       (AGENT-PLURAL-TEMPL
+       (syntax (w::agr (? a W::1p W::2p W::3p)))
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::agr (? a W::1p W::2p W::3p))) ONT::AGENT)
 	))
       
     ;;;;; to be used when there is a plural "affected"
       (AFFECTED-PLURAL-TEMPL
+       (syntax (w::agr (? a W::1p W::2p W::3p)))
        (ARGUMENTS
 	(LSUBJ (% W::NP (W::agr (? a W::1p W::2p W::3p))) ONT::AFFECTED)
 	))
@@ -2137,6 +2139,7 @@
   ))
 
 (neutral-plural-templ
+ (syntax (w::agr (? a W::1p W::2p W::3p)))
  (ARGUMENTS
   (LSUBJ (% W::NP (W::agr (? a W::1p W::2p W::3p))) ONT::neutral)
   ))
