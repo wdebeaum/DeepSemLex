@@ -900,8 +900,7 @@
 
 ;; symptom                                                                                                          
 (define-type ONT::medical-symptom
- :wordnet-sense-keys ("symptom%1:26:00" "sign%1:26:00" "syndrome%1:26:00" "hoarseness%1:07:00" "sniffle%1:04:00" "t\
-ightness%1:09:00")
+ :wordnet-sense-keys ("symptom%1:26:00" "sign%1:26:00" "syndrome%1:26:00" "hoarseness%1:07:00" "sniffle%1:04:00" "tightness%1:09:00")
  :parent ONT::medical-disorders-and-conditions
  )
 
