@@ -1,2 +1,3 @@
 *.lisp linguist-language=common-lisp
-trips/ linguist-vendored
+trips/* linguist-vendored
+configure linguist-vendored
