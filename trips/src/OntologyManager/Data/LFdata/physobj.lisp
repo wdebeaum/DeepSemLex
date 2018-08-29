@@ -37,7 +37,7 @@
 
 ;; UMLS
 (define-type ONT::organism
-    :wordnet-sense-keys ("organism%1:03:00" "being%1:03:00" "life%1:19:00" "life%1:26:00")
+    :wordnet-sense-keys ("organism%1:03:00" "being%1:03:00" "life%1:19:00" "life%1:26:00" "life%1:03:00")
     :parent ONT::natural-object
     :sem (F::Phys-obj (F::origin F::living))
     )
@@ -222,7 +222,7 @@
     )
 
 (define-type ONT::land
-    :wordnet-sense-keys ("land%1:17:00" "grassland%1:15:00")
+    :wordnet-sense-keys ("land%1:17:00" "grassland%1:15:00" "wetland%1:17:00")
     :parent ONT::GEO-formation
     :sem (F::Phys-obj (F::origin F::natural) (F::trajectory -))
     )
@@ -569,6 +569,11 @@
     :sem (F::Phys-obj (f::origin f::natural))
     )
 
+(define-type ONT::earth-substance
+    :wordnet-sense-keys ("soil%1:27:01" "soil%1:17:00" "earth%1:27:00")
+    :parent ONT::natural-substance
+    )
+
 (define-type ONT::gas-SUBSTANCE
     :parent ONT::SUBSTANCE
     :wordnet-sense-keys ("gas%1:27:00")
@@ -651,7 +656,7 @@
     )
 
 ;; trash, waste
-(define-type ONT::disposable
+(define-type ONT::waste
     :wordnet-sense-keys ("waste%1:27:00" "waste_material%1:27:00" "waste_matter%1:27:00" "waste_product%1:27:00")
     :parent ONT::material
     )
@@ -2122,7 +2127,7 @@
 
 ;; power
 (define-type ONT::POWER
-    :wordnet-sense-keys ("electricity%1:19:01" "electrical_energy%1:19:00")
+    :wordnet-sense-keys ("electricity%1:19:01" "electrical_energy%1:19:00" "electricity%1:19:00" "energy%1:19:00")
     :parent ONT::substance
     )
 
@@ -2678,6 +2683,7 @@
     )
 
 (define-type ONT::SPICES-HERBS
+    :wordnet-sense-keys ("spice%1:27:00" "spice%1:13:00" "herb%1:13:00")
     :parent ONT::INGREDIENTS
     )
 
