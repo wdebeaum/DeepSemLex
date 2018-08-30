@@ -221,6 +221,12 @@
     :sem (F::Phys-obj (F::origin F::natural) (F::trajectory -))
     )
 
+(define-type ONT::watershed
+    :wordnet-sense-keys ("watershed%1:15:01" "watershed%1:15:00" )
+    :parent ONT::GEO-OBJECT
+    :sem (F::Phys-obj (F::origin F::natural) (F::trajectory -))
+    )
+
 (define-type ONT::land
     :wordnet-sense-keys ("land%1:17:00" "grassland%1:15:00" "wetland%1:17:00")
     :parent ONT::GEO-formation
@@ -376,6 +382,11 @@
 
 (define-type ONT::general-structure
     :parent ONT::man-made-structure
+    )
+
+(define-type ONT::bridge
+    :wordnet-sense-keys ("bridge%1:06:00")
+    :parent ONT::general-structure
     )
 
 (define-type ONT::FACILITY
@@ -586,6 +597,12 @@
     :sem (F::Phys-obj (F::form F::Liquid))
     )
 
+(define-type ONT::fuel
+     :wordnet-sense-keys ("fuel%1:27:00")
+    :parent ONT::liquid-SUBSTANCE
+    :sem (F::Phys-obj (F::form F::Liquid) (f::origin f::natural))
+    )
+
 (define-type ONT::natural-LIQUID-SUBSTANCE
     :parent ONT::liquid-SUBSTANCE
     :sem (F::Phys-obj (F::form F::Liquid) (f::origin f::natural))
@@ -663,7 +680,8 @@
 
 ;; these are marked intentional + because intentional + is a required setting for e.g. motion verbs like walk and run so either that requirement must be removed or animals must be intentional +
 (define-type ONT::ANIMAL
-    :wordnet-sense-keys ("animal%1:03:00" "animate_being%1:03:00" "beast%1:03:00" "brute%1:03:00" "creature%1:03:00" "fauna%1:14:00")
+    :wordnet-sense-keys ("animal%1:03:00" "animate_being%1:03:00" "beast%1:03:00" "brute%1:03:00" "creature%1:03:00" "fauna%1:14:00"
+					  "wildlife%1:14:00")
     :parent ONT::organism ;; umls
     :sem (F::Phys-obj (F::intentional +) (f::form f::solid-object) (F::origin (? o f::human f::non-human-animal)) (F::trajectory -))
     )
@@ -1261,10 +1279,6 @@
     :sem (F::Phys-obj (F::Form F::solid-object) (F::Object-Function F::furniture))
     )
 
-
-
-
-
 ;; anywhere, anyplace, ...
 (define-type ONT::wh-location
     :parent ONT::location
@@ -1286,7 +1300,7 @@
     )
 
 (define-type ONT::loc-as-area
-    :comment " places that occupy space"
+    :comment "places that occupy space"
     :parent ONT::location-by-description
     )
 
@@ -1307,15 +1321,34 @@
     :parent ONT::loc-as-area
     )
 
-; coal mine
+(define-type ONT::workplace
+    :wordnet-sense-keys ("work%1:06:01")
+    :parent ONT::area-def-by-use
+    )
+
 (define-type ONT::mine
     :wordnet-sense-keys ("mine%1:06:01")
-    :parent ONT::area-def-by-use
+    :parent ONT::workplace
+    )
+
+(define-type ONT::fishery
+    :wordnet-sense-keys ("fishery%1:06:00" "fish_farm%1:06:00")
+    :parent ONT::workplace
+    )
+
+(define-type ONT::bakery
+    :wordnet-sense-keys ("bakery%1:06:00")
+    :parent ONT::workplace
+    )
+
+(define-type ONT::lumberyard
+    :wordnet-sense-keys ("lumberyard%1:06:00")
+    :parent ONT::workplace
     )
 
 (define-type ONT::farm
     :wordnet-sense-keys ("farm%1:06:00")
-    :parent ONT::area-def-by-use
+    :parent ONT::workplace
     )
 
 (define-type ONT::loc-defined-by-contrast
@@ -2767,6 +2800,7 @@
               )
   )
 
+
 (define-type ONT::system
   :wordnet-sense-keys ("system%1:06:00" "system%1:14:00")
   :comment "An interconnected group of objects, abstract or physical"
@@ -2778,6 +2812,12 @@
   :comment "An interconnected group of] entities fo5ming an ecosystem"
  :parent ONT::system
  )
+
+(define-type ONT::structure
+  :wordnet-sense-keys ("structure%1:07:00")
+  :comment "A collection of objects organized for some purpose" 
+  :parent ONT::system
+  )
 
 (define-type ONT::economic-system
   :wordnet-sense-keys ("economy%1:14:00" )
