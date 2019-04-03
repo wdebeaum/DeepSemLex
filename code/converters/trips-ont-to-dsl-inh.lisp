@@ -142,7 +142,7 @@
         (pushnew b ret)))
     ret))
 
-(defun merge-sem-feat-vals (child-val parent-val)
+(defun merge-sem-feat-vals (child-val parent-val context-str)
   "Compute the effective value of a feature in a child by intersecting the
    effective parent value with the specified child value."
   (let* ((child-vals (feat-val-set child-val))
@@ -150,7 +150,7 @@
 	 (effective-vals (hierarchical-intersection child-vals parent-vals)))
     (unless effective-vals
       ;(error "intersection of ~s and ~s is empty" child-val parent-val)
-      (warn "~s ∩ ~s = ∅" child-val parent-val)
+      (warn "~a ~s ∩ ~s = ∅" context-str child-val parent-val)
       (setf effective-vals child-vals) ; as evidenced by ONT::adequacy-val's F::scale feature conflicting with its ancestor ONT::domain-property's value
       )
     (set-to-maybe-disj effective-vals)))
@@ -189,7 +189,7 @@
     ;; add new
     (add-relation sf :inherit new-flt)))
 
-(defun merge-sem-feats (child-sf parent-sf)
+(defun merge-sem-feats (child-sf parent-sf context-str)
     (declare (type sem-feats child-sf parent-sf))
   "Modify child-sf by adding the non-conflicting parts of parent-sf to it /
    intersecting feature value sets."
@@ -209,7 +209,8 @@
 	for child-pair = (assoc key new-child-feats)
 	do (if child-pair
 	     (setf (second child-pair)
-		   (merge-sem-feat-vals (second child-pair) parent-val))
+		   (merge-sem-feat-vals (second child-pair) parent-val
+		       (format nil "~a feature ~s values" context-str key)))
 	     (push (list key parent-val) new-child-feats)
 	     )
         finally (setf (features child-sf) new-child-feats)
@@ -273,7 +274,7 @@
         (feats (mapcar #'old-sem-feat (features sf))))
     (cons fltype feats)))
 
-(defun merge-role-restr-map (child-map parent-map)
+(defun merge-role-restr-map (child-map parent-map context-str)
     (declare (type role-restr-map child-map parent-map))
   "Modify child-map by adding the non-conflicting parts of parent-map to it.
    Also add type feature using om::best-lfs-from-sem if it is absent."
@@ -283,7 +284,7 @@
   ;; merge restrictions by normalizing them to sem-feats objects first
   (let ((child-restr (normalize-restriction (restriction child-map)))
         (parent-restr (normalize-restriction (restriction parent-map))))
-    (merge-sem-feats child-restr parent-restr)
+    (merge-sem-feats child-restr parent-restr context-str)
     ;; add type feature if it's missing
     (unless (assoc 'f::type (features child-restr))
       (let ((types (om::best-lfs-from-sem (sem-feats-to-list child-restr))))
@@ -299,7 +300,7 @@
   ;; keep child's optionality no matter what
   )
 
-(defun merge-sem-frame (child-sf parent-sf)
+(defun merge-sem-frame (child-sf parent-sf context-str)
     (declare (type sem-frame child-sf parent-sf))
   "Modify child-sf by adding the non-conflicting parts of parent-sf to it."
   (loop with old-child-maps = (maps child-sf)
@@ -315,7 +316,9 @@
 	do
 	  (if new-child-map
 	    ;; child already has a map for this role, merge them
-	    (merge-role-restr-map new-child-map parent-map)
+	    (merge-role-restr-map new-child-map parent-map
+	        (format nil "~a role(s) ~s" context-str
+		    (intersection (roles new-child-map) (roles parent-map))))
 	    ;; child doesn't have this role yet, add a copy of the parent's map
 	    (push (copy-role-restr-map parent-map) new-child-maps))
 	finally (setf (maps child-sf) new-child-maps)
@@ -329,7 +332,8 @@
       (if parent-sem-feats
         (let ((child-sem-feats (get-parent-of-type child 'sem-feats)))
 	  (if child-sem-feats
-	    (merge-sem-feats child-sem-feats parent-sem-feats)
+	    (merge-sem-feats child-sem-feats parent-sem-feats
+	        (format nil "~s ⊂ ~s but" (name child) (name parent)))
 	    (add-relation child :inherit parent-sem-feats)
 	    ))
 	;; no parent sem-feats, just normalize child feat vals
@@ -342,7 +346,8 @@
       (if parent-sem-frame
         (let ((child-sem-frame (get-parent-of-type child 'sem-frame)))
 	  (if child-sem-frame
-	    (merge-sem-frame child-sem-frame parent-sem-frame)
+	    (merge-sem-frame child-sem-frame parent-sem-frame
+	        (format nil "~s ⊂ ~s but" (name child) (name parent)))
 	    (add-relation child :inherit parent-sem-frame)
 	    ))
 	;; no parent sem-frame, just normalize child feat vals
