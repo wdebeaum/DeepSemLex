@@ -27,21 +27,28 @@
          (and (< 2 (length n))
          (string= "?!" (subseq n 0 2))))))
 
+;; TODO? do this in load-old.lisp?
 (defun unmangle-wn-sense (ont-symbol)
   "Given a symbol like ONT::foo*1--02--03, return a proper WN sense symbol like
-   WN::|foo%1:02:03::|. If the input isn't such a symbol, return nil instead.
+   WN::|foo%1:02:03::|. If it's already in that form, return it. If the input
+   isn't such a symbol, return nil instead.
    Assumes the sense isn't a satellite adjective (which has extra fields)."
   (let* ((str (symbol-name ont-symbol))
          (len (length str)))
-    (when (and (> len 10) (char= #\* (char str (- len 10))))
-      (let* ((lemma (subseq str 0 (- len 10)))
-             (lex-sense (subseq str (- len 9)))
-	     (ss-type (subseq lex-sense 0 1))
-	     (lex-filenum (subseq lex-sense 3 5))
-	     (lex-id (subseq lex-sense 7 9)))
-      (intern
-        (format nil "~(~a~)%~a:~a:~a::" lemma ss-type lex-filenum lex-id)
-	:WN)))))
+    (cond
+      ((and (> len 10) (char= #\* (char str (- len 10))))
+	(let* ((lemma (subseq str 0 (- len 10)))
+	       (lex-sense (subseq str (- len 9)))
+	       (ss-type (subseq lex-sense 0 1))
+	       (lex-filenum (subseq lex-sense 3 5))
+	       (lex-id (subseq lex-sense 7 9)))
+	  (intern
+	    (format nil "~(~a~)%~a:~a:~a::" lemma ss-type lex-filenum lex-id)
+	    :WN)))
+      ((position #\% str)
+        ont-symbol)
+      (t nil)
+      )))
 
 (defun feat-val-set (val)
   "Return the set of allowed feature value concepts given either a single
@@ -49,6 +56,7 @@
   (mapcar
     (lambda (val-name)
       (or ; ugh
+	(gethash val-name (concepts *db*))
         (gethash (intern (symbol-name val-name) :F) (concepts *db*))
         (gethash (intern (symbol-name val-name) :ONT) (concepts *db*))
 	(unmangle-wn-sense val-name)
@@ -62,14 +70,9 @@
       )
     ))
 
-(defun f-to-dsl-package (s)
-  (if (string= "F" (package-name (symbol-package s)))
-    (intern (symbol-name s) :dsl)
-    s))
-
 (defun set-to-maybe-disj (vals)
   "Inverse of feat-val-set; assumes vals nonempty."
-  (let ((val-names (mapcar (lambda (v) (f-to-dsl-package (name v))) vals)))
+  (let ((val-names (mapcar #'name vals)))
     (if (= 1 (length val-names))
       (first val-names)
       `(w::or ,@val-names)
@@ -82,9 +85,9 @@
 	  (if (positive-variable-p val)
 	    `(w::or
 	      ;; get all possible values of this feature, except f::-
-	      ,@(when (eq feat 'type) ; ugh
+	      ,@(when (eq feat 'f::type) ; ugh
 	          '(ont::referential-sem))
-	      ,@(when (eq feat 'scale) ; ugh
+	      ,@(when (eq feat 'f::scale) ; ugh
 	          '(ont::domain))
 	      ,@(eval-path-expression
 		  ;; NOTE: this assumes f::- is never a deeply-nested value in
@@ -96,7 +99,7 @@
 			      (string= "F" (package-name (symbol-package n)))
 			      )))
 		     )
-		     name #'f-to-dsl-package)
+		     name)
 		  (list nil))
 	      )
 	    (set-to-maybe-disj (feat-val-set val))))))
@@ -115,6 +118,14 @@
       (and (util::variable-p ancestor)
            (not (and (positive-variable-p ancestor)
 	             (eq 'f::- (name descendant)))))
+      (and (symbolp ancestor)
+           (progn
+	     (require-concept ancestor)
+	     (subsumes-p (gethash ancestor (concepts *db*)) descendant)))
+      (and (symbolp descendant)
+           (progn
+	     (require-concept descendant)
+	     (subsumes-p ancestor (gethash descendant (concepts *db*)))))
       (and (typep ancestor 'concept) (typep descendant 'concept)
 	(member ancestor (eval-path-expression '(* >inherit) (list descendant))
 		:test #'eq))))
@@ -274,14 +285,14 @@
         (parent-restr (normalize-restriction (restriction parent-map))))
     (merge-sem-feats child-restr parent-restr)
     ;; add type feature if it's missing
-    (unless (assoc 'type (features child-restr))
+    (unless (assoc 'f::type (features child-restr))
       (let ((types (om::best-lfs-from-sem (sem-feats-to-list child-restr))))
         (cond
 	  ((null types) nil)
 	  ((= 1 (length types))
-	    (push `(type ,@types) (features child-restr)))
+	    (push `(f::type ,@types) (features child-restr)))
 	  (t
-	    (push `(type (w::or ,@types)) (features child-restr)))
+	    (push `(f::type (w::or ,@types)) (features child-restr)))
 	  )))
     (setf (restriction child-map) (denormalize-restriction child-restr))
     )
