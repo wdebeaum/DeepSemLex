@@ -3,7 +3,7 @@
 ;;;; FIXME the inheritance code here is messy and destructively modifies stuff, but a cleaner version with similar results ought to be integrated into the DSL library proper at some point
 
 (unless (find-package :trips)
-  (load (make-pathname :directory '(:relative :up :up :up "config" "lisp")
+  (load (make-pathname :directory '(:relative :up :up "trips" "src" "config" "lisp")
                        :name "trips")))
 (load #!TRIPS"src;OntologyManager;om")
 (load #!TRIPS"src;DeepSemLex;code;lib;defsys")
