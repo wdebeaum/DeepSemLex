@@ -1927,7 +1927,7 @@
     )
 
 (define-type ONT::external-body-part
-    :wordnet-sense-keys ("external-body-part%1:08:00" "skin%1:08:00" "animal_skin%1:27:00" )
+    :wordnet-sense-keys ("external_body_part%1:08:00" "skin%1:08:00" "animal_skin%1:27:00" )
     :parent ONT::BODY-PART
     :sem (F::Phys-obj (F::intentional -))
     )
