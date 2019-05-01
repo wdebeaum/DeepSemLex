@@ -3163,11 +3163,6 @@
  :parent ONT::social-group
  )
 
-;; surplus, excess
-(define-type ONT::surplus
- :parent ONT::quantity
- :wordnet-sense-keys ("surplus%1:07:00")
- )
 
 (define-type ONT::sequence
  :wordnet-sense-keys ("ordering%1:14:00" "order%1:14:00" "ordination%1:14:00")
@@ -3197,4 +3192,10 @@
  :parent ONT::GROUP-OBJECT
  :arguments ((:ESSENTIAL ONT::FIGURE)
              )
+ )
+
+;; surplus, excess
+(define-type ONT::surplus
+ :parent ONT::quantity
+ :wordnet-sense-keys ("surplus%1:07:00")
  )
