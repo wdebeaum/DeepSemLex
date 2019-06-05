@@ -35,7 +35,7 @@
  :words (
   (W::ONCE
    (SENSES
-    ((LF-PARENT ONT::event-time-rel)
+    ((LF-PARENT ONT::in-past)
      (example "once he was a child")
      (TEMPL pred-s-vp-TEMPL)
      (preference .98)
