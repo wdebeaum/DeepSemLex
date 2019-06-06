@@ -24,6 +24,26 @@
    )
   ))
 
+(define-words :pos W::ADV
+ :words (
+  ((W::UP w::till)
+   (SENSES
+    ((LF-PARENT ONT::UNTIL)
+     (TEMPL binary-constraint-s-templ ))
+    )
+   )
+  ))
+
+(define-words :pos W::ADV
+ :words (
+  ((W::UP w::until)
+   (SENSES
+    ((LF-PARENT ONT::UNTIL)
+     (TEMPL binary-constraint-s-templ ))
+    )
+   )
+  ))
+
 #|
 (define-words :pos W::ADV
  :words (

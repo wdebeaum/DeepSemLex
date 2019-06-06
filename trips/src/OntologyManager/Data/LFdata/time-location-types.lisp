@@ -1002,10 +1002,21 @@
     
     )
 
-(define-type ont::until
+(define-type ont::since-until
     :parent ont::event-time-rel
    
     )
+
+(define-type ont::since
+    :parent ont::since-until
+   
+    )
+
+(define-type ont::until
+    :parent ont::since-until
+   
+    )
+
 
 ;; still, yet, so far, ....
 
