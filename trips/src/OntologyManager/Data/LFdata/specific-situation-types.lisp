@@ -398,11 +398,13 @@
 
 ;; fall, tumble
 (define-type ONT::fall
- :parent ONT::MOVE-downward
- )
+    :wordnet-sense-keys ("fall%2:38:03"  "fall%2:38:00")
+  :parent ONT::MOVE-downward
+  )
 
 ;; drift
 (define-type ONT::drift
+     :wordnet-sense-keys ("drift%2:38:02" "drift%2:38:04" "drift%2:38:01")
  :parent ONT::MOVE
  )
 
@@ -4950,7 +4952,7 @@
 
 ;;; swift 11/26/01 -- added this for inchoative verbs, e.g. get as in 'get nauseous'
 (define-type ONT::BECOME
- :wordnet-sense-keys ("take%2:30:09" "come%2:30:03" "become%2:42:00" "become%2:30:00" "go%2:30:04" "get%2:30:00" "open_up%2:30:01")
+ :wordnet-sense-keys ("take%2:30:09" "come%2:30:03" "become%2:42:00" "become%2:30:00" "go%2:30:04" "get%2:30:00" "open_up%2:30:01" "turn%2:30:04")
  :parent ONT::event-of-undergoing-action
  :sem (F::Situation (F::Aspect F::Dynamic) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::affected)
