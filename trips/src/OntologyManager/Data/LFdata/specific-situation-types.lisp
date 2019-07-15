@@ -1068,7 +1068,7 @@
 
 ;; birth, death
 (define-type ONT::be-born
- :wordnet-sense-keys ("nascence%1:11:00" "nascency%1:11:00" "nativity%1:11:00" "birth%1:11:00")
+ :wordnet-sense-keys ("nascence%1:11:00" "nascency%1:11:00" "nativity%1:11:00" "birth%1:11:00" "bear%2:29:01")
  :parent ONT::life-process
   :sem (f::situation (:default (f::aspect f::dynamic)))
   :arguments ((:essential ONT::affected-result (F::Phys-obj (f::type ont::mammal)))))
@@ -3416,7 +3416,7 @@
  )
 
 (define-type ONT::take-in
-    :wordnet-sense-keys ("absorb%2:35:00" "absorb%2:43:00" "intake%1:04:00" "bilge%2:30:01" "bilge%2:30:00" "suck%2:38:00" "suck%2:35:00")
+    :wordnet-sense-keys ("absorb%2:35:00" "absorb%2:43:00" "intake%1:04:00" "bilge%2:30:01" "bilge%2:30:00" "suck%2:38:00" "suck%2:35:00" "take_up%2:34:00")
     :parent ONT::event-of-causation
     :arguments ((:REQUIRED ONT::Agent)
 		(:REQUIRED ONT::affected)
@@ -4956,7 +4956,7 @@
  :parent ONT::event-of-undergoing-action
  :sem (F::Situation (F::Aspect F::Dynamic) (F::Trajectory -))
  :arguments ((:ESSENTIAL ONT::affected)
-	     (:essential ont::formal (F::situation (F::TYPE ont::property-val) )
+	     (:essential ont::formal (F::abstr-obj (F::TYPE ont::property-val) )
 			 )
 	     ))
 

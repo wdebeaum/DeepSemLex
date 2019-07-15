@@ -1956,9 +1956,13 @@
     :wordnet-sense-keys ("body_part%1:08:00" )
     :parent ONT::anatomy
     :sem (F::Phys-obj ;;(F::origin F::living)
-	  (f::intentional -) (f::form f::object) (f::object-function f::body-part) (f::container +))
+	  (f::intentional -) (f::form f::object)
+	  (f::object-function f::comestible)  ;; f::body-part was never used, and caused problems with eating a leg of lamb, etc.
+	  (f::container +))
  ;;; too strong, but better than unconstrained
-    :arguments ((:OPTIONAL ONT::FIGURE (F::Phys-obj (F::origin F::living) (f::form f::object)))
+    :arguments ((:OPTIONAL ONT::FIGURE (F::Phys-obj (F::origin F::natural)
+						    (f::type (? xx ont::animal ont::meat))
+						    (f::form (? xy f::object f::substance))))
 		)
     )
 
@@ -2687,18 +2691,22 @@
 ;; specific type for CAET
 
 (define-type ont::sugar
+    :wordnet-sense-keys ("sugar%1:13:00")
     :parent ont::ingredients
     )
 
 (define-type ONT::VITAMINS-MINERALS
+   
     :parent ONT::nutritional-supplement
     )
 
 (define-type ONT::MEAT
+    :wordnet-sense-keys ("meat%1:13:01")
     :parent ONT::FOOD
     )
 
 (define-type ONT::FATS-OILS
+    :wordnet-sense-keys ("vegetable_oil%1:13:01")
     :parent ONT::INGREDIENTS
     )
 
@@ -2713,6 +2721,7 @@
     )
 
 (define-type ONT::VITAMINS
+    :wordnet-sense-keys ("vitamin%1:13:00")
     :parent ONT::VITAMINS-MINERALS
     )
 
@@ -2721,14 +2730,17 @@
     )
 
 (define-type ONT::BEEF
+    :wordnet-sense-keys ("beef%1:13:00")
     :parent ONT::MEAT
     )
 
 (define-type ONT::PORK
+    :wordnet-sense-keys ("pork%1:13:00")
     :parent ONT::MEAT
     )
 
 (define-type ONT::lamb
+    :wordnet-sense-keys ("lamb%1:13:00" "mutton%1:13:00")
     :parent ONT::MEAT
     )
 
@@ -2737,6 +2749,7 @@
     )
 
 (define-type ONT::WILD-GAME
+    :wordnet-sense-keys ("game%1:05:00")
     :parent ONT::MEAT
     )
 
@@ -2745,6 +2758,7 @@
     )
 
 (define-type ONT::POULTRY
+    :wordnet-sense-keys ("bird%1:13:00")
     :parent ONT::MEAT
     )
 
@@ -2753,10 +2767,12 @@
     )
 
 (define-type ONT::GOOSE
+    :wordnet-sense-keys ("goose%1:05:00")
     :parent ONT::POULTRY
     )
 
 (define-type ONT::PHEASANT
+    :wordnet-sense-keys ("pheasant%1:05:00")
     :parent ONT::POULTRY
     )
 
@@ -2765,30 +2781,37 @@
     )
 
 (define-type ONT::PIGEON
+     :wordnet-sense-keys ("pigeon%1:05:00")
     :parent ONT::POULTRY
     )
 
 (define-type ONT::DUCK
+     :wordnet-sense-keys ("duck%1:13:00")
     :parent ONT::POULTRY
     )
 
 (define-type ONT::OSTRICH
+      :wordnet-sense-keys ("ostrich%1:05:00")
     :parent ONT::POULTRY
     )
 
 (define-type ONT::TURKEY
+     :wordnet-sense-keys ("turkey%1:05:00")
     :parent ONT::POULTRY
     )
 
 (define-type ONT::SEAFOOD
+    :wordnet-sense-keys ("seafood%1:13:00")
     :parent ONT::FOOD
     )
 
 (define-type ONT::SALTWATER-FISH
+    :wordnet-sense-keys ("saltwater_fish%1:13:00")
     :parent ONT::SEAFOOD
     )
 
 (define-type ONT::FRESHWATER-FISH
+     :wordnet-sense-keys ("freshwater_fish%1:13:00")
     :parent ONT::SEAFOOD
     )
 
@@ -2801,34 +2824,42 @@
     )
 
 (define-type ONT::BAKED-GOODS
+     :wordnet-sense-keys ("baked_goods%1:13:00")
     :parent ONT::PREPARED
     )
 
 (define-type ONT::PASTA
-    :parent ONT::BAKED-GOODS
+    :wordnet-sense-keys ("pasta%1:13:00")
+    :parent ONT::FOOD
     )
 
 (define-type ONT::BREAD
+     :wordnet-sense-keys ("bread%1:13:00")
     :parent ONT::BAKED-GOODS
     )
 
 (define-type ONT::CRACKERS
+     :wordnet-sense-keys ("cracker%1:13:00")
     :parent ONT::BAKED-GOODS
     )
 
 (define-type ONT::COOKIES
+     :wordnet-sense-keys ("cookie%1:13:00")
     :parent ONT::BAKED-GOODS
     )
 
 (define-type ONT::CAKE-PIE
+     :wordnet-sense-keys ("cake%1:13:00" "pie%1:13:00")
     :parent ONT::BAKED-GOODS
     )
 
 (define-type ONT::BAGELS-BISCUITS
+     :wordnet-sense-keys ("bun%1:13:00" )
     :parent ONT::BAKED-GOODS
     )
 
 (define-type ONT::SWEETS
+    :wordnet-sense-keys ("sweet%1:13:00" )
     :parent ONT::PREPARED
     )
 
@@ -2843,6 +2874,7 @@
     )
 
 (define-type ONT::CEREALS
+    :wordnet-sense-keys ("cereal%1:13:00" )
     :parent ONT::PREPARED
     )
 

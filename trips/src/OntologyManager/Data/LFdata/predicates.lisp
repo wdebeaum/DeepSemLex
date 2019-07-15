@@ -122,7 +122,7 @@
     )
 
 (define-type ONT::DEGREE-MODIFIER-LOW
-    :wordnet-sense-keys ("almost%4:02:00" "barely%4:02:00" "barely%4:02:02" "barely%4:02:03" "comparatively%4:02:00" "relatively%4:02:00" "slightly%4:02:01"  "slightly%4:02:02" "somewhat%4:02:01"  "slightly%4:02:00")
+    :wordnet-sense-keys ("almost%4:02:00" "barely%4:02:00" "barely%4:02:02" "barely%4:02:03" "comparatively%4:02:00" "relatively%4:02:00" "slightly%4:02:01"  "slightly%4:02:02" "somewhat%4:02:01")
     :parent ONT::DEGREE-MODIFIER
     )
 
