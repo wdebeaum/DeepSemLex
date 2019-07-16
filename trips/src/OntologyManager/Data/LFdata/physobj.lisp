@@ -2650,7 +2650,7 @@
 ;; parent type for vitamins/minerals
 (define-type ONT::nutritional-supplement
     :parent ONT::food
-    :wordnet-sense-keys ("vitamin%1:27:00")
+    :wordnet-sense-keys ("dietary_supplement%1:13:00")
     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2706,7 +2706,7 @@
     )
 
 (define-type ONT::FATS-OILS
-    :wordnet-sense-keys ("vegetable_oil%1:13:01")
+    :wordnet-sense-keys ("vegetable_oil%1:13:00")
     :parent ONT::INGREDIENTS
     )
 
@@ -2721,7 +2721,7 @@
     )
 
 (define-type ONT::VITAMINS
-    :wordnet-sense-keys ("vitamin%1:13:00")
+    :wordnet-sense-keys ("vitamin%1:27:00")
     :parent ONT::VITAMINS-MINERALS
     )
 
