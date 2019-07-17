@@ -1014,7 +1014,8 @@
 (define-type ONT::VEHICLE
     :wordnet-sense-keys ("transport%1:06:00" "conveyance%1:06:00" "vehicle%1:06:00")
     :parent ONT::MANUFACTURED-OBJECT
-    :sem (F::Phys-obj (F::Object-Function F::vehicle) (F::MOBILITY F::Self-moving) (F::container (? fcont + -)))
+    :sem (F::Phys-obj (F::Object-Function F::vehicle) (F::MOBILITY F::Self-moving)
+		      (F::trajectory +) (F::container (? fcont + -)))
     )
 
 (define-type ONT::AIR-VEHICLE
