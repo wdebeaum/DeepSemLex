@@ -49,11 +49,11 @@
 				       )))
     )
 
-(define-type ont::at-loc-rel
+(define-type ont::loc-where-rel
     :comment "A subclass of AT-LOC for relative clause relations, e.g., a place where it never rains"
-    :parent ont::at-loc
-    ::arguments ((:ESSENTIAL ONT::FIGURE (f::phys-obj (f::tangible +)
-						      (f::type ont::location))))
+    :parent ont::position-as-point-reln
+    ::arguments ((:ESSENTIAL ONT::FIGURE ((? xx f::phys-obj f::abstr-obj)  (f::tangible +)
+						      (f::type (? tt ont::location ont::mental-construction)))))
     )
  
 ; figure is viewed as a point and related to ground by (abstract) containment

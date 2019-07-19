@@ -45,17 +45,13 @@
 
     ;; this relative clause pro is highest priority as it has strict role restrictions (e.g., modifying place, location, etc)
     ;;   so will be preferred when possible
-    ((LF-PARENT ONT::AT-LOC-rel)
+   
+    ((LF-PARENT ONT::loc-where-rel)
      (SYNTAX (W::wh W::R))
-     (example "The place where it never rains")
+     (example "The model where it never rains; The place where it never rains")
      (TEMPL PPWORD-ADV-TEMPL)
+     
      )
-
-    ((LF-PARENT ONT::IN-LOC-rel)
-     (SYNTAX (W::wh W::R))
-     (example "The model where it never rains")  ;; like in which
-     (TEMPL PPWORD-ADV-TEMPL)
-      )
 
     ((LF-PARENT ONT::AT-LOC)
      (example "I found it where you put it")
